@@ -184,7 +184,7 @@
 - `lib/ui/screens/grand_tour_rest_day_screen.dart` — Dzień przerwy w Wielkim Tourze (Coffee Ride, prasa, fizjo).
 - `lib/ui/screens/hall_of_fame_and_records_screen.dart` — Galeria sław i historyczne rekordy.
 - `lib/ui/screens/jersey_and_bike_livery_studio_screen.dart` — Studio projektowania koszulek i malowania ram.
-- `lib/ui/screens/main_shell_screen.dart` — Główna nawigacja boczna/dolna powłoki kariery.
+- `lib/ui/screens/main_shell_screen.dart` — Główna nawigacja powłoki kariery (`MainShellScreen`, `MainNavigationSection`, `MainNavigationTab` 4 sekcje / 20 ekranów, TopBar, `CareerInboxView`, `UciRankingsAndLicenseView`, `ManagerProfileAndAchievementsView`).
 - `lib/ui/screens/main_title_menu_screen.dart` — Ekran tytułowy AAA (`MainTitleMenuScreen`, `AnimatedPelotonBackdropPainter`) z animowanym tłem alpejskim 60/120 FPS i szklanym panelem nawigacyjnym.
 - `lib/ui/screens/medical_and_recovery_center_screen.dart` — Centrum medyczne, kontuzje i paszport biologiczny.
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.

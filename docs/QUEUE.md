@@ -471,7 +471,7 @@ Zasady działania pętli:
 
   3. Telemetrię silnika symulacji kolarskiej: czas przeliczenia 1 ticku fizyki dla 176 kolarzy w wątku `Isolate` (w mikrosekundach $\mu\text{s}$), liczba aktywnych obiektów 3D w kamerze (LOD0 / LOD1 / LOD2) oraz aktualne zużycie pamięci RAM procesu. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #171** (`lib/ui/screens/main_shell_screen.dart`): Zaktualizuj i dopieść do perfekcji `MainShellScreen` oraz powiązany `lib/core/router/app_router.dart`, tak aby spinały absolutnie wszystkie ekrany menedżerskie i wyścigowe w jeden spójny, luksusowy ekosystem. Zaimplementuj:
+- [x] **Zadanie #171** (`lib/ui/screens/main_shell_screen.dart`): Zaktualizuj i dopieść do perfekcji `MainShellScreen` oraz powiązany `lib/core/router/app_router.dart`, tak aby spinały absolutnie wszystkie ekrany menedżerskie i wyścigowe w jeden spójny, luksusowy ekosystem. Zaimplementuj:
 
   1. Kategoryzowany boczny pasek nawigacyjny (Sidebar na Desktop/Tablet, Szuflada + BottomBar na Mobile) podzielony na 4 czytelne sekcje z ikonami i licznikami powiadomień (Badges):
 

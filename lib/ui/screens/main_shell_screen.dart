@@ -2,92 +2,257 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../models/career/career_save.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
+import '../../models/rider/rider.dart';
+import '../../models/team/cycling_team.dart';
 import '../../state/career_controller.dart';
 import '../../state/career_state_notifier.dart';
 import '../../state/race_simulation_notifier.dart';
 import 'bike_garage_rnd_screen.dart';
+import 'calendar_and_race_planner_screen.dart';
 import 'career_dashboard_screen.dart';
 import 'dashboard_hq_screen.dart';
-import 'calendar_and_race_planner_screen.dart';
+import 'development_academy_screen.dart';
+import 'hall_of_fame_and_records_screen.dart';
+import 'jersey_and_bike_livery_studio_screen.dart';
+import 'medical_and_recovery_center_screen.dart';
+import 'physiology_lab_screen.dart';
 import 'pre_race_briefing_screen.dart';
+import 'settings_and_mod_screen.dart';
 import 'sponsors_and_finance_screen.dart';
 import 'squad_roster_screen.dart';
+import 'staff_management_screen.dart';
+import 'stage_editor_creator_screen.dart';
+import 'team_builder_hierarchy_screen.dart';
 import 'training_and_camps_screen.dart';
 import 'transfer_market_scouting_screen.dart';
+import 'wind_tunnel_and_bike_fit_screen.dart';
 
-const Color _cyanAccent = Color(0xFF00E5FF);
+/// 4 główne kategorie bocznego paska nawigacyjnego (Sidebar / Drawer).
+enum MainNavigationSection {
+  commandCenter(
+    title: 'CENTRUM DOWODZENIA',
+    icon: Icons.hub_rounded,
+  ),
+  teamPerformance(
+    title: 'ZESPÓŁ I WYDOLNOŚĆ',
+    icon: Icons.groups_rounded,
+  ),
+  equipmentFinance(
+    title: 'SPRZĘT I FINANSE',
+    icon: Icons.precision_manufacturing_rounded,
+  ),
+  uciWorld(
+    title: 'ŚWIAT UCI',
+    icon: Icons.public_rounded,
+  );
 
-/// Zakładki nawigacyjne głównego szkieletu gry (MainShellScreen)
+  final String title;
+  final IconData icon;
+
+  const MainNavigationSection({
+    required this.title,
+    required this.icon,
+  });
+}
+
+/// Wszystkie 20 zakładek nawigacyjnych głównego szkieletu gry (MainShellScreen).
 enum MainNavigationTab {
+  // 1. CENTRUM DOWODZENIA
   dashboard(
-    title: 'Pulpit',
-    shortLabel: 'Pulpit',
+    section: MainNavigationSection.commandCenter,
+    routePath: AppRoutes.dashboard,
+    title: 'Biuro HQ',
+    shortLabel: 'HQ',
     icon: Icons.dashboard_outlined,
     selectedIcon: Icons.dashboard_rounded,
     description: 'Centrum dowodzenia drużyną',
   ),
-  roster(
-    title: 'Skład Kolarzy',
-    shortLabel: 'Kolarze',
-    icon: Icons.people_alt_outlined,
-    selectedIcon: Icons.people_alt_rounded,
-    description: 'Kadra, formy i kontrakty',
-  ),
-  training(
-    title: 'Trening & Obozy',
-    shortLabel: 'Trening',
-    icon: Icons.fitness_center_outlined,
-    selectedIcon: Icons.fitness_center_rounded,
-    description: 'Wykres PMC, obozy i szczyt formy',
-  ),
-  calendar(
-    title: 'Kalendarz & Wyścigi',
-    shortLabel: 'Kalendarz',
-    icon: Icons.calendar_month_outlined,
-    selectedIcon: Icons.calendar_month_rounded,
-    description: 'Harmonogram sezonu i etapy',
-  ),
-  equipment(
-    title: 'Sprzęt & Warsztat',
-    shortLabel: 'Sprzęt',
-    icon: Icons.pedal_bike_outlined,
-    selectedIcon: Icons.pedal_bike_rounded,
-    description: 'Rowery, ramy i stożki kół',
-  ),
-  finances(
-    title: 'Finanse & Sponsorzy',
-    shortLabel: 'Finanse',
-    icon: Icons.account_balance_outlined,
-    selectedIcon: Icons.account_balance_rounded,
-    description: 'Budżet, premie i bilans',
-  ),
-  transfers(
-    title: 'Transfery & Skauting',
-    shortLabel: 'Transfery',
-    icon: Icons.person_search_outlined,
-    selectedIcon: Icons.person_search_rounded,
-    description: 'Rynek, akademia U23 i PDC',
-  ),
   inbox(
-    title: 'Poczta (Inbox)',
+    section: MainNavigationSection.commandCenter,
+    routePath: AppRoutes.inbox,
+    title: 'Skrzynka Odbiorcza',
     shortLabel: 'Poczta',
     icon: Icons.mail_outline_rounded,
     selectedIcon: Icons.mail_rounded,
-    description: 'Odprawy i raporty medyczne',
+    description: 'Odprawy, raporty i oferty',
+  ),
+  calendar(
+    section: MainNavigationSection.commandCenter,
+    routePath: AppRoutes.calendar,
+    title: 'Kalendarz UCI & Planer',
+    shortLabel: 'Kalendarz',
+    icon: Icons.calendar_month_outlined,
+    selectedIcon: Icons.calendar_month_rounded,
+    description: 'Harmonogram sezonu i starty',
+  ),
+
+  // 2. ZESPÓŁ I WYDOLNOŚĆ
+  roster(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.roster,
+    title: 'Kadra Zespołu',
+    shortLabel: 'Kadra',
+    icon: Icons.people_alt_outlined,
+    selectedIcon: Icons.people_alt_rounded,
+    description: 'Kolarze, formy i kontrakty',
+  ),
+  teamBuilder(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.teamBuilder,
+    title: 'Budowa Teamu i Hierarchia',
+    shortLabel: 'Hierarchia',
+    icon: Icons.account_tree_outlined,
+    selectedIcon: Icons.account_tree_rounded,
+    description: 'Liderzy, pociągi i chemia',
+  ),
+  training(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.training,
+    title: 'Treningi i Obozy (PMC)',
+    shortLabel: 'Trening',
+    icon: Icons.fitness_center_outlined,
+    selectedIcon: Icons.fitness_center_rounded,
+    description: 'Obciążenia CTL/ATL i zgrupowania',
+  ),
+  physiologyLab(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.physiologyLab,
+    title: 'Laboratorium Fizjologiczne',
+    shortLabel: 'Lab',
+    icon: Icons.biotech_outlined,
+    selectedIcon: Icons.biotech_rounded,
+    description: 'Mleczan, VO2max i krzywa mocy',
+  ),
+  medical(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.medical,
+    title: 'Centrum Medyczne',
+    shortLabel: 'Medycyna',
+    icon: Icons.medical_services_outlined,
+    selectedIcon: Icons.medical_services_rounded,
+    description: 'Kontuzje, krew i regeneracja',
+  ),
+  academy(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.academy,
+    title: 'Akademia U23 (Devo)',
+    shortLabel: 'U23',
+    icon: Icons.school_outlined,
+    selectedIcon: Icons.school_rounded,
+    description: 'Młode talenty i skauting',
+  ),
+  staff(
+    section: MainNavigationSection.teamPerformance,
+    routePath: AppRoutes.staff,
+    title: 'Sztab Szkoleniowy',
+    shortLabel: 'Sztab',
+    icon: Icons.badge_outlined,
+    selectedIcon: Icons.badge_rounded,
+    description: 'Dyrektorzy, trenerzy, lekarze',
+  ),
+
+  // 3. SPRZĘT I FINANSE
+  equipment(
+    section: MainNavigationSection.equipmentFinance,
+    routePath: AppRoutes.garage,
+    title: 'Garaż i R&D',
+    shortLabel: 'Garaż',
+    icon: Icons.pedal_bike_outlined,
+    selectedIcon: Icons.pedal_bike_rounded,
+    description: 'Rowery, ramy i osprzęt',
+  ),
+  windTunnel(
+    section: MainNavigationSection.equipmentFinance,
+    routePath: AppRoutes.windTunnel,
+    title: 'Tunel Aero & Bike Fit',
+    shortLabel: 'Tunel',
+    icon: Icons.air_outlined,
+    selectedIcon: Icons.air_rounded,
+    description: 'Pozycja CdA i aerodynamika',
+  ),
+  finances(
+    section: MainNavigationSection.equipmentFinance,
+    routePath: AppRoutes.sponsors,
+    title: 'Sponsorzy i Finanse',
+    shortLabel: 'Finanse',
+    icon: Icons.account_balance_outlined,
+    selectedIcon: Icons.account_balance_rounded,
+    description: 'Budżet, umowy i cele',
+  ),
+  transfers(
+    section: MainNavigationSection.equipmentFinance,
+    routePath: AppRoutes.transfers,
+    title: 'Rynek Transferowy',
+    shortLabel: 'Transfery',
+    icon: Icons.person_search_outlined,
+    selectedIcon: Icons.person_search_rounded,
+    description: 'Negocjacje i skauting',
+  ),
+  liveryStudio(
+    section: MainNavigationSection.equipmentFinance,
+    routePath: AppRoutes.liveryStudio,
+    title: 'Studio Malowania',
+    shortLabel: 'Malowanie',
+    icon: Icons.palette_outlined,
+    selectedIcon: Icons.palette_rounded,
+    description: 'Koszulki i malowanie ram',
+  ),
+
+  // 4. ŚWIAT UCI
+  uciRankings(
+    section: MainNavigationSection.uciWorld,
+    routePath: AppRoutes.uciRankings,
+    title: 'Rankingi UCI & Licencja',
+    shortLabel: 'UCI',
+    icon: Icons.leaderboard_outlined,
+    selectedIcon: Icons.leaderboard_rounded,
+    description: 'Walka o WorldTour i punkty',
+  ),
+  hallOfFame(
+    section: MainNavigationSection.uciWorld,
+    routePath: AppRoutes.hallOfFame,
+    title: 'Gablota Trofeów & KOM',
+    shortLabel: 'Trofea',
+    icon: Icons.emoji_events_outlined,
+    selectedIcon: Icons.emoji_events_rounded,
+    description: 'Puchary i rekordy podjazdów',
+  ),
+  managerProfile(
+    section: MainNavigationSection.uciWorld,
+    routePath: AppRoutes.managerProfile,
+    title: 'Profil Menedżera',
+    shortLabel: 'Menedżer',
+    icon: Icons.military_tech_outlined,
+    selectedIcon: Icons.military_tech_rounded,
+    description: 'Reputacja, baza i osiągnięcia',
+  ),
+  stageEditor(
+    section: MainNavigationSection.uciWorld,
+    routePath: AppRoutes.stageEditor,
+    title: 'Kreator Tras',
+    shortLabel: 'Kreator',
+    icon: Icons.route_outlined,
+    selectedIcon: Icons.route_rounded,
+    description: 'Projektowanie własnych etapów',
   ),
   settings(
-    title: 'Zapisy & Mody',
-    shortLabel: 'Zapisy',
-    icon: Icons.save_outlined,
-    selectedIcon: Icons.save_rounded,
-    description: 'Sloty 1-5, Auto-Save i mody',
+    section: MainNavigationSection.uciWorld,
+    routePath: AppRoutes.settings,
+    title: 'Ustawienia i Mody',
+    shortLabel: 'Ustawienia',
+    icon: Icons.tune_outlined,
+    selectedIcon: Icons.tune_rounded,
+    description: 'Zapisy, grafika i baza modów',
   );
 
+  final MainNavigationSection section;
+  final String routePath;
   final String title;
   final String shortLabel;
   final IconData icon;
@@ -95,6 +260,8 @@ enum MainNavigationTab {
   final String description;
 
   const MainNavigationTab({
+    required this.section,
+    required this.routePath,
     required this.title,
     required this.shortLabel,
     required this.icon,
@@ -104,10 +271,10 @@ enum MainNavigationTab {
 }
 
 /// Responsywny szkielet nawigacyjny gry (MainShellScreen):
-/// - Na telefonach (<768px): Dolny pasek nawigacji + wysuwany Drawer.
-/// - Na tabletach/desktopie (>=768px): Stały elegancki lewy panel nawigacyjny,
-///   górny pasek statusu (data, budżet, następny wyścig, przycisk "Następny Dzień / Kontynuuj")
-///   oraz główny obszar roboczy.
+/// - Mobile (<768px, np. 390x844): Compact AppBar + Drawer z 4 kategoriami + BottomBar + pasek akcji.
+/// - Tablet/Desktop (>=768px, np. 1024x768 / 1600x900): Kategoryzowany Sidebar + TopBar
+///   z herbem i barwami drużyny, budżetem EUR, datą, pogodą w bazie, mini-odliczaniem do wyścigu
+///   oraz przyciskiem NASTĘPNY DZIEŃ / START WYŚCIGU.
 class MainShellScreen extends ConsumerStatefulWidget {
   final Widget? child;
   final String? currentLocation;
@@ -127,38 +294,32 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   bool _isSidebarCollapsed = false;
   bool _useBentoHq = true;
 
-  // Filtry stanu dla poszczególnych widoków
-  String _inboxCategoryFilter = 'all';
-
   MainNavigationTab get activeTab =>
       widget.child != null ? _resolveTabFromLocation(widget.currentLocation) : _activeTab;
 
   MainNavigationTab _resolveTabFromLocation(String? location) {
     if (location == null) return _activeTab;
-    if (location.startsWith('/career/roster') ||
-        location.startsWith('/career/rider') ||
-        location.startsWith('/career/team-builder')) {
+    if (location.startsWith(AppRoutes.inbox)) return MainNavigationTab.inbox;
+    if (location.startsWith(AppRoutes.calendar)) return MainNavigationTab.calendar;
+    if (location.startsWith(AppRoutes.roster) || location.startsWith('/career/rider')) {
       return MainNavigationTab.roster;
     }
-    if (location.startsWith('/career/training') ||
-        location.startsWith('/career/lab')) {
-      return MainNavigationTab.training;
-    }
-    if (location.startsWith('/career/calendar')) {
-      return MainNavigationTab.calendar;
-    }
-    if (location.startsWith('/career/garage')) {
-      return MainNavigationTab.equipment;
-    }
-    if (location.startsWith('/career/sponsors')) {
-      return MainNavigationTab.finances;
-    }
-    if (location.startsWith('/career/transfers')) {
-      return MainNavigationTab.transfers;
-    }
-    if (location.startsWith('/career/settings')) {
-      return MainNavigationTab.settings;
-    }
+    if (location.startsWith(AppRoutes.teamBuilder)) return MainNavigationTab.teamBuilder;
+    if (location.startsWith(AppRoutes.training)) return MainNavigationTab.training;
+    if (location.startsWith(AppRoutes.physiologyLab)) return MainNavigationTab.physiologyLab;
+    if (location.startsWith(AppRoutes.medical)) return MainNavigationTab.medical;
+    if (location.startsWith(AppRoutes.academy)) return MainNavigationTab.academy;
+    if (location.startsWith(AppRoutes.staff)) return MainNavigationTab.staff;
+    if (location.startsWith(AppRoutes.garage)) return MainNavigationTab.equipment;
+    if (location.startsWith(AppRoutes.windTunnel)) return MainNavigationTab.windTunnel;
+    if (location.startsWith(AppRoutes.sponsors)) return MainNavigationTab.finances;
+    if (location.startsWith(AppRoutes.transfers)) return MainNavigationTab.transfers;
+    if (location.startsWith(AppRoutes.liveryStudio)) return MainNavigationTab.liveryStudio;
+    if (location.startsWith(AppRoutes.uciRankings)) return MainNavigationTab.uciRankings;
+    if (location.startsWith(AppRoutes.hallOfFame)) return MainNavigationTab.hallOfFame;
+    if (location.startsWith(AppRoutes.managerProfile)) return MainNavigationTab.managerProfile;
+    if (location.startsWith(AppRoutes.stageEditor)) return MainNavigationTab.stageEditor;
+    if (location.startsWith(AppRoutes.settings)) return MainNavigationTab.settings;
     return MainNavigationTab.dashboard;
   }
 
@@ -166,37 +327,27 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     setState(() {
       _activeTab = tab;
     });
-
     if (widget.child != null) {
-      switch (tab) {
-        case MainNavigationTab.dashboard:
-          context.go('/career/dashboard');
-          break;
-        case MainNavigationTab.roster:
-          context.go('/career/roster');
-          break;
-        case MainNavigationTab.training:
-          context.go('/career/training');
-          break;
-        case MainNavigationTab.calendar:
-          context.go('/career/calendar');
-          break;
-        case MainNavigationTab.equipment:
-          context.go('/career/garage');
-          break;
-        case MainNavigationTab.finances:
-          context.go('/career/sponsors');
-          break;
-        case MainNavigationTab.transfers:
-          context.go('/career/transfers');
-          break;
-        case MainNavigationTab.inbox:
-          context.go('/career/dashboard');
-          break;
-        case MainNavigationTab.settings:
-          context.go('/career/settings');
-          break;
-      }
+      context.go(tab.routePath);
+    }
+  }
+
+  int _badgeForTab(MainNavigationTab tab, CareerSave save, CareerState careerState) {
+    switch (tab) {
+      case MainNavigationTab.inbox:
+        return careerState.unreadMessagesCount;
+      case MainNavigationTab.medical:
+        return save.playerRoster
+            .where((r) => !r.health.isFitToRace || r.health.trainingStressBalance < -25)
+            .length;
+      case MainNavigationTab.roster:
+        return save.playerRoster.where((r) => !r.health.isFitToRace).length;
+      case MainNavigationTab.transfers:
+        return save.contractOffers
+            .where((o) => o.status == ContractOfferStatus.pending)
+            .length;
+      default:
+        return 0;
     }
   }
 
@@ -209,16 +360,13 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     final simController = ref.read(raceSimulationProvider.notifier);
 
     final save = careerUiState.save;
-
-    // Gdy brak aktywnego zapisu w pamięci, wyświetl ekran powitalny
     if (save == null) {
-      return _buildNoSaveWelcomeScreen(careerController, careerUiState);
+      return _buildNoSaveWelcomeScreen(careerController);
     }
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool isDesktopOrTablet = constraints.maxWidth >= 768;
-
         if (isDesktopOrTablet) {
           return _buildDesktopLayout(
             context: context,
@@ -246,7 +394,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   }
 
   // ===========================================================================
-  // 1. UKŁAD DESKTOP / TABLET (STAŁY BOCZNY PANEL + GÓRNY PASEK STATUSU)
+  // 1. UKŁAD DESKTOP / TABLET
   // ===========================================================================
 
   Widget _buildDesktopLayout({
@@ -259,16 +407,15 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required CareerStateNotifier careerStateNotifier,
     required RaceSimulationNotifier simController,
   }) {
-    final bool isCompactSidebar = _isSidebarCollapsed || constraints.maxWidth < 960;
-    final double sidebarWidth = isCompactSidebar ? 78.0 : 252.0;
+    final bool isCompactSidebar = _isSidebarCollapsed || constraints.maxWidth < 1000;
+    final double sidebarWidth = isCompactSidebar ? 76.0 : 264.0;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Row(
         children: [
-          // 1. Stały elegancki boczny panel nawigacyjny po lewej stronie
           AnimatedContainer(
-            duration: const Duration(milliseconds: 220),
+            duration: const Duration(milliseconds: 240),
             curve: Curves.easeOutCubic,
             width: sidebarWidth,
             child: _buildSidebarPanel(
@@ -279,23 +426,18 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
               isCollapsed: isCompactSidebar,
             ),
           ),
-
-          // 2. Główny obszar z górnym paskiem statusu i obszarem roboczym
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Górny pasek statusu (Top Status Bar)
                 _buildDesktopTopStatusBar(
                   context: context,
+                  constraints: constraints,
                   save: save,
                   careerUiState: careerUiState,
                   careerController: careerController,
-                  careerState: careerState,
                   simController: simController,
                 ),
-
-                // Główny obszar roboczy (Main Workspace)
                 Expanded(
                   child: Container(
                     color: AppColors.background,
@@ -307,8 +449,6 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                           careerController: careerController,
                           careerState: careerState,
                           careerStateNotifier: careerStateNotifier,
-                          simController: simController,
-                          isDesktop: true,
                         ),
                   ),
                 ),
@@ -321,7 +461,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   }
 
   // ===========================================================================
-  // 2. UKŁAD MOBILNY (DOLNY PASEK NAWIGACJI + WYSUWANE MENU DRAWER)
+  // 2. UKŁAD MOBILNY (390x844)
   // ===========================================================================
 
   Widget _buildMobileLayout({
@@ -334,8 +474,13 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required RaceSimulationNotifier simController,
   }) {
     final playerTeam = save.playerTeam;
-    final teamColor = _parseHexColor(playerTeam.primaryJerseyColorHex);
     final unreadMessages = careerState.unreadMessagesCount;
+    final activeRace = save.calendar.activeRace;
+    final activeStage = save.calendar.activeStage;
+    final bool isPlayerInTodayRace = activeRace != null &&
+        activeStage != null &&
+        activeRace.participatingTeamIds.contains(save.playerTeamId);
+    final weather = _computeBaseWeather(save.currentDate, playerTeam.countryIso);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -352,86 +497,41 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         ),
         title: Row(
           children: [
-            Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: teamColor,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.5),
-              ),
-            ),
+            _TeamCrestBadge(team: playerTeam, size: 22),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
                 activeTab.title,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontSize: 15,
                   fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
+                  letterSpacing: -0.2,
                 ),
               ),
             ),
           ],
         ),
         actions: [
-          // Pigułka z datą
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: AppTheme.borderColor),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.calendar_today, size: 11, color: AppColors.goldAccent),
-                const SizedBox(width: 4),
-                Text(
-                  _formatShortPolishDate(save.currentDate),
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
+          _TopStatusPill(
+            icon: Icons.calendar_today_rounded,
+            iconColor: AppColors.goldAccent,
+            label: _formatShortPolishDate(save.currentDate),
+            compact: true,
           ),
-
-          // Pigułka z budżetem
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceLight,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: AppTheme.borderColor),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.account_balance_wallet, size: 12, color: AppColors.powerZone3),
-                const SizedBox(width: 4),
-                Text(
-                  _formatCompactCurrency(playerTeam.cashBalanceEur),
-                  style: const TextStyle(
-                    color: AppColors.powerZone3,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(width: 4),
+          _TopStatusPill(
+            icon: Icons.account_balance_wallet_rounded,
+            iconColor: AppColors.statusSuccess,
+            label: _formatCompactCurrency(playerTeam.cashBalanceEur),
+            textColor: AppColors.statusSuccess,
+            compact: true,
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
         ],
       ),
-
-      // Wysuwane menu (Drawer) na telefonach
       drawer: _buildMobileDrawer(
         context: context,
         save: save,
@@ -439,28 +539,72 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         careerController: careerController,
         careerState: careerState,
         simController: simController,
+        weather: weather,
       ),
-
-      // Główny obszar widoku
-      body: widget.child ??
-          _buildActiveTabContent(
-            context: context,
-            save: save,
-            careerUiState: careerUiState,
-            careerController: careerController,
-            careerState: careerState,
-            careerStateNotifier: careerStateNotifier,
-            simController: simController,
-            isDesktop: false,
+      body: Column(
+        children: [
+          // Pasek statusu pogody, odliczania i szybkiej akcji na Mobile
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: const BoxDecoration(
+              color: AppColors.surface,
+              border: Border(
+                bottom: BorderSide(color: AppTheme.borderColor, width: 1.0),
+              ),
+            ),
+            child: Row(
+              children: [
+                _TopStatusPill(
+                  icon: weather.icon,
+                  iconColor: weather.color,
+                  label: '${weather.tempC}°C',
+                  compact: true,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: _buildNextRaceMiniCountdown(
+                    save: save,
+                    activeRace: activeRace,
+                    activeStage: activeStage,
+                    nextRace: save.calendar.nextUpcomingRace,
+                    isPlayerInTodayRace: isPlayerInTodayRace,
+                    compact: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                _buildAdvanceActionButton(
+                  context: context,
+                  save: save,
+                  careerUiState: careerUiState,
+                  careerController: careerController,
+                  simController: simController,
+                  isPlayerInTodayRace: isPlayerInTodayRace,
+                  activeRace: activeRace,
+                  activeStage: activeStage,
+                  compact: true,
+                ),
+              ],
+            ),
           ),
-
-      // Dolny pasek nawigacji (Bottom Navigation Bar)
+          Expanded(
+            child: widget.child ??
+                _buildActiveTabContent(
+                  context: context,
+                  save: save,
+                  careerUiState: careerUiState,
+                  careerController: careerController,
+                  careerState: careerState,
+                  careerStateNotifier: careerStateNotifier,
+                ),
+          ),
+        ],
+      ),
       bottomNavigationBar: _buildMobileBottomNavBar(unreadMessages),
     );
   }
 
   // ===========================================================================
-  // 3. BOCZNY PANEL NAWIGACYJNY (SIDEBAR NA DESKTOP / TABLET)
+  // 3. KATEGORYZOWANY SIDEBAR (4 SEKCJE + BADGES + HOVER/ACTIVE/FOCUS)
   // ===========================================================================
 
   Widget _buildSidebarPanel({
@@ -471,8 +615,6 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required bool isCollapsed,
   }) {
     final playerTeam = save.playerTeam;
-    final teamColor = _parseHexColor(playerTeam.primaryJerseyColorHex);
-    final unreadMessages = careerState.unreadMessagesCount;
 
     return Container(
       decoration: const BoxDecoration(
@@ -484,7 +626,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Nagłówek panelu z brandingiem gry
+          // Nagłówek marki
           Container(
             height: 64,
             padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 12 : 16),
@@ -500,15 +642,15 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [AppColors.goldAccent, Color(0xFFD97706)],
+                      colors: [AppColors.goldAccent, Color(0xFFB4861C)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(9),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.goldAccent.withValues(alpha: 0.3),
-                        blurRadius: 8,
+                        color: AppColors.goldAccent.withValues(alpha: 0.28),
+                        blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -517,7 +659,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     child: Icon(
                       Icons.directions_bike_rounded,
                       color: Colors.black,
-                      size: 22,
+                      size: 21,
                     ),
                   ),
                 ),
@@ -530,20 +672,24 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                       children: [
                         Text(
                           'PRO PELOTON',
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                            fontFamily: 'Inter',
                             color: AppColors.goldAccent,
-                            fontSize: 12,
+                            fontSize: 11.5,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.2,
                           ),
                         ),
                         Text(
                           'MANAGER 2026',
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                            fontFamily: 'Inter',
                             color: AppColors.textPrimary,
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 0.5,
+                            letterSpacing: 0.4,
                           ),
                         ),
                       ],
@@ -554,27 +700,19 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
             ),
           ),
 
-          // Karta drużyny gracza (gdy pasek rozwinięty)
+          // Karta drużyny z herbem i barwami
           if (!isCollapsed)
             Container(
-              margin: const EdgeInsets.all(12),
+              margin: const EdgeInsets.fromLTRB(12, 12, 12, 6),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: AppColors.surfaceLight,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppTheme.borderColor),
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: teamColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                  ),
+                  _TeamCrestBadge(team: playerTeam, size: 32),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
@@ -585,12 +723,13 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                            fontFamily: 'Inter',
                             color: AppColors.textPrimary,
                             fontWeight: FontWeight.w800,
                             fontSize: 12,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 3),
                         Row(
                           children: [
                             Container(
@@ -598,28 +737,35 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                               decoration: BoxDecoration(
                                 color: AppColors.background,
                                 borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: AppColors.cardBorder),
                               ),
                               child: Text(
-                                playerTeam.division.name.toUpperCase(),
+                                playerTeam.division.label,
                                 style: const TextStyle(
+                                  fontFamily: 'Inter',
                                   color: AppColors.goldAccent,
                                   fontSize: 8.5,
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 6),
-                            if (careerUiState.activeSlotNumber != null)
-                              Text(
-                                careerUiState.activeSlotNumber == 0
-                                    ? 'Auto-Save'
-                                    : 'Slot #${careerUiState.activeSlotNumber}',
-                                style: const TextStyle(
-                                  color: AppColors.textSecondary,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w600,
+                            if (careerUiState.activeSlotNumber != null) ...[
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  careerUiState.activeSlotNumber == 0
+                                      ? 'Auto-Save'
+                                      : 'Slot #${careerUiState.activeSlotNumber}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    color: AppColors.textSecondary,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
+                            ],
                           ],
                         ),
                       ],
@@ -631,36 +777,73 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           else
             const SizedBox(height: 8),
 
-          // Lista zakładek nawigacyjnych
+          // Kategoryzowana lista 4 sekcji
           Expanded(
-            child: ListView.separated(
+            child: ListView(
               padding: EdgeInsets.symmetric(
                 horizontal: isCollapsed ? 8 : 10,
-                vertical: 4,
+                vertical: 6,
               ),
-              itemCount: MainNavigationTab.values.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 3),
-              itemBuilder: (ctx, index) {
-                final tab = MainNavigationTab.values[index];
-                final isSelected = activeTab == tab;
-                final badgeCount = (tab == MainNavigationTab.inbox) ? unreadMessages : 0;
-
-                return _buildSidebarItem(
-                  tab: tab,
-                  isSelected: isSelected,
-                  isCollapsed: isCollapsed,
-                  badgeCount: badgeCount,
-                  onTap: () => _onTabSelected(tab),
-                );
-              },
+              children: [
+                for (final section in MainNavigationSection.values) ...[
+                  if (!isCollapsed)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 12, 8, 6),
+                      child: Row(
+                        children: [
+                          Icon(
+                            section.icon,
+                            size: 12,
+                            color: AppColors.goldAccent.withValues(alpha: 0.85),
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              section.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                color: AppColors.textSecondary,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                      child: Divider(height: 1, color: AppTheme.borderColor),
+                    ),
+                  ...MainNavigationTab.values
+                      .where((t) => t.section == section)
+                      .map((tab) {
+                    final isSelected = activeTab == tab;
+                    final badgeCount = _badgeForTab(tab, save, careerState);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 2),
+                      child: _SidebarNavItem(
+                        tab: tab,
+                        isSelected: isSelected,
+                        isCollapsed: isCollapsed,
+                        badgeCount: badgeCount,
+                        onTap: () => _onTabSelected(tab),
+                      ),
+                    );
+                  }),
+                ],
+              ],
             ),
           ),
 
-          // Stopka panelu: Przycisk zwijania/rozwijania paska i wersja
+          // Stopka: zwijanie panelu
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: isCollapsed ? 8 : 12,
-              vertical: 8,
+              vertical: 6,
             ),
             decoration: const BoxDecoration(
               border: Border(
@@ -668,14 +851,16 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
               ),
             ),
             child: Row(
-              mainAxisAlignment: isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.spaceBetween,
+              mainAxisAlignment:
+                  isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.spaceBetween,
               children: [
                 if (!isCollapsed)
                   const Expanded(
                     child: Text(
-                      'Wersja 1.0 • WorldTour',
+                      'WorldTour 2026 • v1.0',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
+                        fontFamily: 'Inter',
                         color: AppColors.textSecondary,
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -684,7 +869,9 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                   ),
                 IconButton(
                   icon: Icon(
-                    _isSidebarCollapsed ? Icons.chevron_right_rounded : Icons.chevron_left_rounded,
+                    _isSidebarCollapsed
+                        ? Icons.chevron_right_rounded
+                        : Icons.chevron_left_rounded,
                     color: AppColors.textSecondary,
                     size: 20,
                   ),
@@ -703,156 +890,32 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     );
   }
 
-  Widget _buildSidebarItem({
-    required MainNavigationTab tab,
-    required bool isSelected,
-    required bool isCollapsed,
-    required int badgeCount,
-    required VoidCallback onTap,
-  }) {
-    final iconWidget = Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Icon(
-          isSelected ? tab.selectedIcon : tab.icon,
-          size: 20,
-          color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
-        ),
-        if (badgeCount > 0)
-          Positioned(
-            top: -4,
-            right: -6,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-              decoration: BoxDecoration(
-                color: AppColors.powerZone6,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.surface, width: 1.2),
-              ),
-              child: Text(
-                badgeCount > 9 ? '9+' : '$badgeCount',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 8,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ),
-      ],
-    );
-
-    if (isCollapsed) {
-      return Tooltip(
-        message: '${tab.title}\n${tab.description}',
-        preferBelow: false,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: 46,
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.surfaceLight : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isSelected ? AppColors.goldAccent.withValues(alpha: 0.6) : Colors.transparent,
-                width: 1.0,
-              ),
-            ),
-            child: Center(child: iconWidget),
-          ),
-        ),
-      );
-    }
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.surfaceLight : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isSelected ? AppColors.goldAccent.withValues(alpha: 0.5) : Colors.transparent,
-            width: 1.0,
-          ),
-        ),
-        child: Row(
-          children: [
-            iconWidget,
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tab.title,
-                    style: TextStyle(
-                      color: isSelected ? AppColors.goldAccent : AppColors.textPrimary,
-                      fontSize: 12.5,
-                      fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    tab.description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 9.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (badgeCount > 0)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.powerZone6,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  '$badgeCount',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
   // ===========================================================================
-  // 4. GÓRNY PASEK STATUSU (TOP STATUS BAR NA DESKTOP / TABLET)
+  // 4. GÓRNY PASEK STATUSU (TOPBAR DESKTOP / TABLET)
   // ===========================================================================
 
   Widget _buildDesktopTopStatusBar({
     required BuildContext context,
+    required BoxConstraints constraints,
     required CareerSave save,
     required CareerUiState careerUiState,
     required CareerController careerController,
-    required CareerState careerState,
     required RaceSimulationNotifier simController,
   }) {
     final playerTeam = save.playerTeam;
     final activeRace = save.calendar.activeRace;
     final activeStage = save.calendar.activeStage;
     final nextRace = save.calendar.nextUpcomingRace;
+    final weather = _computeBaseWeather(save.currentDate, playerTeam.countryIso);
 
-    // Sprawdzenie, czy drużyna gracza startuje w dzisiejszym wyścigu
     final bool isPlayerInTodayRace = activeRace != null &&
         activeStage != null &&
         activeRace.participatingTeamIds.contains(save.playerTeamId);
+    final bool isWide = constraints.maxWidth >= 1280;
 
     return Container(
       height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(
@@ -861,33 +924,48 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       ),
       child: Row(
         children: [
-          // 1. Lewa strona: Nazwa aktualnej sekcji / Okruszki chleba
-          Row(
-            children: [
-              Icon(activeTab.selectedIcon, size: 20, color: AppColors.goldAccent),
-              const SizedBox(width: 10),
-              Text(
-                activeTab.title,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
+          // Lewa strona: Herb i barwy drużyny + aktualny ekran
+          _TeamCrestBadge(team: playerTeam, size: 32),
+          const SizedBox(width: 10),
+          Flexible(
+            flex: 0,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: isWide ? 280 : 180),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    activeTab.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      color: AppColors.textPrimary,
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  Text(
+                    '${playerTeam.name} • ${activeTab.section.title}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      color: AppColors.textSecondary,
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Text(
-                '• ${activeTab.description}',
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 12,
-                ),
-              ),
-            ],
+            ),
           ),
 
           const SizedBox(width: 12),
 
-          // 2. Środek / Prawa strona: Kluczowe wskaźniki telemetryczne statusu
+          // Prawa strona: Telemetria statusu + przycisk akcji
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -895,86 +973,71 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // A. Aktualna data w grze
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceLight,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.borderColor),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.calendar_month_rounded, size: 15, color: AppColors.goldAccent),
-                        const SizedBox(width: 8),
-                        Text(
-                          _formatPolishFullDate(save.currentDate),
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                  // 1. Stan konta EUR
+                  _TopStatusPill(
+                    icon: Icons.account_balance_wallet_rounded,
+                    iconColor: AppColors.statusSuccess,
+                    label: _formatMoney(playerTeam.cashBalanceEur),
+                    textColor: AppColors.statusSuccess,
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
 
-                  // B. Budżet klubu
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceLight,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.borderColor),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.account_balance_wallet_rounded, size: 15, color: AppColors.powerZone3),
-                        const SizedBox(width: 8),
-                        Text(
-                          _formatMoney(playerTeam.cashBalanceEur),
-                          style: const TextStyle(
-                            color: AppColors.powerZone3,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
+                  // 2. Aktualna data
+                  _TopStatusPill(
+                    icon: Icons.calendar_month_rounded,
+                    iconColor: AppColors.goldAccent,
+                    label: isWide
+                        ? _formatPolishFullDate(save.currentDate)
+                        : _formatShortPolishDate(save.currentDate),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
 
-                  // C. Następny / Dzisiejszy wyścig
-                  _buildNextRaceStatusBadge(
+                  // 3. Pogoda w bazie
+                  _TopStatusPill(
+                    icon: weather.icon,
+                    iconColor: weather.color,
+                    label: isWide
+                        ? '${weather.condition} ${weather.tempC}°C • ${weather.windKmh} km/h'
+                        : '${weather.tempC}°C',
+                  ),
+                  const SizedBox(width: 8),
+
+                  // 4. Mini-odliczanie dni do kolejnego wyścigu
+                  _buildNextRaceMiniCountdown(
                     save: save,
                     activeRace: activeRace,
                     activeStage: activeStage,
                     nextRace: nextRace,
                     isPlayerInTodayRace: isPlayerInTodayRace,
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 10),
 
-                  // D. Szybki zapis gry (Quick Save)
-                  IconButton(
-                    icon: const Icon(Icons.save_outlined, color: AppColors.goldAccent, size: 20),
-                    tooltip: 'Szybki Zapis Gry (Slot bieżący)',
-                    onPressed: () {
-                      careerController.saveCurrentGame(isAutoSave: false);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Stan kariery został pomyślnie zapisany na dysku.'),
-                          duration: Duration(seconds: 2),
-                          backgroundColor: AppColors.surfaceLight,
-                        ),
-                      );
-                    },
+                  // 5. Szybki zapis
+                  Tooltip(
+                    message: 'Szybki Zapis Kariery',
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.save_outlined,
+                        color: AppColors.goldAccent,
+                        size: 20,
+                      ),
+                      onPressed: careerUiState.isLoading
+                          ? null
+                          : () {
+                              careerController.saveCurrentGame(isAutoSave: false);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Stan kariery zapisany.'),
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor: AppColors.surfaceLight,
+                                ),
+                              );
+                            },
+                    ),
                   ),
                   const SizedBox(width: 8),
 
-                  // E. Kluczowy przycisk akcji: "Następny Dzień / Kontynuuj" lub "Do Wyścigu!"
+                  // 6. Wielki dynamiczny przycisk akcji
                   _buildAdvanceActionButton(
                     context: context,
                     save: save,
@@ -982,6 +1045,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     careerController: careerController,
                     simController: simController,
                     isPlayerInTodayRace: isPlayerInTodayRace,
+                    activeRace: activeRace,
                     activeStage: activeStage,
                   ),
                 ],
@@ -993,42 +1057,52 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     );
   }
 
-  /// Pigułka statusu prezentująca dzisiejszy lub następny wyścig
-  Widget _buildNextRaceStatusBadge({
+  Widget _buildNextRaceMiniCountdown({
     required CareerSave save,
     required TourRace? activeRace,
     required RaceStage? activeStage,
     required TourRace? nextRace,
     required bool isPlayerInTodayRace,
+    bool compact = false,
   }) {
     if (activeRace != null && activeStage != null) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 8 : 11,
+          vertical: compact ? 5 : 7,
+        ),
         decoration: BoxDecoration(
-          color: isPlayerInTodayRace ? const Color(0xFF2E1906) : AppColors.surfaceLight,
+          color: isPlayerInTodayRace
+              ? AppColors.primaryAccent.withValues(alpha: 0.25)
+              : AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isPlayerInTodayRace ? AppColors.goldAccent : AppTheme.borderColor,
-            width: isPlayerInTodayRace ? 1.5 : 1.0,
+            width: isPlayerInTodayRace ? 1.2 : 1.0,
           ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              isPlayerInTodayRace ? Icons.local_fire_department_rounded : Icons.sports_score_rounded,
-              size: 15,
-              color: isPlayerInTodayRace ? AppColors.goldAccent : _cyanAccent,
+              isPlayerInTodayRace ? Icons.local_fire_department_rounded : Icons.flag_rounded,
+              size: compact ? 13 : 15,
+              color: isPlayerInTodayRace ? AppColors.goldAccent : AppColors.cyanAccent,
             ),
             const SizedBox(width: 6),
-            Text(
-              isPlayerInTodayRace
-                  ? 'DZIŚ: ${activeRace.name} (Etap ${activeStage.stageNumber})'
-                  : 'Dziś: ${activeRace.name} (Brak udziału)',
-              style: TextStyle(
-                color: isPlayerInTodayRace ? AppColors.goldAccent : AppColors.textPrimary,
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
+            Flexible(
+              child: Text(
+                isPlayerInTodayRace
+                    ? (compact ? 'DZIŚ: ${activeRace.name}' : 'DZIŚ: ${activeRace.name} (E${activeStage.stageNumber})')
+                    : 'Dziś: ${activeRace.name}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  color: isPlayerInTodayRace ? AppColors.goldAccent : AppColors.textPrimary,
+                  fontSize: compact ? 11 : 12,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ],
@@ -1039,14 +1113,15 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     if (nextRace != null) {
       final raceDate = DateTime(save.currentSeasonYear, nextRace.startMonth, nextRace.startDay);
       final daysDiff = raceDate.difference(save.currentDate).inDays;
-      final daysText = (daysDiff == 0)
-          ? 'Dziś start'
-          : (daysDiff == 1)
-              ? 'Jutro'
-              : 'za $daysDiff dni';
+      final daysText = daysDiff <= 0
+          ? 'Dziś'
+          : (daysDiff == 1 ? 'Jutro' : 'Za $daysDiff d');
 
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 8 : 11,
+          vertical: compact ? 5 : 7,
+        ),
         decoration: BoxDecoration(
           color: AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(8),
@@ -1055,14 +1130,19 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.flag_rounded, size: 14, color: _cyanAccent),
-            const SizedBox(width: 6),
-            Text(
-              'Następny: ${nextRace.name} ($daysText)',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
+            Icon(Icons.timer_outlined, size: compact ? 13 : 14, color: AppColors.cyanAccent),
+            const SizedBox(width: 5),
+            Flexible(
+              child: Text(
+                '$daysText: ${nextRace.name}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  color: AppColors.textPrimary,
+                  fontSize: compact ? 11 : 12,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
@@ -1070,28 +1150,13 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       );
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.borderColor),
-      ),
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check_circle_outline, size: 14, color: AppColors.textSecondary),
-          SizedBox(width: 6),
-          Text(
-            'Brak wyścigów w kalendarzu',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
-          ),
-        ],
-      ),
+    return const _TopStatusPill(
+      icon: Icons.check_circle_outline_rounded,
+      iconColor: AppColors.textSecondary,
+      label: 'Koniec sezonu',
     );
   }
 
-  /// Przycisk "Następny Dzień / Kontynuuj" lub "Do Wyścigu!"
   Widget _buildAdvanceActionButton({
     required BuildContext context,
     required CareerSave save,
@@ -1099,14 +1164,22 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required CareerController careerController,
     required RaceSimulationNotifier simController,
     required bool isPlayerInTodayRace,
+    required TourRace? activeRace,
     required RaceStage? activeStage,
+    bool compact = false,
   }) {
-    if (careerUiState.isLoading) {
+    final bool isDisabled = careerUiState.isLoading;
+    final bool isRaceDay = isPlayerInTodayRace && activeStage != null && activeRace != null;
+
+    if (isDisabled) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: compact ? 12 : 18,
+          vertical: compact ? 8 : 10,
+        ),
         decoration: BoxDecoration(
           color: AppColors.surfaceLight,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppTheme.borderColor),
         ),
         child: const Row(
@@ -1120,49 +1193,39 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
             SizedBox(width: 8),
             Text(
               'Przetwarzanie...',
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 12, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                color: AppColors.textSecondary,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),
       );
     }
 
-    if (isPlayerInTodayRace && activeStage != null) {
-      return ElevatedButton.icon(
-        onPressed: () {
-          _startRaceSimulation(context, save, activeStage, simController);
-        },
-        icon: const Icon(Icons.sports_score_rounded, size: 18),
-        label: const Text('ODPRAWA & START 🏁'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.goldAccent,
-          foregroundColor: Colors.black,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          textStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 0.5),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          elevation: 4,
-        ),
-      );
-    }
+    final String label = isRaceDay
+        ? (compact ? 'START WYŚCIGU' : 'START WYŚCIGU: ${activeRace.name}')
+        : 'NASTĘPNY DZIEŃ';
 
-    return ElevatedButton.icon(
+    return _InteractiveActionButton(
+      label: label,
+      icon: isRaceDay ? Icons.sports_score_rounded : Icons.fast_forward_rounded,
+      isRaceDay: isRaceDay,
+      compact: compact,
       onPressed: () {
-        careerController.advanceDay();
+        if (isRaceDay) {
+          _startRaceSimulation(context, save, activeStage, simController);
+        } else {
+          careerController.advanceDay();
+        }
       },
-      icon: const Icon(Icons.fast_forward_rounded, size: 18),
-      label: const Text('Następny Dzień ⏩'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryAccent,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-        textStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
     );
   }
 
   // ===========================================================================
-  // 5. OBSŁUGA MOBILNA: DRAWER I DOLNY PASEK
+  // 5. MOBILNY DRAWER & BOTTOM BAR
   // ===========================================================================
 
   Widget _buildMobileDrawer({
@@ -1172,9 +1235,9 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required CareerController careerController,
     required CareerState careerState,
     required RaceSimulationNotifier simController,
+    required _BaseWeatherInfo weather,
   }) {
     final playerTeam = save.playerTeam;
-    final teamColor = _parseHexColor(playerTeam.primaryJerseyColorHex);
     final activeRace = save.calendar.activeRace;
     final activeStage = save.calendar.activeStage;
     final bool isPlayerInTodayRace = activeRace != null &&
@@ -1183,147 +1246,149 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
 
     return Drawer(
       backgroundColor: AppColors.surface,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Nagłówek Drawera z danymi klubu
-          Container(
-            padding: const EdgeInsets.fromLTRB(16, 44, 16, 16),
-            decoration: const BoxDecoration(
-              color: Color(0xFF141822),
-              border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        color: teamColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            playerTeam.name,
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 15,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: AppColors.background,
+                border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      _TeamCrestBadge(team: playerTeam, size: 38),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              playerTeam.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Dyrektor: ${save.playerManagerName}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                color: AppColors.textSecondary,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _formatPolishFullDate(save.currentDate),
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          color: AppColors.goldAccent,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        '${weather.condition} ${weather.tempC}°C',
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                children: [
+                  for (final section in MainNavigationSection.values) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 12, 10, 4),
+                      child: Row(
+                        children: [
+                          Icon(section.icon, size: 12, color: AppColors.goldAccent),
+                          const SizedBox(width: 6),
                           Text(
-                            'Dyrektor: ${save.playerManagerName}',
+                            section.title,
                             style: const TextStyle(
+                              fontFamily: 'Inter',
                               color: AppColors.textSecondary,
-                              fontSize: 11,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.0,
                             ),
                           ),
                         ],
                       ),
                     ),
+                    ...MainNavigationTab.values
+                        .where((t) => t.section == section)
+                        .map((tab) {
+                      final isSelected = activeTab == tab;
+                      final badge = _badgeForTab(tab, save, careerState);
+                      return _SidebarNavItem(
+                        tab: tab,
+                        isSelected: isSelected,
+                        isCollapsed: false,
+                        badgeCount: badge,
+                        onTap: () {
+                          Navigator.pop(context);
+                          _onTabSelected(tab);
+                        },
+                      );
+                    }),
                   ],
-                ),
-                const SizedBox(height: 14),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _formatPolishFullDate(save.currentDate),
-                      style: const TextStyle(color: AppColors.goldAccent, fontSize: 11, fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      _formatMoney(playerTeam.cashBalanceEur),
-                      style: const TextStyle(color: AppColors.powerZone3, fontSize: 12, fontWeight: FontWeight.w800),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-
-          // Lista wszystkich 8 zakładek
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              children: MainNavigationTab.values.map((tab) {
-                final isSelected = activeTab == tab;
-                final badge = (tab == MainNavigationTab.inbox) ? careerState.unreadMessagesCount : 0;
-
-                return ListTile(
-                  leading: Icon(
-                    isSelected ? tab.selectedIcon : tab.icon,
-                    color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
-                  ),
-                  title: Text(
-                    tab.title,
-                    style: TextStyle(
-                      color: isSelected ? AppColors.goldAccent : AppColors.textPrimary,
-                      fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                      fontSize: 13.5,
-                    ),
-                  ),
-                  subtitle: Text(
-                    tab.description,
-                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
-                  ),
-                  trailing: badge > 0
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.powerZone6,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '$badge',
-                            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800),
-                          ),
-                        )
-                      : null,
-                  selected: isSelected,
-                  selectedTileColor: AppColors.surfaceLight,
-                  onTap: () {
-                    Navigator.pop(context);
-                    _onTabSelected(tab);
-                  },
-                );
-              }).toList(),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: _buildAdvanceActionButton(
+                context: context,
+                save: save,
+                careerUiState: careerUiState,
+                careerController: careerController,
+                simController: simController,
+                isPlayerInTodayRace: isPlayerInTodayRace,
+                activeRace: activeRace,
+                activeStage: activeStage,
+              ),
             ),
-          ),
-
-          // Dolny przycisk akcji w menu
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: _buildAdvanceActionButton(
-              context: context,
-              save: save,
-              careerUiState: careerUiState,
-              careerController: careerController,
-              simController: simController,
-              isPlayerInTodayRace: isPlayerInTodayRace,
-              activeStage: activeStage,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildMobileBottomNavBar(int unreadCount) {
-    // 4 główne destynacje + przycisk otwarcia menu Więcej
     const primaryTabs = [
       MainNavigationTab.dashboard,
-      MainNavigationTab.roster,
-      MainNavigationTab.calendar,
       MainNavigationTab.inbox,
+      MainNavigationTab.calendar,
+      MainNavigationTab.roster,
     ];
 
     return Container(
@@ -1345,7 +1410,8 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
 
                 return InkWell(
                   onTap: () => _onTabSelected(tab),
-                  child: Container(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -1356,33 +1422,43 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                             Icon(
                               isSelected ? tab.selectedIcon : tab.icon,
                               size: 20,
-                              color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
+                              color: isSelected
+                                  ? AppColors.goldAccent
+                                  : AppColors.textSecondary,
                             ),
                             if (badge > 0)
                               Positioned(
-                                top: -3,
-                                right: -6,
+                                top: -4,
+                                right: -7,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 1),
                                   decoration: BoxDecoration(
-                                    color: AppColors.powerZone6,
+                                    color: AppColors.crimsonAlert,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    '$badge',
-                                    style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900),
+                                    badge > 9 ? '9+' : '$badge',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ),
                               ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 3),
                         Text(
                           tab.shortLabel,
                           style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 10,
                             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                            color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
+                            color: isSelected
+                                ? AppColors.goldAccent
+                                : AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -1390,21 +1466,29 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                   ),
                 );
               }),
-
-              // Przycisk "Więcej" otwierający boczny Drawer
               Builder(
                 builder: (drawerCtx) => InkWell(
                   onTap: () => Scaffold.of(drawerCtx).openDrawer(),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    child: const Column(
+                  borderRadius: BorderRadius.circular(10),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.more_horiz_rounded, size: 20, color: AppColors.textSecondary),
-                        SizedBox(height: 4),
+                        Icon(
+                          Icons.apps_rounded,
+                          size: 20,
+                          color: AppColors.textSecondary,
+                        ),
+                        SizedBox(height: 3),
                         Text(
                           'Więcej',
-                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -1419,7 +1503,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   }
 
   // ===========================================================================
-  // 6. GŁÓWNY OBSZAR ROBOCZY: PRZEŁĄCZNIK WIDOKÓW (TAB CONTENT SWITCHER)
+  // 6. PRZEŁĄCZNIK ZAKŁADEK (STANDALONE FALLBACK GDY BRAK GO_ROUTER CHILD)
   // ===========================================================================
 
   Widget _buildActiveTabContent({
@@ -1429,8 +1513,6 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     required CareerController careerController,
     required CareerState careerState,
     required CareerStateNotifier careerStateNotifier,
-    required RaceSimulationNotifier simController,
-    required bool isDesktop,
   }) {
     switch (_activeTab) {
       case MainNavigationTab.dashboard:
@@ -1439,14 +1521,22 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: const BoxDecoration(
-                color: Color(0xFF141722),
+                color: AppColors.surface,
                 border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
               ),
               child: Row(
                 children: [
-                  _buildSubViewPill('Biuro HQ (Bento Grid)', _useBentoHq, () => setState(() => _useBentoHq = true)),
+                  _buildSubViewPill(
+                    'Biuro HQ (Bento Grid)',
+                    _useBentoHq,
+                    () => setState(() => _useBentoHq = true),
+                  ),
                   const SizedBox(width: 8),
-                  _buildSubViewPill('Centrum Operacyjne (Hub)', !_useBentoHq, () => setState(() => _useBentoHq = false)),
+                  _buildSubViewPill(
+                    'Centrum Operacyjne (Hub)',
+                    !_useBentoHq,
+                    () => setState(() => _useBentoHq = false),
+                  ),
                 ],
               ),
             ),
@@ -1457,47 +1547,69 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
             ),
           ],
         );
-
+      case MainNavigationTab.inbox:
+        return const CareerInboxView();
+      case MainNavigationTab.calendar:
+        return const CalendarAndRacePlannerScreen(showAppBar: false);
       case MainNavigationTab.roster:
-        return const SquadRosterScreen();
-
+        return const SquadRosterScreen(showAppBar: false);
+      case MainNavigationTab.teamBuilder:
+        return const TeamBuilderHierarchyScreen();
       case MainNavigationTab.training:
         return const TrainingAndCampsScreen(showAppBar: false);
-
-      case MainNavigationTab.calendar:
-        return _buildCalendarView(context, save);
-
+      case MainNavigationTab.physiologyLab:
+        return const PhysiologyLabScreen(showAppBar: false);
+      case MainNavigationTab.medical:
+        return const MedicalAndRecoveryCenterScreen(showAppBar: false);
+      case MainNavigationTab.academy:
+        return const DevelopmentAcademyScreen(showAppBar: false);
+      case MainNavigationTab.staff:
+        return const StaffManagementScreen(showAppBar: false);
       case MainNavigationTab.equipment:
-        return _buildEquipmentView(context, save);
-
+        return const BikeGarageRndScreen();
+      case MainNavigationTab.windTunnel:
+        return const WindTunnelAndBikeFitScreen(showAppBar: false);
       case MainNavigationTab.finances:
-        return _buildFinancesView(context, save);
-
+        return const SponsorsAndFinanceScreen();
       case MainNavigationTab.transfers:
-        return _buildTransfersView(context, save, careerController);
-
-      case MainNavigationTab.inbox:
-        return _buildInboxView(context, careerState, careerStateNotifier);
-
+        return const TransferMarketScoutingScreen();
+      case MainNavigationTab.liveryStudio:
+        return const JerseyAndBikeLiveryStudioScreen();
+      case MainNavigationTab.uciRankings:
+        return const UciRankingsAndLicenseView();
+      case MainNavigationTab.hallOfFame:
+        return HallOfFameAndRecordsScreen(
+          playerTeam: save.playerTeam,
+          currentSeasonYear: save.currentSeasonYear,
+        );
+      case MainNavigationTab.managerProfile:
+        return const ManagerProfileAndAchievementsView();
+      case MainNavigationTab.stageEditor:
+        return const StageEditorCreatorScreen();
       case MainNavigationTab.settings:
-        return _buildSavesAndModsView(context, save, careerController, careerUiState);
+        return const SettingsAndModScreen();
     }
   }
 
   Widget _buildSubViewPill(String title, bool isSelected, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(6),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      borderRadius: BorderRadius.circular(8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.goldAccent : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: isSelected ? Colors.transparent : Colors.white12),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : AppTheme.borderColor,
+          ),
         ),
         child: Text(
           title,
           style: TextStyle(
+            fontFamily: 'Inter',
             color: isSelected ? Colors.black : AppColors.textSecondary,
             fontSize: 11,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
@@ -1508,409 +1620,106 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   }
 
   // ===========================================================================
-  // 8. WIDOK: KALENDARZ & WYŚCIGI (CALENDAR VIEW)
+  // 7. EKRAN POWITALNY GDY BRAK AKTYWNEGO ZAPISU
   // ===========================================================================
 
-  Widget _buildCalendarView(BuildContext context, CareerSave save) {
-    return const CalendarAndRacePlannerScreen();
-  }
-
-  // ===========================================================================
-  // 9. WIDOK: SPRZĘT & WARSZTAT (EQUIPMENT VIEW)
-  // ===========================================================================
-
-  Widget _buildEquipmentView(BuildContext context, CareerSave save) {
-    return const BikeGarageRndScreen();
-  }
-
-  // ===========================================================================
-  // 10. WIDOK: FINANSE & SPONSORZY (FINANCES VIEW)
-  // ===========================================================================
-
-  Widget _buildFinancesView(BuildContext context, CareerSave save) {
-    return const SponsorsAndFinanceScreen();
-  }
-
-  // ===========================================================================
-  // 11. WIDOK: TRANSFERY & SKAUTING (TRANSFERS VIEW)
-  // ===========================================================================
-
-  Widget _buildTransfersView(
-    BuildContext context,
-    CareerSave save,
-    CareerController careerController,
-  ) {
-    return const TransferMarketScoutingScreen();
-  }
-
-  // ===========================================================================
-  // 12. WIDOK: SKRZYNKA ODBIORCZA (INBOX VIEW)
-  // ===========================================================================
-
-  Widget _buildInboxView(
-    BuildContext context,
-    CareerState careerState,
-    CareerStateNotifier careerStateNotifier,
-  ) {
-    final messages = careerState.inboxMessages;
-
-    final filteredMessages = messages.where((msg) {
-      if (_inboxCategoryFilter == 'unread') return !msg.isRead;
-      if (_inboxCategoryFilter == 'race') return msg.category == InboxCategory.raceBriefing || msg.category == InboxCategory.raceResults;
-      if (_inboxCategoryFilter == 'medical') return msg.category == InboxCategory.medicalReport;
-      return true;
-    }).toList();
-
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Wrap(
-                spacing: 8,
-                children: [
-                  _buildInboxFilterChip('Wszystkie (${messages.length})', 'all'),
-                  _buildInboxFilterChip('Nieprzeczytane (${careerState.unreadMessagesCount})', 'unread'),
-                  _buildInboxFilterChip('Wyścigi', 'race'),
-                  _buildInboxFilterChip('Medyczne', 'medical'),
-                ],
-              ),
-              TextButton.icon(
-                onPressed: () => careerStateNotifier.markAllMessagesAsRead(),
-                icon: const Icon(Icons.done_all_rounded, size: 16),
-                label: const Text('Oznacz wszystkie jako przeczytane', style: TextStyle(fontSize: 11)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          Expanded(
-            child: filteredMessages.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Brak wiadomości w skrzynce odbiorczej.',
-                      style: TextStyle(color: AppColors.textSecondary),
-                    ),
-                  )
-                : ListView.separated(
-                    itemCount: filteredMessages.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                    itemBuilder: (ctx, idx) {
-                      final msg = filteredMessages[idx];
-                      return Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: msg.isRead ? AppColors.surface : const Color(0xFF1B2232),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: msg.isRead ? AppTheme.borderColor : _cyanAccent.withValues(alpha: 0.5),
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              msg.isRead ? Icons.mail_outline_rounded : Icons.mark_email_unread_rounded,
-                              color: msg.isRead ? AppColors.textSecondary : AppColors.goldAccent,
-                              size: 22,
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '${msg.senderName} (${msg.senderRole})',
-                                        style: TextStyle(
-                                          fontWeight: msg.isRead ? FontWeight.w600 : FontWeight.w800,
-                                          fontSize: 12,
-                                          color: AppColors.textPrimary,
-                                        ),
-                                      ),
-                                      Text(
-                                        _formatShortPolishDate(msg.date),
-                                        style: const TextStyle(fontSize: 10, color: AppColors.textSecondary),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    msg.subject,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 13,
-                                      color: msg.isRead ? AppColors.textPrimary : AppColors.goldAccent,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    msg.body,
-                                    style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInboxFilterChip(String label, String filterKey) {
-    final isSelected = _inboxCategoryFilter == filterKey;
-    return ChoiceChip(
-      label: Text(
-        label,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-          color: isSelected ? Colors.black : AppColors.textPrimary,
-        ),
-      ),
-      selected: isSelected,
-      selectedColor: AppColors.goldAccent,
-      backgroundColor: AppColors.surfaceLight,
-      side: BorderSide(color: isSelected ? AppColors.goldAccent : AppTheme.borderColor),
-      onSelected: (_) {
-        setState(() {
-          _inboxCategoryFilter = filterKey;
-        });
-      },
-    );
-  }
-
-  // ===========================================================================
-  // 13. WIDOK: ZAPISY GRY & MODY (SAVES & MODS VIEW)
-  // ===========================================================================
-
-  Widget _buildSavesAndModsView(
-    BuildContext context,
-    CareerSave save,
-    CareerController careerController,
-    CareerUiState careerUiState,
-  ) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Menedżer Zapisów Gry (Sloty 1-5 & Auto-Save)',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Twórz niezależne kopie zapasowe, przenoś zapisy między urządzeniami i zarządzaj modyfikacjami.',
-            style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-          ),
-          const SizedBox(height: 16),
-
-          // Sloty zapisu
-          ...List.generate(5, (idx) {
-            final slotNum = idx + 1;
-            final isCurrentSlot = careerUiState.activeSlotNumber == slotNum;
-
-            return Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: isCurrentSlot ? const Color(0xFF1B2332) : AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isCurrentSlot ? AppColors.goldAccent : AppTheme.borderColor,
-                  width: isCurrentSlot ? 1.5 : 1.0,
-                ),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceLight,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '#$slotNum',
-                        style: const TextStyle(fontWeight: FontWeight.w900, color: AppColors.goldAccent),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Slot zapisu kariery #$slotNum', style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: AppColors.textPrimary)),
-                        Text(isCurrentSlot ? 'Bieżący aktywny slot kariery' : 'Gotowy do zapisu/wczytania', style: const TextStyle(fontSize: 11, color: AppColors.textSecondary)),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await careerController.saveToSlot(slotNum);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Zapisano do slotu #$slotNum')),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryAccent,
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    ),
-                    child: const Text('Zapisz'),
-                  ),
-                  const SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () async {
-                      await careerController.loadFromSlot(slotNum);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    ),
-                    child: const Text('Wczytaj'),
-                  ),
-                ],
-              ),
-            );
-          }),
-        ],
-      ),
-    );
-  }
-
-  // ===========================================================================
-  // 14. EKRAN POWITALNY GDY BRAK AKTYWNEGO ZAPISU (NO SAVE SCREEN)
-  // ===========================================================================
-
-  Widget _buildNoSaveWelcomeScreen(
-    CareerController careerController,
-    CareerUiState careerUiState,
-  ) {
+  Widget _buildNoSaveWelcomeScreen(CareerController careerController) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
-        child: Container(
-          width: 500,
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppTheme.borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.4),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.goldAccent, Color(0xFFD97706)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Container(
+            width: 480,
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.borderColor),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.goldAccent, Color(0xFFB4861C)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  borderRadius: BorderRadius.circular(16),
+                  child: const Icon(Icons.directions_bike_rounded, size: 34, color: Colors.black),
                 ),
-                child: const Icon(Icons.directions_bike_rounded, size: 36, color: Colors.black),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'PRO PELOTON MANAGER',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Zarządzaj profesjonalną drużyną kolarską WorldTour.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
-              ),
-              const SizedBox(height: 28),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    context.go('/new-career');
-                  },
-                  icon: const Icon(Icons.add_road_rounded),
-                  label: const Text('Kreator Nowej Kariery'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.goldAccent,
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    textStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+                const SizedBox(height: 18),
+                const Text(
+                  'PRO PELOTON MANAGER',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textPrimary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.1,
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () async {
-                    await careerController.startNewCareer(
+                const SizedBox(height: 6),
+                const Text(
+                  'Brak aktywnego zapisu kariery. Wybierz jedną z opcji poniżej.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => context.go(AppRoutes.newCareer),
+                    icon: const Icon(Icons.add_road_rounded),
+                    label: const Text('Kreator Nowej Kariery'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.goldAccent,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => careerController.startNewCareer(
                       saveName: 'Kariera WorldTour 2026',
                       playerManagerName: 'Dyrektor Sportowy',
                       playerTeamId: 'wt_aethel_veloce',
-                    );
-                  },
-                  icon: const Icon(Icons.bolt_rounded),
-                  label: const Text('Szybki Start (WorldTour 2026)'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryAccent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                    ),
+                    icon: const Icon(Icons.bolt_rounded),
+                    label: const Text('Szybki Start (WorldTour 2026)'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () async {
-                    await careerController.loadAutoSave();
-                  },
-                  icon: const Icon(Icons.restore_rounded),
-                  label: const Text('Wczytaj Ostatni Auto-Save'),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => careerController.loadAutoSave(),
+                    icon: const Icon(Icons.restore_rounded),
+                    label: const Text('Wczytaj Ostatni Auto-Save'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-
-              TextButton.icon(
-                onPressed: () => context.go('/'),
-                icon: const Icon(Icons.home_rounded, size: 16),
-                label: const Text('Menu Główne & Sloty Zapisów'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -1918,7 +1727,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   }
 
   // ===========================================================================
-  // 15. METODY POMOCNICZE I DIALOGI
+  // 8. METODY POMOCNICZE
   // ===========================================================================
 
   void _startRaceSimulation(
@@ -1937,7 +1746,90 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     );
   }
 
-  Color _parseHexColor(String hexString, [Color fallback = AppColors.primaryAccent]) {
+  _BaseWeatherInfo _computeBaseWeather(DateTime date, String countryIso) {
+    final int month = date.month;
+    final int seed = date.day + date.month * 31 + countryIso.hashCode.abs();
+    final int baseTemp;
+    if (month >= 6 && month <= 8) {
+      baseTemp = 22 + (seed % 9);
+    } else if (month >= 4 && month <= 5 || month == 9) {
+      baseTemp = 15 + (seed % 7);
+    } else if (month == 3 || month == 10) {
+      baseTemp = 10 + (seed % 6);
+    } else {
+      baseTemp = 3 + (seed % 6);
+    }
+    final int windKmh = 8 + (seed % 18);
+    final int condIdx = seed % 4;
+    switch (condIdx) {
+      case 0:
+        return _BaseWeatherInfo('Słonecznie', baseTemp, windKmh, Icons.wb_sunny_rounded, AppColors.goldAccent);
+      case 1:
+        return _BaseWeatherInfo('Lekkie chmury', baseTemp - 1, windKmh, Icons.wb_cloudy_rounded, AppColors.accentBlue);
+      case 2:
+        return _BaseWeatherInfo('Wietrznie', baseTemp - 2, windKmh + 8, Icons.air_rounded, AppColors.cyanAccent);
+      default:
+        return _BaseWeatherInfo('Przelotny deszcz', baseTemp - 3, windKmh + 4, Icons.grain_rounded, AppColors.textSecondary);
+    }
+  }
+
+  String _formatPolishFullDate(DateTime dt) {
+    const months = [
+      'stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca',
+      'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia',
+    ];
+    const weekdays = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nd'];
+    return '${dt.day} ${months[dt.month - 1]} ${dt.year} (${weekdays[dt.weekday - 1]})';
+  }
+
+  String _formatShortPolishDate(DateTime dt) {
+    const months = [
+      'sty', 'lut', 'mar', 'kwi', 'maj', 'cze',
+      'lip', 'sie', 'wrz', 'paź', 'lis', 'gru',
+    ];
+    return '${dt.day} ${months[dt.month - 1]}';
+  }
+
+  String _formatMoney(int amountEur) {
+    if (amountEur.abs() >= 1000000) {
+      return '€${(amountEur / 1000000).toStringAsFixed(2)} mln';
+    } else if (amountEur.abs() >= 1000) {
+      return '€${(amountEur / 1000).toStringAsFixed(0)}k';
+    }
+    return '€$amountEur';
+  }
+
+  String _formatCompactCurrency(int amountEur) {
+    if (amountEur.abs() >= 1000000) {
+      return '€${(amountEur / 1000000).toStringAsFixed(1)}M';
+    } else if (amountEur.abs() >= 1000) {
+      return '€${(amountEur / 1000).toStringAsFixed(0)}k';
+    }
+    return '€$amountEur';
+  }
+}
+
+class _BaseWeatherInfo {
+  final String condition;
+  final int tempC;
+  final int windKmh;
+  final IconData icon;
+  final Color color;
+
+  const _BaseWeatherInfo(this.condition, this.tempC, this.windKmh, this.icon, this.color);
+}
+
+// =============================================================================
+// KOMPONENTY INTERAKTYWNE (HOVER / ACTIVE / FOCUS / DISABLED)
+// =============================================================================
+
+class _TeamCrestBadge extends StatelessWidget {
+  final CyclingTeam team;
+  final double size;
+
+  const _TeamCrestBadge({required this.team, this.size = 32});
+
+  Color _parseHex(String hexString, Color fallback) {
     try {
       String hex = hexString.replaceAll('#', '').trim();
       if (hex.length == 6) hex = 'FF$hex';
@@ -1948,43 +1840,1213 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     }
   }
 
-  String _formatPolishFullDate(DateTime dt) {
-    const months = [
-      'stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca',
-      'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'
-    ];
-    const weekdays = [
-      'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'
-    ];
-    final dayName = weekdays[dt.weekday - 1];
-    final monthName = months[dt.month - 1];
-    return '${dt.day} $monthName ${dt.year} ($dayName)';
-  }
+  @override
+  Widget build(BuildContext context) {
+    final primary = _parseHex(team.primaryJerseyColorHex, AppColors.primaryAccent);
+    final secondary = _parseHex(team.secondaryJerseyColorHex, AppColors.goldAccent);
+    final accent = _parseHex(team.accentJerseyColorHex, Colors.white);
 
-  String _formatShortPolishDate(DateTime dt) {
-    const months = [
-      'sty', 'lut', 'mar', 'kwi', 'maj', 'cze',
-      'lip', 'sie', 'wrz', 'paź', 'lis', 'gru'
-    ];
-    return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
-  }
-
-  String _formatMoney(int amountEur) {
-    if (amountEur >= 1000000) {
-      return '€${(amountEur / 1000000).toStringAsFixed(2)} mln';
-    } else if (amountEur >= 1000) {
-      return '€${(amountEur / 1000).toStringAsFixed(0)}k';
-    }
-    return '€$amountEur';
-  }
-
-  String _formatCompactCurrency(int amountEur) {
-    if (amountEur >= 1000000) {
-      return '€${(amountEur / 1000000).toStringAsFixed(1)}M';
-    } else if (amountEur >= 1000) {
-      return '€${(amountEur / 1000).toStringAsFixed(0)}k';
-    }
-    return '€$amountEur';
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [primary, secondary],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        border: Border.all(color: accent, width: 1.8),
+        boxShadow: [
+          BoxShadow(
+            color: primary.withValues(alpha: 0.35),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Icon(
+          Icons.shield_rounded,
+          size: size * 0.52,
+          color: Colors.white.withValues(alpha: 0.92),
+        ),
+      ),
+    );
   }
 }
 
+class _TopStatusPill extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final Color textColor;
+  final bool compact;
+
+  const _TopStatusPill({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    this.textColor = AppColors.textPrimary,
+    this.compact = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 8 : 11,
+        vertical: compact ? 5 : 7,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: compact ? 12 : 14, color: iconColor),
+          SizedBox(width: compact ? 4 : 6),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              color: textColor,
+              fontSize: compact ? 11 : 12,
+              fontWeight: FontWeight.w700,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SidebarNavItem extends StatefulWidget {
+  final MainNavigationTab tab;
+  final bool isSelected;
+  final bool isCollapsed;
+  final int badgeCount;
+  final VoidCallback onTap;
+
+  const _SidebarNavItem({
+    required this.tab,
+    required this.isSelected,
+    required this.isCollapsed,
+    required this.badgeCount,
+    required this.onTap,
+  });
+
+  @override
+  State<_SidebarNavItem> createState() => _SidebarNavItemState();
+}
+
+class _SidebarNavItemState extends State<_SidebarNavItem> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isSelected = widget.isSelected;
+    final Color bgColor = isSelected
+        ? AppColors.surfaceLight
+        : _isHovered
+            ? AppColors.surfaceLight.withValues(alpha: 0.55)
+            : Colors.transparent;
+    final Color borderColor = isSelected
+        ? AppColors.goldAccent.withValues(alpha: 0.65)
+        : _isFocused
+            ? AppColors.cyanAccent.withValues(alpha: 0.7)
+            : _isHovered
+                ? AppTheme.borderColor
+                : Colors.transparent;
+
+    final iconWidget = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Icon(
+          isSelected ? widget.tab.selectedIcon : widget.tab.icon,
+          size: 19,
+          color: isSelected
+              ? AppColors.goldAccent
+              : (_isHovered ? AppColors.textPrimary : AppColors.textSecondary),
+        ),
+        if (widget.badgeCount > 0 && widget.isCollapsed)
+          Positioned(
+            top: -5,
+            right: -7,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              decoration: BoxDecoration(
+                color: AppColors.crimsonAlert,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.surface, width: 1.2),
+              ),
+              child: Text(
+                widget.badgeCount > 9 ? '9+' : '${widget.badgeCount}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+
+    if (widget.isCollapsed) {
+      return Tooltip(
+        message: '${widget.tab.title}\n${widget.tab.description}',
+        preferBelow: false,
+        child: FocusableActionDetector(
+          onShowHoverHighlight: (v) => setState(() => _isHovered = v),
+          onShowFocusHighlight: (v) => setState(() => _isFocused = v),
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              height: 42,
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: borderColor, width: 1.0),
+              ),
+              child: Center(child: iconWidget),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return FocusableActionDetector(
+      onShowHoverHighlight: (v) => setState(() => _isHovered = v),
+      onShowFocusHighlight: (v) => setState(() => _isFocused = v),
+      child: InkWell(
+        onTap: widget.onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: borderColor, width: 1.0),
+          ),
+          child: Row(
+            children: [
+              iconWidget,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.tab.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: isSelected ? AppColors.goldAccent : AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      widget.tab.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        color: AppColors.textSecondary,
+                        fontSize: 9.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (widget.badgeCount > 0) ...[
+                const SizedBox(width: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppColors.crimsonAlert,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    widget.badgeCount > 99 ? '99+' : '${widget.badgeCount}',
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      color: Colors.white,
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InteractiveActionButton extends StatefulWidget {
+  final String label;
+  final IconData icon;
+  final bool isRaceDay;
+  final bool compact;
+  final VoidCallback onPressed;
+
+  const _InteractiveActionButton({
+    required this.label,
+    required this.icon,
+    required this.isRaceDay,
+    required this.compact,
+    required this.onPressed,
+  });
+
+  @override
+  State<_InteractiveActionButton> createState() => _InteractiveActionButtonState();
+}
+
+class _InteractiveActionButtonState extends State<_InteractiveActionButton> {
+  bool _isHovered = false;
+  bool _isPressed = false;
+  bool _isFocused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Color> gradientColors = widget.isRaceDay
+        ? [
+            _isHovered ? const Color(0xFFDC2626) : AppColors.crimsonAlert,
+            _isHovered ? const Color(0xFFE5C158) : AppColors.goldAccent,
+          ]
+        : [
+            _isHovered ? const Color(0xFFA65756) : AppColors.primaryAccent,
+            _isHovered ? const Color(0xFF753B3A) : const Color(0xFF6B3433),
+          ];
+
+    return FocusableActionDetector(
+      onShowHoverHighlight: (v) => setState(() => _isHovered = v),
+      onShowFocusHighlight: (v) => setState(() => _isFocused = v),
+      child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
+        onTap: widget.onPressed,
+        child: AnimatedScale(
+          scale: _isPressed ? 0.97 : 1.0,
+          duration: const Duration(milliseconds: 120),
+          curve: Curves.easeOutCubic,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            constraints: BoxConstraints(maxWidth: widget.compact ? 170 : 300),
+            padding: EdgeInsets.symmetric(
+              horizontal: widget.compact ? 12 : 18,
+              vertical: widget.compact ? 8 : 11,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: _isFocused
+                    ? AppColors.cyanAccent
+                    : (widget.isRaceDay ? AppColors.goldAccent : AppColors.goldAccent.withValues(alpha: 0.45)),
+                width: _isFocused ? 1.8 : 1.1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: (widget.isRaceDay ? AppColors.crimsonAlert : AppColors.primaryAccent)
+                      .withValues(alpha: _isHovered ? 0.45 : 0.25),
+                  blurRadius: _isHovered ? 14 : 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  widget.icon,
+                  size: widget.compact ? 15 : 18,
+                  color: widget.isRaceDay ? Colors.white : AppColors.goldAccent,
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    widget.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      color: Colors.white,
+                      fontSize: widget.compact ? 11 : 12.5,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// DEDYKOWANY WIDOK: SKRZYNKA ODBIORCZA (INBOX)
+// =============================================================================
+
+class CareerInboxView extends ConsumerStatefulWidget {
+  const CareerInboxView({super.key});
+
+  @override
+  ConsumerState<CareerInboxView> createState() => _CareerInboxViewState();
+}
+
+class _CareerInboxViewState extends ConsumerState<CareerInboxView> {
+  String _filter = 'all';
+  String? _selectedId;
+
+  @override
+  Widget build(BuildContext context) {
+    final careerState = ref.watch(careerStateNotifierProvider);
+    final notifier = ref.read(careerStateNotifierProvider.notifier);
+    final messages = careerState.inboxMessages;
+
+    final filtered = messages.where((m) {
+      if (_filter == 'unread') return !m.isRead;
+      if (_filter == 'race') {
+        return m.category == InboxCategory.raceBriefing ||
+            m.category == InboxCategory.raceResults;
+      }
+      if (_filter == 'medical') return m.category == InboxCategory.medicalReport;
+      if (_filter == 'finance') {
+        return m.category == InboxCategory.finance ||
+            m.category == InboxCategory.sponsorNews ||
+            m.category == InboxCategory.transferMarket;
+      }
+      return true;
+    }).toList();
+
+    final selected = filtered.isEmpty
+        ? null
+        : filtered.firstWhere(
+            (m) => m.id == _selectedId,
+            orElse: () => filtered.first,
+          );
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isWide = constraints.maxWidth >= 900;
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      _buildChip('Wszystkie (${messages.length})', 'all'),
+                      _buildChip('Nieprzeczytane (${careerState.unreadMessagesCount})', 'unread'),
+                      _buildChip('Wyścigi', 'race'),
+                      _buildChip('Medyczne', 'medical'),
+                      _buildChip('Finanse & Transfery', 'finance'),
+                    ],
+                  ),
+                  TextButton.icon(
+                    onPressed: careerState.unreadMessagesCount > 0
+                        ? () => notifier.markAllMessagesAsRead()
+                        : null,
+                    icon: const Icon(Icons.done_all_rounded, size: 16),
+                    label: const Text('Oznacz wszystkie jako przeczytane'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Expanded(
+                child: filtered.isEmpty
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppTheme.borderColor),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Brak wiadomości spełniających kryteria.',
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                          ),
+                        ),
+                      )
+                    : isWide
+                        ? Row(
+                            children: [
+                              Expanded(flex: 5, child: _buildMessageList(filtered, selected, notifier)),
+                              const SizedBox(width: 14),
+                              Expanded(flex: 6, child: _buildMessageDetail(selected!)),
+                            ],
+                          )
+                        : _buildMessageList(filtered, selected, notifier),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildChip(String label, String key) {
+    final selected = _filter == key;
+    return ChoiceChip(
+      label: Text(
+        label,
+        style: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 11.5,
+          fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+          color: selected ? Colors.black : AppColors.textPrimary,
+        ),
+      ),
+      selected: selected,
+      selectedColor: AppColors.goldAccent,
+      backgroundColor: AppColors.surfaceLight,
+      side: BorderSide(color: selected ? AppColors.goldAccent : AppTheme.borderColor),
+      onSelected: (_) => setState(() => _filter = key),
+    );
+  }
+
+  Widget _buildMessageList(
+    List<CareerInboxMessage> filtered,
+    CareerInboxMessage? selected,
+    CareerStateNotifier notifier,
+  ) {
+    return ListView.separated(
+      itemCount: filtered.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      itemBuilder: (ctx, idx) {
+        final msg = filtered[idx];
+        final isSel = selected?.id == msg.id;
+        return InkWell(
+          onTap: () {
+            setState(() => _selectedId = msg.id);
+            if (!msg.isRead) notifier.markMessageAsRead(msg.id);
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: isSel
+                  ? AppColors.surfaceLight
+                  : (msg.isRead ? AppColors.surface : const Color(0xFF1D2230)),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isSel
+                    ? AppColors.goldAccent
+                    : (msg.isRead ? AppTheme.borderColor : AppColors.cyanAccent.withValues(alpha: 0.5)),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  msg.isRead ? Icons.mail_outline_rounded : Icons.mark_email_unread_rounded,
+                  color: msg.isRead ? AppColors.textSecondary : AppColors.goldAccent,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${msg.senderName} • ${msg.senderRole}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          if (msg.priority == InboxPriority.urgent)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: AppColors.crimsonAlert.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: const Text(
+                                'PILNE',
+                                style: TextStyle(
+                                  color: AppColors.crimsonAlert,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        msg.subject,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13,
+                          color: msg.isRead ? AppColors.textPrimary : AppColors.goldAccent,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        msg.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMessageDetail(CareerInboxMessage msg) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  msg.category.label.toUpperCase(),
+                  style: const TextStyle(
+                    color: AppColors.goldAccent,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Text(
+                '${msg.date.day}.${msg.date.month}.${msg.date.year}',
+                style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            msg.subject,
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Od: ${msg.senderName} (${msg.senderRole})',
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 12.5),
+          ),
+          const Divider(height: 28, color: AppTheme.borderColor),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Text(
+                msg.body,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 13.5,
+                  height: 1.55,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// DEDYKOWANY WIDOK: RANKINGI UCI I WALKA O LICENCJĘ WORLDTOUR
+// =============================================================================
+
+class UciRankingsAndLicenseView extends ConsumerWidget {
+  const UciRankingsAndLicenseView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final save = ref.watch(careerProvider).save;
+    if (save == null) {
+      return const Center(child: CircularProgressIndicator(color: AppColors.goldAccent));
+    }
+
+    final sortedTeams = List<CyclingTeam>.from(save.teams)
+      ..sort((a, b) => b.uciPointsSeason.compareTo(a.uciPointsSeason));
+    final playerRank = sortedTeams.indexWhere((t) => t.id == save.playerTeamId) + 1;
+
+    final topRiders = List<Rider>.from(save.riders)
+      ..sort((a, b) => b.overallRating.compareTo(a.overallRating));
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.borderColor),
+            ),
+            child: Wrap(
+              spacing: 24,
+              runSpacing: 12,
+              alignment: WrapAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'KLASYFIKACJA DRUŻYNOWA UCI & LICENCJA WORLDTOUR',
+                      style: TextStyle(
+                        color: AppColors.goldAccent,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Pozycja ${save.playerTeam.name}: #$playerRank / ${sortedTeams.length}',
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      playerRank <= 18
+                          ? 'Strefa bezpieczna licencji UCI WorldTour (Top 18).'
+                          : 'Poza strefą Top 18 — wymagana walka o punkty UCI.',
+                      style: TextStyle(
+                        color: playerRank <= 18 ? AppColors.statusSuccess : AppColors.amberWarning,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                _TopStatusPill(
+                  icon: Icons.stars_rounded,
+                  iconColor: AppColors.goldAccent,
+                  label: '${save.playerTeam.uciPointsSeason} pkt UCI',
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final bool isWide = constraints.maxWidth >= 960;
+              final teamsCard = _buildTeamsTable(sortedTeams, save.playerTeamId);
+              final ridersCard = _buildTopRidersCard(topRiders.take(15).toList(), save.playerTeamId);
+              if (isWide) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 6, child: teamsCard),
+                    const SizedBox(width: 16),
+                    Expanded(flex: 4, child: ridersCard),
+                  ],
+                );
+              }
+              return Column(
+                children: [
+                  teamsCard,
+                  const SizedBox(height: 16),
+                  ridersCard,
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTeamsTable(List<CyclingTeam> teams, String playerTeamId) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Ranking Drużyn (Linia Licencji = #18)',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (int i = 0; i < teams.length && i < 25; i++) ...[
+            if (i == 18)
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.crimsonAlert.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppColors.crimsonAlert.withValues(alpha: 0.5)),
+                ),
+                child: const Text(
+                  'GRANICA LICENCJI UCI WORLDTOUR (TOP 18)',
+                  style: TextStyle(
+                    color: AppColors.crimsonAlert,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+              decoration: BoxDecoration(
+                color: teams[i].id == playerTeamId
+                    ? AppColors.primaryAccent.withValues(alpha: 0.22)
+                    : AppColors.surfaceLight,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: teams[i].id == playerTeamId
+                      ? AppColors.goldAccent
+                      : AppTheme.borderColor,
+                ),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 28,
+                    child: Text(
+                      '#${i + 1}',
+                      style: TextStyle(
+                        color: i < 18 ? AppColors.goldAccent : AppColors.textSecondary,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      teams[i].name,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12.5,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    teams[i].division.label,
+                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 10.5),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    '${teams[i].uciPointsSeason} pkt',
+                    style: const TextStyle(
+                      color: AppColors.cyanAccent,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTopRidersCard(List<Rider> riders, String playerTeamId) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Top Kolarze Świata (OVR)',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (int i = 0; i < riders.length; i++)
+            Container(
+              margin: const EdgeInsets.only(bottom: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: riders[i].teamId == playerTeamId
+                    ? AppColors.primaryAccent.withValues(alpha: 0.2)
+                    : AppColors.surfaceLight,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.borderColor),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 26,
+                    child: Text(
+                      '#${i + 1}',
+                      style: const TextStyle(
+                        color: AppColors.goldAccent,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 11.5,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      riders[i].fullName,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'OVR ${riders[i].overallRating}',
+                    style: const TextStyle(
+                      color: AppColors.statusSuccess,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// DEDYKOWANY WIDOK: PROFIL MENEDŻERA I OSIĄGNIĘCIA
+// =============================================================================
+
+class ManagerProfileAndAchievementsView extends ConsumerWidget {
+  const ManagerProfileAndAchievementsView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final save = ref.watch(careerProvider).save;
+    if (save == null) {
+      return const Center(child: CircularProgressIndicator(color: AppColors.goldAccent));
+    }
+
+    final achievements = [
+      (
+        'Pierwsze Trofeum',
+        'Zdobądź pierwsze zwycięstwo lub trofeum w karierze.',
+        save.trophiesWon.isNotEmpty,
+        Icons.emoji_events_rounded,
+      ),
+      (
+        'Inżynier Aerodynamiki',
+        'Rozbuduj Tunel Aerodynamiczny co najmniej do poziomu 3.',
+        save.windTunnelLevel >= 3,
+        Icons.air_rounded,
+      ),
+      (
+        'Klinika WorldTour',
+        'Rozbuduj Centrum Medyczne co najmniej do poziomu 3.',
+        save.medicalCenterLevel >= 3,
+        Icons.medical_services_rounded,
+      ),
+      (
+        'Stabilne Finanse',
+        'Utrzymuj ponad €2,000,000 na koncie drużyny.',
+        save.playerTeam.cashBalanceEur >= 2000000,
+        Icons.account_balance_wallet_rounded,
+      ),
+      (
+        'Elita WorldTour',
+        'Osiągnij reputację menedżerską 75+.',
+        save.managerReputation >= 75,
+        Icons.military_tech_rounded,
+      ),
+      (
+        'Baza Logistyczna Pro',
+        'Rozbuduj Service Course co najmniej do poziomu 3.',
+        save.serviceCourseLevel >= 3,
+        Icons.warehouse_rounded,
+      ),
+    ];
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.borderColor),
+            ),
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 16,
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _TeamCrestBadge(team: save.playerTeam, size: 52),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            save.playerManagerName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${save.playerTeam.name} • Sezon ${save.currentSeasonYear}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            save.difficulty.label,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: AppColors.goldAccent, fontSize: 11.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Reputacja: ${save.managerReputation} / 100',
+                      style: const TextStyle(
+                        color: AppColors.goldAccent,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      width: 200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: LinearProgressIndicator(
+                          value: (save.managerReputation / 100).clamp(0.0, 1.0),
+                          minHeight: 8,
+                          backgroundColor: AppColors.surfaceLight,
+                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.goldAccent),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              _infraCard('Service Course', 'Poziom ${save.serviceCourseLevel} / 5', Icons.build_rounded),
+              _infraCard('Tunel Aero', 'Poziom ${save.windTunnelLevel} / 5', Icons.air_rounded),
+              _infraCard('Centrum Medyczne', 'Poziom ${save.medicalCenterLevel} / 5', Icons.local_hospital_rounded),
+              _infraCard('Trofea w Gablocie', '${save.trophiesWon.length}', Icons.emoji_events_rounded),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Osiągnięcia Kariery',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: achievements.map((a) {
+              final unlocked = a.$3;
+              return Container(
+                width: 280,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: unlocked ? AppColors.goldAccent : AppTheme.borderColor,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: unlocked
+                            ? AppColors.goldAccent.withValues(alpha: 0.18)
+                            : AppColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        a.$4,
+                        color: unlocked ? AppColors.goldAccent : AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            a.$1,
+                            style: TextStyle(
+                              color: unlocked ? AppColors.goldAccent : AppColors.textPrimary,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            a.$2,
+                            style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _infraCard(String title, String value, IconData icon) {
+    return Container(
+      width: 200,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.cyanAccent, size: 22),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

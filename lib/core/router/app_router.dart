@@ -11,9 +11,13 @@ import '../../models/rider/rider.dart';
 import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
+import '../../ui/screens/development_academy_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
+import '../../ui/screens/hall_of_fame_and_records_screen.dart';
+import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
 import '../../ui/screens/main_title_menu_screen.dart';
+import '../../ui/screens/medical_and_recovery_center_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
 import '../../ui/screens/post_stage_podium_screen.dart';
@@ -24,6 +28,8 @@ import '../../ui/screens/rider_detail_screen.dart';
 import '../../ui/screens/settings_and_mod_screen.dart';
 import '../../ui/screens/sponsors_and_finance_screen.dart';
 import '../../ui/screens/squad_roster_screen.dart';
+import '../../ui/screens/staff_management_screen.dart';
+import '../../ui/screens/stage_editor_creator_screen.dart';
 import '../../ui/screens/team_builder_hierarchy_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
@@ -42,16 +48,25 @@ abstract class AppRoutes {
   /// Główna powłoka menedżera (MainShell)
   static const String career = '/career';
   static const String dashboard = '/career/dashboard';
+  static const String inbox = '/career/inbox';
+  static const String calendar = '/career/calendar';
   static const String roster = '/career/roster';
   static const String riderDetail = '/career/rider/:riderId';
   static const String teamBuilder = '/career/team-builder';
-  static const String garage = '/career/garage';
-  static const String sponsors = '/career/sponsors';
-  static const String transfers = '/career/transfers';
-  static const String calendar = '/career/calendar';
   static const String training = '/career/training';
   static const String physiologyLab = '/career/lab';
+  static const String medical = '/career/medical';
+  static const String academy = '/career/academy';
+  static const String staff = '/career/staff';
+  static const String garage = '/career/garage';
   static const String windTunnel = '/career/wind-tunnel';
+  static const String sponsors = '/career/sponsors';
+  static const String transfers = '/career/transfers';
+  static const String liveryStudio = '/career/livery-studio';
+  static const String uciRankings = '/career/uci-rankings';
+  static const String hallOfFame = '/career/hall-of-fame';
+  static const String managerProfile = '/career/manager-profile';
+  static const String stageEditor = '/career/stage-editor';
   static const String settings = '/career/settings';
 
   /// Ścieżki wyścigowe (Race Routes)
@@ -72,16 +87,25 @@ abstract class AppRouteNames {
 
   static const String career = 'career';
   static const String dashboard = 'dashboard';
+  static const String inbox = 'inbox';
+  static const String calendar = 'calendar';
   static const String roster = 'roster';
   static const String riderDetail = 'riderDetail';
   static const String teamBuilder = 'teamBuilder';
-  static const String garage = 'garage';
-  static const String sponsors = 'sponsors';
-  static const String transfers = 'transfers';
-  static const String calendar = 'calendar';
   static const String training = 'training';
   static const String physiologyLab = 'physiologyLab';
+  static const String medical = 'medical';
+  static const String academy = 'academy';
+  static const String staff = 'staff';
+  static const String garage = 'garage';
   static const String windTunnel = 'windTunnel';
+  static const String sponsors = 'sponsors';
+  static const String transfers = 'transfers';
+  static const String liveryStudio = 'liveryStudio';
+  static const String uciRankings = 'uciRankings';
+  static const String hallOfFame = 'hallOfFame';
+  static const String managerProfile = 'managerProfile';
+  static const String stageEditor = 'stageEditor';
   static const String settings = 'settings';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
@@ -158,6 +182,20 @@ GoRouter createAppRouter({
             ),
           ),
           GoRoute(
+            path: AppRoutes.inbox,
+            name: AppRouteNames.inbox,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: CareerInboxView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.calendar,
+            name: AppRouteNames.calendar,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: CalendarAndRacePlannerScreen(showAppBar: false),
+            ),
+          ),
+          GoRoute(
             path: AppRoutes.roster,
             name: AppRouteNames.roster,
             pageBuilder: (context, state) => const NoTransitionPage(
@@ -187,38 +225,6 @@ GoRouter createAppRouter({
             ),
           ),
           GoRoute(
-            path: AppRoutes.garage,
-            name: AppRouteNames.garage,
-            pageBuilder: (context, state) {
-              final extra = state.extra;
-              final initialBike = extra is CompleteBike ? extra : null;
-              return NoTransitionPage(
-                child: BikeGarageRndScreen(initialBike: initialBike),
-              );
-            },
-          ),
-          GoRoute(
-            path: AppRoutes.sponsors,
-            name: AppRouteNames.sponsors,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SponsorsAndFinanceScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.transfers,
-            name: AppRouteNames.transfers,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TransferMarketScoutingScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.calendar,
-            name: AppRouteNames.calendar,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CalendarAndRacePlannerScreen(showAppBar: false),
-            ),
-          ),
-          GoRoute(
             path: AppRoutes.training,
             name: AppRouteNames.training,
             pageBuilder: (context, state) {
@@ -245,6 +251,50 @@ GoRouter createAppRouter({
             },
           ),
           GoRoute(
+            path: AppRoutes.medical,
+            name: AppRouteNames.medical,
+            pageBuilder: (context, state) {
+              final riderId = state.uri.queryParameters['riderId'];
+              return NoTransitionPage(
+                child: MedicalAndRecoveryCenterScreen(
+                  showAppBar: false,
+                  initialRiderId: riderId,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.academy,
+            name: AppRouteNames.academy,
+            pageBuilder: (context, state) {
+              final riderId = state.uri.queryParameters['riderId'];
+              return NoTransitionPage(
+                child: DevelopmentAcademyScreen(
+                  showAppBar: false,
+                  initialRiderId: riderId,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.staff,
+            name: AppRouteNames.staff,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: StaffManagementScreen(showAppBar: false),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.garage,
+            name: AppRouteNames.garage,
+            pageBuilder: (context, state) {
+              final extra = state.extra;
+              final initialBike = extra is CompleteBike ? extra : null;
+              return NoTransitionPage(
+                child: BikeGarageRndScreen(initialBike: initialBike),
+              );
+            },
+          ),
+          GoRoute(
             path: AppRoutes.windTunnel,
             name: AppRouteNames.windTunnel,
             pageBuilder: (context, state) {
@@ -256,6 +306,55 @@ GoRouter createAppRouter({
                 ),
               );
             },
+          ),
+          GoRoute(
+            path: AppRoutes.sponsors,
+            name: AppRouteNames.sponsors,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: SponsorsAndFinanceScreen(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.transfers,
+            name: AppRouteNames.transfers,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: TransferMarketScoutingScreen(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.liveryStudio,
+            name: AppRouteNames.liveryStudio,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: JerseyAndBikeLiveryStudioScreen(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.uciRankings,
+            name: AppRouteNames.uciRankings,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: UciRankingsAndLicenseView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.hallOfFame,
+            name: AppRouteNames.hallOfFame,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: HallOfFameAndRecordsScreen(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.managerProfile,
+            name: AppRouteNames.managerProfile,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: ManagerProfileAndAchievementsView(),
+            ),
+          ),
+          GoRoute(
+            path: AppRoutes.stageEditor,
+            name: AppRouteNames.stageEditor,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: StageEditorCreatorScreen(),
+            ),
           ),
           GoRoute(
             path: AppRoutes.settings,
@@ -350,6 +449,9 @@ extension AppRouterNavigationExtensions on BuildContext {
   /// Nawigacja do pulpitu dowodzenia (Dashboard HQ)
   void goToDashboard() => go(AppRoutes.dashboard);
 
+  /// Nawigacja do skrzynki odbiorczej (Inbox)
+  void goToInbox() => go(AppRoutes.inbox);
+
   /// Nawigacja do kadry i kolarzy
   void goToRoster() => go(AppRoutes.roster);
 
@@ -360,15 +462,54 @@ extension AppRouterNavigationExtensions on BuildContext {
   /// Nawigacja do hierarchii i budowy formacji
   void goToTeamBuilder() => go(AppRoutes.teamBuilder);
 
+  /// Nawigacja do centrum medycznego i regeneracji
+  void goToMedical({String? riderId}) => go(
+        riderId != null
+            ? '${AppRoutes.medical}?riderId=$riderId'
+            : AppRoutes.medical,
+      );
+
+  /// Nawigacja do akademii młodzieżowej U23
+  void goToAcademy({String? riderId}) => go(
+        riderId != null
+            ? '${AppRoutes.academy}?riderId=$riderId'
+            : AppRoutes.academy,
+      );
+
+  /// Nawigacja do zarządzania sztabem szkoleniowym
+  void goToStaff() => go(AppRoutes.staff);
+
   /// Nawigacja do warsztatu i garażu rowerowego
   void goToGarage({CompleteBike? initialBike}) =>
       go(AppRoutes.garage, extra: initialBike);
+
+  /// Nawigacja do tunelu aerodynamicznego i bike fittingu
+  void goToWindTunnel({String? riderId}) => go(
+        riderId != null
+            ? '${AppRoutes.windTunnel}?riderId=$riderId'
+            : AppRoutes.windTunnel,
+      );
 
   /// Nawigacja do finansów i sponsorów
   void goToSponsors() => go(AppRoutes.sponsors);
 
   /// Nawigacja do rynku transferowego i skautingu
   void goToTransfers() => go(AppRoutes.transfers);
+
+  /// Nawigacja do studia malowania rowerów i koszulek
+  void goToLiveryStudio() => go(AppRoutes.liveryStudio);
+
+  /// Nawigacja do rankingów UCI i walki o licencję
+  void goToUciRankings() => go(AppRoutes.uciRankings);
+
+  /// Nawigacja do gabloty trofeów i rekordów górskich
+  void goToHallOfFame() => go(AppRoutes.hallOfFame);
+
+  /// Nawigacja do profilu menedżera i osiągnięć
+  void goToManagerProfile() => go(AppRoutes.managerProfile);
+
+  /// Nawigacja do kreatora tras i etapów
+  void goToStageEditor() => go(AppRoutes.stageEditor);
 
   /// Nawigacja do kalendarza sezonu
   void goToCalendar() => go(AppRoutes.calendar);
