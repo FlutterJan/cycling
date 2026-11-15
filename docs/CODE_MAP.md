@@ -57,6 +57,7 @@
 - `lib/core/theme/app_theme.dart` — Ciemny motyw `ThemeData`, typografia `Inter` i style kart.
 - `lib/core/utils/formatters.dart` — Formatery czasu, walut (`€`), watów, prędkości i dystansu.
 - `lib/core/utils/performance_profiler_overlay.dart` — Nakładka diagnostyczna `PerformanceProfilerOverlay` (`F3`, FPS, Frame Time Graph, telemetria `PerformanceTelemetryRegistry` Isolate/LOD/RAM).
+- `lib/core/utils/windows_desktop_window_config.dart` — Konfiguracja okna Desktop (`WindowsDesktopWindowConfig`, `DesktopResponsiveScaler`, `DesktopWindowStatusBar`, `DesktopWindowController`, `desktopWindowProvider`: skalowanie 720p–4K, `F11` pełny ekran, obciążenie fizyki Isolate, `Screenshot Mode` `F12`).
 
 ### `lib/models/`
 - `lib/models/career/career_save.dart` — Model pełnego zapisu kariery.

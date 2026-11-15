@@ -632,7 +632,7 @@ Zasady działania pętli:
 
   3. `AnimatedStatBadge`: kafelek statystyki (np. `6.4 W/kg`, `FTP 415W`) z animowanym licznikiem `TweenAnimationBuilder`, który przy zmianie wartości płynnie przelicza cyfry. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #191** (`lib/core/utils/windows_desktop_window_config.dart`): Stwórz kompletną konfigurację okna i skalowania dla wersji Desktop (`Windows` oraz `macOS`) w klasie `WindowsDesktopWindowConfig`. Zaimplementuj:
+- [x] **Zadanie #191** (`lib/core/utils/windows_desktop_window_config.dart`): Stwórz kompletną konfigurację okna i skalowania dla wersji Desktop (`Windows` oraz `macOS`) w klasie `WindowsDesktopWindowConfig`. Zaimplementuj:
 
   1. Responsywny wrapper skalujący interfejs (`DesktopResponsiveScaler`), który gwarantuje ostrość czcionek i idealne proporcje kart na rozdzielczościach od `1280x720`, przez `1920x1080` (Full HD), `2560x1440` (QHD) aż po `3840x2160` (4K).
 
