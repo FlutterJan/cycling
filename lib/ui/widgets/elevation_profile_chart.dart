@@ -424,25 +424,37 @@ class _ElevationProfileChartState extends State<ElevationProfileChart> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Text(
-                'Premie górskie: $komCount',
-                style: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                'Lotne finisze: $sprintCount',
-                style: const TextStyle(
-                    color: Color(0xFF2ECC71),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700),
-              ),
-            ],
+          Flexible(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    'Premie górskie: $komCount',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    'Lotne finisze: $sprintCount',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Color(0xFF2ECC71),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           const Flexible(
             child: Text(
               'Dotknij i przeciągnij palcem, by sprawdzić nachylenie trasy',

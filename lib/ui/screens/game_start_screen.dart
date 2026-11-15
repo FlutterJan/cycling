@@ -361,6 +361,14 @@ class _GameStartScreenState extends ConsumerState<GameStartScreen> {
             isHighlight: !hasActiveCareer,
           ),
           _buildActionCard(
+            title: 'Szybki Wyścig 3D',
+            subtitle: 'Laboratorium Taktyczne Sandbox • Wyścig 3D w 10 sekund',
+            icon: Icons.view_in_ar_rounded,
+            accentColor: AppColors.accentBlue,
+            onTap: () => context.goToQuickRaceSandbox(),
+            isHighlight: false,
+          ),
+          _buildActionCard(
             title: 'Szybki Start 2026',
             subtitle: 'Błyskawiczne rozpoczęcie sezonu z zespołem Aethelgard Veloce',
             icon: Icons.bolt_rounded,
@@ -380,6 +388,7 @@ class _GameStartScreenState extends ConsumerState<GameStartScreen> {
 
         if (isWide) {
           return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: children
                 .map((w) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: w)))
                 .toList(),

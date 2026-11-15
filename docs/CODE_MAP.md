@@ -188,6 +188,7 @@
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).
 - `lib/ui/screens/post_stage_podium_screen.dart` — Ceremonia podium i klasyfikacje po etapie.
 - `lib/ui/screens/pre_race_briefing_screen.dart` — Odprawa przedstartowa i wybór składu.
+- `lib/ui/screens/quick_race_sandbox_screen.dart` — Szybki Wyścig / Laboratorium Taktyczne Sandbox 3D (`QuickRaceSandboxScreen`).
 - `lib/ui/screens/race_3d_viewport_widget.dart` — Główny viewport 3D wyścigu.
 - `lib/ui/screens/race_hud_overlay.dart` — Warstwa HUD na ekranie wyścigu 3D.
 - `lib/ui/screens/race_simulation_screen.dart` — Ekran wyścigu łączący 3D viewport, HUD i kontrolki.

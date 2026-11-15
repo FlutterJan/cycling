@@ -17,6 +17,7 @@ import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
 import '../../ui/screens/post_stage_podium_screen.dart';
 import '../../ui/screens/pre_race_briefing_screen.dart';
+import '../../ui/screens/quick_race_sandbox_screen.dart';
 import '../../ui/screens/race_simulation_screen.dart';
 import '../../ui/screens/rider_detail_screen.dart';
 import '../../ui/screens/settings_and_mod_screen.dart';
@@ -53,6 +54,7 @@ abstract class AppRoutes {
   static const String settings = '/career/settings';
 
   /// Ścieżki wyścigowe (Race Routes)
+  static const String quickRaceSandbox = '/quick-race-sandbox';
   static const String raceBriefing = '/race/briefing';
   static const String raceLive = '/race/live';
   static const String racePodium = '/race/podium';
@@ -81,6 +83,7 @@ abstract class AppRouteNames {
   static const String windTunnel = 'windTunnel';
   static const String settings = 'settings';
 
+  static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
   static const String raceLive = 'raceLive';
   static const String racePodium = 'racePodium';
@@ -269,6 +272,11 @@ GoRouter createAppRouter({
 
       // 4. Ścieżki wyścigowe (pełnoekranowe poza powłoką menedżera)
       GoRoute(
+        path: AppRoutes.quickRaceSandbox,
+        name: AppRouteNames.quickRaceSandbox,
+        builder: (context, state) => const QuickRaceSandboxScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.raceBriefing,
         name: AppRouteNames.raceBriefing,
         builder: (context, state) {
@@ -285,7 +293,13 @@ GoRouter createAppRouter({
       GoRoute(
         path: AppRoutes.raceLive,
         name: AppRouteNames.raceLive,
-        builder: (context, state) => const RaceSimulationScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final initialCameraMode =
+              extra?['initialCameraMode'] as RaceCameraMode? ??
+                  RaceCameraMode.profile2D;
+          return RaceSimulationScreen(initialCameraMode: initialCameraMode);
+        },
       ),
       GoRoute(
         path: AppRoutes.racePodium,
@@ -375,12 +389,16 @@ extension AppRouterNavigationExtensions on BuildContext {
   /// Nawigacja do ustawień i modowania
   void goToSettings({int tab = 0}) => go('${AppRoutes.settings}?tab=$tab');
 
+  /// Nawigacja do Laboratorium Taktycznego Sandbox (Szybki Wyścig 3D)
+  void goToQuickRaceSandbox() => go(AppRoutes.quickRaceSandbox);
+
   /// Nawigacja do taktycznej odprawy przedetapowej
   void goToRaceBriefing({RaceStage? stage, TourRace? race}) =>
       go(AppRoutes.raceBriefing, extra: {'stage': stage, 'race': race});
 
   /// Nawigacja do symulacji wyścigu 3D na żywo
-  void goToRaceLive() => go(AppRoutes.raceLive);
+  void goToRaceLive({RaceCameraMode initialCameraMode = RaceCameraMode.profile2D}) =>
+      go(AppRoutes.raceLive, extra: {'initialCameraMode': initialCameraMode});
 
   /// Nawigacja do podium i raportu po etapie
   void goToRacePodium({

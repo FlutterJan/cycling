@@ -67,15 +67,26 @@ enum RaceCameraMode {
 
 /// Główny ekran interaktywnej symulacji wyścigu kolarskiego (Tryb 3D / HUD Live).
 class RaceSimulationScreen extends ConsumerStatefulWidget {
-  const RaceSimulationScreen({super.key});
+  final RaceCameraMode initialCameraMode;
+
+  const RaceSimulationScreen({
+    super.key,
+    this.initialCameraMode = RaceCameraMode.profile2D,
+  });
 
   @override
   ConsumerState<RaceSimulationScreen> createState() => _RaceSimulationScreenState();
 }
 
 class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
-  RaceCameraMode _cameraMode = RaceCameraMode.profile2D;
+  late RaceCameraMode _cameraMode;
   bool _showMinimap = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _cameraMode = widget.initialCameraMode;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -409,7 +409,7 @@ Zasady działania pętli:
 
   3. Wizualny, półprzezroczysty modal `ShortcutsCheatSheetOverlay` wyświetlający eleganckie kafelki klawiszy (Keycaps w stylu `#222630` z obramowaniem 3D) pogrupowane na sekcje. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #166** (`lib/ui/screens/quick_race_sandbox_screen.dart`): Zbuduj dopracowany wizualnie ekran `QuickRaceSandboxScreen` ("Szybki Wyścig / Laboratorium Taktyczne Sandbox") pozwalający graczowi skonfigurować i uruchomić dowolny wyścig 3D w 10 sekund z poziomu menu głównego. Zaimplementuj:
+- [x] **Zadanie #166** (`lib/ui/screens/quick_race_sandbox_screen.dart`): Zbuduj dopracowany wizualnie ekran `QuickRaceSandboxScreen` ("Szybki Wyścig / Laboratorium Taktyczne Sandbox") pozwalający graczowi skonfigurować i uruchomić dowolny wyścig 3D w 10 sekund z poziomu menu głównego. Zaimplementuj:
 
   1. Trójkolumnowy układ Bento Grid (automatycznie składający się do zakładek na telefonie):
 

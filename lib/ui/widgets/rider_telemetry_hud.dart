@@ -188,14 +188,19 @@ class RiderTelemetryHud extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Bateria W\' (Beztlenowa)',
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
+                  const Flexible(
+                    child: Text(
+                      'Bateria W\' (Beztlenowa)',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 6),
                   Text(
                     '${(wPrimePercent * 100).round()}%',
                     style: TextStyle(
