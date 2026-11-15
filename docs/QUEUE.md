@@ -608,7 +608,7 @@ Zasady działania pętli:
 
   3. Pełną integrację z kamerami (`ChaseCam`, `MotoTvCam`, `HeliCam`, `FinishLineCam`) oraz fizyką omijania kolizji z zadania #184. Dzięki temu wyścig wygląda spektakularnie w 3D w każdej sytuacji! Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #188** (`lib/ui/screens/team_bus_locker_room_screen.dart`): Stwórz klimatyczny ekran Wnętrza Autobusu Drużyny przed startem etapu `TeamBusLockerRoomScreen`, który buduje niesamowitą immersję rodem z dokumentów kolarskich (styl *Tour de France: W sercu peletonu*). Zaimplementuj:
+- [x] **Zadanie #188** (`lib/ui/screens/team_bus_locker_room_screen.dart`): Stwórz klimatyczny ekran Wnętrza Autobusu Drużyny przed startem etapu `TeamBusLockerRoomScreen`, który buduje niesamowitą immersję rodem z dokumentów kolarskich (styl *Tour de France: W sercu peletonu*). Zaimplementuj:
 
   1. Wizualizację nowoczesnego wnętrza autobusu zespołu (`CustomPainter` z fotelami skórzanymi, oświetleniem LED w barwach drużyny, ekranem taktycznym TV na ścianie i zawieszonymi koszulkami startowymi kolarzy).
 

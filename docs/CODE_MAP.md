@@ -209,6 +209,7 @@
 - `lib/ui/screens/stage_editor_creator_screen.dart` — Kreator własnych etapów i profili.
 - `lib/ui/screens/strava_style_stage_analysis_screen.dart` — Analiza telemetryczna po etapie w stylu Strava.
 - `lib/ui/screens/team_builder_hierarchy_screen.dart` — Hierarchia liderów i pociągi sprinterskie.
+- `lib/ui/screens/team_bus_locker_room_screen.dart` — Wnętrze Autobusu Drużyny przed startem (`TeamBusLockerRoomScreen`, `TeamBusInteriorPainter`, `DirectorSpeechOption`, `TeamBusRiderSlot`, `TeamBusBriefingResult`).
 - `lib/ui/screens/training_and_camps_screen.dart` — Obozy treningowe i plany obciążeń.
 - `lib/ui/screens/transfer_market_scouting_screen.dart` — Rynek transferowy i negocjacje.
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
