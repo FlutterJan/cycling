@@ -219,6 +219,7 @@
 - `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/bike_preview_painter.dart` — Wektorowy podgląd roweru drużynowego.
+- `lib/ui/widgets/custom_carbon_and_glass_containers.dart` — Luksusowe kontenery UI (`CustomCarbonAndGlassContainers`, `CarbonFiberCard` 3K 45°, `GlassmorphicHudPanel` blur 14px + szum, `AnimatedStatBadge` z `TweenAnimationBuilder`).
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.

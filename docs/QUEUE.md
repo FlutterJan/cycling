@@ -624,7 +624,7 @@ Zasady działania pętli:
 
   3. Mechanikę odkrywania dyspozycji dnia: na starcie etapu dyspozycja rywali (oraz kolarzy gracza, którzy nie zrobili rozgrzewki na trenażerze) jest ukryta pod znakiem `?` i odkrywa się dopiero, gdy tętno kolarza przekroczy próg $LT_1$ na pierwszym podjeździe! Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #190** (`lib/ui/widgets/custom_carbon_and_glass_containers.dart`): Stwórz bibliotekę luksusowych komponentów wizualnych wielokrotnego użytku `CustomCarbonAndGlassContainers`, która nada wszystkim ekranom gry wygląd przewyższający EA Sports FC i nowoczesne aplikacje iOS. Zaimplementuj:
+- [x] **Zadanie #190** (`lib/ui/widgets/custom_carbon_and_glass_containers.dart`): Stwórz bibliotekę luksusowych komponentów wizualnych wielokrotnego użytku `CustomCarbonAndGlassContainers`, która nada wszystkim ekranom gry wygląd przewyższający EA Sports FC i nowoczesne aplikacje iOS. Zaimplementuj:
 
   1. `CarbonFiberCard`: kontener z proceduralnie rysowaną w tle subtelną mikroteksturą włókna węglowego (Carbon 3K weave pod kątem $45^\circ$), ciemnym lakierem `#181B22`, odbiciem światła na górnej krawędzi (1px gradient `#3A4154` do przezroczystości) oraz płynnym podświetleniem obramowania na kolor `#8E4A49` lub `#D4AF37` po najechaniu kursorem (`MouseRegion`).
 
