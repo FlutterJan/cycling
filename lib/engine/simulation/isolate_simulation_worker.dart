@@ -18,6 +18,7 @@ import '../../services/generators/world_teams_generator.dart';
 import '../../state/race_simulation_notifier.dart';
 import '../events/race_incident_engine.dart';
 import '../events/race_radio_generator.dart';
+import '../engine_integration_bridge.dart';
 import '../peloton/drafting_grid_system.dart';
 import '../peloton/rider_race_state.dart';
 import 'key_moments_detector.dart';
@@ -460,6 +461,7 @@ void _isolateSimulationEntryPoint(SendPort uiSendPort) {
       state: updatedState,
       allRidersMap: simulationLoop!.allRidersMap,
       allTeamsMap: simulationLoop!.allTeamsMap,
+      integrationBridge: simulationLoop!.integrationBridge,
       computeDurationMs: stopwatch.elapsedMicroseconds / 1000.0,
     );
 
@@ -566,6 +568,7 @@ SimulationSnapshot _buildSnapshotFromState({
   required StageSimulationState state,
   required Map<String, Rider> allRidersMap,
   required Map<String, CyclingTeam> allTeamsMap,
+  EngineIntegrationBridge? integrationBridge,
   required double computeDurationMs,
 }) {
   final List<RiderSimulationFrame> riderFrames = [];
@@ -636,9 +639,12 @@ SimulationSnapshot _buildSnapshotFromState({
       }
     }
 
-    final bool isDrafting = rState.activeTacticalOrder != TacticalOrder.pullGroup &&
-        (group != null && group.riderCount > 1);
-    final double draftingSavings = isDrafting ? 32.0 : 0.0;
+    final bool isDrafting = integrationBridge?.isRiderDrafting(riderId) ??
+        (rState.activeTacticalOrder != TacticalOrder.pullGroup &&
+            (group != null && group.riderCount > 1));
+    final double draftingSavings =
+        integrationBridge?.draftingSavingsPercentForRider(riderId) ??
+            (isDrafting ? 32.0 : 0.0);
 
     riderFrames.add(RiderSimulationFrame(
       riderId: riderId,

@@ -20,6 +20,7 @@ import '../physics/heart_rate_simulator.dart';
 import '../physics/nutrition_and_glycogen_engine.dart';
 import '../physics/speed_solver.dart';
 import '../physics/w_prime_balance_engine.dart';
+import '../engine_integration_bridge.dart';
 import 'key_moments_detector.dart';
 
 /// Mnożnik prędkości symulacji etapu.
@@ -228,6 +229,7 @@ class StageSimulationLoop {
   final Map<String, CompleteBike> allBikesMap;
   final Map<String, CyclingTeam> allTeamsMap;
   final math.Random random;
+  final EngineIntegrationBridge integrationBridge;
 
   StageSimulationState state;
 
@@ -236,8 +238,18 @@ class StageSimulationLoop {
     required this.allBikesMap,
     required this.allTeamsMap,
     required this.state,
+    EngineIntegrationBridge? integrationBridge,
     math.Random? random,
-  }) : random = random ?? math.Random();
+  })  : random = random ?? math.Random(),
+        integrationBridge = integrationBridge ??
+            EngineIntegrationBridge.initializeStage(
+              stage: state.stage,
+              playerTeamId: state.playerTeamId,
+              allRidersMap: allRidersMap,
+              allBikesMap: allBikesMap,
+              allTeamsMap: allTeamsMap,
+              random: random,
+            );
 
   /// Tworzy nową instancję pętli na starcie etapu.
   factory StageSimulationLoop.initializeStage({
@@ -303,11 +315,21 @@ class StageSimulationLoop {
       timeSpeed: SimulationTimeSpeed.x1,
     );
 
+    final bridge = EngineIntegrationBridge.initializeStage(
+      stage: stage,
+      playerTeamId: playerTeamId,
+      allRidersMap: allRidersMap,
+      allBikesMap: allBikesMap,
+      allTeamsMap: allTeamsMap,
+      random: random,
+    );
+
     return StageSimulationLoop(
       allRidersMap: allRidersMap,
       allBikesMap: allBikesMap,
       allTeamsMap: allTeamsMap,
       state: initialState,
+      integrationBridge: bridge,
       random: random,
     );
   }
@@ -347,6 +369,11 @@ class StageSimulationLoop {
           );
 
     final double groupSpeedMs = math.max(8.0, mainGroup.averageSpeedKmh / 3.6);
+    final List<StageSegment> upcomingSegments =
+        currentSegIdx + 1 < state.stage.segments.length
+            ? state.stage.segments.sublist(currentSegIdx + 1)
+            : const [];
+    final Set<String> playerRiderSet = state.playerRiderIds.toSet();
 
     for (final entry in state.riderStates.entries) {
       final String rId = entry.key;
@@ -354,6 +381,8 @@ class StageSimulationLoop {
       final Rider? rider = allRidersMap[rId];
       final CompleteBike? bike = allBikesMap[rId];
       if (rider == null || bike == null) continue;
+
+      final bool isPlayer = playerRiderSet.contains(rId);
 
       // A) Przetwarzanie rozkazu taktycznego
       final tacticalResult = TacticalOrdersProcessor.processOrder(
@@ -366,51 +395,67 @@ class StageSimulationLoop {
         timeStepSeconds: dt,
       );
 
-      // B) Sprawdzenie metabolizmu i glikogenu (weryfikacja stanu bonk)
+      // A2) Zintegrowana ewaluacja fizyki, fizjologii, sprzętu, AI i Boids (#206)
+      final integrated = integrationBridge.evaluateRiderPreStep(
+        rider: rider,
+        bike: bike,
+        riderState: rState,
+        stage: state.stage,
+        segment: currentSegment,
+        currentDraftingModifier: tacticalResult.draftingModifier,
+        timeStepSeconds: dt,
+        isPlayerRider: isPlayer,
+        distanceRemainingKm: math.max(0.0, stageLengthKm - (rState.distanceCoveredMeters / 1000.0)),
+        upcomingSegments: upcomingSegments,
+      );
+
+      final double desiredWatts = integrated.aiDecision != null
+          ? integrated.aiDecision!.targetWatts.toDouble()
+          : tacticalResult.targetWatts.toDouble();
+
+      // B) Sprawdzenie metabolizmu i glikogenu (z LT1/LT2/VLaMax oraz dyspozycją dnia)
       final nutritionResult = NutritionAndGlycogenEngine.update(
-        state: state.nutritionStates[rId] ?? NutritionState.initial(rider.physiology),
-        currentPowerWatts: tacticalResult.targetWatts.toDouble(),
-        physiology: rider.physiology,
+        state: state.nutritionStates[rId] ?? NutritionState.initial(integrated.effectivePhysiology),
+        currentPowerWatts: desiredWatts * integrated.lactateGlycogenBurnMultiplier,
+        physiology: integrated.effectivePhysiology,
         temperatureCelsius: state.stage.baseTemperatureCelsius,
         timeStepSeconds: dt,
       );
       updatedNutrition[rId] = nutritionResult.newState;
 
-      // C) Sprawdzenie zapasu beztlenowego W' (odcięcie beztlenowe)
+      // C) Sprawdzenie zapasu beztlenowego W' (z uwzględnieniem FTP/W' po Noga Dnia i Wysokości/Upale)
       final wPrimeResult = WPrimeBalanceEngine.update(
-        state: state.wPrimeStates[rId] ?? WPrimeState.initial(rider.physiology),
-        targetPowerWatts: tacticalResult.targetWatts.toDouble(),
-        physiology: rider.physiology,
+        state: state.wPrimeStates[rId] ?? WPrimeState.initial(integrated.effectivePhysiology),
+        targetPowerWatts: desiredWatts,
+        physiology: integrated.effectivePhysiology,
         timeStepSeconds: dt,
       );
       updatedWPrime[rId] = wPrimeResult.newState;
 
       final double actualExecutedWatts = wPrimeResult.actualPowerWatts;
 
-      // D) Rozwiązanie równania ruchu i nowej prędkości (SpeedSolver)
-      final solverResult = SpeedSolver.solveForSegment(
-        physiology: rider.physiology,
-        skills: rider.skills,
+      // D) Rozwiązanie równania ruchu i nowej prędkości (SpeedSolver z BikeFit, oponami, woskiem i Boids)
+      final solverResult = integrationBridge.solveSpeedForIntegratedStep(
+        stepOutput: integrated,
         bike: bike,
         segment: currentSegment,
         currentSpeedMs: math.max(0.5, rState.currentSpeedMs),
-        inputWatts: actualExecutedWatts,
-        temperatureCelsius: state.stage.baseTemperatureCelsius,
-        windSpeedKmh: state.stage.windSpeedKmh,
-        draftingReduction: 0.32 + tacticalResult.draftingModifier,
+        actualExecutedWatts: actualExecutedWatts,
         timeStepSeconds: dt,
       );
 
-      // E) Tętno i inercja układu krążenia
+      // E) Tętno i inercja układu krążenia (+ dryf termiczny)
       final hrState = HeartRateSimulator.update(
-        state: state.heartRateStates[rId] ?? HeartRateState.initial(rider.physiology),
+        state: state.heartRateStates[rId] ?? HeartRateState.initial(integrated.effectivePhysiology),
         powerWatts: actualExecutedWatts,
-        physiology: rider.physiology,
+        physiology: integrated.effectivePhysiology,
         hydrationPercent: nutritionResult.newState.hydrationPercent,
         ambientTemperatureCelsius: state.stage.baseTemperatureCelsius,
         timeStepSeconds: dt,
       );
-      updatedHeartRate[rId] = hrState;
+      final int adjustedHrBpm = (hrState.currentHrBpm + integrated.heartRateThermalDriftBpm.round())
+          .clamp(rider.physiology.restingHr, rider.physiology.maxHr);
+      updatedHeartRate[rId] = hrState.copyWith(currentHr: adjustedHrBpm.toDouble());
 
       // F) Nowy dystans i kadencja
       final double newDistanceMeters = rState.distanceCoveredMeters + (solverResult.newSpeedMs * dt);
@@ -421,13 +466,25 @@ class StageSimulationLoop {
         currentSpeedMs: solverResult.newSpeedMs,
         currentWatts: actualExecutedWatts.round(),
         currentCadenceRpm: cadence.clamp(40, 125),
-        currentHeartRate: hrState.currentHrBpm,
+        currentHeartRate: adjustedHrBpm,
         currentWPrime: wPrimeResult.newState.currentWPrimeJoules,
         currentGlycogen: nutritionResult.newState.currentGlycogenGrams,
+        activeTacticalOrder: integrated.aiDecision?.recommendedOrder ?? rState.activeTacticalOrder,
         bidonsLeft: tacticalResult.updatedState.bidonsLeft,
         gelsLeft: tacticalResult.updatedState.gelsLeft,
       );
     }
+
+    // 2B. Krok ruchu ciągłego Boids (#184) — bezkolizyjne pozycje poprzeczne, efekt akordeonu i drafting
+    final boidsUpdate = integrationBridge.applyBoidsPelotonStep(
+      riderStates: updatedRiderStates,
+      segment: currentSegment,
+      windSpeedKmh: state.stage.windSpeedKmh,
+      dtSeconds: dt,
+    );
+    updatedRiderStates
+      ..clear()
+      ..addAll(boidsUpdate.updatedRiderStates);
 
     // 3. Sprawdzenie incydentów losowych (kraksy, defekty)
     final stepIncidents = RaceIncidentEngine.evaluateIncidentsForStep(

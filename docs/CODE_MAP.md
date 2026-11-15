@@ -90,6 +90,7 @@
 - `lib/models/team/sponsor_contract.dart` — Umowa sponsorska i cele sezonowe (`SponsorObjective`).
 
 ### `lib/engine/`
+- `lib/engine/engine_integration_bridge.dart` — Centralny most integracyjny łączący BikeFit, ciśnienie opon, wosk łańcucha, wysokość/ciepło, dyspozycję dnia, LT1/LT2/VLaMax, AI i Boids z `StageSimulationLoop` i `IsolateSimulationWorker` (`EngineIntegrationBridge`, `EngineIntegrationRiderContext`, `EngineIntegrationStepOutput`, `RiderTirePressureSetup`).
 - `lib/engine/audio/procedural_cycling_audio_engine.dart` — Synteza dźwięku wiatru, bębenka i tłumu.
 - `lib/engine/audio/race_radio_tts_and_beeps.dart` — Sygnały radia wyścigowego i alarmy Garmin.
 - `lib/engine/audio/sound_effects_manager_provider.dart` — Centralny menedżer dźwięku i haptyki UI/3D (`SoundEffectsManagerProvider`, `soundEffectsManagerProvider`, `UiSoundSynthesizer`, `UiSoundEffect`, `SoundEffectsState`) łączący #117, #118 i 5-kanałowy mikser z natychmiastowym zapisem.
