@@ -194,7 +194,7 @@
 - `lib/ui/screens/bike_garage_rnd_screen.dart` — Garaż rowerowy, R&D i konfiguracja sprzętu.
 - `lib/ui/screens/calendar_and_race_planner_screen.dart` — Kalendarz sezonu i planowanie szczytów formy.
 - `lib/ui/screens/career_dashboard_screen.dart` — Widok pulpitu kariery.
-- `lib/ui/screens/dashboard_hq_screen.dart` — Centrum dowodzenia (HQ), wiadomości i skróty.
+- `lib/ui/screens/dashboard_hq_screen.dart` — Centrum dowodzenia HQ (`DashboardHqScreen`, `CarbonFiberCard` #190, `CyclingNewsFeedWidget` #197, `ProCyclingStatsTableWidget` #198, Transfer Ticker, Najbliższy Wyścig ze składem/odprawą, Stan Liderów TSB/Morale/Szczyt, Sponsor Tytularny 3 cele, Szybkie Akcje HQ).
 - `lib/ui/screens/development_academy_screen.dart` — Ekran drużyny rozwojowej U23 i skautingu.
 - `lib/ui/screens/game_start_screen.dart` — Ekran powitalny i ładowanie zapisów.
 - `lib/ui/screens/grand_tour_rest_day_screen.dart` — Dzień przerwy w Wielkim Tourze (Coffee Ride, prasa, fizjo).
@@ -267,4 +267,4 @@
 - `blender_scripts/generate_wind_tunnel_facility.py` — Generator 3D komory pomiarowej Tunelu Aerodynamicznego (`assets/3d/environment/wind_tunnel_room.glb`: kanał cylindryczny, 12-łopatkowy wirnik, siatka prostująca, obrotowa platforma Yaw ±15° z rolkami, listwy LED, dysza i strugi dymu) w Blender 5.3.
 - `blender_scripts/generate_helicopter_and_blimp.py` — Generator 3D śmigłowca telewizyjnego (`assets/3d/environment/tv_helicopter.glb`: `TV_Heli_Fuselage` w barwach transmisji, `TV_Heli_Skids`, osobne wirniki `TV_Heli_Main_Rotor`/`TV_Heli_Tail_Rotor` pod animację obrotu oraz głowica `TV_Heli_Cineflex_Gimbal`) w Blender 5.3.
 - `blender_scripts/generate_jersey_textures_baker.py` — Proceduralny generator tekstur koszulek 1024x1024 PNG (`assets/textures/jerseys/`: 5 koszulek liderów GC/Points/KOM/Youth/WorldChamp + 8 szablonów drużynowych do barwienia) w Blender 5.3.
-- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart`, `test/ui/pre_race_briefing_screen_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.
+- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart`, `test/ui/pre_race_briefing_screen_test.dart`, `test/ui/dashboard_hq_screen_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.

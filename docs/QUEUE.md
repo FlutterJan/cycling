@@ -769,7 +769,7 @@ Zasady działania pętli:
 
   4. Krok 4: Wielki przycisk `WYJAZD NA START HONOROWY (KM 0.0) -> WIDOK 3D`. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #208** (`lib/ui/screens/dashboard_hq_screen.dart` - Rozbudowa Centrum Dowodzenia): Zaktualizuj ekran główny `DashboardHqScreen`, wykorzystując nowe komponenty `CarbonFiberCard` (#190), `CyclingNewsFeedWidget` (#197) oraz `ProCyclingStatsTableWidget` (#198). Zaimplementuj na ekranie głównym:
+- [x] **Zadanie #208** (`lib/ui/screens/dashboard_hq_screen.dart` - Rozbudowa Centrum Dowodzenia): Zaktualizuj ekran główny `DashboardHqScreen`, wykorzystując nowe komponenty `CarbonFiberCard` (#190), `CyclingNewsFeedWidget` (#197) oraz `ProCyclingStatsTableWidget` (#198). Zaimplementuj na ekranie głównym:
 
   1. Interaktywny widżet Najbliższego Wyścigu z profilem trasy, składem i przyciskiem przejścia do odprawy.
 

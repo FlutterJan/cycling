@@ -226,8 +226,10 @@ class _CyclingNewsFeedWidgetState extends State<CyclingNewsFeedWidget> {
             ),
           ],
         ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
+        Wrap(
+          spacing: 8,
+          runSpacing: 6,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             _buildTogglePill(
               label: 'Moja ekipa',
@@ -236,7 +238,6 @@ class _CyclingNewsFeedWidgetState extends State<CyclingNewsFeedWidget> {
               activeColor: AppColors.goldAccent,
               onTap: () => setState(() => _onlyPlayerTeam = !_onlyPlayerTeam),
             ),
-            const SizedBox(width: 8),
             _buildTogglePill(
               label: 'Zapisane',
               icon: Icons.bookmark_rounded,
@@ -244,7 +245,6 @@ class _CyclingNewsFeedWidgetState extends State<CyclingNewsFeedWidget> {
               activeColor: AppColors.cyanAccent,
               onTap: () => setState(() => _onlyBookmarked = !_onlyBookmarked),
             ),
-            const SizedBox(width: 8),
             MouseRegion(
               onEnter: (_) => setState(() => _isRefreshHovered = true),
               onExit: (_) => setState(() => _isRefreshHovered = false),
