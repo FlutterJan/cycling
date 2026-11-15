@@ -173,6 +173,7 @@
 - `lib/services/career/race_day_pipeline_orchestrator.dart` — Orkiestrator dnia wyścigowego (`RaceDayPipelineOrchestrator`, `RaceDayPipelineNotifier`, `raceDayPipelineProvider`, `RaceDayPipelinePhase`) łączący Calendar → PreRaceBriefing → Symulację 3D → StageResultsCalculator → Podium → SponsorObjectivesEvaluator → RecoveryProcessor → AutoSave.
 - `lib/services/career/race_reconnaissance_service.dart` — Rekonesans tras i premia taktyczna.
 - `lib/services/career/rider_ego_and_conflicts_service.dart` — Konflikty w zespole, ego liderów i lojalność.
+- `lib/services/career/roster_uci_compliance_validator.dart` — Walidator przepisów UCI dla składów i sprzętu (`RosterUciComplianceValidator`, `RosterUciComplianceReport`, `BikeComplianceCheckResult`, `RosterAutoFillAction`: limit 8/7 kolarzy, zawieszenia medyczne/dopingowe, rowery >= 6.80 kg i auto-uzupełnianie rezerwami).
 - `lib/services/career/scouting_and_youth_academy_service.dart` — Skauting talentów na świecie i akademia.
 - `lib/services/career/season_transition_service.dart` — Przejście między sezonami, emerytury i nowi juniorzy.
 - `lib/services/career/social_media_and_cycling_news_service.dart` — Serwis mediów kolarskich i social kolarzy (`SocialMediaAndCyclingNewsService`, `CyclingNewsItem`, `BikeComputerRideSnapshot`, `CyclingNewsStarPick`: zapowiedzi 5★, ucieczki, kraksy, plotki, W/kg i VAM).
