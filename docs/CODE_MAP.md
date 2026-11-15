@@ -113,6 +113,7 @@
 - `lib/engine/rendering3d/camera_rig_controller.dart` — Kamery wyścigowe (helikopter, moto, tył, pierwsza osoba).
 - `lib/engine/rendering3d/crash_and_mechanical_visuals.dart` — Wizualizacja kraks i defektów na trasie 3D.
 - `lib/engine/rendering3d/cyclist_3d_pose_animator.dart` — Animacja kadencji, jazdy na stojąco i aero tuck.
+- `lib/engine/rendering3d/dynamic_skybox_and_lighting_painter.dart` — Renderer nieba, słońca/Golden Hour/latarni, burz z błyskami, cieni rzucanych (`ProjectedShadowResult`) i mokrego asfaltu (`DynamicSkyboxAndLightingPainter`, `StageTimeOfDay`, `SunLightState`).
 - `lib/engine/rendering3d/environment_scenery_spawner.dart` — Proceduralne drzewa, skały, budynki i kibice.
 - `lib/engine/rendering3d/glb_asset_loader_service.dart` — Ładowanie i cache modeli `.glb`.
 - `lib/engine/rendering3d/on_bike_computer_hud_widget.dart` — Licznik na kierownicy w widoku FPP.

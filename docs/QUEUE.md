@@ -592,7 +592,7 @@ Zasady działania pętli:
 
   3. **Stoper Punktów Pomiaru Czasu (Live Split Timer):** na premiach górskich, lotnych finiszach oraz punktach pomiaru czasu ITT wyświetla na żywo tykający do setnych części sekundy stoper i tabelę Top 5 z różnicami zielonymi (`-0'12"`) lub czerwonymi (`+0'28"`). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #186** (`lib/engine/rendering3d/dynamic_skybox_and_lighting_painter.dart`): Stwórz zaawansowany renderer oświetlenia atmosferycznego, nieba i cieni `DynamicSkyboxAndLightingPainter` dla widoku wyścigu 3D. Zaimplementuj:
+- [x] **Zadanie #186** (`lib/engine/rendering3d/dynamic_skybox_and_lighting_painter.dart`): Stwórz zaawansowany renderer oświetlenia atmosferycznego, nieba i cieni `DynamicSkyboxAndLightingPainter` dla widoku wyścigu 3D. Zaimplementuj:
 
   1. Proceduralny gradient nieba zależny od pory dnia etapu (np. start o 11:30 w pełnym słońcu, finisz królewskiego etapu w Alpach o 17:15 w ciepłym świetle *Golden Hour*, lub wieczorne kryterium / finisz w Paryżu przy światłach latarni) oraz pogody (stalowe chmury burzowe z błyskami w oddali podczas deszczu).
 

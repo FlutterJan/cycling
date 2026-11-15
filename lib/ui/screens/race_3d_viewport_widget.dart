@@ -17,6 +17,7 @@ import '../../engine/peloton/drafting_grid_system.dart';
 import '../../engine/peloton/rider_race_state.dart';
 import '../../engine/rendering3d/camera_rig_controller.dart';
 import '../../engine/rendering3d/crash_and_mechanical_visuals.dart';
+import '../../engine/rendering3d/dynamic_skybox_and_lighting_painter.dart';
 import '../../engine/rendering3d/environment_scenery_spawner.dart';
 import '../../engine/rendering3d/glb_asset_loader_service.dart';
 import '../../engine/rendering3d/on_bike_computer_hud_widget.dart';
@@ -1780,8 +1781,41 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
         ? projHorizon.screenY.clamp(h * 0.15, h * 0.85)
         : h * 0.44;
 
-    // 3. Rysowanie nieba i chmur w perspektywie (Sky & Atmosphere)
-    _drawSkyAndClouds(canvas, w, h, horizonY);
+    final double totalStageMeters = stage.totalDistanceKm > 0.1
+        ? stage.totalDistanceKm * 1000.0
+        : 21000.0;
+    final double leaderDistMeters = pelotonRenderItems.isNotEmpty
+        ? pelotonRenderItems.first.snapshot.distanceCoveredMeters
+        : 0.0;
+    final double stageProgress = (leaderDistMeters / totalStageMeters).clamp(0.0, 1.0);
+    final StageTimeOfDay stageTime = StageTimeOfDay.forStageProgress(
+      stageType: stage.stageType,
+      progressRatio: stageProgress,
+      stageName: stage.name,
+    );
+    final SunLightState sunState = DynamicSkyboxAndLightingPainter.computeSunLightState(
+      timeOfDay: stageTime,
+      weatherCondition: weatherTelemetry.weatherCondition,
+      elapsedSeconds: elapsedAnimSeconds,
+    );
+    final lightingPainter = DynamicSkyboxAndLightingPainter(
+      timeOfDay: stageTime,
+      weatherCondition: weatherTelemetry.weatherCondition,
+      cameraBearingRadians: weatherTelemetry.cameraBearingRadians,
+      elapsedSeconds: elapsedAnimSeconds,
+      projection: projection,
+      pelotonRenderItems: pelotonRenderItems,
+      supportVehicles: supportVehicles,
+      roadMesh: roadMesh,
+    );
+
+    // 3. Rysowanie proceduralnego nieba, słońca, chmur burzowych i latarni (Dynamic Skybox)
+    lightingPainter.renderSkybox(
+      canvas: canvas,
+      size: size,
+      horizonY: horizonY,
+      sunState: sunState,
+    );
 
     // 4. Rysowanie pasma górskiego w paralaksie (Parallax Mountains)
     _drawParallaxMountains(canvas, w, horizonY);
@@ -1802,6 +1836,16 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
     // 7. Rysowanie wstęgi szosy 3D (Road Ribbon, Cobblestones, Edge Lines & Fan Graffiti)
     if (roadMesh != null) {
       _drawRoadMesh(canvas, roadMesh!, projection);
+      if (sunState.isWetSurface) {
+        lightingPainter.renderWetRoadSpecularReflections(
+          canvas: canvas,
+          size: size,
+          projection: projection,
+          pelotonItems: pelotonRenderItems,
+          supportVehicles: supportVehicles,
+          sunState: sunState,
+        );
+      }
     }
 
     // 8. Rysowanie obiektów krajobrazu i kibiców (Environment Scenery Spawner)
@@ -1834,8 +1878,14 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
       );
     }
 
-    // 9. Rysowanie kolarzy peletonu i strug aero (Peloton Instanced Renderer LOD 0/1/2)
+    // 9. Rysowanie rzutowanych cieni kolarzy na asfalt oraz samych kolarzy (LOD 0/1/2)
     if (pelotonRenderItems.isNotEmpty) {
+      lightingPainter.renderProjectedDropShadows(
+        canvas: canvas,
+        projection: projection,
+        pelotonItems: pelotonRenderItems,
+        sunState: sunState,
+      );
       pelotonRenderer.renderPeloton(
         canvas: canvas,
         size: size,
@@ -1887,37 +1937,6 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
         playerRiderIds: playerRiderIds,
         animSeconds: elapsedAnimSeconds,
       );
-    }
-  }
-
-  // ===========================================================================
-  // 1. NIEBO I ATMOSFERA
-  // ===========================================================================
-
-  void _drawSkyAndClouds(Canvas canvas, double w, double h, double horizonY) {
-    final bool isRain = stage.weatherCondition == WeatherCondition.lightRain ||
-        stage.weatherCondition == WeatherCondition.heavyStorm;
-
-    final skyGradient = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: isRain
-          ? const [Color(0xFF1E2330), Color(0xFF2A3142), Color(0xFF3E485C)]
-          : const [Color(0xFF0F2B48), Color(0xFF1E4976), Color(0xFF4A89B8)],
-    );
-
-    final skyPaint = Paint()..shader = skyGradient.createShader(Rect.fromLTWH(0, 0, w, horizonY));
-    canvas.drawRect(Rect.fromLTWH(0, 0, w, horizonY), skyPaint);
-
-    // Proceduralne chmury w perspektywie
-    final cloudPaint = Paint()..color = Colors.white.withValues(alpha: isRain ? 0.08 : 0.15);
-    final double cloudOffset = (elapsedAnimSeconds * 12.0) % (w * 1.5);
-
-    for (int i = 0; i < 4; i++) {
-      final double cx = ((i * 260.0 + cloudOffset) % (w + 200.0)) - 100.0;
-      final double cy = horizonY * 0.28 + (i * 24.0);
-      final double cw = 140.0 + (i * 30.0);
-      canvas.drawOval(Rect.fromCenter(center: Offset(cx, cy), width: cw, height: 38), cloudPaint);
     }
   }
 
