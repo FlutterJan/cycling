@@ -156,6 +156,7 @@
 - `lib/services/career/uci_promotion_relegation_cycle_service.dart` — 3-letni cykl licencyjny WorldTour i walka o utrzymanie.
 - `lib/services/career/winter_offseason_training_service.dart` — Przygotowania zimowe i testy przedsezonowe.
 - `lib/services/database/custom_mod_importer_service.dart` — Import modów JSON (bazy danych, drużyny, wyścigi).
+- `lib/services/database/preset_real_names_template_generator.dart` — Generator szablonu paczek modów (`PresetRealNamesTemplateGenerator`, `CommunityRealismPatchStructure`, `ModSchemaValidator`, `applyLivePatchToActiveCareer`).
 - `lib/services/database/save_game_manager.dart` — Zarządzanie slotami zapisów na dysku.
 - `lib/services/database/save_service.dart` — Serializacja/deserializacja zapisu gry.
 - `lib/services/generators/fictional_brands_catalog.dart` — Katalog fikcyjnych marek rowerowych i sponsorów.

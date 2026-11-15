@@ -439,7 +439,7 @@ Zasady działania pętli:
 
      * `BAZY DANYCH I USTAWIENIA` (przejście do `SettingsAndModScreen`). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #168** (`lib/services/database/preset_real_names_template_generator.dart`): Stwórz serwis `PresetRealNamesTemplateGenerator`, który pozwala graczowi i społeczności moderskiej wygenerować jednym kliknięciem na dysku kompletny, ustrukturyzowany plik szablonu `pro_peloton_real_names_pack_template.json` oraz wbudowany pakiet `Community Realism Patch Structure`. Zaimplementuj:
+- [x] **Zadanie #168** (`lib/services/database/preset_real_names_template_generator.dart`): Stwórz serwis `PresetRealNamesTemplateGenerator`, który pozwala graczowi i społeczności moderskiej wygenerować jednym kliknięciem na dysku kompletny, ustrukturyzowany plik szablonu `pro_peloton_real_names_pack_template.json` oraz wbudowany pakiet `Community Realism Patch Structure`. Zaimplementuj:
 
   1. Eksport wszystkich obecnych w grze ID drużyn, kolarzy, wyścigów i marek sprzętu wraz z ich polami mapującymi (`originalId`, `customName`, `customShortName`, `customCountryIso`, `primaryHex`, `secondaryHex`, `jerseyPatternIndex`).
 
