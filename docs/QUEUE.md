@@ -686,7 +686,7 @@ Zasady działania pętli:
 
   3. Wskaźnik cierpliwości dyrektora marketingu sponsora (0–100%) reagujący na żywo na żądania finansowe gracza. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #196** (`lib/ui/screens/pre_season_team_presentation_screen.dart`): Stwórz uroczysty ekran Gali Prezentacji Zespołu przed startem nowego sezonu (styczeń) `PreSeasonTeamPresentationScreen`. Zaimplementuj:
+- [x] **Zadanie #196** (`lib/ui/screens/pre_season_team_presentation_screen.dart`): Stwórz uroczysty ekran Gali Prezentacji Zespołu przed startem nowego sezonu (styczeń) `PreSeasonTeamPresentationScreen`. Zaimplementuj:
 
   1. Scenografię sceny z reflektorami w kolorach zespołu, na której stoją trzej główni liderzy drużyny (`RiderAvatarWidget` w pełnej skali) obok nowego roweru wyścigowego (`BikePreviewWidget`) na nadchodzący sezon.
 

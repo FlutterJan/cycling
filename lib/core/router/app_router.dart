@@ -23,6 +23,7 @@ import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
 import '../../ui/screens/post_stage_podium_screen.dart';
 import '../../ui/screens/pre_race_briefing_screen.dart';
+import '../../ui/screens/pre_season_team_presentation_screen.dart';
 import '../../ui/screens/quick_race_sandbox_screen.dart';
 import '../../ui/screens/race_simulation_screen.dart';
 import '../../ui/screens/rider_detail_screen.dart';
@@ -68,6 +69,7 @@ abstract class AppRoutes {
   static const String hallOfFame = '/career/hall-of-fame';
   static const String managerProfile = '/career/manager-profile';
   static const String stageEditor = '/career/stage-editor';
+  static const String preSeasonPresentation = '/career/pre-season-gala';
   static const String settings = '/career/settings';
 
   /// Ścieżki wyścigowe (Race Routes)
@@ -107,6 +109,7 @@ abstract class AppRouteNames {
   static const String hallOfFame = 'hallOfFame';
   static const String managerProfile = 'managerProfile';
   static const String stageEditor = 'stageEditor';
+  static const String preSeasonPresentation = 'preSeasonPresentation';
   static const String settings = 'settings';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
@@ -358,6 +361,13 @@ GoRouter createAppRouter({
             ),
           ),
           GoRoute(
+            path: AppRoutes.preSeasonPresentation,
+            name: AppRouteNames.preSeasonPresentation,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: PreSeasonTeamPresentationScreen(),
+            ),
+          ),
+          GoRoute(
             path: AppRoutes.settings,
             name: AppRouteNames.settings,
             pageBuilder: (context, state) {
@@ -511,6 +521,9 @@ extension AppRouterNavigationExtensions on BuildContext {
 
   /// Nawigacja do kreatora tras i etapów
   void goToStageEditor() => go(AppRoutes.stageEditor);
+
+  /// Nawigacja do Gali Prezentacji Zespołu przed sezonem
+  void goToPreSeasonPresentation() => go(AppRoutes.preSeasonPresentation);
 
   /// Nawigacja do kalendarza sezonu
   void goToCalendar() => go(AppRoutes.calendar);
