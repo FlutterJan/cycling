@@ -257,6 +257,7 @@
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.
+- `lib/ui/widgets/global_search_spotlight_modal.dart` — Globalna wyszukiwarka Spotlight `Ctrl+K` (`GlobalSearchSpotlightModal`, `SpotlightSearchIndex`, `SpotlightSearchCategory`, `SpotlightSearchItem`, `SpotlightClimbEntry`) dla 800+ kolarzy, 53 drużyn, wyścigów i podjazdów z podglądem i przejściem do profilu.
 - `lib/ui/widgets/group_gaps_chalkboard_widget.dart` — Tablica różnic czasowych między grupami.
 - `lib/ui/widgets/interactive_stage_timeline_scrubber.dart` — Interaktywna oś czasu wyścigu nad profilem (`InteractiveStageTimelineScrubber`, `StageProfileWithTimelineScrubber`, `StageTimelineEvent`, `StageTimelineEventType`, `StageGcGapSnapshot`) z markerami wydarzeń, tooltipami i analizą GC.
 - `lib/ui/widgets/keyboard_shortcuts_manager.dart` — System skrótów klawiszowych (`KeyboardShortcutsManager`, `ShortcutsCheatSheetOverlay`, `ShortcutKeycap`) dla 3D i Menedżera.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,6 +14,7 @@ import '../../models/team/cycling_team.dart';
 import '../../state/career_controller.dart';
 import '../../state/career_state_notifier.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../widgets/global_search_spotlight_modal.dart';
 import 'bike_garage_rnd_screen.dart';
 import 'calendar_and_race_planner_screen.dart';
 import 'career_dashboard_screen.dart';
@@ -294,6 +296,22 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
   MainNavigationTab _activeTab = MainNavigationTab.dashboard;
   bool _isSidebarCollapsed = false;
   bool _useBentoHq = true;
+  bool _isSpotlightOpen = false;
+
+  Future<void> _openGlobalSearchSpotlight(CareerSave save) async {
+    if (_isSpotlightOpen) return;
+    _isSpotlightOpen = true;
+    try {
+      await GlobalSearchSpotlightModal.show(
+        context,
+        careerSave: save,
+      );
+    } finally {
+      if (mounted) {
+        _isSpotlightOpen = false;
+      }
+    }
+  }
 
   MainNavigationTab get activeTab =>
       widget.child != null ? _resolveTabFromLocation(widget.currentLocation) : _activeTab;
@@ -365,32 +383,40 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       return _buildNoSaveWelcomeScreen(careerController);
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final bool isDesktopOrTablet = constraints.maxWidth >= 768;
-        if (isDesktopOrTablet) {
-          return _buildDesktopLayout(
-            context: context,
-            constraints: constraints,
-            save: save,
-            careerUiState: careerUiState,
-            careerController: careerController,
-            careerState: careerState,
-            careerStateNotifier: careerStateNotifier,
-            simController: simController,
-          );
-        } else {
-          return _buildMobileLayout(
-            context: context,
-            save: save,
-            careerUiState: careerUiState,
-            careerController: careerController,
-            careerState: careerState,
-            careerStateNotifier: careerStateNotifier,
-            simController: simController,
-          );
-        }
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyK, control: true): () =>
+            _openGlobalSearchSpotlight(save),
+        const SingleActivator(LogicalKeyboardKey.keyK, meta: true): () =>
+            _openGlobalSearchSpotlight(save),
       },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final bool isDesktopOrTablet = constraints.maxWidth >= 768;
+          if (isDesktopOrTablet) {
+            return _buildDesktopLayout(
+              context: context,
+              constraints: constraints,
+              save: save,
+              careerUiState: careerUiState,
+              careerController: careerController,
+              careerState: careerState,
+              careerStateNotifier: careerStateNotifier,
+              simController: simController,
+            );
+          } else {
+            return _buildMobileLayout(
+              context: context,
+              save: save,
+              careerUiState: careerUiState,
+              careerController: careerController,
+              careerState: careerState,
+              careerStateNotifier: careerStateNotifier,
+              simController: simController,
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -516,6 +542,15 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.search_rounded,
+              color: AppColors.goldAccent,
+              size: 21,
+            ),
+            tooltip: 'Szukaj globalnie (Ctrl+K)',
+            onPressed: () => _openGlobalSearchSpotlight(save),
+          ),
           _TopStatusPill(
             icon: Icons.calendar_today_rounded,
             iconColor: AppColors.goldAccent,
@@ -1012,6 +1047,72 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     isPlayerInTodayRace: isPlayerInTodayRace,
                   ),
                   const SizedBox(width: 10),
+
+                  // 4b. Globalna wyszukiwarka Spotlight (Ctrl+K)
+                  Tooltip(
+                    message: 'Szukaj kolarzy, drużyn, wyścigów i podjazdów (Ctrl+K)',
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => _openGlobalSearchSpotlight(save),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.background,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppTheme.borderColor),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.search_rounded,
+                              color: AppColors.goldAccent,
+                              size: 16,
+                            ),
+                            if (isWide) ...[
+                              const SizedBox(width: 6),
+                              const Text(
+                                'Szukaj...',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  color: AppColors.textSecondary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                  vertical: 1,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surfaceLight,
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: AppTheme.borderColor,
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Ctrl+K',
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    color: AppColors.textSecondary,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
 
                   // 5. Szybki zapis
                   Tooltip(
