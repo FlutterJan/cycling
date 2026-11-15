@@ -560,7 +560,7 @@ Zasady działania pętli:
 
   2. Obrotową platformę aerodynamiczną w podłodze (do testowania kątów wiatru bocznego Yaw $-15^\circ$ do $+15^\circ$) z rolkami pod koła roweru, listwami świetlnymi LED na ścianach i dyszą wypuszczającą strugi dymu przed przednim kołem.
 
-- [ ] **Zadanie #181** (`blender_scripts/generate_helicopter_and_blimp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D śmigłowiec telewizyjny krążący nad peletonem (`assets/3d/environment/tv_helicopter.glb`):
+- [x] **Zadanie #181** (`blender_scripts/generate_helicopter_and_blimp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D śmigłowiec telewizyjny krążący nad peletonem (`assets/3d/environment/tv_helicopter.glb`):
 
   1. Aerodynamiczny kadłub śmigłowca w barwach transmisji wyścigowej, płozy podwozia, wirnik główny i ogonowy (jako osobne, nazwane obiekty pod animację obrotu) oraz kulistą głowicę kamery żyroskopowej Cineflex zamontowaną pod dziobem.
 
