@@ -169,7 +169,7 @@
 
 ### `lib/state/`
 - `lib/state/career_controller.dart` — Kontroler akcji kariery i logiki postępu dni.
-- `lib/state/career_state_notifier.dart` — Główny stan kariery (`CareerState`, inbox, finanse, kalendarz).
+- `lib/state/career_state_notifier.dart` — Główny stan kariery (`CareerState`, `CareerStateNotifier`, `SimulationStopReason`, `ActiveTrainingCampAssignment`, `ScheduledRecoverySession`, `advanceDay`, `advanceToNextEvent`, `simulateUntilNextStop`).
 - `lib/state/game_settings_notifier.dart` — Stan i zapis ustawień aplikacji.
 - `lib/state/race_simulation_controller.dart` — Kontroler sterowania wyścigiem (pauza, tempo, rozkazy).
 - `lib/state/race_simulation_notifier.dart` — Stan symulacji wyścigu na żywo i snapshoty kolarzy.

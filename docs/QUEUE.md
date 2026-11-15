@@ -485,7 +485,7 @@ Zasady działania pętli:
 
   2. Górny pasek TopBar wyświetlający: herb i barwy drużyny, stan konta w EUR, aktualną datę, pogodę w bazie, mini-odliczanie dni do kolejnego wyścigu oraz wielki, dynamiczny przycisk akcji: `NASTĘPNY DZIEŃ` (lub czerwono-złoty `START WYŚCIGU: [Nazwa Wyścigu]`, jeśli w danym dniu drużyna staje na starcie!). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #172** (`lib/state/career_state_notifier.dart`): Rozbuduj i zintegruj metodę `advanceDay()` oraz `advanceToNextEvent()` w `CareerStateNotifier`, aby stanowiły bezbłędne serce symulacji całego świata kolarskiego dzień po dniu. Zaimplementuj:
+- [x] **Zadanie #172** (`lib/state/career_state_notifier.dart`): Rozbuduj i zintegruj metodę `advanceDay()` oraz `advanceToNextEvent()` w `CareerStateNotifier`, aby stanowiły bezbłędne serce symulacji całego świata kolarskiego dzień po dniu. Zaimplementuj:
 
   1. Codzienną pętlę aktualizacji dla wszystkich drużyn: przeliczanie obciążeń treningowych (CTL, ATL, TSB), aplikowanie efektów obozów wysokogórskich i sesji regeneracyjnych (hiperbaria, sauna, kompresja), postęp leczenia kontuzji, zużycie sprzętu i automatyczną symulację wyścigów w kalendarzu, w których gracz nie bierze udziału (aby tabele UCI i statystyki rywali żyły przez cały rok).
 
