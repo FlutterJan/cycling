@@ -126,6 +126,7 @@
 - `lib/engine/rendering3d/environment_scenery_spawner.dart` — Proceduralne drzewa, skały, budynki i kibice.
 - `lib/engine/rendering3d/glb_asset_loader_service.dart` — Ładowanie i cache modeli `.glb`.
 - `lib/engine/rendering3d/inverse_kinematics_limb_solver.dart` — Dwustawowy analityczny solver IK 3D nóg i rąk (`InverseKinematicsLimbSolver`, `IkGripType`, `LimbIkGeometryConfig`, `LimbIkFrameInput`, `LimbIkFrameResult`, `SolvedTwoBoneLimb`: kolana, kostki, korba 165–175 mm, łokcie w chwytach `Tops`/`Hoods`/`Drops`/`AeroTuck`).
+- `lib/engine/rendering3d/neutral_service_and_medical_cars.dart` — Kontroler i renderer 3D żółtych/niebieskich aut neutralnego serwisu z rowerami na dachu, ambulansu oraz wozów `Commissaire Car` z czerwonym dachem (`NeutralServiceAndMedicalCarsController`, `NeutralAndMedicalVehicle3D`, `RaceConvoyVehicleRole`, `ConvoyPlacementZone`, `RaceConvoyGroupMetrics`, `NeutralAndMedicalCarsConfig`).
 - `lib/engine/rendering3d/on_bike_computer_hud_widget.dart` — Licznik na kierownicy w widoku FPP.
 - `lib/engine/rendering3d/peloton_instanced_renderer.dart` — Rysowanie 176 kolarzy z LOD i sortowaniem Z.
 - `lib/engine/rendering3d/peloton_3d_canvas_engine.dart` — Natywny silnik renderowania 3D 120 FPS na Canvasie (`Peloton3dCanvasEngine`, `Peloton3dCanvasPainter`, `Peloton3dViewportWidget`, `WheelProfileType`, `LeaderJerseyType`) z rzutowaniem `vector_math_64`, drogą/brukiem/drzewami/skałami/bramami, kolarzami 3D i integracją kamer + Boids (#184).

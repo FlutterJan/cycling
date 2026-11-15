@@ -22,6 +22,7 @@ import '../../engine/rendering3d/crash_and_mechanical_visuals.dart';
 import '../../engine/rendering3d/dynamic_skybox_and_lighting_painter.dart';
 import '../../engine/rendering3d/environment_scenery_spawner.dart';
 import '../../engine/rendering3d/glb_asset_loader_service.dart';
+import '../../engine/rendering3d/neutral_service_and_medical_cars.dart';
 import '../../engine/rendering3d/on_bike_computer_hud_widget.dart';
 import '../../engine/rendering3d/peloton_3d_canvas_engine.dart';
 import '../../engine/rendering3d/peloton_instanced_renderer.dart';
@@ -337,6 +338,7 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   late final WeatherParticlesRenderer _weatherRenderer;
   late final RiderFloatingLabelsOverlay _riderLabelsOverlay;
   late final SupportVehicles3DRenderer _supportVehiclesRenderer;
+  late final NeutralServiceAndMedicalCarsController _neutralAndMedicalCarsController;
   late final CrashAndMechanicalVisualsRenderer _crashVisualsRenderer;
   late final WindStreamlinesVisualizer _windVisualizer;
   late bool _isAeroVisionActive;
@@ -365,6 +367,7 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   double _lastSceneryUpdateDist = -9999.0;
 
   List<SupportVehicleInstance3D> _currentSupportVehicles = [];
+  List<NeutralAndMedicalVehicle3D> _currentConvoyVehicles = [];
 
   List<PelotonRenderItem> _currentPelotonRenderItems = [];
 
@@ -412,6 +415,7 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     _weatherRenderer = WeatherParticlesRenderer();
     _riderLabelsOverlay = RiderFloatingLabelsOverlay();
     _supportVehiclesRenderer = SupportVehicles3DRenderer();
+    _neutralAndMedicalCarsController = NeutralServiceAndMedicalCarsController();
     _crashVisualsRenderer = CrashAndMechanicalVisualsRenderer();
     _isAeroVisionActive = widget.initialAeroVision;
     _windVisualizer = WindStreamlinesVisualizer(
@@ -575,6 +579,14 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
       segments: segments,
       dtSeconds: dt,
       elapsedAnimSeconds: _elapsedAnimSeconds,
+    );
+
+    // 6b2. Aktualizacja żółtych/niebieskich aut neutralnego serwisu, ambulansu i Commissaire Car
+    _currentConvoyVehicles = _neutralAndMedicalCarsController.updateVehicles(
+      activeRiders: _currentPelotonRenderItems,
+      segments: segments,
+      dtSeconds: dt,
+      elapsedSeconds: _elapsedAnimSeconds,
     );
 
     // 6c. Aktualizacja zdarzeń losowych (defekty sprzętowe, zjazd na pobocze, wymiana koła, kraksy)
@@ -1562,6 +1574,9 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
                             stage: activeStage,
                             projection: _projection,
                             pelotonRenderItems: _currentPelotonRenderItems,
+                            neutralAndMedicalCarsController:
+                                _neutralAndMedicalCarsController,
+                            convoyVehicles: _currentConvoyVehicles,
                             crashVisualsRenderer: _crashVisualsRenderer,
                             showIncidentVisuals: widget.showIncidentVisuals,
                             windVisualizer: _windVisualizer,
@@ -2093,6 +2108,8 @@ class _AtmosphericOverlayPainter extends CustomPainter {
   final RaceStage stage;
   final Scene3DMathProjection projection;
   final List<PelotonRenderItem> pelotonRenderItems;
+  final NeutralServiceAndMedicalCarsController? neutralAndMedicalCarsController;
+  final List<NeutralAndMedicalVehicle3D> convoyVehicles;
   final CrashAndMechanicalVisualsRenderer? crashVisualsRenderer;
   final WindStreamlinesVisualizer? windVisualizer;
   final WeatherParticlesRenderer weatherRenderer;
@@ -2109,6 +2126,8 @@ class _AtmosphericOverlayPainter extends CustomPainter {
     required this.stage,
     required this.projection,
     required this.pelotonRenderItems,
+    this.neutralAndMedicalCarsController,
+    this.convoyVehicles = const [],
     this.crashVisualsRenderer,
     this.windVisualizer,
     required this.weatherRenderer,
@@ -2124,6 +2143,15 @@ class _AtmosphericOverlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (neutralAndMedicalCarsController != null && convoyVehicles.isNotEmpty) {
+      neutralAndMedicalCarsController!.renderVehicles(
+        canvas: canvas,
+        projection: projection,
+        vehicles: convoyVehicles,
+        elapsedAnimSeconds: elapsedAnimSeconds,
+      );
+    }
+
     if (showIncidentVisuals && crashVisualsRenderer != null) {
       crashVisualsRenderer!.renderIncidentVisuals(
         canvas: canvas,
