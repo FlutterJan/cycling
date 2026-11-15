@@ -662,7 +662,7 @@ Zasady działania pętli:
 
   6. `LoyalRoadCaptain`: weteran, który w ułamku sekundy oddaje własne koło liderowi po defekcie i ustawia zespół przed zakrętami. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #194** (`lib/ui/widgets/interactive_stage_timeline_scrubber.dart`): Stwórz interaktywny pasek osi czasu wyścigu `InteractiveStageTimelineScrubber` umieszczony nad profilem wysokościowym etapu. Zaimplementuj:
+- [x] **Zadanie #194** (`lib/ui/widgets/interactive_stage_timeline_scrubber.dart`): Stwórz interaktywny pasek osi czasu wyścigu `InteractiveStageTimelineScrubber` umieszczony nad profilem wysokościowym etapu. Zaimplementuj:
 
   1. Znaczniki wszystkich wydarzeń, które miały miejsce dotychczas na etapie (ikona błyskawicy = atak, ikona klucza = defekt, ikona ostrzeżenia = kraksa, ikona góry = wyniki premii KOM, ikona bidonu = strefa bufetu).
 
