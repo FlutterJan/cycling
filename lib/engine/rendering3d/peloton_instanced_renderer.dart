@@ -6,6 +6,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
+import '../../core/utils/performance_profiler_overlay.dart';
 import '../../models/race/stage_segment.dart';
 import '../../state/race_simulation_notifier.dart';
 import 'camera_rig_controller.dart';
@@ -378,6 +379,13 @@ class PelotonInstancedRenderer {
       lod2Count: lod2,
       prepareTimeMicroseconds: stopwatch.elapsedMicroseconds,
       drawTimeMicroseconds: 0,
+    );
+
+    PerformanceTelemetryRegistry.instance.updateLodStats(
+      lod0: lod0,
+      lod1: lod1,
+      lod2: lod2,
+      culled: culled,
     );
 
     return items;

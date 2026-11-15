@@ -56,6 +56,7 @@
 - `lib/core/theme/app_colors.dart` — Paleta kolorów gry i stref mocy Z1–Z7.
 - `lib/core/theme/app_theme.dart` — Ciemny motyw `ThemeData`, typografia `Inter` i style kart.
 - `lib/core/utils/formatters.dart` — Formatery czasu, walut (`€`), watów, prędkości i dystansu.
+- `lib/core/utils/performance_profiler_overlay.dart` — Nakładka diagnostyczna `PerformanceProfilerOverlay` (`F3`, FPS, Frame Time Graph, telemetria `PerformanceTelemetryRegistry` Isolate/LOD/RAM).
 
 ### `lib/models/`
 - `lib/models/career/career_save.dart` — Model pełnego zapisu kariery.

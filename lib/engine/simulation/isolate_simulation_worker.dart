@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math' as math;
 
+import '../../core/utils/performance_profiler_overlay.dart';
 import '../../models/equipment/complete_bike.dart';
 import '../../models/equipment/frame_model.dart';
 import '../../models/race/race_stage.dart';
@@ -813,18 +814,24 @@ class IsolateSimulationWorker {
         completer.complete();
       } else if (message is SnapshotEmittedMessage) {
         _latestSnapshot = message.snapshot;
+        PerformanceTelemetryRegistry.instance.updatePhysicsTick(
+          microseconds: (message.snapshot.computeDurationMs * 1000.0).round(),
+          riderCount: message.snapshot.riders.length,
+        );
         if (!_snapshotController.isClosed) {
           _snapshotController.add(message.snapshot);
         }
       } else if (message is SimulationPausedMessage) {
         _isPaused = true;
         _isRunning = false;
+        PerformanceTelemetryRegistry.instance.clearSimulationActivity();
       } else if (message is SimulationResumedMessage) {
         _isPaused = false;
         _isRunning = true;
       } else if (message is SimulationFinishedMessage) {
         _isRunning = false;
         _isPaused = false;
+        PerformanceTelemetryRegistry.instance.clearSimulationActivity();
         if (!_finishController.isClosed) {
           _finishController.add(message.results);
         }

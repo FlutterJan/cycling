@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'core/utils/performance_profiler_overlay.dart';
 
 /// Punkt startowy gry Pro Peloton Manager.
 /// Inicjalizuje platformy (iOS, Android, macOS, Windows), Riverpod ProviderScope,
@@ -78,7 +79,9 @@ class ProPelotonManagerApp extends ConsumerWidget {
                   maxScaleFactor: 1.15,
                 ),
           ),
-          child: child ?? const SizedBox.shrink(),
+          child: PerformanceProfilerOverlay(
+            child: child ?? const SizedBox.shrink(),
+          ),
         );
       },
     );

@@ -463,7 +463,7 @@ Zasady działania pętli:
 
   2. Możliwość pominięcia samouczka w dowolnej chwili oraz ponownego uruchomienia z ekranu ustawień. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #170** (`lib/core/utils/performance_profiler_overlay.dart`): Zbuduj profesjonalny widget diagnostyczny `PerformanceProfilerOverlay` (włączany klawiszem `F3` na Windows/macOS lub przełącznikiem w ustawieniach), wyświetlany w prawym górnym rogu ekranu. Zaimplementuj:
+- [x] **Zadanie #170** (`lib/core/utils/performance_profiler_overlay.dart`): Zbuduj profesjonalny widget diagnostyczny `PerformanceProfilerOverlay` (włączany klawiszem `F3` na Windows/macOS lub przełącznikiem w ustawieniach), wyświetlany w prawym górnym rogu ekranu. Zaimplementuj:
 
   1. Pomiar w czasie rzeczywistym za pomocą `SchedulerBinding.instance.addTimingsCallback`: aktualny licznik FPS (z podświetleniem na zielono $\ge 60\text{ FPS}$, żółto $30–59\text{ FPS}$, czerwono $<30\text{ FPS}$), czas budowania klatki UI (`Build ms`), czas rasteryzacji GPU (`Raster ms`).
 
