@@ -779,7 +779,7 @@ Zasady działania pętli:
 
   4. Kafelek Szybkich Akcji (np. `2 kolarzy czeka na przedłużenie kontraktu`, `Wyniki testów z Laboratorium gotowe`, `Dostępny rekonesans przed Monumentem`). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #209** (`test/physics_and_physiology_master_test.dart`): Napisz kompletny, rygorystyczny zestaw testów jednostkowych (`flutter_test`) weryfikujących całą matematykę gry:
+- [x] **Zadanie #209** (`test/physics_and_physiology_master_test.dart`): Napisz kompletny, rygorystyczny zestaw testów jednostkowych (`flutter_test`) weryfikujących całą matematykę gry:
 
   1. Test Równania Mocy: sprawdź prędkości dla górala ($58\text{ kg}, 370\text{ W}$) vs sprintera ($78\text{ kg}, 420\text{ W}$) na płaskim ($0\%$) oraz na ściance ($10\%$).
 
