@@ -542,7 +542,7 @@ Zasady działania pętli:
 
   3. Zestaw 3 stylizowanych kamperów (RV) kibiców z markizami i flagami kolarskimi ustawianych na zakrętach serpentyn. Zapewnij czysty eksport do `.glb`.
 
-- [ ] **Zadanie #178** (`blender_scripts/generate_time_trial_start_ramp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D profesjonalny domek i rampę startową do jazdy na czas (`assets/3d/environment/tt_start_ramp.glb`):
+- [x] **Zadanie #178** (`blender_scripts/generate_time_trial_start_ramp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D profesjonalny domek i rampę startową do jazdy na czas (`assets/3d/environment/tt_start_ramp.glb`):
 
   1. Zadaszony pawilon startowy z nowoczesną ramą stalowo-szklaną w kolorach ciemnego grafitu `#181B22` i czerwieni `#8E4A49`.
 

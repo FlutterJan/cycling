@@ -239,4 +239,5 @@
 - `blender_scripts/build_all_assets_master.py` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz odpowiadające `test_*.py` — Generator assetów 3D `.glb` w Blenderze.
 - `blender_scripts/generate_cobble_monument_props.py` — Generator 3D welodromu (`velodrome_finish_arena.glb`) i rekwizytów sektora bruku (`cobble_sector_props.glb`) w Blender 5.3.
 - `blender_scripts/generate_alpine_summit_scenery.py` — Generator 3D scenerii szczytu Hors Categorie (`alpine_summit_pack.glb`: obserwatorium z wieżą, ściany śnieżne 3m, 3 kampery z markizami i flagami) w Blender 5.3.
+- `blender_scripts/generate_time_trial_start_ramp.py` — Generator 3D domku i rampy startowej jazdy na czas (`tt_start_ramp.glb`: pawilon stalowo-szklany `#181B22`/`#8E4A49`, pochylnia z antypoślizgowym pasem, stojak koła TT, zegar LED z diodami R/Y/G) w Blender 5.3.
 - `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.
