@@ -600,7 +600,7 @@ Zasady działania pętli:
 
   3. Efekt mokrego asfaltu (`WetRoadSpecularReflection`): podczas deszczu szosa odbija przytłumione kolory koszulek peletonu oraz czerwone światła tylne samochodów dyrektora sportowego. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #187** (`lib/engine/rendering3d/peloton_3d_canvas_engine.dart`): Aby widok 3D działał ze gwarantowaną płynnością 120 FPS od razu po uruchomieniu na Windows, macOS, Androidzie i iOS (nawet zanim zewnętrzne pliki `.glb` zostaną załadowane), zbuduj ultrawydajny, natywny silnik renderowania 3D na Canvasie Fluttera `Peloton3dCanvasEngine` wykorzystujący rzutowanie macierzowe `vector_math_64`. Zaimplementuj:
+- [x] **Zadanie #187** (`lib/engine/rendering3d/peloton_3d_canvas_engine.dart`): Aby widok 3D działał ze gwarantowaną płynnością 120 FPS od razu po uruchomieniu na Windows, macOS, Androidzie i iOS (nawet zanim zewnętrzne pliki `.glb` zostaną załadowane), zbuduj ultrawydajny, natywny silnik renderowania 3D na Canvasie Fluttera `Peloton3dCanvasEngine` wykorzystujący rzutowanie macierzowe `vector_math_64`. Zaimplementuj:
 
   1. Trójwymiarowe rysowanie wstęgi drogi z perspektywą, zakrętami, zmianami nachylenia, teksturą asfaltu/bruku, pasami ruchu, barierkami ochronnymi, drzewami, skałami i bramami kilometrowymi.
 
