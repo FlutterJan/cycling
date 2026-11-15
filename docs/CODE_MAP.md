@@ -237,4 +237,5 @@
 
 ### `blender_scripts/` & `test/`
 - `blender_scripts/build_all_assets_master.py` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz odpowiadające `test_*.py` — Generator assetów 3D `.glb` w Blenderze.
+- `blender_scripts/generate_cobble_monument_props.py` — Generator 3D welodromu (`velodrome_finish_arena.glb`) i rekwizytów sektora bruku (`cobble_sector_props.glb`) w Blender 5.3.
 - `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.

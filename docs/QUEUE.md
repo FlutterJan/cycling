@@ -527,7 +527,7 @@ Zasady działania pętli:
 
   3. Siatkę 45 odblokowanych i zablokowanych osiągnięć z paskami postępu (np. `Wygrane etapy z ucieczki: 7/10`), filtrowaniem według rangi i datą zdobycia. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #176** (`blender_scripts/generate_cobble_monument_props.py`): Napisz kompletny, bezbłędny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie buduje w 3D ikoniczne obiekty Wiosennych Klasyków i Monumentów brukowanych:
+- [x] **Zadanie #176** (`blender_scripts/generate_cobble_monument_props.py`): Napisz kompletny, bezbłędny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie buduje w 3D ikoniczne obiekty Wiosennych Klasyków i Monumentów brukowanych:
 
   1. Betonowy Welodrom na finał klasyku (`assets/3d/environment/velodrome_finish_arena.glb`): owalna niecka toru kolarskiego z nachylonymi wirażami ($31^\circ$), trawą pośrodku, linią mety i zadaszoną trybuną historyczną.
 
