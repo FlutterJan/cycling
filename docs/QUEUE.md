@@ -638,7 +638,7 @@ Zasady działania pętli:
 
   2. Niestandardowy, zintegrowany pasek stanu aplikacji z przełącznikiem pełnego ekranu (`F11`), szybkim podglądem obciążenia wątku fizyki oraz przyciskiem zrzutu ekranu (Screenshot Mode ukrywa HUD do zrobienia czystego zdjęcia peletonu 3D). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #192** (`lib/services/database/demo_save_preset_builder.dart`): Stwórz klasę `DemoSavePresetBuilder` generującą 4 gotowe, bogate w detale scenariusze startowe ("Scenariusze Szybkiego Startu Kariery"), dzięki którym gracz może od razu wskoczyć w środek wielkich emocji bez zaczynania od 1 stycznia:
+- [x] **Zadanie #192** (`lib/services/database/demo_save_preset_builder.dart`): Stwórz klasę `DemoSavePresetBuilder` generującą 4 gotowe, bogate w detale scenariusze startowe ("Scenariusze Szybkiego Startu Kariery"), dzięki którym gracz może od razu wskoczyć w środek wielkich emocji bez zaczynania od 1 stycznia:
 
   1. `Polski Projekt WorldTour`: prowadzisz ambitną polską ekipę ProTeam z budżetem 8 mln EUR, młodym talentem górskim z Tatr i walczysz o Dziką Kartę na Wielką Pętlę.
 
