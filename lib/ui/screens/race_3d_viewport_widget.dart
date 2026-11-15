@@ -36,6 +36,7 @@ import '../../engine/simulation/key_moments_detector.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/stage_segment.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../widgets/tactical_radial_command_menu.dart';
 
 // Stałe kolorystyczne wirtualnego silnika 3D Zwift / MyWhoosh
 const Color _goldPlayerAccent = Color(0xFFFFD700);
@@ -369,6 +370,10 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
 
   // Pula interpolowanych kolarzy
   final Map<String, _InterpolatedRiderState> _riderPool = {};
+
+  // Stan kołowego menu rozkazów taktycznych (#169)
+  RiderPositionSnapshot? _radialMenuRider;
+  Offset? _radialMenuAnchorPosition;
 
   // Czas trwania animacji
   double _elapsedAnimSeconds = 0.0;
@@ -979,10 +984,10 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
         _currentSelectedRiderId = selectedId;
         _canvasEngine.selectedRiderId = selectedId;
         _showBroadcastSpotlight = true;
+        _radialMenuRider = hitSnapshot;
+        _radialMenuAnchorPosition = tapPosition;
       });
       widget.onRiderSelected?.call(selectedId);
-
-      _showRiderTacticalSheet(context, hitSnapshot);
     }
   }
 
@@ -1131,6 +1136,37 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
         });
       }
     });
+  }
+
+  void _handleRadialCommandSelected(
+    RiderPositionSnapshot rider,
+    TacticalRadialCommandType command,
+  ) {
+    if (command.isEnergyGel) {
+      try {
+        ref.read(raceSimulationProvider.notifier).feedGelToRider(rider.riderId);
+      } catch (_) {}
+
+      setState(() {
+        _tacticalFeedbackMessage =
+            'Żel Energetyczny: #${rider.bibNumber} ${rider.riderName}';
+      });
+
+      _tacticalFeedbackTimer?.cancel();
+      _tacticalFeedbackTimer = Timer(const Duration(seconds: 4), () {
+        if (mounted) {
+          setState(() {
+            _tacticalFeedbackMessage = null;
+          });
+        }
+      });
+      return;
+    }
+
+    final order = command.tacticalOrder;
+    if (order != null) {
+      _issueTacticalOrder(rider, order);
+    }
   }
 
   void _showRiderTacticalSheet(BuildContext context, RiderPositionSnapshot rider) {
@@ -1647,6 +1683,54 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
                     stage: activeStage,
                     segments: segments,
                     model: widget.bikeComputerModel,
+                  ),
+                ),
+
+              // 9. Kołowe menu rozkazów taktycznych (#169) po kliknięciu kolarza w 3D
+              if (_radialMenuRider != null && _radialMenuAnchorPosition != null)
+                Positioned.fill(
+                  child: Builder(
+                    builder: (ctx) {
+                      final radialRider = _radialMenuRider!;
+                      final radialState =
+                          widget.riderStates?[radialRider.riderId] ??
+                          ref
+                              .read(raceSimulationProvider)
+                              .simulationState
+                              ?.riderStates[radialRider.riderId];
+                      final bool isPlayer = radialRider.isPlayerRider ||
+                          widget.playerRiderIds.contains(radialRider.riderId);
+
+                      return TacticalRadialCommandMenu(
+                        riderId: radialRider.riderId,
+                        riderName: radialRider.riderName,
+                        bibNumber: radialRider.bibNumber,
+                        anchorPosition: _radialMenuAnchorPosition!,
+                        activeOrder: radialState?.activeTacticalOrder,
+                        isPlayerRider: isPlayer,
+                        gelsLeft: radialState?.gelsLeft ?? 4,
+                        bidonsLeft: radialState?.bidonsLeft ?? 2,
+                        currentWatts: radialRider.powerWatts,
+                        onCommandSelected: (cmd) =>
+                            _handleRadialCommandSelected(radialRider, cmd),
+                        onDismiss: () {
+                          if (mounted) {
+                            setState(() {
+                              _radialMenuRider = null;
+                              _radialMenuAnchorPosition = null;
+                            });
+                          }
+                        },
+                        onInspectRiderDetails: () {
+                          final snap = radialRider;
+                          setState(() {
+                            _radialMenuRider = null;
+                            _radialMenuAnchorPosition = null;
+                          });
+                          _showRiderTacticalSheet(ctx, snap);
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
