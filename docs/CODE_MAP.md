@@ -134,6 +134,7 @@
 - `lib/engine/rendering3d/rider_floating_labels_overlay.dart` — Pływające etykiety nad kolarzami w 3D.
 - `lib/engine/rendering3d/road_furniture_3d_renderer.dart` — Brama km, barierki, znaki i reklamy przy trasie.
 - `lib/engine/rendering3d/road_ribbon_mesh_builder.dart` — Budowa wstęgi asfaltu, bruku i zakrętów 3D.
+- `lib/engine/rendering3d/roadside_banners_and_arches_renderer.dart` — Renderer 3D dmuchanych bram (`Start`, `Sprint Intermédiaire`, `Col / KOM`, `Flamme Rouge 1 km`) oraz barierek ochronnych z banerami sponsorów z `FictionalBrandsCatalog` (`RoadsideBannersAndArchesRenderer`, `InflatableArchType`, `RoadsideSponsorBanner`, `RoadsideArchInstance3D`, `RoadsideBarrierInstance3D`).
 - `lib/engine/rendering3d/scene_3d_math_projection.dart` — Macierze rzutowania 3D->2D i geometria kamery.
 - `lib/engine/rendering3d/support_vehicles_3d_renderer.dart` — Samochody techniczne, motocykle kamerzystów i helikopter.
 - `lib/engine/rendering3d/weather_particles_renderer.dart` — Cząsteczki deszczu, śniegu i kurzu.
