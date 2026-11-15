@@ -447,7 +447,7 @@ Zasady działania pętli:
 
   3. Metodę `applyLivePatchToActiveCareer()`, która pozwala podmienić nazwy na prawdziwe nawet w trakcie trwającej już kariery bez psucia postępów, kontraktów i wyników w klasyfikacjach! Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #169** (`lib/ui/widgets/tutorial_coach_marks_overlay.dart`): Stwórz interaktywny system samouczka i podpowiedzi taktycznych `TutorialCoachMarksOverlay` dla nowych graczy, utrzymany w estetyce ciemnego szkła (`#181B22`, złota ramka `#D4AF37`, strzałki wektorowe wskazujące konkretne elementy interfejsu). Zaimplementuj:
+- [x] **Zadanie #169** (`lib/ui/widgets/tutorial_coach_marks_overlay.dart`): Stwórz interaktywny system samouczka i podpowiedzi taktycznych `TutorialCoachMarksOverlay` dla nowych graczy, utrzymany w estetyce ciemnego szkła (`#181B22`, złota ramka `#D4AF37`, strzałki wektorowe wskazujące konkretne elementy interfejsu). Zaimplementuj:
 
   1. Tryb prowadzenia za rękę podczas pierwszego wyścigu (Interactive Race Academy - 6 kroków):
 

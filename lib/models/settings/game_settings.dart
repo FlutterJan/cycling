@@ -97,6 +97,8 @@ class GameSettings {
   final int autoSaveIntervalMinutes;
   final bool showFpsCounter;
   final double uiScale;
+  final bool hasCompletedRaceTutorial;
+  final bool showTutorialHints;
 
   const GameSettings({
     this.shadowQuality = ShadowQuality.medium,
@@ -111,6 +113,8 @@ class GameSettings {
     this.autoSaveIntervalMinutes = 15,
     this.showFpsCounter = false,
     this.uiScale = 1.0,
+    this.hasCompletedRaceTutorial = false,
+    this.showTutorialHints = true,
   });
 
   /// Szacowany wskaźnik obciążenia baterii / GPU (1.0 = b. niskie, 5.0 = maksymalne)
@@ -249,6 +253,8 @@ class GameSettings {
     int? autoSaveIntervalMinutes,
     bool? showFpsCounter,
     double? uiScale,
+    bool? hasCompletedRaceTutorial,
+    bool? showTutorialHints,
   }) {
     return GameSettings(
       shadowQuality: shadowQuality ?? this.shadowQuality,
@@ -263,6 +269,8 @@ class GameSettings {
       autoSaveIntervalMinutes: autoSaveIntervalMinutes ?? this.autoSaveIntervalMinutes,
       showFpsCounter: showFpsCounter ?? this.showFpsCounter,
       uiScale: uiScale ?? this.uiScale,
+      hasCompletedRaceTutorial: hasCompletedRaceTutorial ?? this.hasCompletedRaceTutorial,
+      showTutorialHints: showTutorialHints ?? this.showTutorialHints,
     );
   }
 
@@ -280,6 +288,8 @@ class GameSettings {
       'autoSaveIntervalMinutes': autoSaveIntervalMinutes,
       'showFpsCounter': showFpsCounter,
       'uiScale': uiScale,
+      'hasCompletedRaceTutorial': hasCompletedRaceTutorial,
+      'showTutorialHints': showTutorialHints,
     };
   }
 
@@ -303,6 +313,8 @@ class GameSettings {
       autoSaveIntervalMinutes: (json['autoSaveIntervalMinutes'] as num?)?.toInt() ?? 15,
       showFpsCounter: json['showFpsCounter'] as bool? ?? false,
       uiScale: (json['uiScale'] as num?)?.toDouble() ?? 1.0,
+      hasCompletedRaceTutorial: json['hasCompletedRaceTutorial'] as bool? ?? false,
+      showTutorialHints: json['showTutorialHints'] as bool? ?? true,
     );
   }
 

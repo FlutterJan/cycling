@@ -11,6 +11,7 @@ import '../../services/database/custom_mod_importer_service.dart';
 import '../../state/career_controller.dart';
 import '../../state/game_settings_notifier.dart';
 import '../widgets/rider_avatar_painter.dart';
+import '../widgets/tutorial_coach_marks_overlay.dart';
 
 /// Ekran Ustawień, Grafiki 3D oraz Modyfikacji i Edytora Bazy Danych (In-Game Database Editor).
 class SettingsAndModScreen extends ConsumerStatefulWidget {
@@ -243,6 +244,10 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
 
           // Karta Dźwięku i Audio
           _buildAudioSettingsCard(settings, notifier),
+          const SizedBox(height: 20),
+
+          // Karta Samouczka i Podpowiedzi Taktycznych (Interactive Race Academy)
+          _buildTutorialSettingsCard(context, settings, notifier),
           const SizedBox(height: 30),
 
           // Przycisk przywrócenia domyślnych
@@ -257,6 +262,157 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
               icon: const Icon(Icons.restore_rounded, color: AppColors.textMuted),
               label: const Text('Przywróć domyślne parametry fabryczne', style: TextStyle(color: AppColors.textMuted)),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTutorialSettingsCard(
+    BuildContext context,
+    GameSettings settings,
+    GameSettingsNotifier notifier,
+  ) {
+    final isPending = !settings.hasCompletedRaceTutorial && settings.showTutorialHints;
+
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.cardDark,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.goldAccent.withValues(alpha: 0.45),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.goldAccent.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.school_rounded,
+                  color: AppColors.goldAccent,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'INTERACTIVE RACE ACADEMY (SAMOUCZEK)',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.6,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      isPending
+                          ? 'Status: Aktywny podczas najbliższego wyścigu'
+                          : settings.hasCompletedRaceTutorial
+                              ? 'Status: Ukończono lub pominięto'
+                              : 'Status: Podpowiedzi wyłączone',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 11.5,
+                        color: isPending
+                            ? AppColors.statusSuccess
+                            : AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Switch(
+                value: settings.showTutorialHints,
+                activeThumbColor: AppColors.goldAccent,
+                onChanged: (value) => notifier.setShowTutorialHints(value),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            '6-krokowe szkolenie z fizyki draftingu, zapasu W\' i glikogenu, pociągu górskiego (5.8 W/kg), ciśnienia opon na bruku oraz planowania szczytu formy (TSB = CTL - ATL).',
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 12,
+              height: 1.4,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.goldAccent,
+                  foregroundColor: AppColors.background,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.play_circle_outline_rounded, size: 18),
+                label: const Text(
+                  'Uruchom Akademię teraz',
+                  style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                ),
+                onPressed: () {
+                  notifier.restartRaceTutorial();
+                  showDialog<void>(
+                    context: context,
+                    barrierColor: Colors.transparent,
+                    builder: (dialogContext) => Material(
+                      type: MaterialType.transparency,
+                      child: TutorialCoachMarksOverlay(
+                        forceVisible: true,
+                        onCompleted: () => Navigator.of(dialogContext).pop(),
+                        onSkipped: () => Navigator.of(dialogContext).pop(),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.textPrimary,
+                  side: const BorderSide(color: AppColors.cardBorder),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.replay_rounded, size: 18),
+                label: const Text(
+                  'Pokaż przy następnym wyścigu',
+                  style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+                ),
+                onPressed: () {
+                  notifier.restartRaceTutorial();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Interactive Race Academy zostanie uruchomiona automatycznie na starcie kolejnego wyścigu.',
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),

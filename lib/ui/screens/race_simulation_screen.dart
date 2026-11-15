@@ -17,6 +17,7 @@ import '../widgets/race_radio_banner.dart';
 import '../widgets/race_top_hud_bar.dart';
 import '../widgets/rider_telemetry_hud.dart';
 import '../widgets/tactical_minimap_2d_widget.dart';
+import '../widgets/tutorial_coach_marks_overlay.dart';
 import '../../engine/rendering3d/photo_finish_replay_widget.dart';
 import 'race_3d_viewport_widget.dart';
 import 'race_hud_overlay.dart';
@@ -81,6 +82,10 @@ class RaceSimulationScreen extends ConsumerStatefulWidget {
 class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
   late RaceCameraMode _cameraMode;
   bool _showMinimap = true;
+  final GlobalKey _topHudKey = GlobalKey();
+  final GlobalKey _pelotonViewportKey = GlobalKey();
+  final GlobalKey _telemetryHudKey = GlobalKey();
+  final GlobalKey _minimapKey = GlobalKey();
 
   @override
   void initState() {
@@ -142,6 +147,7 @@ class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
         children: [
           // 1. Tło sceny wyścigu (Wizualizacja trasy 3D / 2.5D Elevation Track Canvas)
           Positioned.fill(
+            key: _pelotonViewportKey,
             child: _RaceTrackElevationCanvas(
               cameraMode: _cameraMode,
               stage: simState.stage,
@@ -163,6 +169,7 @@ class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
             child: SafeArea(
               bottom: false,
               child: RaceTopHudBar(
+                key: _topHudKey,
                 stage: simState.stage,
                 currentLeadKm: simState.leadKilometerMark,
                 elapsedSeconds: simState.elapsedSeconds,
@@ -267,6 +274,7 @@ class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
               child: SafeArea(
                 bottom: false,
                 child: SizedBox(
+                  key: _minimapKey,
                   width: 360,
                   child: TacticalMinimap2dWidget(
                     isCompact: true,
@@ -482,6 +490,7 @@ class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
                         ),
                       ),
                     RiderTelemetryHud(
+                      key: _telemetryHudKey,
                       riderState: currentRiderState,
                       rider: selectedRider,
                       onOrderSelected: (order) {
@@ -542,6 +551,19 @@ class _RaceSimulationScreenState extends ConsumerState<RaceSimulationScreen> {
                     }
                   },
                 ),
+              ),
+            ),
+
+          // 7. Interaktywny samouczek wyścigowy (Interactive Race Academy) dla nowych graczy
+          if (simUiState.stageSummaryReport == null)
+            Positioned.fill(
+              child: TutorialCoachMarksOverlay(
+                targetKeys: {
+                  TutorialTargetZone.topHudBar: _topHudKey,
+                  TutorialTargetZone.pelotonViewport: _pelotonViewportKey,
+                  TutorialTargetZone.telemetryHud: _telemetryHudKey,
+                  TutorialTargetZone.minimapAndSurface: _minimapKey,
+                },
               ),
             ),
         ],

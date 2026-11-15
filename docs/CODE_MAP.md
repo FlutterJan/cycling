@@ -229,6 +229,7 @@
 - `lib/ui/widgets/rider_telemetry_hud.dart` — Karta telemetrii kolarza na żywo (W, BPM, W', glikogen).
 - `lib/ui/widgets/tactical_minimap_2d_widget.dart` — Minimapa 2D trasy i pozycji grup.
 - `lib/ui/widgets/team_tactical_presets_bar.dart` — Szybkie presety taktyczne dla całej drużyny.
+- `lib/ui/widgets/tutorial_coach_marks_overlay.dart` — Interaktywny samouczek wyścigowy (`TutorialCoachMarksOverlay`, `TutorialAcademyStep`, `TutorialTargetZone`) w estetyce ciemnego szkła ze strzałkami wektorowymi.
 
 ### `blender_scripts/` & `test/`
 - `blender_scripts/build_all_assets_master.py` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz odpowiadające `test_*.py` — Generator assetów 3D `.glb` w Blenderze.

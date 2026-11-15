@@ -78,6 +78,29 @@ class GameSettingsNotifier extends StateNotifier<GameSettings> {
     state = state.copyWith(showFpsCounter: enabled);
   }
 
+  /// Oznacza samouczek wyścigowy (Interactive Race Academy) jako ukończony
+  void completeRaceTutorial() {
+    state = state.copyWith(hasCompletedRaceTutorial: true);
+  }
+
+  /// Pomija samouczek wyścigowy w dowolnej chwili
+  void skipRaceTutorial() {
+    state = state.copyWith(hasCompletedRaceTutorial: true);
+  }
+
+  /// Resetuje stan samouczka, aby uruchomić go ponownie podczas kolejnego wyścigu
+  void restartRaceTutorial() {
+    state = state.copyWith(
+      hasCompletedRaceTutorial: false,
+      showTutorialHints: true,
+    );
+  }
+
+  /// Włącza lub wyłącza podpowiedzi taktyczne dla nowych graczy
+  void setShowTutorialHints(bool enabled) {
+    state = state.copyWith(showTutorialHints: enabled);
+  }
+
   /// Aplikuje jeden z gotowych profili graficznych
   void applyPreset(GraphicsPreset preset) {
     switch (preset) {
