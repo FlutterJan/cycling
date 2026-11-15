@@ -137,6 +137,7 @@
 - `lib/engine/rendering3d/scene_3d_math_projection.dart` — Macierze rzutowania 3D->2D i geometria kamery.
 - `lib/engine/rendering3d/support_vehicles_3d_renderer.dart` — Samochody techniczne, motocykle kamerzystów i helikopter.
 - `lib/engine/rendering3d/weather_particles_renderer.dart` — Cząsteczki deszczu, śniegu i kurzu.
+- `lib/engine/rendering3d/wheel_and_drivetrain_rotator.dart` — Animacja mechaniczna kół z motion blur (>40 km/h), tarczy korby wg RPM oraz wózka tylnej przerzutki wg przełożenia (`WheelAndDrivetrainRotator`, `DrivetrainConfig`, `DrivetrainGearSelection`, `WheelMotionBlurProfile`, `RearDerailleurKinematics`, `WheelAndDrivetrainFrameState`).
 - `lib/engine/rendering3d/wind_streamlines_visualizer.dart` — Linie strug wiatru w trybie taktycznym/tunelu.
 - `lib/engine/simulation/isolate_simulation_worker.dart` — Wątek Isolate wykonujący ticki fizyki w tle.
 - `lib/engine/simulation/key_moments_detector.dart` — Wykrywanie kluczowych momentów (ataki, kraksy, premie).
