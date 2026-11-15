@@ -708,7 +708,7 @@ Zasady działania pętli:
 
   2. Błyskawiczne sortowanie po kliknięciu dowolnego nagłówka kolumny, pole wyszukiwania na żywo (Live Search Filter) oraz podświetlenie wierszy należących do kolarzy z drużyny gracza subtelnym złotym paskiem bocznym `#D4AF37`. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #199** (`lib/engine/physics/altitude_acclimatization_and_heat_engine.dart`): Stwórz precyzyjny silnik fizjologiczny aklimatyzacji wysokościowej i adaptacji cieplnej `AltitudeAcclimatizationAndHeatEngine`. Zaimplementuj:
+- [x] **Zadanie #199** (`lib/engine/physics/altitude_acclimatization_and_heat_engine.dart`): Stwórz precyzyjny silnik fizjologiczny aklimatyzacji wysokościowej i adaptacji cieplnej `AltitudeAcclimatizationAndHeatEngine`. Zaimplementuj:
 
   1. Model spadku wydolności tlenowej na dużej wysokości n.p.m.: powyżej $1500\text{ m n.p.m.}$ niezreklimatyzowany kolarz traci ok. $1.5\%$ swojego bazowego FTP na każde kolejne $300\text{ m}$ wysokości (na przełęczy $2700\text{ m n.p.m.}$ to aż $-6\%$ mocy!), podczas gdy kolarz po obozie wysokogórskim (`altitudeAcclimatizationScore` 0–100) lub urodzony na dużej wysokości (np. kolarze z Kolumbii / Ekwadoru) traci o połowę mniej!
 
