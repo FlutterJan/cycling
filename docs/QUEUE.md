@@ -391,7 +391,7 @@ Zasady działania pętli:
 
   5. Responsywność przez `LayoutBuilder`: na wąskich ekranach (<600px) układ przewijany poziomo z przyklejoną kolumną nazw statystyk, na desktopie/tablecie pełna siatka wielokolumnowa bez jakiegokolwiek `RenderFlex overflow`. Zweryfikuj kompilację przez `flutter analyze`.
 
-- [ ] **Zadanie #164** (`lib/services/career/ai_team_transfer_simulation_service.dart`): Zbuduj zaawansowany serwis `AiTeamTransferSimulationService`, który symuluje realistyczny, żyjący rynek transferowy pomiędzy wszystkimi 52 drużynami AI w oknie transferowym (od 1 sierpnia do 15 listopada) oraz w trakcie sezonu (przedłużenia kontraktów). Zaimplementuj:
+- [x] **Zadanie #164** (`lib/services/career/ai_team_transfer_simulation_service.dart`): Zbuduj zaawansowany serwis `AiTeamTransferSimulationService`, który symuluje realistyczny, żyjący rynek transferowy pomiędzy wszystkimi 52 drużynami AI w oknie transferowym (od 1 sierpnia do 15 listopada) oraz w trakcie sezonu (przedłużenia kontraktów). Zaimplementuj:
 
   1. Analizę potrzeb kadrowych każdej drużyny AI (`TeamRosterNeedsAnalyzer`): sprawdzenie braków na pozycjach `GCLeader`, `PureSprinter`, `ClassicCobbles`, `SuperDomestique` oraz weryfikację średniego wieku składu i zagrożenia spadkiem w 3-letnim rankingu UCI.
 

@@ -132,6 +132,7 @@
 - `lib/engine/weather/dynamic_mountain_weather_engine.dart` — Pogoda zależna od wysokości n.p.m. i godziny.
 
 ### `lib/services/`
+- `lib/services/career/ai_team_transfer_simulation_service.dart` — Symulacja rynku transferowego AI (`AiTeamTransferSimulationService`, `TeamRosterNeedsAnalyzer`, `TransferNewsItem`).
 - `lib/services/career/anti_doping_and_whereabouts_service.dart` — Kontrole antydopingowe i paszport biologiczny.
 - `lib/services/career/bike_manufacturer_negotiation_service.dart` — Negocjacje kontraktów z producentami rowerów.
 - `lib/services/career/development_team_u23_service.dart` — Zarządzanie drużyną młodzieżową U23.
