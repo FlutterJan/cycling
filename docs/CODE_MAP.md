@@ -170,6 +170,7 @@
 - `lib/services/career/physiology_lab_testing_service.dart` — Badania wydolnościowe VO2max i krzywej mleczanowej.
 - `lib/services/career/post_race_equipment_degradation_service.dart` — Serwis zużycia sprzętu po etapie (`PostRaceEquipmentDegradationService`, `PostRaceSparePartsBudgetReport`, `BikePostRaceDegradationReport`, `CassetteAndBearingWear`, `RiderBikeStageUsage`, `SparePartCategory`: łańcuch, kaseta, opony, łożyska 3x w deszczu i na bruku oraz raport kosztów części dla budżetu).
 - `lib/services/career/press_conference_service.dart` — Wywiady prasowe przed/po etapach i wpływ na morale.
+- `lib/services/career/prize_money_distribution_service.dart` — Serwis podziału nagród finansowych (`PrizeMoneyDistributionService`, `PrizeMoneyDistributionPolicy`, `PrizeMoneyDistributionPreset`, `PrizeMoneyPoolInput`, `PrizeMoneyDistributionResult`, `SeasonPrizeMoneyLedgerSummary`): podział puli (np. 500 000 EUR w GT) na klub, zwycięzcę, równy podział dla `domestiques` oraz premię sztabu.
 - `lib/services/career/race_calendar_selection_service.dart` — Zgłaszanie składów i dzikie karty na wyścigi.
 - `lib/services/career/race_day_pipeline_orchestrator.dart` — Orkiestrator dnia wyścigowego (`RaceDayPipelineOrchestrator`, `RaceDayPipelineNotifier`, `raceDayPipelineProvider`, `RaceDayPipelinePhase`) łączący Calendar → PreRaceBriefing → Symulację 3D → StageResultsCalculator → Podium → SponsorObjectivesEvaluator → RecoveryProcessor → AutoSave.
 - `lib/services/career/race_reconnaissance_service.dart` — Rekonesans tras i premia taktyczna.
