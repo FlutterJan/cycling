@@ -244,6 +244,7 @@
 - `lib/ui/widgets/live_virtual_standings_drawer.dart` — Wysuwana tabela wirtualnej klasyfikacji GC na żywo.
 - `lib/ui/widgets/mechanic_workshop_panel.dart` — Panel warsztatu mechaników (ciśnienie opon, wosk, koła).
 - `lib/ui/widgets/peloton_heatmap_position_widget.dart` — Taktyczna siatka ciepła pozycji w peletonie z lotu ptaka.
+- `lib/ui/widgets/podium_3d_ceremony_painter.dart` — Animowana ceremonia podium 3D (`Podium3dCeremonyPainter`, `Podium3dCeremonyWidget`, `PodiumLeaderJerseyType`, `PodiumCeremonyRaceTheme`, `PodiumRiderEntry`, `PodiumNationalAnthemProfile`): 3 stopnie 3D, koszulki lidera (Żółta/Zielona/Grochy/Biała), konfetti, flesze fotoreporterów i hymn zwycięzcy.
 - `lib/ui/widgets/power_curve_chart_widget.dart` — Wykres krzywej mocy W / W/kg.
 - `lib/ui/widgets/press_interview_modal.dart` — Modal wywiadu z dziennikarzami.
 - `lib/ui/widgets/pro_cycling_stats_table_widget.dart` — Tabela danych w stylu ProCyclingStats (`ProCyclingStatsTableWidget`, `PcsRiderRowData`, `PcsCountryFlagBadge`, `PcsTableMode`, `PcsSortColumn`, `PcsSpecializationCategory`) z wektorowymi flagami ISO, sortowaniem, filtrem na żywo i złotym paskiem drużyny gracza `#D4AF37`.
