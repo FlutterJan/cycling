@@ -572,7 +572,7 @@ Zasady działania pętli:
 
 - [x] **Zadanie #183** (`blender_scripts/build_all_assets_master.py` oraz `build_3d_assets_windows.bat`): Zaktualizuj skrypt główny `blender_scripts/build_all_assets_master.py`, aby wykonywał wszystkie skrypty od #086 do #182 w sposób w 100% kompatybilny z **Blender 5.3.0 na Windows** (obsługa zmian w API `bpy` w wersji 5.x, bezpieczne ścieżki `os.path`, przechwyt wyjątków `try/except` dla każdego pliku z osobna, generowanie raportu `assets/3d/asset_manifest.json`). Stwórz również w głównym katalogu plik `build_3d_assets_windows.bat`, który uruchamia proces w tle i wypisuje status każdego wygenerowanego pliku `.glb`.
 
-- [ ] **Zadanie #184** (`lib/engine/peloton/boids_steering_collision_avoidance.dart`): Aby kolarze w widoku 3D nigdy nie przenikali przez siebie (brak efektu "clippingu" siatek 3D) i poruszali się jak prawdziwy, żywy peleton szosowy, stwórz silnik fizyki ruchu ciągłego `BoidsSteeringCollisionAvoidance`. Zaimplementuj:
+- [x] **Zadanie #184** (`lib/engine/peloton/boids_steering_collision_avoidance.dart`): Aby kolarze w widoku 3D nigdy nie przenikali przez siebie (brak efektu "clippingu" siatek 3D) i poruszali się jak prawdziwy, żywy peleton szosowy, stwórz silnik fizyki ruchu ciągłego `BoidsSteeringCollisionAvoidance`. Zaimplementuj:
 
   1. Trzy wektory sterujące dla każdego z 176 kolarzy w każdej klatce (60 FPS):
 
