@@ -3,24 +3,33 @@
 Ten dokument stanowi centralną kolejkę zadań dla autonomicznego agenta w Antigravity IDE.
 
 * **Zadania #001 – #162:** Ukończone (`[x]`).
+* **Zadania #163 – #212:** Paczka #1 (Silnik 3D Canvas, Boids, Oprawa TV, Integracja Mostów, Audyt Modeli i Testy Smoke).
+* **Zadania #213 – #262:** Paczka #2 (Balans Matematyczny Wyścigów, Głęboka Taktyka Kolarska, Ekonomia Medialna, Optymalizacja 120 FPS i Testy Regresji).
+* **Zadania #263 – #312:** Paczka #3 (Detale Immersji 3D, Mechanika Przełożeń i Termoregulacji, Ergonomia Mobile/Touch, Eksport Danych i Dystrybucja Produkcyjna).
+* **Zadania #313 – #362:** Paczka #4 (Tryb Kariery Pojedynczego Kolarza "Be a Pro", Kamera 3D First-Person Cockpit, Zimowe Przełaje Cyclo-Cross, Rekord Godzinny na Welodromie, Biomechanika Pedałowania i Złote Karty Kolekcjonerskie).
+* **Zadania #363 – #412:** Paczka #5 (Gravel World Series, Dyplomacja i Sojusze w Peletonie, Autobus Drużyny 3D i Rozgrzewka, Igrzyska Olimpijskie, Women's WorldTour & Mixed Relay, Dual-Screen Telemetry Wall oraz Gold Master QA).
+* **Zadania #413 – #462:** Paczka #6 (Multiplayer Ligi Online i Asynchroniczne Wyzwania, Kolarstwo Górskie MTB Cross-Country XCO, Własna Marka Rowerowa R&D, Radio Głosowe i Płatności/Kontrakty Telewizyjne).
+* **Zadania #463 – #512:** Paczka #7A (Symulator Komisarza i Sędziego UCI, Dynamiczna Ewolucja Przepisów, Kolarstwo Torowe Keirin & Madison, System Dziennikarzy i Przecieków Transferowych).
+* **Zadania #513 – #562:** Paczka #7B (Tryb Organizatora Wielkich Tourów ASO/RCS, Wyścigi Ultra-Endurance Bikepacking 4000 km, Real-Time CFD Wind Tunnel, Globalne Akademie Satelickie oraz Diamond Master v2.0 QA).
+* **Zadania #563 – #612:** Paczka #8 (Golden Era Retro Classics 1970–2015, UCI Cycling Esports & Virtual Academy Scouting, Ekonomia ESG / Zielona Flota Zespołu, Post-Race AI Tactical Coach oraz Platinum Apex v3.0 QA).
+* **Zadania #613 – #662:** Paczka #9 (Global Cycling Expansion: Afryka, Azja i Bliski Wschód, Graf Relacji i Psychologia Szatni 2.0, Symulator Scenariuszy Taktycznych „What-If”, UCI Para-Cycling Tandem & Handbike oraz Obsidian Sovereign v4.0 QA).
+* **Zadania #663 – #712:** Paczka #10 (Americas & Oceania Expansion: Andy 3200m i Australijskie Upały, Skanery Techniczne UCI & Trybunał CAS, Nocne HRV & Fizjoterapia Grand Tourowa, Tryb Reżysera Transmisji TV oraz Titanium Imperial v5.0 QA).
 
-* **Zadania #163 – #212:** Aktywna paczka 50 ultra-szczegółowych zadań produkcyjnych (`[ ]`) zaprojektowanych pod model **Hydrogen** (1 zadanie = 1 świeży kontekst = weryfikacja `flutter analyze` = `git commit`).
+---
 
 ## INSTRUKCJA URUCHOMIENIA AUTOMATYCZNEJ PĘTLI
 
-### KROK A: Zapisz ten plik jako `docs/QUEUE.md` w swoim projekcie (lub wklej poniższy prompt do modelu ARGON 4):
-
+### KROK A: Konfiguracja w Argon 4 (jednorazowo na start)
 ```
-Chcę zautomatyzować dalszą budowę tej gry w sposób maksymalnie oszczędzający tokeny i odporny na przerwanie po wyczerpaniu limitu tygodniowego. Dotychczas wykonaliśmy 162 prompty (modele, fizyka, część silnika 3D, serwisów i UI są już w projekcie).
+Chcę zautomatyzować dalszą budowę tej gry w sposób maksymalnie oszczędzający tokeny i odporny na przerwanie po wyczerpaniu limitu tygodniowego.
 
 Wykonaj teraz automatycznie 4 kroki konfiguracyjne (bez psucia obecnego kodu gry):
 
 1. STWÓRZ MAPĘ PROJEKTU (`docs/CODE_MAP.md`):
-Przeskanuj obecne pliki gry (to, co powstało w pierwszych 162 promptach) i stwórz zwięzły, techniczny plik `docs/CODE_MAP.md`. Zapisz w nim:
+Przeskanuj obecne pliki gry i stwórz zwięzły, techniczny plik `docs/CODE_MAP.md`. Zapisz w nim:
 - dokładne drzewo plików projektu i za co odpowiada każdy plik,
 - używaną architekturę (Riverpod, GoRouter, Isolate), główne klasy, stany, metody publiczne i interfejsy,
 - ustaloną paletę kolorów (#0F1115, #181B22, #222630, #8E4A49, #D4AF37), zmienne stylów, czcionki i zasady animacji UI.
-Ten plik ma służyć kolejnym agentom jako natychmiastowa ściąga, żeby nie tracili tokenów na przeszukiwanie dysku.
 
 2. UTWÓRZ REGUŁY TRYBU SNAJPERA (`.agents/rules/sniper_mode.md`):
 Utwórz plik `.agents/rules/sniper_mode.md` i zapisz w nim bezwzględne zasady dla modelu Hydrogen:
@@ -30,15 +39,13 @@ Utwórz plik `.agents/rules/sniper_mode.md` i zapisz w nim bezwzględne zasady d
 - TRANSAKCYJNOŚĆ (ODPORNOŚĆ NA LIMIT): Po zrobieniu każdego pojedynczego zadania z `docs/QUEUE.md`: (a) uruchom weryfikację `flutter analyze` w terminalu i napraw błędy do zera, (b) dopisz nowe pliki/klasy w 1 linijce do `docs/CODE_MAP.md`, (c) zmień w `docs/QUEUE.md` status tego zadania z `- [ ]` na `- [x]`, (d) wykonaj `git add -A && git commit -m "Queue: ukończono zadanie [numer]"`.
 
 3. ZWERYFIKUJ AKTYWNĄ KOLEJKĘ (`docs/QUEUE.md`):
-Upewnij się, że plik `docs/QUEUE.md` zawiera zadania #001-#162 jako `- [x]` oraz nowe zadania #163-#212 jako `- [ ]` z zachowaniem wszystkich detali technicznych i wizualnych.
+Upewnij się, że plik `docs/QUEUE.md` zawiera zadania #001-#162 jako `- [x]` oraz zadania #163-#712 jako `- [ ]` z zachowaniem wszystkich detali technicznych i wizualnych.
 
 4. ZABEZPIECZ BAZĘ W GIT:
-Upewnij się, że repozytorium Git działa poprawnie i zrób commit całej konfiguracji: `git add -A && git commit -m "Setup: system kolejkowy Sniper Mode i mapa kodu (stan na #162)"`.
-
+Upewnij się, że repozytorium Git działa poprawnie i zrób commit całej konfiguracji: `git add -A && git commit -m "Setup: system kolejkowy Sniper Mode i mapa kodu"`.
 ```
 
-### KROK B: Gdy Argon 4 skończy konfigurację, wklej ten prompt uruchamiający pętlę:
-
+### KROK B: Uruchomienie autonomicznej pętli dla modelu Hydrogen
 ```
 /run-workflow Napisz i uruchom sekwencyjny skrypt workflow (max_concurrency=1, model: hydrogen), który automatycznie realizuje zadania z pliku `docs/QUEUE.md`.
 
@@ -48,755 +55,699 @@ Zasady działania pętli:
 3. Dla tego JEDNEGO zadania uruchom osobnego agenta Hydrogen ze świeżym kontekstem.
 4. Agent ma przeczytać wyłącznie `docs/CODE_MAP.md` oraz treść tego jednego zadania, zaimplementować je w 100% produkcyjnie zgodnie z `.agents/rules/sniper_mode.md`, sprawdzić kompilację (`flutter analyze`), zaktualizować `docs/CODE_MAP.md`, zmienić `[ ]` na `[x]` w `docs/QUEUE.md` i zrobić `git commit`.
 5. Po commicie zamknij kontekst agenta i przejdź do następnego zadania `- [ ]`, aż skończy się lista lub wyczerpie się mój limit.
-
 ```
+
+---
 
 ## CZĘŚĆ I: UKOŃCZONE ZADANIA (#001 – #162)
 
 - [x] **Zadanie #001** (`lib/core/theme/app_colors.dart`): Klasa `AppColors` ze statycznymi kolorami Dark Mode (#0F1115, #181B22, #222630, #8E4A49, #D4AF37) i strefami mocy Z1–Z7.
-
 - [x] **Zadanie #002** (`lib/core/theme/app_theme.dart`): Klasa `AppTheme` konfigurująca `ThemeData`, bezramkowe karty 16px, obramowania #2A2F3D i typografię sportową.
-
 - [x] **Zadanie #003** (`lib/core/constants/physics_constants.dart`): Stałe fizyczne ($g = 9.80665$, gęstość powietrza, straty napędu wosk/olej, bazowe wartości $CdA$).
-
-- [x] **Zadanie #004** (`lib/models/rider/rider_physiology.dart`): Model `RiderPhysiology` (wzrost, waga, FTP, $W'$, $VO_2max$, HR, glikogen, powierzchnia czołowa DuBois).
-
+- [x] **Zadanie #004** (`lib/models/rider/rider_physiology.dart`): Model `RiderPhysiology` (wzrost, waga, FTP, $W'$, $\text{VO}_2\text{max}$, HR, glikogen, powierzchnia czołowa DuBois).
 - [x] **Zadanie #005** (`lib/models/rider/rider_power_profile.dart`): Model `RiderPowerProfile` (krzywa mocy 5s–60m z interpolacją logarytmiczną).
-
 - [x] **Zadanie #006** (`lib/models/rider/rider_skills.dart`): Model `RiderSkills` (bruk, zjazdy, bikeHandling, aeroPositioning, draftingEfficiency, raceIq, pogoda).
-
 - [x] **Zadanie #007** (`lib/models/rider/rider_appearance.dart`): Model `RiderAppearance` (kształt twarzy, skóra, włosy, okulary, kask, sylwetka 3D).
-
 - [x] **Zadanie #008** (`lib/models/rider/rider_contract.dart`): Model `RiderContract` (rola, pensja, bonusy, klauzula wykupu, morale, lojalność, wymagane wyścigi).
-
 - [x] **Zadanie #009** (`lib/models/rider/rider_health.dart`): Model `RiderHealth` (ATL, CTL, TSB/forma, kontuzje `Injury`, choroby).
-
 - [x] **Zadanie #010** (`lib/models/rider/rider.dart`): Główny model `Rider` łączący wszystkie podmodele oraz wyliczający ocenę OVR pod specjalizację.
-
 - [x] **Zadanie #011** (`lib/models/equipment/frame_model.dart`): Model `FrameModel` (Aero, Górska, TT, Bruk, waga, modyfikator $CdA$, sztywność, komfort).
-
 - [x] **Zadanie #012** (`lib/models/equipment/wheelset_model.dart`): Model `WheelsetModel` (wysokość stożka 35–80mm/Disc, waga, $CdA$, bezwładność, kara na wietrze bocznym).
-
 - [x] **Zadanie #013** (`lib/models/equipment/groupset_and_tires.dart`): Modele `GroupsetModel` (napęd, wosk/smar, przełożenia) oraz `TireModel` (szerokość, Tubeless/TPU, $Crr$, przebicia).
-
 - [x] **Zadanie #014** (`lib/models/equipment/complete_bike.dart`): Model `CompleteBike` łączący komponenty i weryfikujący limit UCI $6.8\text{ kg}$.
-
 - [x] **Zadanie #015** (`lib/models/team/bike_manufacturer_deal.dart`): Model `BikeManufacturerDeal` (umowa ze sponsorem sprzętowym, budżet, poziom R&D).
-
 - [x] **Zadanie #016** (`lib/models/team/sponsor_contract.dart`): Model `SponsorContract` (sponsorzy tytularni, budżet roczny, cele sponsorskie `SponsorObjective`).
-
 - [x] **Zadanie #017** (`lib/models/team/cycling_team.dart`): Model `CyclingTeam` (dywizja, kolory, budżet, kolarze, sztab, garaż rowerowy).
-
 - [x] **Zadanie #018** (`lib/models/race/stage_segment.dart`): Model `StageSegment` (długość, wzniesienie, gradient %, nawierzchnia, trudność techniczna, premie KOM/Sprint).
-
 - [x] **Zadanie #019** (`lib/models/race/race_stage.dart`): Model `RaceStage` (typ etapu, lista segmentów, pogoda, temperatura, wiatr).
-
 - [x] **Zadanie #020** (`lib/models/race/tour_race.dart`): Model `TourRace` (kategoria UCI, etapy, pula nagród, klasyfikacje GC, Points, KOM, U23, Team).
-
 - [x] **Zadanie #021** (`lib/engine/physics/aero_calculator.dart`): Kalkulator oporu aerodynamicznego $P_{aero}$ z gęstością powietrza n.p.m., wiatrem i draftingiem.
-
 - [x] **Zadanie #022** (`lib/engine/physics/gravity_and_rolling_calculator.dart`): Kalkulator oporu grawitacji $P_{gravity}$, toczenia $P_{rolling}$ i strat napędu.
-
 - [x] **Zadanie #023** (`lib/engine/physics/speed_solver.dart`): Solver równania ruchu kolarza wyliczający przyspieszenie i prędkość w każdej sekundzie.
-
 - [x] **Zadanie #024** (`lib/engine/physics/w_prime_balance_engine.dart`): Naukowy model Skiba $W'$ Balance (zużycie powyżej CP i wykładnicza regeneracja poniżej CP).
-
 - [x] **Zadanie #025** (`lib/engine/physics/nutrition_and_glycogen_engine.dart`): Silnik spalania glikogenu, nawodnienia, spożywania żeli/bidonów i odcięcia ("bonk").
-
 - [x] **Zadanie #026** (`lib/engine/physics/heart_rate_simulator.dart`): Symulator tętna z inercją fizjologiczną i dryfem tętna (cardiac drift).
-
 - [x] **Zadanie #027** (`lib/engine/peloton/drafting_grid_system.dart`): System siatki peletonu wyliczający % oszczędności energii w cieniu aerodynamicznym.
-
 - [x] **Zadanie #028** (`lib/engine/peloton/echelon_crosswind_engine.dart`): Mechanika formowania wachlarzy (rantów) i rwanych grup na silnym wietrze bocznym.
-
 - [x] **Zadanie #029** (`lib/engine/peloton/rider_race_state.dart`): Stan pojedynczego kolarza podczas wyścigu (`RiderRaceState`).
-
 - [x] **Zadanie #030** (`lib/engine/peloton/tactical_orders_processor.dart`): Procesor przekładający rozkazy taktyczne na docelowe waty i pozycję w grupie.
-
 - [x] **Zadanie #031** (`lib/engine/peloton/breakaway_ai_controller.dart`): Kontroler AI odpowiedzialny za zawiązywanie ucieczki dnia i współpracę na zmianach.
-
 - [x] **Zadanie #032** (`lib/engine/peloton/peloton_chase_ai_controller.dart`): Kontroler AI dla drużyn kontrolujących tempo pogoni w peletonie.
-
 - [x] **Zadanie #033** (`lib/engine/peloton/mountain_gc_ai_controller.dart`): Kontroler AI dla pociągów górskich i ataków faworytów klasyfikacji generalnej.
-
 - [x] **Zadanie #034** (`lib/engine/peloton/sprint_train_ai_controller.dart`): Kontroler AI dla pociągów sprinterskich (Lead-out Train) na ostatnich 3 kilometrach.
-
 - [x] **Zadanie #035** (`lib/engine/events/race_incident_engine.dart`): Generator kraks, przebitych opon i defektów mechanicznych podczas etapu.
-
 - [x] **Zadanie #036** (`lib/engine/events/race_radio_generator.dart`): Generator komunikatów Radia Wyścigowego od dyrektora sportowego.
-
 - [x] **Zadanie #037** (`lib/engine/simulation/key_moments_detector.dart`): Detektor kluczowych momentów etapu przełączający szybki symulator w tryb 3D.
-
 - [x] **Zadanie #038** (`lib/engine/simulation/stage_simulation_loop.dart`): Główna pętla symulacji etapu obsługująca prędkości 1x–8x i skoki do kluczowych momentów.
-
 - [x] **Zadanie #039** (`lib/engine/simulation/stage_results_calculator.dart`): Kalkulator wyników etapu, bonifikat, reguły 3 km, punktów KOM/Sprint i limitu czasu (OTL).
-
 - [x] **Zadanie #040** (`lib/engine/simulation/post_stage_recovery_processor.dart`): Procesor zmęczenia i regeneracji nocnej między etapami Touru.
-
 - [x] **Zadanie #041** (`lib/services/generators/fictional_brands_catalog.dart`): Katalog 15 marek rowerowych i osprzętowych z modelami ram, kół, napędów i opon.
-
 - [x] **Zadanie #042** (`lib/services/generators/rider_procedural_generator.dart`): Proceduralny generator kolarzy z 25 krajów z realistyczną korelacją wagi do mocy.
-
 - [x] **Zadanie #043** (`lib/services/generators/world_teams_generator.dart`): Generator 53 drużyn (WorldTour, ProTeam, Continental) i ponad 800 zawodników.
-
 - [x] **Zadanie #044** (`lib/services/generators/uci_calendar_generator.dart`): Generator pełnego kalendarza wyścigów od stycznia do października.
-
 - [x] **Zadanie #045** (`lib/services/generators/stage_profile_builder.dart`): Konstruktor dokładnych profili tras i słynnych podjazdów alpejskich/brukowanych.
-
 - [x] **Zadanie #046** (`lib/services/career/transfer_market_service.dart`): Serwis rynku transferowego, klauzul wykupu i negocjacji z agentami.
-
 - [x] **Zadanie #047** (`lib/services/career/team_chemistry_and_builder_service.dart`): Serwis budowania zespołu wokół liderów i wyliczania synergii pociągów.
-
 - [x] **Zadanie #048** (`lib/services/career/sponsor_negotiation_service.dart`): Serwis pozyskiwania sponsorów tytularnych i negocjowania budżetu.
-
 - [x] **Zadanie #049** (`lib/services/career/bike_manufacturer_negotiation_service.dart`): Serwis umów z producentami rowerów i rozwoju R&D.
-
 - [x] **Zadanie #050** (`lib/services/career/training_and_camps_service.dart`): Serwis planów treningowych i obozów wysokogórskich.
-
 - [x] **Zadanie #051** (`lib/services/career/race_calendar_selection_service.dart`): Serwis zgłaszania składów na wyścigi i wniosków o Dzikie Karty (Wildcards).
-
 - [x] **Zadanie #052** (`lib/services/career/finance_and_budget_service.dart`): Serwis finansowy śledzący przychody, pensje, koszty logistyki i nagrody.
-
 - [x] **Zadanie #053** (`lib/services/career/scouting_and_youth_academy_service.dart`): Serwis skautingu młodych talentów U19/U23 i odkrywania ich potencjału.
-
 - [x] **Zadanie #054** (`lib/services/database/custom_mod_importer_service.dart`): Importer baz społeczności (Real Name Packs w formacie JSON).
-
 - [x] **Zadanie #055** (`lib/services/database/save_game_manager.dart`): Menedżer zapisu i wczytywania stanu kariery (5 slotów + Auto-Save).
-
 - [x] **Zadanie #056** (`lib/state/career_state_notifier.dart`): Główny kontroler stanu kariery Riverpod (`CareerStateNotifier`) z metodą `advanceDay()`.
-
 - [x] **Zadanie #057** (`lib/state/race_simulation_notifier.dart`): Kontroler stanu wyścigu na żywo (`RaceSimulationNotifier`).
-
 - [x] **Zadanie #058** (`lib/ui/widgets/rider_avatar_painter.dart`): Wektorowy `CustomPainter` generujący portret kolarza z okularami, kaskiem i koszulką.
-
 - [x] **Zadanie #059** (`lib/ui/widgets/bike_preview_painter.dart`): Wektorowy `CustomPainter` rysujący skonfigurowany rower szosowy/TT i profil kół.
-
 - [x] **Zadanie #060** (`lib/ui/widgets/elevation_profile_chart.dart`): Interaktywny wykres profilu wysokościowego trasy ze znacznikami kolarzy na żywo.
-
 - [x] **Zadanie #061** (`lib/ui/widgets/power_curve_chart_widget.dart`): Wykres krzywej mocy (5s–60m) z nakładaniem statystyk dwóch kolarzy.
-
 - [x] **Zadanie #062** (`lib/ui/screens/main_shell_screen.dart`): Responsywny szkielet nawigacyjny aplikacji (Mobile, Tablet, Desktop).
-
 - [x] **Zadanie #063** (`lib/ui/screens/dashboard_hq_screen.dart`): Ekran główny biura menedżera w układzie Bento Grid.
-
 - [x] **Zadanie #064** (`lib/ui/screens/squad_roster_screen.dart`): Ekran kadry zespołu z tabelą fizjologii, formy i kontraktów.
-
 - [x] **Zadanie #065** (`lib/ui/screens/rider_detail_screen.dart`): Szczegółowy profil pojedynczego kolarza z 4 zakładkami analitycznymi.
-
 - [x] **Zadanie #066** (`lib/ui/screens/team_builder_hierarchy_screen.dart`): Ekran budowania hierarchii drużyny i pociągów wokół liderów.
-
 - [x] **Zadanie #067** (`lib/ui/screens/bike_garage_rnd_screen.dart`): Ekran garażu, konfiguratora sprzętu co do grama i badań R&D.
-
 - [x] **Zadanie #068** (`lib/ui/screens/sponsors_and_finance_screen.dart`): Ekran zarządzania sponsorami, celami zarządu i budżetem.
-
 - [x] **Zadanie #069** (`lib/ui/screens/transfer_market_scouting_screen.dart`): Ekran rynku transferowego, negocjacji i skautingu.
-
 - [x] **Zadanie #070** (`lib/ui/screens/calendar_and_race_planner_screen.dart`): Ekran kalendarza UCI i wyboru składów na poszczególne Toury.
-
 - [x] **Zadanie #071** (`lib/ui/screens/training_and_camps_screen.dart`): Ekran wykresów PMC (CTL/ATL/TSB) i planowania obozów wysokogórskich.
-
 - [x] **Zadanie #072** (`lib/ui/screens/pre_race_briefing_screen.dart`): Ekran odprawy taktycznej i doboru sprzętu bezpośrednio przed etapem.
-
 - [x] **Zadanie #073** (`lib/ui/screens/race_3d_viewport_widget.dart`): Główny widok renderowania wyścigu 3D.
-
 - [x] **Zadanie #074** (`lib/ui/screens/race_hud_overlay.dart`): Nakładka taktyczna HUD podczas wyścigu (karty kolarzy, tętno, waty, $W'$, rozkazy).
-
 - [x] **Zadanie #075** (`lib/ui/screens/post_stage_podium_screen.dart`): Ekran wyników etapu i wszystkich klasyfikacji wyścigu (GC, KOM, Points, U23).
-
 - [x] **Zadanie #076** (`lib/ui/screens/settings_and_mod_screen.dart`): Ekran ustawień graficznych 3D i importu baz danych społeczności.
-
 - [x] **Zadanie #077** (`lib/ui/screens/new_career_setup_screen.dart`): Kreator nowej kariery i tworzenia własnego zespołu od zera.
-
 - [x] **Zadanie #078** (`lib/ui/widgets/tactical_minimap_2d_widget.dart`): Minimapa taktyczna 2D pokazująca najbliższe zakręty i układ grupy.
-
 - [x] **Zadanie #079** (`lib/core/utils/formatters.dart`): Formatery czasów wyścigowych, różnic sekundowych, watów, W/kg i walut.
-
 - [x] **Zadanie #080** (`lib/services/generators/initial_game_seeder.dart`): Seeder inicjalizujący kompletny świat gry przy starcie nowej kariery.
-
 - [x] **Zadanie #081** (`lib/ui/widgets/custom_jersey_painter.dart`): `CustomPainter` rysujący koszulki zespołów w 8 wzorach.
-
 - [x] **Zadanie #082** (`lib/engine/simulation/time_trial_simulation_engine.dart`): Silnik rozgrywania etapów jazdy indywidualnej (ITT) oraz drużynowej na czas (TTT).
-
 - [x] **Zadanie #083** (`lib/services/career/season_transition_service.dart`): Serwis podsumowania roku, awansów/spadków, emerytur i przejścia do nowego sezonu.
-
 - [x] **Zadanie #084** (`lib/core/router/app_router.dart`): Konfiguracja nawigacji `GoRouter` dla wszystkich ekranów aplikacji.
-
 - [x] **Zadanie #085** (`lib/main.dart`): Punkt wejścia aplikacji spinający `ProviderScope`, motyw i router.
-
 - [x] **Zadanie #086** (`blender_scripts/style_and_materials.py`): Skrypt Blender Python API definiujący materiały PBR (karbon, lakier, guma, lycra).
-
 - [x] **Zadanie #087** (`blender_scripts/generate_aero_frame.py`): Skrypt Blender Python API generujący model 3D ramy aerodynamicznej.
-
 - [x] **Zadanie #088** (`blender_scripts/generate_climbing_frame.py`): Skrypt Blender Python API generujący model 3D lekkiej ramy górskiej.
-
 - [x] **Zadanie #089** (`blender_scripts/generate_tt_frame.py`): Skrypt Blender Python API generujący model 3D ramy czasowej TT z lemondką.
-
 - [x] **Zadanie #090** (`blender_scripts/generate_wheelsets.py`): Skrypt Blender Python API generujący koła 35mm, 50mm, 65mm i pełny dysk.
-
 - [x] **Zadanie #091** (`blender_scripts/generate_cockpit_and_drivetrain.py`): Skrypt Blender Python API generujący kokpit aero, korbę, napęd i bidony.
-
 - [x] **Zadanie #092** (`blender_scripts/generate_cyclist_mesh.py`): Skrypt Blender Python API generujący siatkę 3D kolarza z 3 sylwetkami (Shape Keys).
-
 - [x] **Zadanie #093** (`blender_scripts/generate_helmets_and_glasses.py`): Skrypt Blender Python API generujący kaski (szosowy, aero, TT) i okulary.
-
 - [x] **Zadanie #094** (`blender_scripts/rig_and_animate_cyclist.py`): Skrypt Blender Python API tworzący szkielet i 6 animacji pedałowania/sprintu.
-
 - [x] **Zadanie #095** (`blender_scripts/generate_road_tiles.py`): Skrypt Blender Python API generujący segmenty asfaltu, bruku i serpentyn.
-
 - [x] **Zadanie #096** (`blender_scripts/generate_race_furniture.py`): Skrypt Blender Python API generujący barierki, bramę 1 km (Flamme Rouge) i metę.
-
 - [x] **Zadanie #097** (`blender_scripts/generate_support_vehicles.py`): Skrypt Blender Python API generujący wóz techniczny drużyny i motocykle TV.
-
 - [x] **Zadanie #098** (`blender_scripts/generate_environment_assets.py`): Skrypt Blender Python API generujący drzewa, skały, budynki i kibiców.
-
 - [x] **Zadanie #099** (`blender_scripts/build_all_assets_master.py`): Główny skrypt wykonawczy kompilujący wszystkie modele 3D do `.glb`.
-
 - [x] **Zadanie #100** (`README_NIGHT_BUILD.md`): Dokumentacja uruchomienia skryptów Blendera i audytu pierwszych 100 kroków.
-
 - [x] **Zadanie #101** (`lib/engine/rendering3d/scene_3d_math_projection.dart`): Rzutowanie perspektywiczne 3D oparte na macierzach `vector_math_64`.
-
 - [x] **Zadanie #102** (`lib/engine/rendering3d/camera_rig_controller.dart`): Kontroler kamer 3D (ChaseCam, MotoTvCam, HeliCam, FinishLineCam).
-
 - [x] **Zadanie #103** (`lib/engine/rendering3d/road_ribbon_mesh_builder.dart`): Generator wstęgi drogi 3D z krzywymi zakrętów i cieniowaniem nawierzchni.
-
 - [x] **Zadanie #104** (`lib/engine/rendering3d/cyclist_3d_pose_animator.dart`): Animator kolarza w 60/120 FPS (kąt korby z RPM, pochylenie w zakręcie, kołysanie roweru).
-
 - [x] **Zadanie #105** (`lib/engine/rendering3d/glb_asset_loader_service.dart`): Loader i pamięć podręczna plików `.glb` z proceduralnym fallbackiem siatek.
-
 - [x] **Zadanie #106** (`lib/engine/rendering3d/peloton_instanced_renderer.dart`): Renderer instancjonowany dla 176 kolarzy z 3 poziomami detali (LOD).
-
 - [x] **Zadanie #107** (`lib/engine/rendering3d/environment_scenery_spawner.dart`): Proceduralny generator krajobrazu zależny od wysokości n.p.m.
-
 - [x] **Zadanie #108** (`lib/engine/rendering3d/weather_particles_renderer.dart`): System cząsteczek deszczu, pióropuszy wody spod kół, mgły i kurzu na bruku.
-
 - [x] **Zadanie #109** (`lib/engine/rendering3d/on_bike_computer_hud_widget.dart`): Widget komputera rowerowego (styl Garmin/Wahoo) z ClimbPro i przełożeniami.
-
 - [x] **Zadanie #110** (`lib/engine/rendering3d/rider_floating_labels_overlay.dart`): Znaczniki 3D nad kolarzami w peletonie (nazwisko, W/kg, ikona ataku/ochrony).
-
 - [x] **Zadanie #111** (`lib/engine/rendering3d/road_furniture_3d_renderer.dart`): Renderer bramy mety, Flamme Rouge, tablic kilometrowych i barierek.
-
 - [x] **Zadanie #112** (`lib/engine/rendering3d/support_vehicles_3d_renderer.dart`): Renderer kolumny wozów technicznych i motocykli TV w wyścigu 3D.
-
 - [x] **Zadanie #113** (`lib/engine/rendering3d/crash_and_mechanical_visuals.dart`): Wizualizacja kraks, podnoszenia ręki przy defekcie i wymiany koła.
-
 - [x] **Zadanie #114** (`lib/engine/rendering3d/wind_streamlines_visualizer.dart`): Wizualizator strug powietrza i kieszeni aerodynamicznych (Aero Vision Mode).
-
 - [x] **Zadanie #115** (`lib/engine/rendering3d/photo_finish_replay_widget.dart`): Kamera szczelinowa Photo Finish rozstrzygająca finisze poniżej $0.15\text{ s}$.
-
 - [x] **Zadanie #116** (`lib/ui/screens/race_3d_viewport_widget.dart`): Integracja modułów `rendering3d` i obsługa gestów obracania/zoomowania kamery.
-
 - [x] **Zadanie #117** (`lib/engine/audio/procedural_cycling_audio_engine.dart`): Proceduralny syntezator szumu stożków karbonowych, terkotu bębenka i wrzawy kibiców.
-
 - [x] **Zadanie #118** (`lib/engine/audio/race_radio_tts_and_beeps.dart`): Sygnały dźwiękowe krótkofalówki radia wyścigowego i alarmy komputera rowerowego.
-
 - [x] **Zadanie #119** (`lib/ui/widgets/group_gaps_chalkboard_widget.dart`): Tablica motocyklisty (Ardoisier) pokazująca różnice czasowe między grupami.
-
 - [x] **Zadanie #120** (`lib/ui/widgets/rider_effort_slider_control.dart`): Suwak intensywności wysiłku (50–120% FTP) i pozycji aerodynamicznej.
-
 - [x] **Zadanie #121** (`lib/ui/widgets/team_tactical_presets_bar.dart`): Pasek szybkich rozkazów dla całej drużyny (Pociąg Górski, Pociąg Sprinterski, Wachlarz).
-
 - [x] **Zadanie #122** (`lib/ui/widgets/live_virtual_standings_drawer.dart`): Szuflada Wirtualnej Klasyfikacji Generalnej (Virtual GC) przeliczanej na żywo na trasie.
-
 - [x] **Zadanie #123** (`lib/engine/simulation/isolate_simulation_worker.dart`): Wielowątkowy worker `Isolate` liczący fizykę 176 kolarzy poza wątkiem UI.
-
 - [x] **Zadanie #124** (`lib/engine/simulation/stage_replay_recorder.dart`): Rejestrator telemetrii etapu i powtórek ostatniego kilometra.
-
 - [x] **Zadanie #125** (`lib/ui/screens/strava_style_stage_analysis_screen.dart`): Powyścigowa analiza danych w stylu Strava/TrainingPeaks (NP, IF, TSS, wykresy).
-
 - [x] **Zadanie #126** (`lib/models/rider/lactate_and_lab_profile.dart`): Profil laboratoryjny kolarza ($LT_1$, $LT_2$, $VLaMax$ w mmol/l/s, Gross Efficiency).
-
 - [x] **Zadanie #127** (`lib/services/career/physiology_lab_testing_service.dart`): Serwis badań wydolnościowych i testów stopniowanych (Ramp Test + krzywa mleczanowa).
-
 - [x] **Zadanie #128** (`lib/ui/screens/physiology_lab_screen.dart`): Ekran Laboratorium Wydolnościowego z wykresem mleczanu (mmol/l) do mocy (W/kg).
-
 - [x] **Zadanie #129** (`lib/models/equipment/bike_fit_configuration.dart`): Model `BikeFitConfiguration` (wysokość/cofnięcie siodła, szerokość kierownicy, korby, klamki).
-
 - [x] **Zadanie #130** (`lib/engine/physics/bike_fit_and_wind_tunnel_engine.dart`): Silnik fizyczny łączący parametry Bike Fittingu z oporem $CdA$ i ryzykiem kontuzji.
-
 - [x] **Zadanie #131** (`lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart`): Ekran Tunelu Aerodynamicznego i studia pozycji na rowerze.
-
 - [x] **Zadanie #132** (`lib/models/equipment/equipment_wear_and_maintenance.dart`): Model zużycia napędu, wypłukiwania wosku z łańcucha w deszczu i stanu opon.
-
 - [x] **Zadanie #133** (`lib/engine/physics/tire_pressure_calculator.dart`): Kalkulator optymalnego ciśnienia w oponach (BAR/PSI) pod wagę, szerokość i bruk.
-
 - [x] **Zadanie #134** (`lib/ui/widgets/mechanic_workshop_panel.dart`): Panel warsztatu mechaników do konfiguracji ciśnienia, woskowania i serwisu nocnego.
-
 - [x] **Zadanie #135** (`lib/models/career/recovery_protocol_system.dart`): Model protokołów regeneracyjnych (kompresja, komora hiperbaryczna, sauna, opatrunki).
-
 - [x] **Zadanie #136** (`lib/ui/screens/medical_and_recovery_center_screen.dart`): Ekran Centrum Medycznego, morfologii krwi i zarządzania regeneracją.
-
 - [x] **Zadanie #137** (`lib/models/career/staff_member.dart`): Model członków sztabu (Dyrektor Sportowy, Trener, Lekarz, Mechanik, Skaut).
-
 - [x] **Zadanie #138** (`lib/ui/screens/staff_management_screen.dart`): Ekran zatrudniania i przydzielania sztabu szkoleniowego.
-
 - [x] **Zadanie #139** (`lib/services/career/winter_offseason_training_service.dart`): Serwis przygotowań zimowych (siłownia: przysiady bułgarskie, martwy ciąg, ergometr).
-
 - [x] **Zadanie #140** (`lib/services/career/race_reconnaissance_service.dart`): Serwis rekonesansu kluczowych etapów górskich i sektorów bruku.
-
 - [x] **Zadanie #141** (`lib/services/career/anti_doping_and_whereabouts_service.dart`): System paszportu biologicznego UCI, kontroli ADAMS i ryzyka wyłączeń TUE.
-
 - [x] **Zadanie #142** (`lib/services/career/rider_ego_and_conflicts_service.dart`): System psychologii, ambicji liderów i rozwiązywania konfliktów w drużynie.
-
 - [x] **Zadanie #143** (`lib/services/career/press_conference_service.dart`): Generator konferencji prasowych, wywiadów i gier psychologicznych z rywalami.
-
 - [x] **Zadanie #144** (`lib/ui/widgets/press_interview_modal.dart`): Okno modalne konferencji prasowej z natychmiastową reakcją mediów i sponsora.
-
 - [x] **Zadanie #145** (`lib/services/career/development_team_u23_service.dart`): Serwis zarządzania drużyną młodzieżową U23 (Devo Squad).
-
 - [x] **Zadanie #146** (`lib/ui/screens/development_academy_screen.dart`): Ekran Akademii Młodzieżowej U23 i promocji talentów do WorldTouru.
-
 - [x] **Zadanie #147** (`lib/services/career/equipment_sponsorship_bidding_engine.dart`): Silnik przetargów na osobnych sponsorów kół, grup osprzętu, kasków i odżywek.
-
 - [x] **Zadanie #148** (`lib/services/career/historical_records_and_palmares_service.dart`): Archiwum trofeów (`Palmares`) oraz rekordów czasowych i VAM na podjazdach.
-
 - [x] **Zadanie #149** (`lib/ui/screens/hall_of_fame_and_records_screen.dart`): Ekran Gabloty Trofeów i Tabeli Rekordów Wspinaczki (KOM Records).
-
 - [x] **Zadanie #150** (`lib/services/career/email_inbox_generator_service.dart`): Generator interaktywnych wiadomości e-mail z przyciskami decyzji menedżerskich.
-
 - [x] **Zadanie #151** (`lib/engine/weather/dynamic_mountain_weather_engine.dart`): Silnik dynamicznej pogody górskiej ze spadkiem temperatury o $0.65^\circ\text{C}/100\text{ m}$.
-
 - [x] **Zadanie #152** (`lib/engine/peloton/feeding_and_rain_jacket_mechanics.dart`): Mechanika stref bufetu oraz zakładania kurtek przeciwdeszczowych przed zjazdami.
-
 - [x] **Zadanie #153** (`lib/ui/screens/stage_editor_creator_screen.dart`): Wbudowany Kreator Etapów pozwalający rysować własne trasy i klasyki.
-
 - [x] **Zadanie #154** (`lib/ui/screens/jersey_and_bike_livery_studio_screen.dart`): Studio projektowania malowania ram rowerowych i koszulek zespołu.
-
 - [x] **Zadanie #155** (`lib/ui/widgets/animated_watt_bomb_effect.dart`): Efekt wizualny "Watt Bomb" podczas ataków przekraczających $12\text{ W/kg}$ lub $1400\text{ W}$.
-
 - [x] **Zadanie #156** (`lib/ui/widgets/peloton_heatmap_position_widget.dart`): Interaktywna siatka pozycjonowania kolarzy na szerokości szosy.
-
 - [x] **Zadanie #157** (`lib/ui/screens/grand_tour_rest_day_screen.dart`): Ekran Dnia Przerwy (Rest Day) podczas 3-tygodniowego Grand Touru.
-
 - [x] **Zadanie #158** (`lib/services/career/national_championships_and_worlds_service.dart`): Serwis rozgrywania Mistrzostw Krajowych oraz Mistrzostw Świata.
-
 - [x] **Zadanie #159** (`lib/ui/widgets/rainbow_and_national_jersey_badge.dart`): Oznaczenia Tęczowej Koszulki Mistrza Świata i mistrzów krajowych w UI i 3D.
-
 - [x] **Zadanie #160** (`lib/services/career/uci_promotion_relegation_cycle_service.dart`): System 3-letniego cyklu licencyjnego UCI WorldTour (awanse i spadki).
-
 - [x] **Zadanie #161** (`lib/ui/screens/uci_rankings_and_relegation_screen.dart`): Ekran Rankingów UCI i tabeli walki o utrzymanie licencji WorldTour.
-
 - [x] **Zadanie #162** (`lib/services/career/sponsor_objectives_evaluator.dart`): Ewaluator celów sponsorskich po każdym wyścigu wypłacający bonusy i aktualizujący zaufanie zarządu.
 
-## CZĘŚĆ II: AKTYWNA KOLEJKA — PACZKA 50 ULTRA-SZCZEGÓŁOWYCH ZADAŃ (#163 – #212)
-
-- [x] **Zadanie #163** (`lib/ui/widgets/rider_comparison_side_by_side_modal.dart`): Stwórz w 100% produkcyjny, wizualnie zjawiskowy modal `RiderComparisonSideBySideModal` (iOS Dark Mode #0F1115, karty #181B22 z subtelnym obramowaniem 1px #2A2F3D i efektem `BackdropFilter` blur 16px). Widget musi pozwalać na jednoczesne porównanie 2 lub 3 obiektów `Rider` obok siebie. Zaimplementuj:
-
-  1. Nagłówek z portretami `RiderAvatarWidget`, flagami narodowości, wiekiem, specjalizacją, oceną OVR (w złotym okręgu `#D4AF37` dla lidera) oraz aktualną pensją i klauzulą wykupu.
-
-  2. Przełącznik jednostek `Bezwzględne (W) / Względne (W/kg)` z płynną animacją `AnimatedContainer` (250ms, `Curves.easeOutCubic`).
-
-  3. Zintegrowany wykres nakładający krzywe mocy wszystkich porównywanych kolarzy (`5s, 15s, 30s, 1m, 3m, 5m, 20m, 60m`) w różnych kolorach (#8E4A49, #D4AF37, #3B82F6) z podświetleniem delty procentowej ($\Delta\%$) po najechaniu myszką lub dotknięciu punktu.
-
-  4. Tabelę pasków porównawczych (Horizontal Dual/Triple Progress Bars) dla parametrów fizjologicznych i technicznych (`FTP`, $W'$, $VO_2max$, $VLaMax$, `cobbles`, `descending`, `bikeHandling`, `aeroPositioning`, `draftingEfficiency`, `recoveryRate`), gdzie najwyższa wartość w wierszu jest automatycznie podświetlana zielonym akcentem `#10B981` i ikoną przewagi `+X`.
-
-  5. Responsywność przez `LayoutBuilder`: na wąskich ekranach (<600px) układ przewijany poziomo z przyklejoną kolumną nazw statystyk, na desktopie/tablecie pełna siatka wielokolumnowa bez jakiegokolwiek `RenderFlex overflow`. Zweryfikuj kompilację przez `flutter analyze`.
-
-- [x] **Zadanie #164** (`lib/services/career/ai_team_transfer_simulation_service.dart`): Zbuduj zaawansowany serwis `AiTeamTransferSimulationService`, który symuluje realistyczny, żyjący rynek transferowy pomiędzy wszystkimi 52 drużynami AI w oknie transferowym (od 1 sierpnia do 15 listopada) oraz w trakcie sezonu (przedłużenia kontraktów). Zaimplementuj:
-
-  1. Analizę potrzeb kadrowych każdej drużyny AI (`TeamRosterNeedsAnalyzer`): sprawdzenie braków na pozycjach `GCLeader`, `PureSprinter`, `ClassicCobbles`, `SuperDomestique` oraz weryfikację średniego wieku składu i zagrożenia spadkiem w 3-letnim rankingu UCI.
-
-  2. Algorytm wyceny rynkowej kolarza w EUR bazujący na: wieku (krzywa szczytu wartości w wieku 24–28 lat), punktach UCI, stosunku mocy progowej $\text{W/kg}$ oraz potencjale rozwojowym.
-
-  3. Mechanikę licytacji (Bidding Wars) między bogatymi ekipami WorldTour o najlepszych wolnych agentów i młodych kolarzy z wysokim potencjałem (w tym składanie ofert wykupu klauzuli za kolarzy z drużyny gracza!).
-
-  4. Generator struktur `TransferNewsItem` (data, kolarz, stara drużyna, nowa drużyna, kwota kontraktu, rola, komentarz ekspercki) przekazywanych do paska informacyjnego "Transfer Ticker" w Dashboardzie oraz skrzynki Inbox. Zweryfikuj brak błędów przez `flutter analyze`.
-
-- [x] **Zadanie #165** (`lib/ui/widgets/keyboard_shortcuts_manager.dart`): Stwórz kompletny system skrótów klawiszowych i obsługi kontrolerów `KeyboardShortcutsManager` (oparty o `Shortcuts`, `Actions`, `FocusNode` i `HardwareKeyboard` we Flutterze) dla wersji Windows (`.exe`), macOS (`.dmg`) i tabletów z klawiaturą. Zaimplementuj:
-
-  1. Skróty wyścigowe 3D: `Spacja` (Pauza / Wznów symulację), klawisze `+` / `-` lub `[` / `]` (zmiana mnożnika prędkości czasu `1x, 2x, 4x, 8x`), klawisze `1`–`8` (wybór kolarza nr 1–8 z drużyny i natychmiastowe wycentrowanie na nim kamery 3D), `A` (rozkaz natychmiastowego ataku), `R` (daj zmianę na czele grupy), `P` (chroń lidera), `G` (spożyj żel energetyczny), `B` (spłyń do wozu technicznego po bidony), `C` (cykliczne przełączanie kamer: `ChaseCam -> MotoTvCam -> HeliCam -> FinishLineCam`), `V` (włączenie widoku strug powietrza `Aero Vision Mode`), `Tab` (ukrycie/pokazanie bocznych paneli telemetrii HUD).
-
-  2. Skróty w trybie Menedżera: `Ctrl+S` (szybki zapis gry), `Enter` lub `Ctrl+Space` (przejście do następnego dnia `advanceDay()`), `F1` (otwarcie ściągi skrótów klawiszowych).
-
-  3. Wizualny, półprzezroczysty modal `ShortcutsCheatSheetOverlay` wyświetlający eleganckie kafelki klawiszy (Keycaps w stylu `#222630` z obramowaniem 3D) pogrupowane na sekcje. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #166** (`lib/ui/screens/quick_race_sandbox_screen.dart`): Zbuduj dopracowany wizualnie ekran `QuickRaceSandboxScreen` ("Szybki Wyścig / Laboratorium Taktyczne Sandbox") pozwalający graczowi skonfigurować i uruchomić dowolny wyścig 3D w 10 sekund z poziomu menu głównego. Zaimplementuj:
-
-  1. Trójkolumnowy układ Bento Grid (automatycznie składający się do zakładek na telefonie):
-
-     * Kolumna 1 (Wybór Trasy i Warunków): lista wszystkich wyścigów i etapów (w tym presety: *Alpe d'Huez Summit Finish*, *Paryż-Roubaix 5-Star Cobbles*, *Champs-Élysées Sprint*, *Wachlarze w Katarze 50 km/h Crosswind*, *Górska Czasówka ITT*), interaktywny podgląd `ElevationProfileChart`, wybór pogody (Słońce, Ulewa, Burza, Upał $38^\circ\text{C}$, Mróz w górach $2^\circ\text{C}$), suwak prędkości wiatru ($0–70\text{ km/h}$) i kompas kierunku wiatru.
-
-     * Kolumna 2 (Wybór Drużyny i Składu): wybór drużyny z pełnej bazy, automatyczny dobór 8 najlepszych kolarzy pod profil trasy jednym przyciskiem (`Auto-Pick Optimal Roster`) lub ręczna wymiana zawodników z podglądem ich W/kg i umiejętności.
-
-     * Kolumna 3 (Szybki Setup Sprzętowy): wybór presetu rowerowego dla drużyny (`Full Aero 65mm`, `Ultralight Climbing 6.8kg`, `Cobble Tubeless 32mm 3.8 bar`), przycisk "START SYMULACJI 3D" w kolorze `#8E4A49` ze złotym podświetleniem hover `#D4AF37`, który inicjuje `RaceSimulationNotifier` i przenosi gracza na ekran `Race3dViewportWidget`. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #167** (`lib/ui/screens/main_title_menu_screen.dart`): Stwórz ekran tytułowy gry klasy AAA `MainTitleMenuScreen`, który robi piorunujące pierwsze wrażenie po uruchomieniu gry na PC/Mac i telefonie. Zaimplementuj:
-
-  1. Dynamiczne tło 3D/Canvas (`AnimatedPelotonBackdropPainter`): płynnie animowana w 60/120 FPS scena sylwetek kolarzy pokonujących alpejską serpentynę o zachodzie słońca (głęboki granat `#0F1115` przechodzący w krwistą czerwień `#8E4A49` i złoto `#D4AF37` na horyzoncie, obracające się szprychy, smugi świateł wozów technicznych i subtelny ruch kamery z efektami paralaksy reagującymi na ruch kursora myszy).
-
-  2. Lewy panel nawigacyjny w stylu nowoczesnych gier sportowych (szklany panel `BackdropFilter` z gradientem `#181B22` przy 85% krycia): typograficzne logo **PRO PELOTON MANAGER** ze złotym podtytułem `WORLD TOUR EDITION`, wskaźnik aktywnej bazy danych (np. `Default Fictional DB v1.0` lub `Custom Real Name Pack Active`) oraz status ostatniego zapisu kariery.
-
-  3. Animowane przyciski menu z mikro-interakcjami (rozszerzenie paska akcentowego `#D4AF37` przy najechaniu, dźwięk kliknięcia):
-
-     * `KONTYNUUJ KARIERĘ` (widoczny i podświetlony, jeśli istnieje zapis w `SaveGameManager`, wyświetla nazwę drużyny i datę w grze),
-
-     * `NOWA KARIERA` (przejście do `NewCareerSetupScreen`),
-
-     * `WCZYTAJ GRĘ` (modal wyboru jednego z 5 slotów zapisu z opcją importu/eksportu pliku),
-
-     * `SZYBKI WYŚCIG (SANDBOX)` (przejście do `QuickRaceSandboxScreen`),
-
-     * `KREATOR TRAS I STUDIO MALOWANIA` (wybór `StageEditorCreatorScreen` lub `JerseyAndBikeLiveryStudioScreen`),
-
-     * `BAZY DANYCH I USTAWIENIA` (przejście do `SettingsAndModScreen`). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #168** (`lib/services/database/preset_real_names_template_generator.dart`): Stwórz serwis `PresetRealNamesTemplateGenerator`, który pozwala graczowi i społeczności moderskiej wygenerować jednym kliknięciem na dysku kompletny, ustrukturyzowany plik szablonu `pro_peloton_real_names_pack_template.json` oraz wbudowany pakiet `Community Realism Patch Structure`. Zaimplementuj:
-
-  1. Eksport wszystkich obecnych w grze ID drużyn, kolarzy, wyścigów i marek sprzętu wraz z ich polami mapującymi (`originalId`, `customName`, `customShortName`, `customCountryIso`, `primaryHex`, `secondaryHex`, `jerseyPatternIndex`).
-
-  2. Walidator schematu (`ModSchemaValidator`), który przed zaaplikowaniem paczki sprawdza poprawność kolorów HEX, unikalność ID oraz obecność wszystkich wymaganych kluczy, zwracając szczegółowy raport (liczba podmienionych kolarzy, drużyn, rowerów i wyścigów).
-
-  3. Metodę `applyLivePatchToActiveCareer()`, która pozwala podmienić nazwy na prawdziwe nawet w trakcie trwającej już kariery bez psucia postępów, kontraktów i wyników w klasyfikacjach! Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #169** (`lib/ui/widgets/tutorial_coach_marks_overlay.dart`): Stwórz interaktywny system samouczka i podpowiedzi taktycznych `TutorialCoachMarksOverlay` dla nowych graczy, utrzymany w estetyce ciemnego szkła (`#181B22`, złota ramka `#D4AF37`, strzałki wektorowe wskazujące konkretne elementy interfejsu). Zaimplementuj:
-
-  1. Tryb prowadzenia za rękę podczas pierwszego wyścigu (Interactive Race Academy - 6 kroków):
-
-     * Krok 1: Fizyka Draftingu i Wiatru (dlaczego jazda na czele kosztuje $100\%$ mocy, a schowanie lidera w środku grupy oszczędza do $45\%$ watów).
-
-     * Krok 2: Zapas Beztlenowy $W'$ (czerwony pasek w kJ) kontra Glikogen (żółty pasek w gramach) – kiedy użyć żelu energetycznego (90–120g węglowodanów/h), żeby uniknąć "odcięcia prądu" (bonk) na ostatnim podjeździe.
-
-     * Krok 3: Pociąg Górski vs Samotny Atak – jak ustawić pomocników na tempo $5.8\text{ W/kg}$ przed skokiem lidera.
-
-     * Krok 4: Ciśnienie w oponach i Bruk – wpływ szerokości opon (28mm vs 32mm) i ciśnienia na straty oporów toczenia ($Crr$) i ryzyko przebicia.
-
-     * Krok 5: Planowanie Szczytu Formy (TSB = CTL - ATL) w kalendarzu przed docelowym Grand Tourem.
-
-  2. Możliwość pominięcia samouczka w dowolnej chwili oraz ponownego uruchomienia z ekranu ustawień. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #170** (`lib/core/utils/performance_profiler_overlay.dart`): Zbuduj profesjonalny widget diagnostyczny `PerformanceProfilerOverlay` (włączany klawiszem `F3` na Windows/macOS lub przełącznikiem w ustawieniach), wyświetlany w prawym górnym rogu ekranu. Zaimplementuj:
-
-  1. Pomiar w czasie rzeczywistym za pomocą `SchedulerBinding.instance.addTimingsCallback`: aktualny licznik FPS (z podświetleniem na zielono $\ge 60\text{ FPS}$, żółto $30–59\text{ FPS}$, czerwono $<30\text{ FPS}$), czas budowania klatki UI (`Build ms`), czas rasteryzacji GPU (`Raster ms`).
-
-  2. Wykres słupkowy ostatnich 60 klatek (Frame Time Graph) z poziomą linią budżetu klatki ($8.33\text{ ms}$ dla 120 Hz oraz $16.67\text{ ms}$ dla 60 Hz).
-
-  3. Telemetrię silnika symulacji kolarskiej: czas przeliczenia 1 ticku fizyki dla 176 kolarzy w wątku `Isolate` (w mikrosekundach $\mu\text{s}$), liczba aktywnych obiektów 3D w kamerze (LOD0 / LOD1 / LOD2) oraz aktualne zużycie pamięci RAM procesu. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #171** (`lib/ui/screens/main_shell_screen.dart`): Zaktualizuj i dopieść do perfekcji `MainShellScreen` oraz powiązany `lib/core/router/app_router.dart`, tak aby spinały absolutnie wszystkie ekrany menedżerskie i wyścigowe w jeden spójny, luksusowy ekosystem. Zaimplementuj:
-
-  1. Kategoryzowany boczny pasek nawigacyjny (Sidebar na Desktop/Tablet, Szuflada + BottomBar na Mobile) podzielony na 4 czytelne sekcje z ikonami i licznikami powiadomień (Badges):
-
-     * `CENTRUM DOWODZENIA`: Biuro HQ (Dashboard), Skrzynka Odbiorcza (z licznikiem nieprzeczytanych maili), Kalendarz UCI & Planer Startów.
-
-     * `ZESPÓŁ I WYDOLNOŚĆ`: Kadra Zespołu, Budowa Teamu i Hierarchia, Treningi i Obozy (PMC), Laboratorium Fizjologiczne (Mleczan/VO2max), Centrum Medyczne i Regeneracja, Akademia U23 (Devo), Sztab Szkoleniowy.
-
-     * `SPRZĘT I FINANSE`: Garaż i R&D, Tunel Aerodynamiczny i Bike Fit, Sponsorzy i Finanse, Rynek Transferowy i Skauting, Studio Malowania Rowerów i Koszulek.
-
-     * `ŚWIAT UCI`: Rankingi UCI i Walka o Licencję, Gablota Trofeów i Rekordy Górskie, Profil Menedżera i Osiągnięcia, Kreator Tras, Ustawienia i Mody.
-
-  2. Górny pasek TopBar wyświetlający: herb i barwy drużyny, stan konta w EUR, aktualną datę, pogodę w bazie, mini-odliczanie dni do kolejnego wyścigu oraz wielki, dynamiczny przycisk akcji: `NASTĘPNY DZIEŃ` (lub czerwono-złoty `START WYŚCIGU: [Nazwa Wyścigu]`, jeśli w danym dniu drużyna staje na starcie!). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #172** (`lib/state/career_state_notifier.dart`): Rozbuduj i zintegruj metodę `advanceDay()` oraz `advanceToNextEvent()` w `CareerStateNotifier`, aby stanowiły bezbłędne serce symulacji całego świata kolarskiego dzień po dniu. Zaimplementuj:
-
-  1. Codzienną pętlę aktualizacji dla wszystkich drużyn: przeliczanie obciążeń treningowych (CTL, ATL, TSB), aplikowanie efektów obozów wysokogórskich i sesji regeneracyjnych (hiperbaria, sauna, kompresja), postęp leczenia kontuzji, zużycie sprzętu i automatyczną symulację wyścigów w kalendarzu, w których gracz nie bierze udziału (aby tabele UCI i statystyki rywali żyły przez cały rok).
-
-  2. Wyzwalacze zdarzeń specjalnych: otwarcie okna transferowego (1 sierpnia), losowe kontrole antydopingowe ADAMS, zaproszenia na konferencje prasowe przed wielkimi Tourami, raporty od skautów U23, miesięczne rozliczenia pensji i transz sponsorskich oraz weryfikację celów po wyścigach (`SponsorObjectivesEvaluator`).
-
-  3. Funkcję `simulateUntilNextStop()`, która pozwala płynnie przewijać dni w kalendarzu (z animowanym licznikiem daty), zatrzymując się automatycznie przed ważnym mailem decyzyjnym, ofertą transferową lub dniem startu wyścigu. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #173** (`lib/ui/screens/race_hud_overlay.dart`): Przebuduj i ulepsz `RaceHudOverlay`, aby wyglądał jak połączenie oficjalnej oprawy telewizyjnej Tour de France (styl ASO Broadcast Graphics) oraz interfejsu Zwift/MyWhoosh. Zaimplementuj:
-
-  1. Lewy Panel Kolarzy Drużyny (8 kompaktowych, szklanych kart): na każdej karcie portret kolarza, numer startowy, aktualna pozycja w wyścigu (np. `14.`), aktualne przełożenie, waty i $\text{W/kg}$ (z kolorowym tłem strefy mocy Z1–Z7), tętno bpm, dwa precyzyjne paski energii (żółty glikogen i czerwony beztlenowy $W'$), ikony pozostałych bidonów i żeli oraz ikona aktywnego rozkazu. Kliknięcie karty przełącza kamerę 3D na tego kolarza i rozwija jego panel rozkazów.
-
-  2. Górny Pasek Telewizyjny (Broadcast Top Bar): logo wyścigu, kilometr do mety (ze specjalnym złotym podświetleniem poniżej $10\text{ km}$ i czerwonym płomieniem *Flamme Rouge* na ostatnim $1.0\text{ km}$), widget tablicy motocyklisty `GroupGapsChalkboardWidget`, wskaźnik wiatru i nachylenia podjazdu oraz przyciski prędkości symulacji (`Pause, 1x, 2x, 4x, 8x, Skocz do Akcji`).
-
-  3. Prawy Dolny Róg: interaktywny komputer rowerowy `OnBikeComputerHudWidget`, minimapa 2D/3D `TacticalMinimap2dWidget` oraz przełącznik `Aero Vision Mode`.
-
-  4. Dolna Konsola Taktyczna: `RiderEffortSliderControl` oraz `TeamTacticalPresetsBar` z płynnymi animacjami wejścia/wyjścia. Użyj `LayoutBuilder`, aby na mniejszych ekranach panele boczne mogły być zwijane jednym kliknięciem bez zasłaniania widoku 3D kolarzy. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #174** (`lib/services/career/achievement_and_milestones_service.dart`): Stwórz kompletny serwis `AchievementAndMilestonesService` zarządzający 45 osiągnięciami (Achievements) i kamieniami milowymi kariery menedżera, podzielonymi na 4 rangi (`Bronze`, `Silver`, `Gold`, `Platinum Legend`). Zaimplementuj:
-
-  1. Definicje 45 wyzwań kolarskich z warunkami sprawdzanymi automatycznie po każdym etapie i sezonie, m.in.:
-
-     * *Solo z Daleka*: Wygraj etap po samotnym ataku z dystansu ponad $50\text{ km}$ przed metą.
-
-     * *Mistrz Rantów*: Rozerwij peleton na bocznym wietrze i przyjedź z przewagą ponad 2 minut nad głównym rywalem GC.
-
-     * *Król Piekła Północy*: Wygraj brukowany Monument w deszczu bez ani jednej wymiany roweru.
-
-     * *Inżynier Watów*: Osiągnij w tunelu aerodynamicznym współczynnik $CdA < 0.190\text{ m}^2$ dla kolarza czasowego.
-
-     * *Od Zera do WorldTouru*: Awansuj własnym zespołem z dywizji Continental do WorldTour i wygraj Wielki Tour.
-
-  2. Emitowanie zdarzeń odblokowania osiągnięcia, które wyświetlają na ekranie elegancki, animowany baner powiadomienia (Toast w stylu trofeów PlayStation/Steam ze złotym blaskiem `#D4AF37`). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #175** (`lib/ui/screens/manager_profile_and_achievements_screen.dart`): Stwórz ekran `ManagerProfileAndAchievementsScreen` prezentujący dorobek kariery gracza. Zaimplementuj:
-
-  1. Kartę Licencji Dyrektora Sportowego UCI (wyglądającą jak fizyczna, holograficzna przepustka VIP z Touru): imię i nazwisko menedżera, narodowość, poziom reputacji (1–100), ulubiona specjalizacja taktyczna, liczba rozegranych sezonów, bilans zwycięstw (Etapy, Klasyfikacje Generalne, Monumenty) oraz łączna kwota wygranych nagród finansowych.
-
-  2. Wykres kołowy i słupkowy zwycięstw według typu terenu (Płaskie, Pagórki, Wysokie Góry, Bruki, Czasówki).
-
-  3. Siatkę 45 odblokowanych i zablokowanych osiągnięć z paskami postępu (np. `Wygrane etapy z ucieczki: 7/10`), filtrowaniem według rangi i datą zdobycia. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #176** (`blender_scripts/generate_cobble_monument_props.py`): Napisz kompletny, bezbłędny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie buduje w 3D ikoniczne obiekty Wiosennych Klasyków i Monumentów brukowanych:
-
-  1. Betonowy Welodrom na finał klasyku (`assets/3d/environment/velodrome_finish_arena.glb`): owalna niecka toru kolarskiego z nachylonymi wirażami ($31^\circ$), trawą pośrodku, linią mety i zadaszoną trybuną historyczną.
-
-  2. Zestaw rekwizytów sektora bruku (`assets/3d/environment/cobble_sector_props.glb`): drewniana brama wjazdowa na sektor z oznaczeniem 5 gwiazdek trudności (`*****`), kamienny pomnik przy drodze oraz geometryczne tafle błota i kałuż z materiałem o niskim `Roughness = 0.08` (efekt lustra wody).
-     Skrypt musi automatycznie tworzyć katalogi wyjściowe i eksportować pliki w formacie glTF 2.0 (`.glb`).
-
-- [x] **Zadanie #177** (`blender_scripts/generate_alpine_summit_scenery.py`): Napisz kompletny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenerię szczytu wysokogórskiego Hors Categorie (`assets/3d/environment/alpine_summit_pack.glb`):
-
-  1. Charakterystyczny budynek obserwatorium meteorologicznego z biało-czerwoną wieżą przekaźnikową (inspirowany Mont Ventoux / Pic du Midi).
-
-  2. Wysokie na 3 metry ściany śnieżne po obu stronach szosy (inspirowane przełęczą Stelvio / Gavia w maju) z chłodnym, lekko niebieskawym materiałem śniegu.
-
-  3. Zestaw 3 stylizowanych kamperów (RV) kibiców z markizami i flagami kolarskimi ustawianych na zakrętach serpentyn. Zapewnij czysty eksport do `.glb`.
-
-- [x] **Zadanie #178** (`blender_scripts/generate_time_trial_start_ramp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D profesjonalny domek i rampę startową do jazdy na czas (`assets/3d/environment/tt_start_ramp.glb`):
-
-  1. Zadaszony pawilon startowy z nowoczesną ramą stalowo-szklaną w kolorach ciemnego grafitu `#181B22` i czerwieni `#8E4A49`.
-
-  2. Nachyloną pochylnię zjazdową z antypoślizgowym pasem, stojak startowy przytrzymujący tylne koło roweru TT oraz bramkę elektronicznego zegara odliczającego z diodami LED (czerwona, żółta, zielona). Wyeksportuj do `.glb`.
-
-- [x] **Zadanie #179** (`blender_scripts/generate_podium_and_trophies.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenę dekoracji po etapie (`assets/3d/environment/podium_stage.glb`) oraz zestaw 4 prestiżowych trofeów kolarskich (`assets/3d/environment/trophies_pack.glb`):
-
-  1. Trzystopniowe podium ze ścianką sponsorską, schodkami i reflektorami scenicznymi.
-
-  2. Modele trofeów z materiałami złota (`Metallic = 1.0, Roughness = 0.15`), granitu i szkła: Kostka Bruku na drewnianym postumencie, Złoty Puchar Wielkiego Touru, Złota Spirala nieskończoności oraz Trójząb Morza Tyrreńskiego.
-
-- [x] **Zadanie #180** (`blender_scripts/generate_wind_tunnel_facility.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D komorę pomiarową Tunelu Aerodynamicznego (`assets/3d/environment/wind_tunnel_room.glb`):
-
-  1. Cylindryczny kanał powietrzny z ogromnym, 12-łopatkowym wirnikiem wentylatora w tle i siatką prostującą przepływ.
-
-  2. Obrotową platformę aerodynamiczną w podłodze (do testowania kątów wiatru bocznego Yaw $-15^\circ$ do $+15^\circ$) z rolkami pod koła roweru, listwami świetlnymi LED na ścianach i dyszą wypuszczającą strugi dymu przed przednim kołem.
-
-- [x] **Zadanie #181** (`blender_scripts/generate_helicopter_and_blimp.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D śmigłowiec telewizyjny krążący nad peletonem (`assets/3d/environment/tv_helicopter.glb`):
-
-  1. Aerodynamiczny kadłub śmigłowca w barwach transmisji wyścigowej, płozy podwozia, wirnik główny i ogonowy (jako osobne, nazwane obiekty pod animację obrotu) oraz kulistą głowicę kamery żyroskopowej Cineflex zamontowaną pod dziobem.
-
-- [x] **Zadanie #182** (`blender_scripts/generate_jersey_textures_baker.py`): Napisz skrypt w Pythonie (kompatybilny ze środowiskiem Pythona wbudowanym w Blender 5.3), który proceduralnie generuje i zapisuje na dysku w folderze `assets/textures/jerseys/` zestaw tekstur PNG (rozdzielczość 1024x1024) dla modeli 3D kolarzy:
-
-  1. Koszulki liderów klasyfikacji: `jersey_gc_yellow.png` (#D4AF37), `jersey_points_green.png` (#10B981), `jersey_kom_polkadot.png` (biała w czerwone grochy #EF4444), `jersey_youth_white.png` (#F3F4F6), `jersey_world_champ_rainbow.png` (5 pasów tęczy UCI na białym tle).
-
-  2. 8 szablonów wzorów drużynowych (szewron, pas piersiowy, gradient alpejski, pasy pionowe, szachownica, ukośna szarfa) gotowych do barwienia kolorami drużyny w silniku gry.
-
-- [x] **Zadanie #183** (`blender_scripts/build_all_assets_master.py` oraz `build_3d_assets_windows.bat`): Zaktualizuj skrypt główny `blender_scripts/build_all_assets_master.py`, aby wykonywał wszystkie skrypty od #086 do #182 w sposób w 100% kompatybilny z **Blender 5.3.0 na Windows** (obsługa zmian w API `bpy` w wersji 5.x, bezpieczne ścieżki `os.path`, przechwyt wyjątków `try/except` dla każdego pliku z osobna, generowanie raportu `assets/3d/asset_manifest.json`). Stwórz również w głównym katalogu plik `build_3d_assets_windows.bat`, który uruchamia proces w tle i wypisuje status każdego wygenerowanego pliku `.glb`.
-
-- [x] **Zadanie #184** (`lib/engine/peloton/boids_steering_collision_avoidance.dart`): Aby kolarze w widoku 3D nigdy nie przenikali przez siebie (brak efektu "clippingu" siatek 3D) i poruszali się jak prawdziwy, żywy peleton szosowy, stwórz silnik fizyki ruchu ciągłego `BoidsSteeringCollisionAvoidance`. Zaimplementuj:
-
-  1. Trzy wektory sterujące dla każdego z 176 kolarzy w każdej klatce (60 FPS):
-
-     * **Separacja (Collision Avoidance):** minimalna bezpieczna kopuła wokół roweru ($1.85\text{ m}$ długości $\times 0.65\text{ m}$ szerokości). Gdy dwóch kolarzy zbliża się zbyt mocno bokiem, wyliczana jest płynna siła odpychająca na boki szosy ($\Delta y$).
-
-     * **Szukanie Cienia Aerodynamicznego (Draft Seeking):** kolarz automatycznie przesuwa się za plecy kolarza jadącego z przodu, ustawiając się lekko po przekątnej w przypadku wiatru bocznego (formowanie wachlarza).
-
-     * **Wyprzedzanie i Atak (Overtaking Lane Finder):** gdy kolarz ma wyższą prędkość niż zawodnik przed nim, skanuje lewą i prawą stronę drogi w promieniu $15\text{ m}$, wybiera wolny korytarz, płynnie zmienia tor jazdy (z animacją wychylenia roweru), wyprzedza i wraca do szyku.
-
-  2. Uwzględnij zwężenia szosy (np. wjazd na wąski sektor bruku o szerokości $3.2\text{ m}$), co naturalnie rozciąga peleton w długiego "węża" (efekt akordeonu / *gruppo allungato*). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #185** (`lib/engine/rendering3d/broadcast_tv_graphics_overlay.dart`): Stwórz zestaw autentycznych grafik telewizyjnych `BroadcastTvGraphicsOverlay` wzorowanych na oficjalnej oprawie telewizyjnej Eurosportu / Tour de France, które pojawiają się dynamicznie podczas transmisji wyścigu 3D. Zaimplementuj:
-
-  1. **Belkę dolną prezentacji kolarza (Lower-Third Rider Spotlight):** gdy kamera przełącza się na lidera lub atakującego zawodnika, z dołu ekranu wyjeżdża animowana belka ze złotym paskiem `#D4AF37`, portretem, flagą, miejscem w klasyfikacji generalnej, aktualną mocą (W i W/kg), tętnem oraz prędkością chwilową.
-
-  2. **Grafikę Profilu Podjazdu (Climb Telemetry Banner):** przy wjeździe na kategoryzowany podjazd (Cat 4 do HC) wyświetla się belka z nazwą przełęczy, długością, średnim nachyleniem, wysokością szczytu n.p.m. oraz przewidywanym czasem wspinaczki i aktualnym VAM ($\text{m/h}$) grupy liderów.
-
-  3. **Stoper Punktów Pomiaru Czasu (Live Split Timer):** na premiach górskich, lotnych finiszach oraz punktach pomiaru czasu ITT wyświetla na żywo tykający do setnych części sekundy stoper i tabelę Top 5 z różnicami zielonymi (`-0'12"`) lub czerwonymi (`+0'28"`). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #186** (`lib/engine/rendering3d/dynamic_skybox_and_lighting_painter.dart`): Stwórz zaawansowany renderer oświetlenia atmosferycznego, nieba i cieni `DynamicSkyboxAndLightingPainter` dla widoku wyścigu 3D. Zaimplementuj:
-
-  1. Proceduralny gradient nieba zależny od pory dnia etapu (np. start o 11:30 w pełnym słońcu, finisz królewskiego etapu w Alpach o 17:15 w ciepłym świetle *Golden Hour*, lub wieczorne kryterium / finisz w Paryżu przy światłach latarni) oraz pogody (stalowe chmury burzowe z błyskami w oddali podczas deszczu).
-
-  2. Dynamiczne cienie rzucane przez kolarzy i rowery na asfalt (Projected Drop Shadows): kąt i długość cienia każdego kolarza wyliczane z pozycji słońca oraz nachylenia drogi.
-
-  3. Efekt mokrego asfaltu (`WetRoadSpecularReflection`): podczas deszczu szosa odbija przytłumione kolory koszulek peletonu oraz czerwone światła tylne samochodów dyrektora sportowego. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #187** (`lib/engine/rendering3d/peloton_3d_canvas_engine.dart`): Aby widok 3D działał ze gwarantowaną płynnością 120 FPS od razu po uruchomieniu na Windows, macOS, Androidzie i iOS (nawet zanim zewnętrzne pliki `.glb` zostaną załadowane), zbuduj ultrawydajny, natywny silnik renderowania 3D na Canvasie Fluttera `Peloton3dCanvasEngine` wykorzystujący rzutowanie macierzowe `vector_math_64`. Zaimplementuj:
-
-  1. Trójwymiarowe rysowanie wstęgi drogi z perspektywą, zakrętami, zmianami nachylenia, teksturą asfaltu/bruku, pasami ruchu, barierkami ochronnymi, drzewami, skałami i bramami kilometrowymi.
-
-  2. Pełne bryły 3D kolarzy i rowerów z cieniowaniem kierunkowym: obracające się koła ze stożkami karbonowymi (35/50/65mm/Dysk), trójkąty ramy w kolorze zespołu, animowane dwusegmentowe nogi (udo + łydka z białymi skarpetkami aero i butami) poruszające się w rytm kadencji RPM, pochylony tułów w koszulce drużynowej lub koszulce lidera (żółta/zielona/grochy/tęczowa), głowa w kasku aero i okularach.
-
-  3. Pełną integrację z kamerami (`ChaseCam`, `MotoTvCam`, `HeliCam`, `FinishLineCam`) oraz fizyką omijania kolizji z zadania #184. Dzięki temu wyścig wygląda spektakularnie w 3D w każdej sytuacji! Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #188** (`lib/ui/screens/team_bus_locker_room_screen.dart`): Stwórz klimatyczny ekran Wnętrza Autobusu Drużyny przed startem etapu `TeamBusLockerRoomScreen`, który buduje niesamowitą immersję rodem z dokumentów kolarskich (styl *Tour de France: W sercu peletonu*). Zaimplementuj:
-
-  1. Wizualizację nowoczesnego wnętrza autobusu zespołu (`CustomPainter` z fotelami skórzanymi, oświetleniem LED w barwach drużyny, ekranem taktycznym TV na ścianie i zawieszonymi koszulkami startowymi kolarzy).
-
-  2. Interaktywne karty 8 kolarzy siedzących w autobusie z ich aktualnym samopoczuciem dnia ("Day Condition / Noga Dnia" od $-5$ do $+5$, odkrywana po krótkiej rozgrzewce na trenażerze przed autobusem!).
-
-  3. Możliwość wygłoszenia mowy motywacyjnej przez Dyrektora Sportowego przed wyjściem na linię startu (`Zdejmijcie presję`, `Jedziemy dziś wszystko na naszego lidera!`, `Zaatakujcie od kilometra zero!`, `Przetrwajcie ten etap w limicie czasu`), która modyfikuje morale i początkową koncentrację kolarzy na pierwszych 20 kilometrach wyścigu. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #189** (`lib/engine/physics/day_condition_and_biorhythm_engine.dart`): Stwórz silnik dyspozycji dnia `DayConditionAndBiorhythmEngine`, który decyduje o subtelnych wahaniach dyspozycji kolarza w konkretnym dniu wyścigowym (od $-5$ "Kryzys / Ciężkie nogi" do $+5$ "Dzień Konia / Diamentowa noga"). Zaimplementuj:
-
-  1. Algorytm losowania ważonego oparty o: aktualną świeżość (TSB), jakość snu/regeneracji nocnej, dopasowanie pogody do preferencji kolarza (`rainResistance`, `heatTolerance`), morale oraz lojalność wobec lidera.
-
-  2. Wpływ dyspozycji dnia na parametry podczas etapu: każdy punkt powyżej zera zwiększa dostępne FTP o $+1.2\%$, pojemność beztlenową $W'$ o $+2.5\%$ oraz szybkość regeneracji między skokami; wartości ujemne analogicznie obniżają pułap tlenowy.
-
-  3. Mechanikę odkrywania dyspozycji dnia: na starcie etapu dyspozycja rywali (oraz kolarzy gracza, którzy nie zrobili rozgrzewki na trenażerze) jest ukryta pod znakiem `?` i odkrywa się dopiero, gdy tętno kolarza przekroczy próg $LT_1$ na pierwszym podjeździe! Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #190** (`lib/ui/widgets/custom_carbon_and_glass_containers.dart`): Stwórz bibliotekę luksusowych komponentów wizualnych wielokrotnego użytku `CustomCarbonAndGlassContainers`, która nada wszystkim ekranom gry wygląd przewyższający EA Sports FC i nowoczesne aplikacje iOS. Zaimplementuj:
-
-  1. `CarbonFiberCard`: kontener z proceduralnie rysowaną w tle subtelną mikroteksturą włókna węglowego (Carbon 3K weave pod kątem $45^\circ$), ciemnym lakierem `#181B22`, odbiciem światła na górnej krawędzi (1px gradient `#3A4154` do przezroczystości) oraz płynnym podświetleniem obramowania na kolor `#8E4A49` lub `#D4AF37` po najechaniu kursorem (`MouseRegion`).
-
-  2. `GlassmorphicHudPanel`: półprzezroczysty panel dla nakładek wyścigowych 3D z rozmyciem tła (`ImageFilter.blur(sigmaX: 14, sigmaY: 14)`), delikatnym szumem i zaokrągleniem 16px.
-
-  3. `AnimatedStatBadge`: kafelek statystyki (np. `6.4 W/kg`, `FTP 415W`) z animowanym licznikiem `TweenAnimationBuilder`, który przy zmianie wartości płynnie przelicza cyfry. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #191** (`lib/core/utils/windows_desktop_window_config.dart`): Stwórz kompletną konfigurację okna i skalowania dla wersji Desktop (`Windows` oraz `macOS`) w klasie `WindowsDesktopWindowConfig`. Zaimplementuj:
-
-  1. Responsywny wrapper skalujący interfejs (`DesktopResponsiveScaler`), który gwarantuje ostrość czcionek i idealne proporcje kart na rozdzielczościach od `1280x720`, przez `1920x1080` (Full HD), `2560x1440` (QHD) aż po `3840x2160` (4K).
-
-  2. Niestandardowy, zintegrowany pasek stanu aplikacji z przełącznikiem pełnego ekranu (`F11`), szybkim podglądem obciążenia wątku fizyki oraz przyciskiem zrzutu ekranu (Screenshot Mode ukrywa HUD do zrobienia czystego zdjęcia peletonu 3D). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #192** (`lib/services/database/demo_save_preset_builder.dart`): Stwórz klasę `DemoSavePresetBuilder` generującą 4 gotowe, bogate w detale scenariusze startowe ("Scenariusze Szybkiego Startu Kariery"), dzięki którym gracz może od razu wskoczyć w środek wielkich emocji bez zaczynania od 1 stycznia:
-
-  1. `Polski Projekt WorldTour`: prowadzisz ambitną polską ekipę ProTeam z budżetem 8 mln EUR, młodym talentem górskim z Tatr i walczysz o Dziką Kartę na Wielką Pętlę.
-
-  2. `Pojedynek Tytanów w Alpach`: zapis gry bezpośrednio przed 18. etapem Wielkiego Touru (3 przełęcze ponad 2000m n.p.m.), gdzie Twój lider traci tylko 14 sekund do żółtej koszulki!
-
-  3. `Kampania Brukowana`: kwiecień, Twój zespół klasykowców staje przed decydującym tygodniem dwóch brukowanych Monumentów w deszczowej Belgii i północnej Francji.
-
-  4. `Imperium Galaktyczne`: zarządzasz najbogatszą drużyną świata (budżet 45 mln EUR) z trzema gwiazdami w składzie, musisz pogodzić ich wielkie ego i wygrać wszystkie 3 Grand Toury w jednym sezonie. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #193** (`lib/engine/simulation/tactical_ai_personality_profiles.dart`): Stwórz system osobowości taktycznych dla kolarzy i dyrektorów sportowych AI `TacticalAiPersonalityProfiles`, aby rywale w wyścigu 3D zachowywali się nieprzewidywalnie i z charakterem. Zaimplementuj 6 archetypów AI:
-
-  1. `CannibalAttacker` (styl Pogačara): nie czeka na ostatni kilometr – atakuje już na przedostatniej przełęczy 50 km przed metą, jeśli czuje słabość rywali.
-
-  2. `DieselCalculator` (styl Vingegaarda / Dumoulina): ignoruje szarpane zrywy rywali, jedzie równym, morderczym tempem według miernika mocy na własnym progu FTP, doganiając przegrzanych atakujących pod szczytem.
-
-  3. `WheelsuckerOpportunist`: oszczędza każdą kroplę energii w ucieczce, odmawia dawania mocnych zmian, by wyskoczyć z koła na ostatnich 300 metrach.
-
-  4. `KamikazeDescender`: atakuje na szczycie przełęczy i podejmuje maksymalne ryzyko na krętym zjeździe, zmuszając ostrożniejszych rywali do pogoni w dolinie.
-
-  5. `BreakawayHunter`: specjalista od ucieczek, który skacze do każdego odjazdu i walczy o każdą premię górską do koszulki w grochy.
-
-  6. `LoyalRoadCaptain`: weteran, który w ułamku sekundy oddaje własne koło liderowi po defekcie i ustawia zespół przed zakrętami. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #194** (`lib/ui/widgets/interactive_stage_timeline_scrubber.dart`): Stwórz interaktywny pasek osi czasu wyścigu `InteractiveStageTimelineScrubber` umieszczony nad profilem wysokościowym etapu. Zaimplementuj:
-
-  1. Znaczniki wszystkich wydarzeń, które miały miejsce dotychczas na etapie (ikona błyskawicy = atak, ikona klucza = defekt, ikona ostrzeżenia = kraksa, ikona góry = wyniki premii KOM, ikona bidonu = strefa bufetu).
-
-  2. Po najechaniu kursorem na dowolny znacznik wyświetla się dymek (Tooltip) z dokładnym kilometrem etapu, godziną i opisem sytuacji (np. `Km 114.2: Kraksa w środku peletonu (12 kolarzy zatrzymanych)`).
-
-  3. Na ekranie podsumowania etapu oś czasu pozwala przewijać i analizować, w którym dokładnie kilometrze wyścigu rozstrzygnęły się losy klasyfikacji generalnej. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #195** (`lib/ui/screens/sponsor_pitch_deck_negotiation_modal.dart`): Stwórz interaktywne okno negocjacji ze sponsorem tytularnym `SponsorPitchDeckNegotiationModal`, w którym gracz składa ofertę budżetową na nowy sezon. Zaimplementuj:
-
-  1. Wizualną prezentację "Pitch Decku" drużyny: podgląd nowej koszulki zespołu z wyeksponowanym logo negocjowanego sponsora na piersi i spodenkach, prognozę ekspozycji telewizyjnej (Media Value Index wyliczany z liczby startów w WorldTourze i popularności liderów).
-
-  2. Interaktywne suwaki negocjacyjne w 3 rundach rozmów:
-
-     * Roczna kwota wsparcia (w EUR),
-
-     * Długość kontraktu (1–4 lata),
-
-     * Premia za wygranie Wielkiego Touru / Monumentu,
-
-     * Lista 3 celów obowiązkowych, które gracz sam może zmodyfikować (im ambitniejsze cele wybierze gracz, tym wyższy budżet bazowy zgodzi się wypłacić zarząd sponsora!).
-
-  3. Wskaźnik cierpliwości dyrektora marketingu sponsora (0–100%) reagujący na żywo na żądania finansowe gracza. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #196** (`lib/ui/screens/pre_season_team_presentation_screen.dart`): Stwórz uroczysty ekran Gali Prezentacji Zespołu przed startem nowego sezonu (styczeń) `PreSeasonTeamPresentationScreen`. Zaimplementuj:
-
-  1. Scenografię sceny z reflektorami w kolorach zespołu, na której stoją trzej główni liderzy drużyny (`RiderAvatarWidget` w pełnej skali) obok nowego roweru wyścigowego (`BikePreviewWidget`) na nadchodzący sezon.
-
-  2. Podsumowanie zmian kadrowych (kto dołączył do zespołu, kto odszedł, kto awansował z Akademii U23), prezentację głównych wyścigów docelowych poszczególnych liderów oraz zatwierdzenie ostatecznych numerów i ról na sezon.
-
-  3. Przycisk "ROZPOCZNIJ SEZON WYŚCIGOWY", który generuje artykuł prasowy w mediach i przenosi gracza do kalendarza styczniowych wyścigów. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #197** (`lib/services/career/social_media_and_cycling_news_service.dart`): Aby świat gry tętnił życiem każdego dnia, stwórz serwis mediów kolarskich `SocialMediaAndCyclingNewsService` (wzorowany na portalach *Cyclingnews / ProCyclingStats / Velonews* oraz wpisach zawodników po wyścigach). Zaimplementuj:
-
-  1. Generator codziennych artykułów i nagłówków prasowych po każdym rozegranym wyścigu na świecie: zapowiedzi faworytów przed etapem ("5 gwiazdek dla..."), relacje z ucieczek, komentarze po kraksach, plotki transferowe oraz wyliczenia ekspertów dotyczące watów i rekordów VAM na podjazdach.
-
-  2. Krótkie wpisy społecznościowe samych kolarzy z załączonymi danymi z ich komputerów rowerowych (np. *"Ciężki dzień w deszczu na bruku. 340W Normalized Power przez 5 godzin, ale lider dowieziony bezpiecznie do mety! 🚴‍♂️🌧️"*).
-
-  3. Integrację tego strumienia wiadomości z dedykowanym widgetem `CyclingNewsFeedWidget` w ekranie głównym `DashboardHqScreen`. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #198** (`lib/ui/widgets/pro_cycling_stats_table_widget.dart`): Stwórz komponent tabeli danych `ProCyclingStatsTableWidget` wzorowany na kultowym portalu *ProCyclingStats (PCS)*, używany do prezentacji wyników, list startowych i statystyk kolarzy. Zaimplementuj:
-
-  1. Ultraczytelną, kompaktową tabelę o wysokim kontraście w ciemnym motywie: flaga kraju (rysowana wektorowo lub z kodu ISO), nazwisko pogrubione + imię, klikalna nazwa drużyny w jej kolorach, wiek, specjalizacja z kolorowym znacznikiem punktowym (zielony = sprint, czerwony = góry, niebieski = TT, pomarańczowy = bruk) oraz kolumny czasów/punktów.
-
-  2. Błyskawiczne sortowanie po kliknięciu dowolnego nagłówka kolumny, pole wyszukiwania na żywo (Live Search Filter) oraz podświetlenie wierszy należących do kolarzy z drużyny gracza subtelnym złotym paskiem bocznym `#D4AF37`. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #199** (`lib/engine/physics/altitude_acclimatization_and_heat_engine.dart`): Stwórz precyzyjny silnik fizjologiczny aklimatyzacji wysokościowej i adaptacji cieplnej `AltitudeAcclimatizationAndHeatEngine`. Zaimplementuj:
-
-  1. Model spadku wydolności tlenowej na dużej wysokości n.p.m.: powyżej $1500\text{ m n.p.m.}$ niezreklimatyzowany kolarz traci ok. $1.5\%$ swojego bazowego FTP na każde kolejne $300\text{ m}$ wysokości (na przełęczy $2700\text{ m n.p.m.}$ to aż $-6\%$ mocy!), podczas gdy kolarz po obozie wysokogórskim (`altitudeAcclimatizationScore` 0–100) lub urodzony na dużej wysokości (np. kolarze z Kolumbii / Ekwadoru) traci o połowę mniej!
-
-  2. Model stresu cieplnego (`CoreBodyTemperatureCelsius`): podczas jazdy pod górę w upale $>32^\circ\text{C}$ przy niskiej prędkości powietrza chłodzącego temperatura głęboka ciała rośnie z $37.0^\circ\text{C}$ w stronę $39.5^\circ\text{C}$. Kolarze mogą używać "skarpet lodowych" (Ice Socks podawanych z wozu technicznego), aby schłodzić organizm i uchronić się przed przegrzaniem. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #200** (`lib/ui/widgets/rider_telemetry_sparklines_card.dart`): Stwórz zaawansowany komponent analityczny `RiderTelemetrySparklinesCard` wyświetlający mikro-wykresy na żywo (Sparklines) wewnątrz kart kolarzy podczas wyścigu 3D oraz w laboratorium. Zaimplementuj:
-
-  1. Lekki `CustomPainter` rysujący płynną krzywą ostatnich 60 sekund generowanej mocy (z wypełnieniem gradientowym pod wykresem odpowiadającym aktualnej strefie mocy Z1–Z7) oraz nałożoną przerywaną linię tętna.
-
-  2. Wizualny wskaźnik "Zapałek" (Matches Burned Counter): licznik pokazujący, ile razy podczas dzisiejszego etapu kolarz wykonał głęboki zryw beztlenowy powyżej $120\%$ FTP trwający dłużej niż 15 sekund. Każda "spalona zapałka" lekko obniża maksymalny sprint na finiszu! Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #201** (`lib/ui/screens/race_3d_viewport_widget.dart` - Pełne Połączenie Silnika 3D): Zintegruj w pliku `lib/ui/screens/race_3d_viewport_widget.dart` natywny silnik `Peloton3dCanvasEngine` (#187), oświetlenie i niebo `DynamicSkyboxAndLightingPainter` (#186), fizykę omijania kolizji `BoidsSteeringCollisionAvoidance` (#184) oraz oprawę telewizyjną `BroadcastTvGraphicsOverlay` (#185). Zaimplementuj:
-
-  1. Płynną pętlę renderowania `Ticker` / `AnimationController` odświeżającą scenę w 60/120 FPS z interpolacją pozycji pomiędzy kolejnymi tickami z `RaceSimulationNotifier`.
-
-  2. Interaktywne wybieranie kolarzy na scenie 3D (Raycasting / Hit-testing współrzędnych ekranowych 2D wyliczonych podczas rzutowania 3D) – kliknięcie na kolarza w peletonie podświetla pod jego rowerem złoty pierścień taktyczny i otwiera jego kartę sterowania.
-
-  3. Płynne przejścia kamer (Cinematic Camera Transitions) przy wykryciu kluczowego momentu przez `KeyMomentsDetector` (np. automatyczny najazd kamery z helikoptera na czoło peletonu, gdy rozpoczyna się atak w górach). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #202** (`lib/engine/audio/sound_effects_manager_provider.dart`): Stwórz centralny menedżer dźwięku i udźwiękowienia UI/3D `SoundEffectsManagerProvider` (oparty o `flutter_riverpod`), który łączy `ProceduralCyclingAudioEngine` (#117) oraz `RaceRadioTtsAndBeeps` (#118) z całą aplikacją. Zaimplementuj:
-
-  1. Subtelne, nowoczesne dźwięki interfejsu (UI Haptics & Audio Feedback): ciche kliknięcie przy przełączaniu zakładek, dźwięk podpisania kontraktu, sygnał nowej wiadomości w skrzynce, dźwięk klucza dynamometrycznego w garażu rowerowym oraz dźwięk odliczania na rampie startowej TT (`Beep... Beep... BEEP!`).
-
-  2. Osobne suwaki głośności w ustawieniach: `Głośność Ogólna (Master)`, `Otoczenie Wyścigu (Koła, Bębenek, Wiatr)`, `Kibice i Atmosfera`, `Radio Wyścigowe i Alarmy Garmin` oraz `Dźwięki Interfejsu`, z natychmiastowym zapisem preferencji. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #203** (`lib/core/localization/app_localizations_pl_en.dart`): Stwórz kompletny słownik i system lokalizacji językowej `AppLocalizationsPlEn` obsługujący natychmiastowe przełączanie języka gry pomiędzy **Językiem Polskim (PL)** (pełny, autentyczny żargon kolarski: *wachlarze, ranty, spłynięcie po bidony, noga dnia, pociąg sprinterski, koło w koło, odcięcie prądu, koszulka w grochy, klasyfikacja generalna*) a **Językiem Angielskim (EN)** (*echelons, crosswinds, sticky bottle, day condition, lead-out train, bonking, polka-dot jersey, GC*). Dodaj przełącznik języka `PL / EN` w `SettingsAndModScreen`. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #204** (`lib/services/career/autosave_and_crash_recovery_guard.dart`): Stwórz niezawodny strażnik integralności zapisu `AutosaveAndCrashRecoveryGuard`. Zaimplementuj:
-
-  1. Atomowy zapis transakcyjny stanu kariery (zapis do pliku tymczasowego `.tmp`, weryfikacja sumy kontrolnej JSON i zamiana pliku głównego, co gwarantuje, że wyłączenie prądu lub zamknięcie okna gry nigdy nie uszkodzi zapisu kariery!).
-
-  2. Automatyczny zapis stanu przed startem każdego etapu (`PreStageCheckpoint`), dzięki czemu w razie nieprzewidzianego zamknięcia aplikacji w trakcie wyścigu gracz może od razu wznowić grę dokładnie przed odprawą tego etapu. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #205** (`lib/models/model_serialization_audit.dart`): Przeprowadź kompleksowy audyt wszystkich modeli danych w katalogach `lib/models/rider/`, `lib/models/equipment/`, `lib/models/team/`, `lib/models/race/`, `lib/models/career/`. Stwórz pomocniczą klasę walidującą `ModelSerializationAudit`, która testuje w pętli serializację i deserializację (`fromJson(model.toJson())`) każdego modelu z wygenerowanego świata gry. Napraw w modelach wszelkie potencjalne błędy rzutowania typów (`int` vs `double` w JSON, listy `List<dynamic>`, obsługa `null` dla nowych pól dodanych w zadaniach #126–#199). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #206** (`lib/engine/engine_integration_bridge.dart`): Stwórz czysty most integracyjny `EngineIntegrationBridge`, który łączy wszystkie kalkulatory fizyki i fizjologii stworzone w obu fazach:
-
-  * opór aero z uwzględnieniem `BikeFitConfiguration` (#130),
-
-  * ciśnienie w oponach i stan wosku na łańcuchu (#132, #133),
-
-  * aklimatyzację wysokościową i stres cieplny (#199),
-
-  * dyspozycję dnia "Noga Dnia" (#189),
-
-  * profil mleczanowy $LT_1/LT_2/VLaMax$ (#126),
-
-  * osobowości taktyczne AI (#193) oraz omijanie kolizji Boids (#184)
-    bezpośrednio z główną pętlą `StageSimulationLoop` (#038) oraz wątkiem `IsolateSimulationWorker` (#123). Upewnij się, że żaden kalkulator nie jest martwym kodem i każdy parametr wpływa na prędkość kolarza w wyścigu 3D! Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #207** (`lib/ui/screens/pre_race_briefing_screen.dart` - Pełna Integracja Przedstartowa): Rozbuduj ekran `PreRaceBriefingScreen`, aby łączył w jednym płynnym procesie (Stepper 4-krokowy przed wyścigiem):
-
-  1. Krok 1: Analiza Trasy, Pogody Górskiej (#151) i Rekonesansu (#140).
-
-  2. Krok 2: Warsztat Mechaników (`MechanicWorkshopPanel` #134) – dobór rowerów, kół, opon, ciśnienia BAR/PSI oraz smarowania łańcucha na dzisiejszy etap z automatycznym przyciskiem `Zastosuj Optymalny Setup Mechanika`.
-
-  3. Krok 3: Autobus Drużyny (`TeamBusLockerRoomScreen` #188) – sprawdzenie dyspozycji dnia kolarzy po rozgrzewce, mowy motywacyjnej i wyznaczenie ról (Lider, Ochroniarz, Uciekinier, Sprinterski Lead-out).
-
-  4. Krok 4: Wielki przycisk `WYJAZD NA START HONOROWY (KM 0.0) -> WIDOK 3D`. Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #208** (`lib/ui/screens/dashboard_hq_screen.dart` - Rozbudowa Centrum Dowodzenia): Zaktualizuj ekran główny `DashboardHqScreen`, wykorzystując nowe komponenty `CarbonFiberCard` (#190), `CyclingNewsFeedWidget` (#197) oraz `ProCyclingStatsTableWidget` (#198). Zaimplementuj na ekranie głównym:
-
-  1. Interaktywny widżet Najbliższego Wyścigu z profilem trasy, składem i przyciskiem przejścia do odprawy.
-
-  2. Pasek "Transfer Ticker" i "Cycling News" z najnowszymi wydarzeniami ze świata gry.
-
-  3. Kafelek Stanu Liderów (forma TSB, morale, dni do szczytu formy) oraz Kafelek Zadowolenia Sponsora Tytularnego z postępem 3 głównych celów sezonowych.
-
-  4. Kafelek Szybkich Akcji (np. `2 kolarzy czeka na przedłużenie kontraktu`, `Wyniki testów z Laboratorium gotowe`, `Dostępny rekonesans przed Monumentem`). Zweryfikuj przez `flutter analyze`.
-
-- [x] **Zadanie #209** (`test/physics_and_physiology_master_test.dart`): Napisz kompletny, rygorystyczny zestaw testów jednostkowych (`flutter_test`) weryfikujących całą matematykę gry:
-
-  1. Test Równania Mocy: sprawdź prędkości dla górala ($58\text{ kg}, 370\text{ W}$) vs sprintera ($78\text{ kg}, 420\text{ W}$) na płaskim ($0\%$) oraz na ściance ($10\%$).
-
-  2. Test Tunelu Aero i Ciśnienia: sprawdź, że obniżenie $CdA$ oraz dobór właściwego ciśnienia na bruku dają mierzalną przewagę czasową na dystansie $40\text{ km}$.
-
-  3. Test Skiba $W'$, Glikogenu i Wysokości n.p.m.: sprawdź wyczerpanie $W'$ podczas ataku, spadek mocy na wysokości $2500\text{ m n.p.m.}$ oraz regenerację po podaniu żelu.
-     Uruchom `flutter test test/physics_and_physiology_master_test.dart` w terminalu i upewnij się, że 100% testów przechodzi na zielono!
-
-- [ ] **Zadanie #210** (`test/ui_screens_smoke_and_overflow_test.dart`): Napisz automatyczny test weryfikacji wizualnej i odporności na błędy układu (`WidgetTester` w `flutter_test`), który po kolei renderuje kluczowe ekrany gry (`MainTitleMenuScreen`, `DashboardHqScreen`, `SquadRosterScreen`, `BikeGarageRndScreen`, `WindTunnelAndBikeFitScreen`, `PhysiologyLabScreen`, `Race3dViewportWidget` z `RaceHudOverlay`) w dwóch rozdzielczościach testowych:
-
-  * Desktop Windows (`1600x900`),
-
-  * Smartfon (`390x844`).
-    Test musi automatycznie przechwytywać błędy `FlutterError` i weryfikować, że na żadnym ekranie nie występuje `RenderFlex overflowed` ani błąd brakującego providera! Uruchom test w terminalu i napraw ewentualne przepełnienia w widgetach, aż test przejdzie w 100% na zielono.
-
-- [ ] **Zadanie #211** (`pubspec.yaml` oraz `blender_scripts/build_all_assets_master.py` - Kompilacja Assetów 3D): Upewnij się, że w pliku `pubspec.yaml` wszystkie ścieżki do katalogów `assets/3d/bikes/`, `assets/3d/riders/`, `assets/3d/environment/` oraz `assets/textures/jerseys/` są poprawnie zadeklarowane. Następnie uruchom w terminalu komendę:
-  `blender --background --python blender_scripts\build_all_assets_master.py`
-  i zweryfikuj, że wszystkie modele `.glb` (od #086 do #182) oraz tekstury koszulek wygenerowały się na dysku i są wpisane w `assets/3d/asset_manifest.json`.
-
-- [ ] **Zadanie #212** (`docs/CODE_MAP.md` - Pełny Audyt Kompilacji i Lintera): Wykonaj w terminalu komendy `flutter pub get`, `flutter analyze` oraz `flutter test`. Napraw wszelkie pozostałe ostrzeżenia (warnings/infos), nieużywane importy lub niezgodności typów w całym katalogu `lib/` oraz `test/`, tak aby `flutter analyze` zwracało `No issues found!`, a cały zestaw testów `flutter test` świecił w 100% na zielono. Zaktualizuj `docs/CODE_MAP.md` o wszystkie nowe klasy z zadań #163–#212 i wykonaj finalny commit paczki.
+---
+
+## CZĘŚĆ II: PACZKA #1 (#163 – #212) — SILNIK 3D CANVAS, BOIDS, OPRAWA TV I INTEGRACJA
+
+- [ ] **Zadanie #163** (`lib/ui/widgets/rider_comparison_side_by_side_modal.dart`): Zbuduj modal `RiderComparisonSideBySideModal` (Dark Mode `#0F1115`, karty `#181B22`, blur 16px) porównujący 2–3 obiekty `Rider` obok siebie: portrety `RiderAvatarWidget`, przełącznik `W` vs `W/kg`, nałożone krzywe mocy `5s–60m` z podświetleniem $\Delta\%$ oraz paski porównawcze z zielonym akcentem `#10B981` dla przewagi. Zweryfikuj brak `RenderFlex overflow` na ekranach mobilnych i desktopowych.
+- [ ] **Zadanie #164** (`lib/services/career/ai_team_transfer_simulation_service.dart`): Zbuduj serwis `AiTeamTransferSimulationService` symulujący rynek transferowy 52 drużyn AI (analiza braków kadrowych `TeamRosterNeedsAnalyzer`, wycena w EUR z krzywej wieku i $\text{W/kg}$, licytacje `Bidding Wars`, oferty wykupu klauzul kolarzy gracza i generator `TransferNewsItem`).
+- [ ] **Zadanie #165** (`lib/ui/widgets/keyboard_shortcuts_manager.dart`): Zbuduj `KeyboardShortcutsManager` (`Shortcuts`, `Actions`, `HardwareKeyboard`) obsługujący skróty 3D (`Spacja` pauza, `+/-` prędkość `1x–8x`, `1–8` wybór kolarza, `A` atak, `R` zmiana, `P` ochrona, `G` żel, `B` bidony, `C` kamera, `V` Aero Vision, `Tab` HUD) oraz modal ściągi `ShortcutsCheatSheetOverlay`.
+- [ ] **Zadanie #166** (`lib/ui/screens/quick_race_sandbox_screen.dart`): Zbuduj ekran `QuickRaceSandboxScreen` w układzie 3-kolumnowego Bento Grid: wybór trasy/presetu (Alpe d'Huez, Paris-Roubaix, Champs-Élysées, Crosswind, ITT), warunków pogodowych i wiatru ($0–70\text{ km/h}$), automatyczny dobór składu `Auto-Pick Optimal Roster` oraz presety sprzętowe z uruchomieniem `Race3dViewportWidget`.
+- [ ] **Zadanie #167** (`lib/ui/screens/main_title_menu_screen.dart`): Zbuduj ekran tytułowy AAA `MainTitleMenuScreen` z animowanym tłem `AnimatedPelotonBackdropPainter` (120 FPS, serpentyna o zachodzie słońca `#0F1115 -> #8E4A49 -> #D4AF37`, paralaksa kursora) oraz szklanym panelem menu (Kontynuuj Karierę, Nowa Kariera, Szybki Wyścig 3D, Kreator Etapów, Studio Malowania, Bazy Danych i Ustawienia).
+- [ ] **Zadanie #168** (`lib/ui/widgets/save_load_slots_modal.dart`): Stwórz okno zarządzania zapisami gry `SaveLoadSlotsModal` obsługujące 5 slotów ręcznych i slot `Auto-Save`: podgląd herbu drużyny, daty w karierze, budżetu, pozycji w rankingu UCI, czasu gry oraz eksport/import zapisu do pliku `.json`.
+- [ ] **Zadanie #169** (`lib/ui/widgets/tactical_radial_command_menu.dart`): Zbuduj kołowe menu rozkazów `TacticalRadialCommandMenu` otwierane po kliknięciu kolarza w widoku 3D: 8 wycinków koła (Atakuj, Utrzymaj Pozycję, Daj Zmianę, Siedź na Kole, Chroń Lidera, Żel Energetyczny, Wróć po Bidony, Spokojny Dojazd Grupetto) z animacją sprężynową 200 ms.
+- [ ] **Zadanie #170** (`lib/ui/widgets/live_tv_commentary_ticker.dart`): Stwórz pasek komentarza telewizyjnego na żywo `LiveTvCommentaryTicker` generujący dynamiczne wypowiedzi dwóch komentatorów (główny + ekspert były kolarz) reagujące na ataki $>10\text{ W/kg}$, pęknięcia peletonu na wietrze, kraksy, bufet i sytuację w Virtual GC.
+- [ ] **Zadanie #171** (`lib/ui/widgets/podium_3d_ceremony_painter.dart`): Zbuduj animowany widget ceremonii dekoracji `Podium3dCeremonyPainter` wyświetlany po zakończeniu etapu: 3 stopnie podium, kolarze w koszulkach lidera (Żółta, Zielona, Grochy, Biała), konfetti w kolorach wyścigu, błyski fleszy fotoreporterów i hymn narodowy zwycięzcy.
+- [ ] **Zadanie #172** (`lib/engine/audio/soundscape_mixer_controller.dart`): Stwórz mikser dźwięku `SoundscapeMixerController` łączący szum wiatru zależny od prędkości $v^2$, terkot bębenka wolnobiegu przy $P = 0\text{ W}$, oddech kolarza powyżej progu $LT_2$, dzwonki krów i wrzawę tłumu narastającą na ostatnich $500\text{ m}$ przed premią KOM i metą.
+- [ ] **Zadanie #173** (`lib/engine/rendering3d/boids_peloton_flocking_solver.dart`): Zaimplementuj algorytm unikania kolizji i płynnego ruchu 176 kolarzy `BoidsPelotonFlockingSolver` w oparciu o 4 wektory sił: `Separation` (odpychanie boczne min. $0.45\text{ m}$), `Alignment` (wyrównanie prędkości do kolarza z przodu), `DraftSeeking` (szukanie kieszeni najniższego $CdA$) oraz `OvertakeLaneShift` (płynne wyjście na wiatr przy różnicy prędkości $\Delta v > 0.8\text{ m/s}$).
+- [ ] **Zadanie #174** (`lib/engine/rendering3d/inverse_kinematics_limb_solver.dart`): Zbuduj dwustawowy solver kinematyki odwrotnej 3D `InverseKinematicsLimbSolver` wyliczający w każdej klatce dokładną pozycję kolana i kostki na podstawie kąta obrotu korby $\theta \in [0, 2\pi)$ i długości korby ($165–175\text{ mm}$) oraz ugięcie łokci w chwytach `Tops`, `Hoods`, `Drops` i `AeroTuck`.
+- [ ] **Zadanie #175** (`lib/engine/rendering3d/projected_planar_shadows_painter.dart`): Zaimplementuj rzutowanie miękkich cieni planarnych `ProjectedPlanarShadowsPainter` dla każdego kolarza, roweru, drzewa i bramy na powierzchnię asfaltu z uwzględnieniem kąta słońca zależnego od godziny etapu ($11:00–17:30$) i ekspozycji zbocza.
+- [ ] **Zadanie #176** (`lib/engine/rendering3d/wheel_and_drivetrain_rotator.dart`): Stwórz moduł animacji mechanicznej `WheelAndDrivetrainRotator` obracający szprychy kół z efektem rozmycia ruchu (motion blur powyżej $40\text{ km/h}$), tarczę korby zgodnie z kadencją RPM oraz wózek tylnej przerzutki zależnie od wybranego przełożenia.
+- [ ] **Zadanie #177** (`lib/engine/rendering3d/roadside_banners_and_arches_renderer.dart`): Zbuduj renderer `RoadsideBannersAndArchesRenderer` rysujący w 3D dmuchane bramy: `Start`, `Sprint Intermédiaire` (zielona), `Col / KOM` (w grochy), `Flamme Rouge 1 km` (czerwony trójkąt) oraz barierki ochronne z banerami sponsorów z `FictionalBrandsCatalog`.
+- [ ] **Zadanie #178** (`lib/engine/rendering3d/neutral_service_and_medical_cars.dart`): Dodaj do sceny 3D żółte/niebieskie samochody neutralnego serwisu (z bagażnikiem dachowym pełnym rowerów) oraz ambulans i wóz sędziowski `Commissaire Car` z czerwonym dachem poruszające się przed i za grupami.
+- [ ] **Zadanie #179** (`lib/engine/rendering3d/tv_helicopter_sky_renderer.dart`): Zbuduj renderer helikoptera telewizyjnego `TvHelicopterSkyRenderer` krążącego nad czołem wyścigu z obracającym się wirnikiem, kamerą żyroskopową na dziobie i cieniem rzucanym na szosę oraz podmuchem wiatru poruszającym korony drzew.
+- [ ] **Zadanie #180** (`lib/engine/rendering3d/alpine_crowd_tunnel_renderer.dart`): Stwórz efekt "Tunelu Kibiców" `AlpineCrowdTunnelRenderer` na stromych odcinkach ($>8\%$): zagęszczeni kibice w koszulkach narodowych, flagi, dym z flar w kolorze pomarańczowym/czerwonym i zawężenie korytarza przejazdu do $2.8\text{ m}$ z odsuwaniem się widzów tuż przed kołem lidera.
+- [ ] **Zadanie #181** (`lib/engine/rendering3d/wet_asphalt_reflections_painter.dart`): Zaimplementuj shader/painter mokrego asfaltu `WetAsphaltReflectionsPainter`: lustrzane odbicia sylwetek kolarzy i kolorowych koszulek w kałużach, ciemniejsza tekstura jezdni i suche koleiny zostawiane przez przejeżdżający peleton.
+- [ ] **Zadanie #182** (`lib/engine/rendering3d/cobblestone_vibration_camera_fx.dart`): Zbuduj efekt drgań kamery i roweru na sektorach bruku (1 do 5 gwiazdek trudności) `CobblestoneVibrationCameraFx`: mikro-wstrząsy o wysokiej częstotliwości przekazywane na kierownicę, kurz unoszący się nad peletonem i rozciąganie grupy w pojedynczy wężyk na koronie bruku.
+- [ ] **Zadanie #183** (`lib/services/career/race_day_pipeline_orchestrator.dart`): Stwórz kompletny orkiestrator `RaceDayPipelineOrchestrator` łączący bezszwowo cykl życia dnia wyścigowego: `Calendar -> PreRaceBriefing -> IsolateSimulation / 3D Viewport -> StageResultsCalculator -> PostStagePodium -> SponsorObjectivesEvaluator -> RecoveryProcessor -> AutoSave`.
+- [ ] **Zadanie #184** (`lib/services/career/roster_uci_compliance_validator.dart`): Zbuduj walidator przepisów UCI `RosterUciComplianceValidator`: sprawdzanie limitu 8 kolarzy na Grand Tour (7 na wyścigi 1-dniowe), braku aktywnych zawieszeń medycznych/dopingowych, sprawności rowerów ($\ge 6.80\text{ kg}$) oraz automatyczne uzupełnianie luk zdrowymi rezerwami.
+- [ ] **Zadanie #185** (`lib/services/career/post_race_equipment_degradation_service.dart`): Stwórz serwis `PostRaceEquipmentDegradationService` naliczający po każdym etapie realne zużycie łańcucha, kaset, opon i łożysk (zwiększone 3-krotnie w deszczu i na bruku) oraz generujący raport kosztów części zamiennych dla budżetu drużyny.
+- [ ] **Zadanie #186** (`lib/services/career/uci_points_live_ledger_service.dart`): Zbuduj księgę punktów `UciPointsLiveLedgerService` przypisującą punkty UCI za miejsca 1–60 w wyścigach jednodniowych, etapy, generalkę i każdy dzień noszenia koszulki lidera, z natychmiastową aktualizacją rankingu indywidualnego i 3-letniego rankingu licencyjnego.
+- [ ] **Zadanie #187** (`lib/services/career/prize_money_distribution_service.dart`): Zaimplementuj serwis podziału nagród finansowych `PrizeMoneyDistributionService`: podział puli wygranych (np. $500\,000\text{ EUR}$ za zwycięstwo w Grand Tourze) na procent dla klubu, premię dla zwycięzcy, tradycyjną pulę dzieloną równo między pomocników (`domestiques`) i premię dla sztabu.
+- [ ] **Zadanie #188** (`lib/services/career/post_stage_morale_and_ego_updater.dart`): Zbuduj procesor nastrojów `PostStageMoraleAndEgoUpdater`: wzrost morale całej ekipy po zwycięstwie lub przejęciu koszulki lidera, spadek morale lidera przy braku ochrony na wietrze oraz frustracja sprintera, któremu nie zorganizowano pociągu na płaskim finiszu.
+- [ ] **Zadanie #189** (`lib/services/career/medical_post_race_trauma_report.dart`): Stwórz generator raportów medycznych po kraksach `MedicalPostRaceTraumaReport`: diagnostyka RTG/MRI po etapie (stłuczenia, szlify naskórka "road rash" obniżające regenerację w nocy o $25\%$, złamanie obojczyka lub nadgarstka wykluczające z dalszej jazdy DNF/DNS).
+- [ ] **Zadanie #190** (`lib/ui/widgets/tv_broadcast_lower_third_banner.dart`): Zbuduj telewizyjną belkę dolną w stylu oficjalnej transmisji Tour de France `TvBroadcastLowerThirdBanner`: złoto-czarna lub bordowo-złota animowana belka pokazująca nazwisko atakującego kolarza, drużynę, aktualne waty, tętno, prędkość oraz stratę/przewagę w klasyfikacji generalnej.
+- [ ] **Zadanie #191** (`lib/ui/widgets/tv_climb_gradient_3d_ribbon_hud.dart`): Stwórz telewizyjny widget profilu aktualnego podjazdu `TvClimbGradient3dRibbonHud` wyświetlany w rogu ekranu podczas wspinaczki: trójwymiarowe słupki każdego kolejnego kilometra pokolorowane wg nachylenia (żółty $4–6\%$, pomarańczowy $7–9\%$, czerwony $10–12\%$, czarny $>12\%$) ze średnim VAM lidera.
+- [ ] **Zadanie #192** (`lib/ui/widgets/tv_echelon_crosswind_radar_hud.dart`): Zbuduj telewizyjny radar wiatru bocznego `TvEchelonCrosswindRadarHud`: animowana róża wiatrów z kątem natarcia na szosę, alert "CROSSWIND ZONE — ECHELON RISK HIGH" i schemat podziału peletonu na ranty nr 1, 2 i 3 ze stratami sekundowymi.
+- [ ] **Zadanie #193** (`lib/ui/widgets/tv_picture_in_picture_breakaway_cam.dart`): Stwórz okienko Picture-in-Picture `TvPictureInPictureBreakawayCam` w prawym górnym rogu widoku 3D, które pozwala jednocześnie oglądać główną kamerę na liderze w peletonie oraz mały podgląd 3D na walkę w ucieczce lub pogoń po kraksie.
+- [ ] **Zadanie #194** (`lib/ui/widgets/tv_rider_biometrics_telemetry_box.dart`): Zbuduj telewizyjne okienko biometryczne `TvRiderBiometricsTelemetryBox` (w stylu transmisji F1 / Whoop Live): wykres EKG tętna na żywo, procent maksymalnego tętna, strefa mocy Z1–Z7, kadencja RPM oraz pasek drenażu baterii beztlenowej $W'$ w kJ.
+- [ ] **Zadanie #195** (`lib/ui/widgets/tv_intermediate_sprint_kom_popup.dart`): Stwórz wyskakującą tablicę wyników premii lotnej i górskiej `TvIntermediateSprintKomPopup`: animowane zliczanie punktów (20-17-15-13-11 pkt na sprincie lub 20-15-12-10-8 pkt na HC) w momencie przejazdu pierwszych kolarzy przez linię premii.
+- [ ] **Zadanie #196** (`lib/ui/widgets/tv_itt_split_timer_comparison_hud.dart`): Zbuduj profesjonalny zegar pomiarowy dla czasówek `TvIttSplitTimerComparisonHud`: odliczanie setnych części sekundy do najlepszego czasu na 1., 2. i 3. punkcie pomiarowym oraz zielone (`-X.XX s`) lub czerwone (`+X.XX s`) tło po przecięciu fotokomórki.
+- [ ] **Zadanie #197** (`lib/engine/rendering3d/glb_mesh_integrity_validator.dart`): Stwórz automatyczny walidator `GlbMeshIntegrityValidator` sprawdzający przy starcie obecność i poprawność wszystkich wygenerowanych plików `.glb` w `assets/models_3d/` oraz generujący w locie brakujące siatki geometryczne w pamięci RAM, gwarantując zero crashy przy starcie.
+- [ ] **Zadanie #198** (`lib/engine/rendering3d/procedural_pbr_texture_atlas_generator.dart`): Zbuduj generator atlasu tekstur w pamięci `ProceduralPbrTextureAtlasGenerator` tworzący splot włókna węglowego 3K/UD, metaliczny lakier ram, bieżnik opon z kremowym bokiem (Tan-Wall) i fakturę asfaltu bez potrzeby trzymania ciężkich plików PNG na dysku.
+- [ ] **Zadanie #199** (`lib/ui/widgets/career_onboarding_interactive_tour.dart`): Stwórz nieinwazyjny samouczek dla nowego gracza `CareerOnboardingInteractiveTour` podświetlający w 5 krokach najważniejsze elementy biura menedżera, budowania pociągu, ustawiania ciśnienia w oponach i sterowania kolarzami w 3D (z przyciskiem pominięcia).
+- [ ] **Zadanie #200** (`lib/ui/widgets/global_search_spotlight_modal.dart`): Zbuduj wyszukiwarkę `GlobalSearchSpotlightModal` (`Ctrl+K` / ikona lupy) pozwalającą natychmiast wyszukać dowolnego z 800+ kolarzy, 53 drużyn, wyścigów i podjazdów z bezpośrednim przejściem do ich profilu.
+- [ ] **Zadanie #201** (`lib/ui/widgets/season_calendar_gantt_timeline.dart`): Stwórz poziomy wykres Gantta `SeasonCalendarGanttTimeline` w ekranie planowania sezonu, na którym gracz widzi paski obciążenia wszystkich 28 kolarzy od stycznia do października, obozy wysokogórskie i szczyty formy (Peak 1 i Peak 2) bez nakładania się wyścigów.
+- [ ] **Zadanie #202** (`lib/ui/widgets/rider_fatigue_body_heatmap_painter.dart`): Zbuduj anatomiczny diagram zmęczenia mięśniowego `RiderFatigueBodyHeatmapPainter` rysujący sylwetkę kolarza z podświetleniem grup mięśniowych (czworogłowe uda, łydki, pośladki, odcinek lędźwiowy, układ nerwowy CNS) od koloru zielonego do ciemnoczerwonego.
+- [ ] **Zadanie #203** (`lib/ui/widgets/wind_tunnel_cda_delta_comparator.dart`): Stwórz w ekranie Tunelu Aerodynamicznego komparator `WindTunnelCdaDeltaComparator` przeliczający każdą zmianę sprzętu lub wysokości podkładek pod mostkiem na realne oszczędności: np. `Zysk: -0.008 m² CdA = +7.4 W przy 45 km/h = -42 sekundy na 40 km ITT`.
+- [ ] **Zadanie #204** (`lib/ui/widgets/team_budget_cashflow_projection_chart.dart`): Zbuduj 12-miesięczny wykres przepływów pieniężnych `TeamBudgetCashflowProjectionChart` pokazujący comiesięczne transze od sponsorów, wypłaty pensji, koszty obozów i prognozowane saldo na koniec sezonu z ostrzeżeniem o deficycie.
+- [ ] **Zadanie #205** (`lib/ui/widgets/contract_negotiation_chat_simulator.dart`): Stwórz interaktywny interfejs negocjacji na żywo `ContractNegotiationChatSimulator` z agentem kolarza: pasek cierpliwości agenta, kontroferty w czasie rzeczywistym, argumenty kart przetargowych (gwarancja startu w Tour de France, dedykowany pociąg sprinterski, wyższa premia za zwycięstwo).
+- [ ] **Zadanie #206** (`lib/ui/widgets/custom_race_route_elevation_brush.dart`): Rozbuduj Kreator Etapów o pędzel rzeźbienia terenu `CustomRaceRouteElevationBrush` pozwalający rysować kursorem myszy lub palcem profil wysokościowy trasy z automatycznym wyliczaniem kategorii podjazdów (Cat 4, 3, 2, 1, HC) i nachylenia %.
+- [ ] **Zadanie #207** (`test/physics_and_w_prime_unit_test.dart`): Napisz zestaw testów jednostkowych `physics_and_w_prime_unit_test.dart` weryfikujących dokładność matematyczną solvera prędkości ($P_{gravity} + P_{rolling} + P_{aero}$), drenażu $W'$ powyżej CP i wykładniczej odbudowy poniżej CP.
+- [ ] **Zadanie #208** (`test/peloton_drafting_and_echelons_test.dart`): Napisz zestaw testów `peloton_drafting_and_echelons_test.dart` sprawdzających redukcję oporu powietrza w środku peletonu ($35–48\%$) oraz pękanie grupy na rantach przy wietrze bocznym $>35\text{ km/h}$.
+- [ ] **Zadanie #209** (`test/career_simulation_full_year_test.dart`): Napisz test integracyjny `career_simulation_full_year_test.dart` symulujący w tle pełne 365 dni sezonu (`advanceDay()` x 365) i sprawdzający brak wyjątków `null`, poprawność wypłat pensji, transferów AI i przejścia do nowego sezonu.
+- [ ] **Zadanie #210** (`test/ui_responsive_layout_overflow_test.dart`): Napisz automatyczny test widgetów `ui_responsive_layout_overflow_test.dart` renderujący wszystkie główne ekrany aplikacji w rozdzielczościach `390x844` (iPhone), `1024x768` (iPad) oraz `1600x900` (Desktop) i weryfikujący zero błędów `RenderFlex overflowed`.
+- [ ] **Zadanie #211** (`lib/core/diagnostics/memory_and_stream_leak_guard.dart`): Zbuduj strażnika pamięci `MemoryAndStreamLeakGuard` monitorującego poprawne zamykanie `Isolate`, `AnimationController` i `StreamSubscription` przy wyjściu z wyścigu 3D do widoku menedżera.
+- [ ] **Zadanie #212** (`lib/core/diagnostics/sniper_package_1_audit_runner.dart`): Stwórz skrypt diagnostyczny weryfikujący spójność wszystkich klas z Paczki #1 (#163–#212), czystość `flutter analyze` i kompletność wpisów w `docs/CODE_MAP.md`.
+
+---
+
+## CZĘŚĆ III: PACZKA #2 (#213 – #262) — BALANS MATEMATYCZNY, TAKTYKA, EKONOMIA MEDIALNA I 120 FPS
+
+- [ ] **Zadanie #213** (`lib/engine/physics/alpine_climb_benchmark_calibrator.dart`): Skalibruj solver fizyki wspinaczki `AlpineClimbBenchmarkCalibrator` na danych z prawdziwych podjazdów: wspinacz o wadze $60\text{ kg}$ generujący $6.4\text{ W/kg}$ na Alpe d'Huez ($13.8\text{ km}$, $8.1\%$) musi uzyskać czas w przedziale $38:30–39:45$ przy $\text{VAM} \approx 1750\text{ m/h}$.
+- [ ] **Zadanie #214** (`lib/engine/peloton/breakaway_vs_peloton_equilibrium_solver.dart`): Zbalansuj matematykę ucieczek vs peletonu `BreakawayVsPelotonEquilibriumSolver`: na płaskich etapach ze sprinterskimi drużynami ucieczka ma $8–12\%$ szans na dojechanie, na etapach pagórkowatych (Breakaway-Friendly) $45–55\%$, a w wysokich górach o przetrwaniu decyduje zapas czasu u podnóża finałowego podjazdu ($\ge 1\text{ min}$ na każde $3\text{ km}$ wspinaczki).
+- [ ] **Zadanie #215** (`lib/engine/peloton/sprint_leadout_aerodynamic_slingshot.dart`): Zaimplementuj efekt "procy aerodynamicznej" `SprintLeadoutAerodynamicSlingshot` na ostatnich $250\text{ m}$: sprinter wyskakujący z koła swojego rozprowadzającego (`Lead-out Man`) przy $65\text{ km/h}$ z pełnym $W'$ osiąga szczytowe $72–76\text{ km/h}$ dzięki opóźnionemu narastaniu oporu czołowego przez pierwsze $1.5\text{ s}$.
+- [ ] **Zadanie #216** (`lib/engine/physics/grand_tour_third_week_fatigue_decay.dart`): Zbuduj model kumulacji zmęczenia w 3-tygodniowym Grand Tourze `GrandTourThirdWeekFatigueDecay`: spadek maksymalnego pułapu tlenowego i glikogenu wątrobowego między etapem 14 a 21 zależny od parametru `recoveryRate` (specjaliści od Grand Tourów tracą tylko $2–3\%$ mocy progowej, podczas gdy kolarze 1-dniowi tracą $9–14\%$).
+- [ ] **Zadanie #217** (`lib/engine/physics/high_altitude_hypoxia_calculator.dart`): Zaimplementuj naukowy model hipoksji wysokogórskiej `HighAltitudeHypoxiaCalculator` (Col du Galibier, Stelvio, Tourmalet $>2000\text{ m n.p.m.}$): nieliniowy spadek dostępnego $\text{VO}_2\text{max}$ i FTP wg wzoru $\Delta P = -0.0085 \cdot (\frac{h - 1500}{100})^{1.4}$, redukowany o połowę dla kolarzy po obozie wysokogórskim lub pochodzących z Andów.
+- [ ] **Zadanie #218** (`lib/engine/peloton/satellite_rider_relay_tactics_engine.dart`): Zbuduj zaawansowaną taktykę "Stacji Przekaźnikowych" (`SatelliteRiderRelayTacticsEngine`): możliwość wysłania silnego pomocnika do porannej ucieczki, a następnie wydania mu rozkazu `Wait for GC Leader` na przedostatniej przełęczy, aby czekał na atakującego z peletonu lidera i ciągnął go w dolinie i na początku finałowego podjazdu.
+- [ ] **Zadanie #219** (`lib/engine/peloton/kom_polka_dot_hunter_ai_controller.dart`): Stwórz wyspecjalizowane AI łowców koszulki w grochy `KomPolkaDotHunterAiController`: kalkulacja punktów górskich na etapach, oszczędzanie sił na zjazdach i w dolinach oraz dynamiczny finisz na ostatnich $600\text{ m}$ przed szczytem każdej premii Cat 2, Cat 1 i HC.
+- [ ] **Zadanie #220** (`lib/engine/peloton/wheelsucking_and_bluffing_ai_logic.dart`): Zaimplementuj taktykę pasywnej jazdy na kole i blefowania `WheelsuckingAndBluffingAiLogic`: kolarz AI mający w peletonie z tyłu swojego sprintera lub lidera odmawia dawania zmian w ucieczce (`Skip Pulls / Sit On`), zmuszając rywali do szarpania tempa lub oglądania się za siebie na ostatnim kilometrze.
+- [ ] **Zadanie #221** (`lib/engine/peloton/domestique_road_blocking_mechanics.dart`): Dodaj mechanikę blokowania pogoni przez drużynę lidera `DomestiqueRoadBlockingMechanics`: na wąskich drogach ($<4.5\text{ m}$) drużyna jadąca szeroko na czele grupy z nisko ustawionym tempem (`65% FTP`) utrudnia rywalom zorganizowanie płynnej pogoni za swoim uciekającym kolegą z ekipy.
+- [ ] **Zadanie #222** (`lib/engine/peloton/gc_time_gap_panic_threshold_ai.dart`): Zbuduj system reakcji kryzysowej AI `GcTimeGapPanicThresholdAi`: jeśli niebezpieczny kolarz ze stratą $<4\text{ min}$ w klasyfikacji generalnej zabierze się do ucieczki dnia, drużyna lidera wyścigu natychmiast wystawia 4 pomocników na czoło peletonu i podnosi tempo pogoni do $88\%\text{ FTP}$.
+- [ ] **Zadanie #223** (`lib/ui/widgets/interactive_pre_stage_tactical_board.dart`): Stwórz interaktywny Stół Taktyczny `InteractivePreStageTacticalBoard` na ekranie odprawy przed etapem: możliwość przeciągania znaczników kolarzy bezpośrednio na wykres profilu trasy (np. "Janek chroni lidera od km 0 do km 140", "Piotr rozpoczyna pociąg górski na km 145", "Lider atakuje na km 158 (gradient 11%)").
+- [ ] **Zadanie #224** (`lib/ui/widgets/live_energy_expenditure_sparklines_hud.dart`): Zbuduj w panelu wyścigowym HUD mini-wykresy `LiveEnergyExpenditureSparklinesHud` pokazujące dla każdego z 8 kolarzy gracza wykres ostatnich 60 sekund mocy (W), tętna (BPM) oraz tempo spalania glikogenu (kcal/h) z prognozą kilometra, na którym nastąpi odcięcie ("Bonk Warning at km 172").
+- [ ] **Zadanie #225** (`lib/ui/widgets/peloton_group_composition_analyzer_modal.dart`): Stwórz modal analityczny `PelotonGroupCompositionAnalyzerModal` otwierany po kliknięciu dowolnej grupy na trasie: pokazuje listę wszystkich kolarzy w grupie, procentowy udział drużyn (np. "UAE: 4 kolarzy, Visma: 3 kolarzy"), średnią prędkość z ostatnich 5 km oraz kto aktualnie ciągnie grupę na czele.
+- [ ] **Zadanie #226** (`lib/services/career/tv_exposure_and_media_value_tracker.dart`): Zbuduj serwis mierzący ekspozycję telewizyjną sponsora `TvExposureAndMediaValueTracker`: zliczanie sekund, przez które koszulka drużyny gracza była widoczna w kamerze TV (jazda w ucieczce dnia, prowadzenie peletonu, ataki w górach, dekoracja na podium) i przeliczanie tego na ekwiwalent reklamowy w milionach EUR.
+- [ ] **Zadanie #227** (`lib/services/career/sponsor_bonus_negotiation_events.dart`): Stwórz system nadzwyczajnych premii sponsorskich `SponsorBonusNegotiationEvents`: po spektakularnym sukcesie (np. wygranie Monumentu lub 3 etapów w Tourze) prezes firmy sponsorskiej dzwoni z ofertą jednorazowego zastrzyku gotówki ($250\,000–1\,000\,000\text{ EUR}$) na transfery lub tunel aerodynamiczny.
+- [ ] **Zadanie #228** (`lib/services/career/agent_contract_clauses_engine.dart`): Rozbuduj kontrakty kolarzy o klauzule specjalne `AgentContractClausesEngine`: `Guaranteed Grand Tour Leadership` (gwarancja pozycji lidera na wybrany wielki tour), `Equipment Veto` (wymóg topowych kół i ramy), `Personal Soigneur/Coach` (wymóg zatrudnienia ulubionego trenera) oraz `Relegation Free Release` (darmowe odejście w razie spadku z WorldTouru).
+- [ ] **Zadanie #229** (`lib/services/career/broken_promises_locker_room_revolt.dart`): Zaimplementuj system konsekwencji złamanych obietnic `BrokenPromisesLockerRoomRevolt`: jeśli gracz obiecał gwiazdorowi rolę lidera na Tour de France, a wystawił go jako pomocnika lub pominął w składzie, kolarz żąda transferu, udziela ostrego wywiadu w prasie i obniża chemię zespołu o 30 pkt.
+- [ ] **Zadanie #230** (`lib/services/career/regional_scouting_networks_service.dart`): Zbuduj system regionalnych siatek skautingowych `RegionalScoutingNetworksService` w 8 kluczowych regionach świata (Słowenia/Bałkany, Flandria/Belgia, Kolumbia/Andy, Francja, Włochy, Skandynawia, Wielka Brytania/Australia, Półwysep Iberyjski) ze specjalizacją regionalną generowanych talentów (np. Kolumbia -> czyści górale $<58\text{ kg}$, Flandria -> specjaliści od bruku i wiatru).
+- [ ] **Zadanie #231** (`lib/services/career/youth_race_calendar_u23_simulator.dart`): Dodaj symulator wyścigów młodzieżowych U23 `YouthRaceCalendarU23Simulator` (Tour de l'Avenir, Giro Next Gen, Paris-Roubaix Espoirs): możliwość śledzenia szczegółowych wyników i statystyk W/kg juniorów przed podpisaniem z nimi pierwszego zawodowego kontraktu.
+- [ ] **Zadanie #232** (`lib/services/career/dynamic_inflation_and_market_boom_service.dart`): Stwórz wieloletni model ekonomiczny świata kolarstwa `DynamicInflationAndMarketBoomService`: wejście nowych gigantycznych sponsorów (fundusze inwestycyjne, koncerny technologiczne) podnoszących średnie budżety ekip WorldTour w kolejnych latach kariery (2026–2040).
+- [ ] **Zadanie #233** (`lib/services/career/rider_mentorship_and_tutoring_service.dart`): Zbuduj system mentoringu `RiderMentorshipAndTutoringService`: możliwość przypisania doświadczonego weterana ($>32\text{ lat}$, wysokie `raceIq` i `bikeHandling`) jako mentora dla 19-letniego neoprofesjonalisty, co przyspiesza rozwój umiejętności taktycznych i jazdy w peletonie o $40\%$.
+- [ ] **Zadanie #234** (`lib/services/career/overtraining_and_burnout_diagnostics.dart`): Zaimplementuj zaawansowany model przetrenowania i wypalenia `OvertrainingAndBurnoutDiagnostics`: przekroczenie bezpiecznego obciążenia treningowego (`TSB < -35` przez ponad 14 dni lub $>85$ dni wyścigowych w sezonie) wywołuje zespół przetrenowania parasympatycznego (tłumienie tętna maksymalnego o $15\text{ BPM}$ i spadek FTP o $8\%$).
+- [ ] **Zadanie #235** (`lib/services/career/altitude_camp_acclimatization_curve.dart`): Stwórz fizjologiczny model obozów wysokogórskich `AltitudeCampAcclimatizationCurve` (Sierra Nevada, Teide, Livigno): faza adaptacji (dni 1–5 po zjeździe z gór: lekka ciężkość nóg) oraz faza superkompensacji hematokrytu i masy hemoglobiny (dni 7–24 po obozie: $+3.5\%$ do $\text{VO}_2\text{max}$ i regeneracji $W'$).
+- [ ] **Zadanie #236** (`lib/engine/rendering3d/render_object_pool_manager.dart`): Zbuduj menedżer puli obiektów `RenderObjectPoolManager` dla silnika 3D: prealokowane tablice `Float64List` dla macierzy transformacji 176 kolarzy, kół i cząsteczek pogody (zero alokacji `new Vector3()` w metodzie `paint()`, eliminacja zacięć Garbage Collectora przy 120 FPS).
+- [ ] **Zadanie #237** (`lib/engine/rendering3d/frustum_and_distance_culler.dart`): Zaimplementuj rygorystyczny system odrzucania obiektów poza polem widzenia kamery `FrustumAndDistanceCuller`: natychmiastowe pomijanie rzutowania wielokątów dla kolarzy, drzew i budynków znajdujących się za kamerą lub w odległości $>450\text{ m}$ (z płynnym zanikaniem mgły odległościowej).
+- [ ] **Zadanie #238** (`lib/engine/rendering3d/spatial_hash_grid_1d_2d.dart`): Zastąp porównania każdy-z-każdym ($O(N^2)$) w silniku peletonu strukturą `SpatialHashGrid1d2d` dzieląc trasę na koszyki co $5\text{ m}$ ($O(N)$), co skraca czas obliczania draftingu i unikania kolizji dla 176 kolarzy poniżej $0.4\text{ ms}$ na klatkę.
+- [ ] **Zadanie #239** (`lib/engine/simulation/deterministic_rng_seed_manager.dart`): Stwórz deterministyczny generator liczb losowych `DeterministicRngSeedManager` oparty na ziarnie etapu (`stageSeed`), dzięki czemu ten sam etap z tymi samymi rozkazami i powtórki `StageReplayRecorder` odtwarzają identyczne podmuchy wiatru i zachowania AI co do milisekundy.
+- [ ] **Zadanie #240** (`lib/ui/widgets/animated_screen_transition_router.dart`): Zbuduj zestaw płynnych przejść między ekranami `AnimatedScreenTransitionRouter` w `GoRouter`: przejście z odprawy do wyścigu 3D z efektem najazdu kamery z lotu ptaka na szosę oraz subtelne przejścia `SharedAxisTransition` (300 ms, `Curves.easeOutExpo`) w panelach menedżera.
+- [ ] **Zadanie #241** (`lib/ui/widgets/interactive_career_timeline_history_widget.dart`): Stwórz interaktywną oś czasu kariery menedżera `InteractiveCareerTimelineHistoryWidget` pokazującą rok po roku wszystkie prowadzone zespoły, budżety, wygrane Wielkie Toury, Monumenty i największe transfery.
+- [ ] **Zadanie #242** (`lib/ui/widgets/team_kit_evolution_gallery_widget.dart`): Zbuduj galerię historycznych koszulek drużyny `TeamKitEvolutionGalleryWidget`, w której zapisywany jest wzór koszulki i rower zespołu z każdego ukończonego sezonu wraz z listą sukcesów odniesionych w tych barwach.
+- [ ] **Zadanie #243** (`lib/ui/widgets/rival_managers_head_to_head_widget.dart`): Stwórz ekran rywalizacji z dyrektorami sportowymi innych ekip WorldTour `RivalManagersHeadToHeadWidget`: bilans bezpośrednich pojedynków, styl taktyczny rywala (Agresywny, Kalkulujący, Łowca Etapów) oraz historia wzajemnych wypowiedzi na konferencjach prasowych.
+- [ ] **Zadanie #244** (`lib/ui/widgets/monument_cobble_sectors_inspector_modal.dart`): Zbuduj szczegółowy inspektor sektorów brukowanych i szutrowych `MonumentCobbleSectorsInspectorModal` (np. *Trouée d'Arenberg*, *Mons-en-Pévèle*, *Carrefour de l'Arbre*, *Oude Kwaremont*, *Paterberg*): długość w metrach, ocena 1–5 gwiazdek, nachylenie, stan wilgotności i rekomendowane ciśnienie w oponach.
+- [ ] **Zadanie #245** (`lib/ui/widgets/grand_tour_jersey_point_rules_modal.dart`): Stwórz przejrzyste okno zasad punktacji danego wyścigu `GrandTourJerseyPointRulesModal` wyświetlające dokładne tabele punktów za etapy płaskie, pagórkowate i górskie, bonifikaty czasowe (10-6-4 s na mecie, 8-5-2 s na premii bonusowej) oraz wzór wyliczania limitu czasu OTL.
+- [ ] **Zadanie #246** (`lib/ui/widgets/live_team_car_gap_indicator_hud.dart`): Dodaj do interfejsu wyścigu wskaźnik odległości wozu technicznego od kolarza `LiveTeamCarGapIndicatorHud`: jeśli grupa lidera ma mniej niż $60\text{ s}$ przewagi nad peletonem, sędziowie nie wpuszczają wozu technicznego w lukę (`Barrage Active`), co wydłuża czas oczekiwania na wymianę koła lub bidony!
+- [ ] **Zadanie #247** (`lib/engine/events/commissaire_jury_penalties_engine.dart`): Zaimplementuj system sędziowski UCI `CommissaireJuryPenaltiesEngine`: kary czasowe ($+20\text{ s}$ za zbyt długie holowanie za wozem technicznym "Sticky Bottle", relegacja na koniec grupy za niebezpieczne zajechanie drogi w sprincie `Irregular Sprint`, grzywny finansowe w CHF).
+- [ ] **Zadanie #248** (`lib/ui/widgets/jury_communique_report_modal.dart`): Stwórz oficjalny komunikat Kolegium Sędziów `JuryCommuniqueReportModal` wyświetlany po etapie w stylistyce oficjalnego dokumentu UCI z listą nałożonych kar, wykluczeń OTL, wycofań DNF i przyznanych nagród dla Najaktywniejszego Kolarza Etapu (`Combativity Award` — czerwony numer startowy).
+- [ ] **Zadanie #249** (`lib/engine/peloton/combativity_award_jury_evaluator.dart`): Zbuduj algorytm wyboru Najaktywniejszego Kolarza Etapu `CombativityAwardJuryEvaluator` punktujący kilometraż przejechany na czele ucieczki, inicjowanie ataków w górach i jazdę na wietrze, nagradzający zwycięzcę czerwonym numerem startowym na kolejny etap i premią $2000\text{ EUR}$.
+- [ ] **Zadanie #250** (`lib/ui/widgets/stage_favorites_bookmakers_odds_card.dart`): Stwórz kartę faworytów i kursów przedetapowych `StageFavoritesBookmakersOddsCard`: automatyczne wyliczanie 5 głównych faworytów dnia (gwiazdki $\star\star\star\star\star$ jak w *L'Équipe* / *ProCyclingStats*) na podstawie profilu trasy, aktualnej formy TSB i składu pociągu.
+- [ ] **Zadanie #251** (`lib/ui/widgets/post_race_watts_per_kg_leaderboard_card.dart`): Dodaj na ekranie podsumowania etapu tabelę `PostRaceWattsPerKgLeaderboardCard` zestawiającą najlepsze rekordy mocy dnia: szczytowe `5s Sprint (W)`, `1m Attack (W/kg)`, `5m VO2max (W/kg)` oraz `20m Climb (W/kg)` wraz z porównaniem do historycznych rekordów trasy.
+- [ ] **Zadanie #252** (`lib/services/career/season_awards_velo_dor_ceremony.dart`): Zbuduj doroczny plebiscyt **Vélo d'Or (Złoty Rower)** `SeasonAwardsVeloDorCeremony` na koniec października: wybór najlepszego kolarza świata, najlepszego górala, najlepszego klasykowca, odkrycia sezonu U23 oraz Menedżera Roku z galą wręczenia statuetek.
+- [ ] **Zadanie #253** (`lib/ui/screens/velo_dor_gala_ceremony_screen.dart`): Stwórz uroczysty ekran gali kończącej sezon `VeloDorGalaCeremonyScreen` w kolorystyce czerni `#0F1115` i złota `#D4AF37`, prezentujący zwycięzców plebiscytu Vélo d'Or, ich statystyki z całego roku oraz podsumowanie osiągnięć drużyny gracza.
+- [ ] **Zadanie #254** (`lib/services/database/database_backup_and_integrity_repair.dart`): Zbuduj automatyczny system naprawy i migracji zapisów gry `DatabaseBackupAndIntegrityRepair`: weryfikacja sumy kontrolnej zapisu JSON, automatyczna kopia zapasowa `.bak` przed każdym zapisem oraz bezbłędne uzupełnianie nowych pól dodanych w kolejnych paczkach zadań.
+- [ ] **Zadanie #255** (`lib/ui/widgets/fps_and_simulation_telemetry_overlay.dart`): Stwórz opcjonalny licznik wydajności dla gracza/testera `FpsAndSimulationTelemetryOverlay` w rogu ekranu: aktualny FPS, czas renderowania ramki (ms), czas kroku fizyki `Isolate` (ms), liczba widocznych wielokątów 3D i zużycie pamięci RAM.
+- [ ] **Zadanie #256** (`test/alpine_climb_and_itt_realism_test.dart`): Napisz test regresji balansu `alpine_climb_and_itt_realism_test.dart` symulujący etap na Alpe d'Huez oraz 40-kilometrową czasówkę ITT i weryfikujący, że czasy zwycięzców oraz różnice czasowe w Top 10 mieszczą się w realistycznych widełkach UCI WorldTour.
+- [ ] **Zadanie #257** (`test/sprint_train_and_leadout_test.dart`): Napisz test regresji `sprint_train_and_leadout_test.dart` sprawdzający formowanie pociągu sprinterskiego na ostatnich $3\text{ km}$, odczepianie się zużytych rozprowadzających i prędkość maksymalną finiszu ($70–76\text{ km/h}$).
+- [ ] **Zadanie #258** (`test/grand_tour_21_stages_endurance_test.dart`): Napisz test wytrzymałościowy `grand_tour_21_stages_endurance_test.dart` rozgrywający 21 kolejnych etapów Wielkiego Touru (z 2 dniami przerwy) i weryfikujący poprawność sumowania czasów GC, bonifikat, punktów KOM/Sprint, wycofań OTL oraz zmęczenia w 3. tygodniu.
+- [ ] **Zadanie #259** (`test/transfer_market_and_clauses_test.dart`): Napisz test `transfer_market_and_clauses_test.dart` sprawdzający licytacje drużyn AI, działanie klauzul kontraktowych, budżet płacowy i brak ujemnych sald w klubach AI.
+- [ ] **Zadanie #260** (`test/rendering_3d_culling_and_boids_test.dart`): Napisz test wydajnościowy `rendering_3d_culling_and_boids_test.dart` mierzący czas wykonania 1000 kroków `BoidsPelotonFlockingSolver` i `Scene3dMathProjection` dla 176 kolarzy, wymagając średniego czasu poniżej $2.0\text{ ms}$ na klatkę.
+- [ ] **Zadanie #261** (`lib/core/diagnostics/code_map_auto_synchronizer.dart`): Zbuduj narzędzie diagnostyczne sprawdzające, czy wszystkie pliki `.dart` w katalogu `lib/` są poprawnie zarejestrowane w architekturze aplikacji i nie zawierają nieużywanych importów.
+- [ ] **Zadanie #262** (`lib/core/diagnostics/sniper_package_2_audit_runner.dart`): Stwórz skrypt audytowy weryfikujący kompletną integrację Paczki #2 (#213–#262) z resztą gry oraz zero ostrzeżeń w `flutter analyze`.
+
+---
+
+## CZĘŚĆ IV: PACZKA #3 (#263 – #312) — DETALE IMMERSJI 3D, PRZEŁOŻENIA, TERMOREGULACJA, MOBILE & BUILD
+
+- [ ] **Zadanie #263** (`lib/engine/rendering3d/cloud_shadows_and_sunbeams_painter.dart`): Zbuduj w silniku 3D warstwę przesuwających się cieni chmur po szosie i zboczach gór `CloudShadowsAndSunbeamsPainter`: dynamiczne plamy cienia przemieszczające się z wektorem wiatru, lokalnie zmieniające jasność asfaltu i temperaturę odczuwalną kolarzy.
+- [ ] **Zadanie #264** (`lib/engine/rendering3d/asphalt_chalk_graffiti_renderer.dart`): Stwórz generator napisów malowanych farbą i kredą na asfalcie `AsphaltChalkGraffitiRenderer` na podjazdach górskich Cat 1 i HC: rzutowane w perspektywie 3D na powierzchnię szosy napisy `ALLEZ!`, `VAI!`, `GO!` oraz dynamicznie wstawiane nazwiska aktualnego lidera klasyfikacji generalnej i faworytów etapu!
+- [ ] **Zadanie #265** (`lib/engine/rendering3d/standing_bike_rocking_physics_3d.dart`): Zaimplementuj ultra-realistyczną biomechanikę jazdy na stojąco ("en danseuse") `StandingBikeRockingPhysics3d`: podczas ataku lub wspinaczki $>9\%$ rower kołysze się pod kolarzem na boki o kąt $\phi(t) = \phi_{max} \cdot \sin(\theta_{crank})$ ($\pm 7^\circ$) w przeciwfazie do ruchu ramion i środka ciężkości tułowia.
+- [ ] **Zadanie #266** (`lib/engine/rendering3d/tire_deformation_and_spoke_glint_fx.dart`): Dodaj mikro-detale kół 3D `TireDeformationAndSpokeGlintFx`: spłaszczenie dolnego styku opony z asfaltem zależne od ciśnienia (większe przy $3.8\text{ bar}$ na bruku niż przy $6.5\text{ bar}$ na czasówce) oraz błyski światła słonecznego na obracających się szprychach i tarczach hamulcowych.
+- [ ] **Zadanie #267** (`lib/engine/rendering3d/cold_breath_vapor_and_sweat_sheen.dart`): Zbuduj efekty fizjologiczne na modelu 3D kolarza `ColdBreathVaporAndSweatSheen`: obłoczki pary wodnej wydychane z ust w rytmie oddechu przy temperaturze $<10^\circ\text{C}$ na wysokich przełęczach oraz połysk potu na skórze ramion i nóg podczas upału $>28^\circ\text{C}$.
+- [ ] **Zadanie #268** (`lib/engine/rendering3d/mud_and_dust_splatter_accumulation.dart`): Zaimplementuj progresywne brudzenie się kolarzy i rowerów `MudAndDustSplatterAccumulation`: podczas jazdy w deszczu lub po mokrym bruku Paris-Roubaix / Strade Bianche na twarzy, okularach, łydkach, ramie i koszulce kolarza stopniowo narasta warstwa kropek błota i białego pyłu (zależnie od pozycji w peletonie — jadący na kole brudzą się szybciej!).
+- [ ] **Zadanie #269** (`lib/engine/rendering3d/victory_salute_celebration_animator.dart`): Stwórz zestaw 6 animacji cieszenia się ze zwycięstwa na linii mety `VictorySaluteCelebrationAnimator`: uniesienie obu rąk w górę, zapięcie koszulki przed fotoreporterami, wskazanie palcem na logo sponsora, uderzenie pięścią w pierś, ukłon lub wyczerpane oparcie się na kierownicy przy finiszu pod górę.
+- [ ] **Zadanie #270** (`lib/engine/rendering3d/jersey_zipper_and_fabric_flutter_fx.dart`): Dodaj animację łopotania materiału na wietrze `JerseyZipperAndFabricFlutterFx`: drganie rękawków koszulki, kurtki przeciwdeszczowej oraz widoczne rozpięcie zamka koszulki na piersi kolarza podczas wspinaczki w upale.
+- [ ] **Zadanie #271** (`lib/models/equipment/drivetrain_gearing_configuration.dart`): Stwórz szczegółowy model konfiguracji przełożeń `DrivetrainGearingConfiguration`: wybór tarcz korby (`50/34T Compact`, `52/36T Semi-Compact`, `54/40T Pro Standard`, `56/44T Fast Flat`, `58T 1x Aero Single`) oraz 12-rzędowych kaset (`11-28T`, `11-30T`, `11-34T`, `10-36T Gravel/Steep`).
+- [ ] **Zadanie #272** (`lib/engine/physics/cadence_and_gearing_efficiency_solver.dart`): Zbuduj solver fizyki kadencji i przełożeń `CadenceAndGearingEfficiencySolver`: wyliczanie dokładnego przełożenia $i = \frac{Z_{front}}{Z_{rear}}$ oraz kadencji $\text{RPM} = \frac{v \cdot 60}{C_{wheel} \cdot i}$. Jeśli na ściance $18\%$ kolarz ma założoną kasetę `11-28T` i jego kadencja spadnie poniżej $60\text{ RPM}$ ("mielenie na twardo"), rośnie koszt glikogenu o $18\%$ i przyspiesza zmęczenie włókien szybkokurczliwych!
+- [ ] **Zadanie #273** (`lib/engine/physics/core_body_temperature_thermoregulation.dart`): Zaimplementuj naukowy model termoregulacji i temperatury głębokiej ciała `CoreBodyTemperatureThermoregulation` ($37.0^\circ\text{C} - 40.5^\circ\text{C}$): produkcja ciepła metabolicznego $\dot{Q}_{prod} = P \cdot \frac{1 - \eta}{\eta}$ (gdzie $\eta \approx 0.23$ to sprawność brutto) minus chłodzenie konwekcyjne wiatrem $\dot{Q}_{conv} \propto v^{0.6}$ i parowanie potu. Powyżej $39.2^\circ\text{C}$ następuje termiczny spadek mocy maksymalnej i dryf tętna $+12\text{ BPM}$.
+- [ ] **Zadanie #274** (`lib/engine/peloton/ice_socks_and_water_dousing_mechanics.dart`): Dodaj mechanikę chłodzenia w upale `IceSocksAndWaterDousingMechanics`: możliwość wydania rozkazu pobrania z wozu technicznego woreczków z lodem wkładanych na kark (`Ice Sock`) oraz polewania głowy wodą z bidonu (`Water Douse`), co obniża temperaturę głęboką ciała o $0.4^\circ\text{C}$ na 15 minut.
+- [ ] **Zadanie #275** (`lib/engine/physics/sweat_sodium_electrolyte_depletion.dart`): Zbuduj model gospodarki wodno-elektrolitowej `SweatSodiumElectrolyteDepletion`: indywidualne tempo pocenia się ($0.8–2.5\text{ l/h}$) i stężenie sodu w pocie ($500–1500\text{ mg/l}$). Odwodnienie powyżej $3\%$ masy ciała lub niedobór sodu bez tabletek elektrolitowych wywołuje bolesne skurcze mięśni (`Muscle Cramps`) blokujące sprint na ostatnich kilometrach!
+- [ ] **Zadanie #276** (`lib/engine/physics/wet_cornering_grip_and_braking_solver.dart`): Stwórz fizykę przyczepności w zakrętach i hamowania `WetCorneringGripAndBrakingSolver`: maksymalna prędkość w wirażu o promieniu $R$ ograniczona przez $v_{max} = \sqrt{\mu \cdot g \cdot R}$, gdzie współczynnik tarcia $\mu$ zależy od mieszanki opony, ciśnienia, kąta pochylenia i mokrej nawierzchni ($\mu_{dry} \approx 0.85$, $\mu_{wet} \approx 0.55$, $\mu_{wet\_cobble} \approx 0.40$).
+- [ ] **Zadanie #277** (`lib/ui/widgets/gearing_ratio_speed_cadence_chart.dart`): Zbuduj w ekranie Warsztatu/Garażu interaktywny wykres przełożeń `GearingRatioSpeedCadenceChart` pokazujący dla wybranej korby i kasety prędkość ($\text{km/h}$) na każdym z 24 biegów przy kadencji $90\text{ RPM}$ oraz minimalną prędkość na podjeździe $15\%$ bez spadku poniżej $70\text{ RPM}$.
+- [ ] **Zadanie #278** (`lib/ui/widgets/thermoregulation_and_hydration_hud_gauge.dart`): Dodaj do karty kolarza w wyścigu 3D wskaźnik temperatury ciała i nawodnienia `ThermoregulationAndHydrationHudGauge`: ikona termometru zmieniająca kolor na pomarańczowy/czerwony powyżej $38.8^\circ\text{C}$, kropla nawodnienia ($\%$) oraz szybkie przyciski `Lód na kark` i `Rozepnij koszulkę (+Chłodzenie / +Opór CdA)`.
+- [ ] **Zadanie #279** (`lib/ui/widgets/mobile_one_handed_thumb_hud_mode.dart`): Zbuduj dedykowany tryb ergonomii mobilnej `MobileOneHandedThumbHudMode` dla ekranów telefonów (iOS/Android): przeniesienie wszystkich kluczowych przycisków taktycznych, wyboru kolarzy i suwaka mocy do dolnej strefy zasięgu kciuka (`Thumb Zone`) z chowanym górnym paskiem telemetrii.
+- [ ] **Zadanie #280** (`lib/core/services/haptic_feedback_vibration_controller.dart`): Stwórz kontroler haptyki i wibracji `HapticFeedbackVibrationController` (oparty o `HapticFeedback` we Flutterze): subtelne, rytmiczne impulsy przy wjeździe na 5-gwiazdkowy sektor bruku, mocne uderzenie przy kraksie lub ataku rywala ("Watt Bomb") oraz kliknięcie mechaniczne przy zmianie przełożeń i rozkazów.
+- [ ] **Zadanie #281** (`lib/services/export/gpx_and_tcx_telemetry_exporter.dart`): Zbuduj eksporter danych wyścigowych `GpxAndTcxTelemetryExporter` generujący z ukończonego etapu kolarza prawdziwy, zgodny ze standardem plik `.tcx` / `.gpx` zawierający ślad GPS sekunda po sekundzie, wysokość n.p.m., waty, tętno i kadencję, gotowy do otwarcia w zewnętrznych programach analitycznych!
+- [ ] **Zadanie #282** (`lib/services/export/career_almanac_html_report_exporter.dart`): Stwórz eksporter Kroniki Kariery `CareerAlmanacHtmlReportExporter` generujący pojedynczy, elegancko ostylowany plik raportu `.html` / `.md` ze wszystkimi statystykami prowadzonej drużyny, rekordami podjazdów i zdobytymi trofeami do udostępnienia znajomym.
+- [ ] **Zadanie #283** (`lib/ui/widgets/photo_mode_3d_camera_studio_overlay.dart`): Zbuduj Tryb Fotograficzny 3D `PhotoMode3dCameraStudioOverlay` dostępny po zapauzowaniu wyścigu: swobodna kamera 3D (Free Fly Cam), regulacja ogniskowej obiektywu ($24\text{ mm}$ szeroki kąt – $200\text{ mm}$ teleobiektyw), głębia ostrości (Bokeh), filtry kolorystyczne (Klasyczny Czarno-Biały 1970, Złota Godzina, Kontrast HDR) i zapis zrzutu ekranu do galerii.
+- [ ] **Zadanie #284** (`lib/ui/screens/in_game_cycling_encyclopedia_screen.dart`): Stwórz wbudowaną Encyklopedię Taktyki i Fizjologii Kolarskiej `InGameCyclingEncyclopediaScreen` wyjaśniającą z wykresami pojęcia używane w grze: $CdA$, $Crr$, model Skiba $W'$, $VLaMax$, próg mleczanowy $LT_1/LT_2$, $\text{VAM}$, wachlarze (echelons), pociągi sprinterskie i zasadę 3 kilometrów.
+- [ ] **Zadanie #285** (`lib/services/career/legendary_historic_scenarios_seeder.dart`): Zbuduj zestaw 10 grywalnych Scenariuszy Historycznych / Wyzwań Taktycznych `LegendaryHistoricScenariosSeeder`: np. *„Odrób 1:45 straty na ostatniej górskiej czasówce”*, *„Przetrwaj 50 km wiatru bocznego i bruku mając tylko 3 pomocników”*, *„Obrona koszulki lidera z odciętym od prądu liderem na ostatnich 15 km podjazdu HC”*.
+- [ ] **Zadanie #286** (`lib/ui/screens/tactical_challenges_hub_screen.dart`): Stwórz ekran Wyzwań Taktycznych `TacticalChallengesHubScreen` prezentujący 10 scenariuszy z medalami (Brązowy, Srebrny, Złoty `#D4AF37`), warunkami zwycięstwa i tablicą najlepszych czasów gracza.
+- [ ] **Zadanie #287** (`lib/services/career/team_service_course_hq_upgrades.dart`): Zbuduj system rozbudowy Bazy Logistycznej Zespołu (`Service Course HQ` w `TeamServiceCourseHqUpgrades`): 5 modułów budynków (Własny Tunel Aerodynamiczny, Centrum Hipoksji i Komór Niskociśnieniowych, Flota Autobusów Regeneracyjnych, Warsztat Woskowania Napędów, Akademia Skautingu) dających stałe bonusy w karierze.
+- [ ] **Zadanie #288** (`lib/ui/screens/service_course_hq_facility_screen.dart`): Stwórz ekran zarządzania infrastrukturą klubu `ServiceCourseHqFacilityScreen` z wizualizacją 5 działów Service Course, poziomami rozbudowy (Poziom 1–5), kosztami utrzymania i czasem inwestycji.
+- [ ] **Zadanie #289** (`lib/services/career/bicycle_recall_and_rnd_breakthrough_events.dart`): Dodaj losowe zdarzenia technologiczne R&D `BicycleRecallAndRndBreakthroughEvents`: przełom inżynieryjny w trakcie sezonu (nowy prototyp widelca lub kierownicy aero obniżający $CdA$ o $2.5\%$ przed Tour de France) lub wada fabryczna partii obręczy wymagająca pilnej akcji serwisowej.
+- [ ] **Zadanie #290** (`lib/services/career/pre_season_team_presentation_event.dart`): Zbuduj wydarzenie Styczniowej Prezentacji Drużyny dla Mediów i Sponsorów `PreSeasonTeamPresentationEvent`: wybór głównych celów na sezon, prezentacja nowych transferów i nowej koszulki, co buduje początkowy indeks zadowolenia sponsora i zainteresowania mediów.
+- [ ] **Zadanie #291** (`lib/ui/widgets/team_presentation_stage_modal.dart`): Stwórz widowiskowy modal Prezentacji Zespołu `TeamPresentationStageModal`: scena z reflektorami, liderzy drużyny stojący obok nowego roweru, błyski aparatów i deklaracja celów na nadchodzący sezon.
+- [ ] **Zadanie #292** (`lib/engine/peloton/grupetto_autobus_survival_ai.dart`): Zaimplementuj autentyczną mechanikę **Grupetto (Autobusu)** na etapach górskich `GrupettoAutobusSurvivalAi`: sprinterzy i ciężcy klasykowcy odpadający na pierwszej przełęczy łączą się w 40-osobową grupę zarządzaną przez doświadczonego "Kapitana Grupetto", który matematycznie wylicza minimalne tempo gwarantujące zmieszczenie się w limicie czasu OTL z zapasem 3 minut.
+- [ ] **Zadanie #293** (`lib/ui/widgets/otl_time_cut_warning_banner_hud.dart`): Dodaj do HUD-u wyścigu ostrzeżenie o limicie czasu `OtlTimeCutWarningBannerHud`: gdy sprinter gracza w Grupetto zbliża się niebezpiecznie do przewidywanego limitu OTL (np. zapas spada poniżej 2 minut), pojawia się pulsujący alert z opcją wydania rozkazu kolegom z drużyny, aby cofnęli się i pomogli mu dojechać do mety w limicie!
+- [ ] **Zadanie #294** (`lib/engine/peloton/descender_attack_and_supertuck_physics.dart`): Zbuduj mechanikę ataków na technicznych zjazdach `DescenderAttackAndSupertuckPhysics`: kolarze o umiejętności `descending >= 85` i `bikeHandling >= 85` mogą zaatakować na szczycie przełęczy i zyskać $25–45\text{ s}$ na $15\text{ km}$ zjazdu dzięki późniejszemu hamowaniu przed serpentynami i agresywnej pozycji aerodynamicznej na ramie.
+- [ ] **Zadanie #295** (`lib/ui/widgets/descent_technicality_radar_hud.dart`): Stwórz wskaźnik trudności zjazdu `DescentTechnicalityRadarHud` pokazujący liczbę nadchodzących nawrotów 180° (hairpins), ryzyko poślizgu w procentach oraz aktualny zysk sekundowy atakującego zjazdowca.
+- [ ] **Zadanie #296** (`lib/services/database/community_stage_pack_sharing_service.dart`): Zbuduj serwis eksportu i importu własnych tras `CommunityStagePackSharingService` pozwalający zapisać stworzony w Kreatorze Etapów wyścig jednodniowy lub 21-etapowy Tour jako pojedynczy plik `.ppmstage` i wczytać go bezpośrednio do kalendarza kariery.
+- [ ] **Zadanie #297** (`lib/core/config/platform_adaptive_graphics_profiler.dart`): Stwórz automatyczny profiler graficzny `PlatformAdaptiveGraphicsProfiler`: wykrywanie platformy (Windows, macOS, iOS, Android) i czasu renderowania pierwszych 30 klatek, automatycznie dobierające preset (`Ultra 120 FPS Desktop`, `High 60 FPS Tablet`, `Balanced Mobile Battery Saver`) z możliwością ręcznej zmiany w ustawieniach.
+- [ ] **Zadanie #298** (`scripts/build_windows_release.ps1`): Napisz produkcyjny skrypt PowerShell `scripts/build_windows_release.ps1` sprawdzający obecność zasobów 3D, uruchamiający `flutter test`, kompilujący wersję `flutter build windows --release` i pakujący gotowy folder wykonywalny `.exe` wraz z bibliotekami DLL do dystrybucyjnego archiwum `.zip`.
+- [ ] **Zadanie #299** (`scripts/build_macos_and_ios_release.sh`): Napisz skrypt powłoki `scripts/build_macos_and_ios_release.sh` dla systemu macOS budujący natywną aplikację `flutter build macos --release` (`.app` / `.dmg`) oraz pakiet `flutter build ipa --release` na iPhone'a i iPada.
+- [ ] **Zadanie #300** (`scripts/build_android_apk_aab.ps1`): Napisz skrypt `scripts/build_android_apk_aab.ps1` kompilujący zoptymalizowany plik instalacyjny `flutter build apk --release --split-per-abi` (dla telefonów i tabletów Android) oraz bundle `.aab` z włączonym obcinaniem nieużywanych zasobów.
+- [ ] **Zadanie #301** (`lib/ui/screens/credits_and_architecture_showcase_screen.dart`): Stwórz ekran informacji o silniku gry `CreditsAndArchitectureShowcaseScreen` prezentujący zastosowane modele naukowe (Skiba $W'$, równania Martina dla mocy kolarskiej, algorytm Boids, proceduralny pipeline Blender `.glb`) oraz podziękowania.
+- [ ] **Zadanie #302** (`test/gearing_and_cadence_physics_test.dart`): Napisz test jednostkowy `gearing_and_cadence_physics_test.dart` weryfikujący wyliczanie kadencji dla tarcz `54/40T` i `50/34T` na nachyleniu $14\%$ oraz naliczanie kary energetycznej przy spadku kadencji poniżej $60\text{ RPM}$.
+- [ ] **Zadanie #303** (`test/thermoregulation_and_hydration_test.dart`): Napisz test jednostkowy `thermoregulation_and_hydration_test.dart` sprawdzający wzrost temperatury głębokiej ciała podczas podjazdu w $36^\circ\text{C}$ oraz spadek temperatury po użyciu woreczka z lodem (`Ice Sock`) i polaniu wodą.
+- [ ] **Zadanie #304** (`test/wet_cornering_and_grupetto_otl_test.dart`): Napisz test `wet_cornering_and_grupetto_otl_test.dart` sprawdzający redukcję prędkości maksymalnej w mokrych zakrętach oraz dojazd Grupetto do mety przed limitem czasu OTL.
+- [ ] **Zadanie #305** (`test/gpx_export_and_stage_sharing_test.dart`): Napisz test `gpx_export_and_stage_sharing_test.dart` weryfikujący poprawność składni XML wyeksportowanego pliku `.tcx`/`.gpx` oraz bezstratny zapis i odczyt pliku trasy `.ppmstage`.
+- [ ] **Zadanie #306** (`test/stress_test_176_riders_storm_cobbles.dart`): Napisz ekstremalny test obciążeniowy `stress_test_176_riders_storm_cobbles.dart` symulujący jednocześnie 176 kolarzy na 5-gwiazdkowym sektorze bruku podczas ulewy z wiatrem bocznym $50\text{ km/h}$ i weryfikujący stabilność pętli symulacji oraz brak wartości `NaN` lub `Infinity`.
+- [ ] **Zadanie #307** (`lib/core/diagnostics/global_error_boundary_widget.dart`): Zbuduj produkcyjną granicę błędów UI `GlobalErrorBoundaryWidget` zastępującą domyślny czerwony ekran błędu Fluttera eleganckim ciemnym panelem diagnostycznym z przyciskiem bezpiecznego powrotu do Dashboardu i eksportu logu.
+- [ ] **Zadanie #308** (`lib/core/diagnostics/asset_bundle_preload_warmer.dart`): Stwórz serwis rozgrzewający pamięć podręczną podczas ekranu ładowania `AssetBundlePreloadWarmer`: wstępna kompilacja shaderów Canvas, załadowanie siatek `.glb` rowerów i czcionek przed wyświetleniem pierwszej klatki wyścigu (zero przycięć Shader Compilation Jank).
+- [ ] **Zadanie #309** (`lib/ui/widgets/loading_race_screen_with_pro_tips.dart`): Zbuduj stylowy ekran przejściowy ładowania wyścigu 3D `LoadingRaceScreenWithProTips`: animowany łańcuch rowerowy na zębatce, pasek postępu `AssetBundlePreloadWarmer`, profil wysokościowy wczytywanego etapu oraz losowe porady taktyczne dyrektora sportowego.
+- [ ] **Zadanie #310** (`lib/core/diagnostics/full_navigation_routes_verifier.dart`): Napisz automatyczny weryfikator nawigacji sprawdzający wszystkie ścieżki w `AppRouter`, parametry przekazywane między ekranami i poprawność działania przycisku `Wstecz` na każdej platformie.
+- [ ] **Zadanie #311** (`docs/RELEASE_CHECKLIST_AND_MANUAL.md`): Wygeneruj kompletną instrukcję gracza i dokumentację wydania `docs/RELEASE_CHECKLIST_AND_MANUAL.md` opisującą skróty klawiszowe, taktykę wyścigową, fizjologię treningu i komendy kompilacji na Windows, macOS, Android oraz iOS.
+- [ ] **Zadanie #312** (`lib/core/diagnostics/sniper_master_final_certification.dart`): Stwórz finalny skrypt certyfikacji `sniper_master_final_certification.dart` uruchamiający weryfikację wszystkich 312 zadań, pełny pakiet testów i analizę statyczną `flutter analyze` z wynikiem `No issues found!`.
+
+---
+
+## CZĘŚĆ V: PACZKA #4 (#313 – #362) — TRYB "ZOSTAŃ LEGENDĄ" (BE A PRO), KAMERA 3D COCKPIT, PRZEŁAJE CX I WELODROM
+
+- [ ] **Zadanie #313** (`lib/models/career/pro_cyclist_career_state.dart`): Stwórz kompletny model danych `ProCyclistCareerState` dla nowego trybu **„Zostań Legendą” (Be a Pro / Single Rider Career)**, w którym gracz wciela się w jednego, własnoręcznie stworzonego 18-letniego kolarza od kategorii U23 Contintental do gwiazdy WorldTouru: przechowuje obiekt `Rider` gracza, poziom zaufania Dyrektora Sportowego (`dsTrustScore` $0–100$), punkty doświadczenia i rozwoju (`skillPoints`), stan konta prywatnego w EUR, posiadane nieruchomości/sprzęt prywatny, aktualne zadanie zespołowe na wyścig oraz dziennik osiągnięć.
+- [ ] **Zadanie #314** (`lib/ui/screens/be_a_pro_character_creator_screen.dart`): Zbuduj ekran kreatora własnego kolarza `BeAProCharacterCreatorScreen`: wybór imienia, nazwiska, narodowości, wzrostu ($160–198\text{ cm}$) i wagi startowej ($52–86\text{ kg}$ — co fizycznie determinuje bazowe $CdA$ i predyspozycje do gór vs płaskiego!), wybór archetypu genetycznego (`Alpejski Góral`, `Klasykowiec Północy`, `Wybuchowy Puncheur`, `Sprinter`, `Specjalista ITT / All-Rounder`), personalizacja twarzy, fryzury, okularów i koloru butów w podglądzie 3D na żywo oraz wybór pierwszej drużyny U23/Continental.
+- [ ] **Zadanie #315** (`lib/engine/rendering3d/first_person_cockpit_camera_renderer.dart`): Zbuduj w silniku 3D zapierający dech w piersiach widok z pierwszej osoby **First-Person Cockpit View (Pro Cyclist Camera)** `FirstPersonCockpitCameraRenderer`: kamera umieszczona na wysokości oczu kolarza pokazująca na dole ekranu trójwymiarową karbonową kierownicę z zamontowanym komputerem Garmin/Wahoo (wyświetlającym na żywo waty, kadencję i nachylenie!), dłonie w rękawiczkach trzymające klamkomanetki (z animacją palców klikających zmianę biegów), obracającą się oponę przedniego koła pod mostkiem oraz plecy i obracające się koła rywali jadących $30\text{ cm}$ przed nami w gęstym peletonie!
+- [ ] **Zadanie #316** (`lib/engine/peloton/direct_player_rider_steering_controller.dart`): Stwórz kontroler bezpośredniego sterowania pojedynczym kolarzem w wyścigu 3D `DirectPlayerRiderSteeringController`: sterowanie klawiaturą (`W/S` lub strzałki góra/dół = zmiana intensywności pedałowania i przełożenia, `A/D` lub lewo/prawo = przesuwanie się w poprzek szosy i szukanie luki w peletonie, `Shift` = wstanie w pedały i sprint maksymalny, `Spacja` = szybkie schowanie się na koło najbliższego kolarza `Snap to Wheel`).
+- [ ] **Zadanie #317** (`lib/services/career/ds_team_orders_mission_generator.dart`): Zbuduj generator dynamicznych zadań od Dyrektora Sportowego na każdy etap w trybie Be a Pro `DsTeamOrdersMissionGenerator`: gdy gracz jest młodym pomocnikiem, otrzymuje przez radio konkretne misje na trasie (np. *„Utrzymaj lidera w Top 15 peletonu przez cały sektor bruku Arenberg”*, *„Wyprowadź pociąg na pierwszych 2 km podjazdu z mocą 380 W”*, *„Zabierz się w ucieczkę dnia i zdobądź 5 pkt na premii górskiej”*). Wypełnienie rozkazu daje wysoki bonus do `dsTrustScore` i punktów XP, co odblokowuje status Wolnego Elektrona, a później Lidera Drużyny!
+- [ ] **Zadanie #318** (`lib/ui/widgets/be_a_pro_ds_objective_hud_tracker.dart`): Stwórz dedykowany widget HUD dla trybu Be a Pro `BeAProDsObjectiveHudTracker`: wyświetla na żywo aktualny rozkaz Dyrektora Sportowego, pasek postępu wykonania zadania (np. `Czas ciągnięcia peletonu: 4:15 / 5:00 min`), odległość w metrach od chronionego lidera drużyny (z zieloną strzałką kierunkową 3D pokazującą, gdzie w tłumie znajduje się nasz lider!) oraz licznik zdobywanych w czasie rzeczywistym punktów XP.
+- [ ] **Zadanie #319** (`lib/services/career/pro_cyclist_lifestyle_and_wealth_service.dart`): Zbuduj system życia prywatnego i inwestowania zarobionej pensji kolarza `ProCyclistLifestyleAndWealthService`: wybór miejsca zamieszkania (np. *Girona* — bonus $+10\%$ do treningu wytrzymałościowego, *Andora / Livigno* $2000\text{ m n.p.m.}$ — stała adaptacja wysokogórska hematokrytu, *Monako* — prestiż medialny i niższe podatki, *Flandria* — bonus do treningu na bruku i wietrze), zakup prywatnego namiotu hipoksyjnego, zatrudnienie osobistego dietetyka i osteopaty oraz kontrakty reklamowe (osobny sponsor butów, okularów i zegarka).
+- [ ] **Zadanie #320** (`lib/ui/screens/be_a_pro_dashboard_and_apartment_screen.dart`): Stwórz główny ekran trybu Be a Pro `BeAProDashboardAndApartmentScreen`: widok apartamentu/bazy treningowej kolarza, drzewo rozwoju umiejętności fizjologicznych i technicznych za punkty XP, wiadomości SMS od dyrektora sportowego i agenta, oferty kontraktowe od silniejszych drużyn WorldTour oraz gablota prywatnych koszulek i pucharów.
+- [ ] **Zadanie #321** (`lib/models/race/cyclocross_course_and_mud_model.dart`): Stwórz model danych zimowego **Kolarstwa Przełajowego (Cyclo-Cross / CX)** `CyclocrossCourseAndMudModel` rozgrywanego na rundach $2.5–3.2\text{ km}$ od listopada do stycznia: segmenty gęstego błota (`Deep Mud`), głębokiego piasku (`Sand Pit`), stromych skarp trawersowych, drewnianych przeszkód (`Planks / Barriers` $40\text{ cm}$), schodów (`Staircase Run-up`) oraz dwukierunkowego boksu technicznego (`Double Pit Lane`).
+- [ ] **Zadanie #322** (`lib/engine/physics/cyclocross_bunnyhop_and_carry_solver.dart`): Zbuduj silnik fizyki przełajowej `CyclocrossBunnyhopAndCarrySolver`: w głębokim błocie i na schodach solver automatycznie porównuje prędkość jazdy w siodle z prędkością zeskoczenia z roweru, zarzucenia go na ramię i biegu (`Dismount & Run` przy $12–16\text{ km/h}$!). Przed drewnianymi belkami kolarze z umiejętnością `bikeHandling >= 85` wykonują skok nad przeszkodą bez zsiadania z roweru (`Bunny-Hop`), zyskując $1.8\text{ s}$ na każdej rundzie, ale ryzykując zahaczenie kołem przy wysokim zmęczeniu ($W' < 15\%$).
+- [ ] **Zadanie #323** (`lib/engine/peloton/cx_pit_bike_exchange_mechanics.dart`): Zaimplementuj mechanikę oblepiania roweru błotem i wymiany w boksie `CxPitBikeExchangeMechanics`: każdy kilometr w ciężkim błocie dokłada do roweru od $0.4\text{ kg}$ do $1.8\text{ kg}$ błota i zwiększa opory napędu o $12\text{ W}$. Zjazd do boksu technicznego (`Pit Lane`) trwa $4.5\text{ s}$, ale mechanicy oddają kolarzowi czysty, umyty myjką ciśnieniową drugi rower o wadze bazowej!
+- [ ] **Zadanie #324** (`lib/engine/rendering3d/cyclocross_3d_arena_and_barriers_renderer.dart`): Stwórz w silniku 3D dedykowany renderer areny przełajowej `Cyclocross3dArenaAndBarriersRenderer`: taśmy wyznaczające krętą trasę w błocie i na łące, drewniane belki do przeskakiwania, schody, ławica piasku nad morzem (styl Koksijde/Zonhoven), namioty z frytkami i kibicami, boks techniczny z mechanikami trzymającymi zapasowe rowery oraz animacja 3D kolarza biegnącego z rowerem na prawym ramieniu!
+- [ ] **Zadanie #325** (`lib/ui/screens/cyclocross_winter_series_screen.dart`): Zbuduj ekran Zimowego Pucharu Przełajowego `CyclocrossWinterSeriesScreen` (listopad–styczeń): kalendarz 8 kultowych wyścigów przełajowych (w tym Mistrzostwa Świata CX), dobór ciśnienia w szytkach przełajowych ($1.3–1.8\text{ bar}$!) oraz integracja z karierą szosową (starty zimą w przełajach podnoszą kolarzowi `bikeHandling`, `cobbles` oraz moc `1m/5m` na wiosenne klasyki!).
+- [ ] **Zadanie #326** (`lib/models/race/velodrome_track_and_hour_record_model.dart`): Stwórz model danych **Kolarstwa Torowego na Welodromie (Track Cycling & UCI Hour Record)** `VelodromeTrackAndHourRecordModel`: kryte drewniane welodromy o długości $250\text{ m}$ (nachylenie wiraży $42^\circ–45^\circ$, wysokość n.p.m., np. *Grenchen* $450\text{ m}$ vs *Aguascalientes* $1880\text{ m n.p.m.}$), rower torowy ostrokołowy (`Fixed Gear Track Bike` bez hamulców, tarcza `58T–64T` x zębatka `13T–15T`) oraz historyczny aktualny Rekord Godzinny UCI (np. $56.792\text{ km}$).
+- [ ] **Zadanie #327** (`lib/engine/physics/velodrome_banking_and_centripetal_solver.dart`): Zbuduj fizykę jazdy po drewnianym welodromie `VelodromeBankingAndCentripetalSolver`: wyliczanie siły odśrodkowej na wirażu $a_c = \frac{v^2}{R}$ dociskającej kolarza do toru (przeciążenie do $1.8G$, które podnosi efektywną masę kolarza i opór toczenia w wirażu!), kara za wyjechanie powyżej czarnej linii pomiarowej (wydłużenie dystansu okrążenia z $250.0\text{ m}$ do $258.5\text{ m}$) oraz precyzyjne tempo na Rekord Godzinny (utrzymanie czasu okrążenia np. $15.80\text{ s}$ przez 227 okrążeń z rzędu!).
+- [ ] **Zadanie #328** (`lib/engine/rendering3d/velodrome_wooden_bowl_3d_renderer.dart`): Stwórz zjawiskowy renderer 3D krytego welodromu `VelodromeWoodenBowl3dRenderer`: lakierowany parkiet z drewna syberyjskiego ze stromymi wirażami $42^\circ$, czarna, czerwona i niebieska linia torowa, dach hali z reflektorami punktowymi odbijającymi się w parkiecie, elektroniczna tablica wyników na środku toru oraz laserowa zielona linia wirtualnego rekordu przesuwająca się po parkiecie przed kolarzem!
+- [ ] **Zadanie #329** (`lib/ui/screens/uci_hour_record_attempt_screen.dart`): Zbuduj ekran oficjalnej **Próby Bicia Rekordu Godzinnego UCI (UCI Hour Record Attempt)** `UciHourRecordAttemptScreen`: wybór welodromu (nizinny vs wysokogórski w Meksyku), dobór przełożenia ostrego koła (np. `61x14`), ustawienie strategii tempa (Negative Split vs Równe Tempo), widok 3D na welodromie z metronomem czasu okrążenia i certyfikatem nowego Rekordu Świata po upływie $60:00.00$.
+- [ ] **Zadanie #330** (`lib/engine/physics/pedal_stroke_biomechanics_analyzer.dart`): Stwórz zaawansowany analizator biomechaniki obrotu korby `PedalStrokeBiomechanicsAnalyzer`: symulacja rozkładu siły stycznej $F_t(\theta)$ w pełnym cyklu $360^\circ$ dla lewej i prawej nogi, wyliczająca parametry znane z profesjonalnych mierników mocy dual-sided: **L/R Balance** (np. $49.2\% / 50.8\%$, z pogłębieniem asymetrii do $44\% / 56\%$ po kontuzji kolana!), **Torque Effectiveness (TE %)** oraz **Pedal Smoothness (PS %)**.
+- [ ] **Zadanie #331** (`lib/ui/widgets/polar_pedal_force_diagram_painter.dart`): Zbuduj w ekranie Laboratorium i profilu kolarza wykres kołowy (Polar View / "Peanut Diagram") `PolarPedalForceDiagramPainter` rysujący w czasie rzeczywistym wektory siły nacisku na pedały w zakresie $0^\circ–360^\circ$, martwe punkty ($0^\circ$ i $180^\circ$) oraz porównanie techniki "okrągłego pedałowania" górala z siłowym depnięciem sprintera.
+- [ ] **Zadanie #332** (`lib/ui/widgets/collectible_pro_rider_holo_card.dart`): Stwórz kolekcjonerską kartę gwiazdy kolarstwa `CollectibleProRiderHoloCard` (styl Ultimate Team / Topps Chrome): metaliczno-złota rama dla kolarzy OVR $\ge 90$, tęczowy holograficzny połysk (Shader / Gradient przesuwający się płynnie pod wpływem ruchu myszki na PC lub żyroskopu/przechylenia ekranu na telefonie), portret kolarza, 6 głównych statystyk (`MON, HIL, ITT, SPR, COB, REC`), podpis autografu oraz odznaki wygranych Wielkich Tourów.
+- [ ] **Zadanie #333** (`lib/ui/screens/legends_card_album_and_packs_screen.dart`): Zbuduj ekran Albumu Kart i Kolekcji Gwiazd `LegendsCardAlbumAndPacksScreen`: kolarze zdobywani w trakcie kariery (lub odblokowywani za osiągnięcia i wyzwania taktyczne) trafiają do interaktywnego albumu podzielonego na drużyny i epoki, z animacją otwierania Złotej Paczki Mistrzowskiej po wygraniu wyścigu WorldTour.
+- [ ] **Zadanie #334** (`lib/engine/peloton/team_bus_pre_race_speech_buffs.dart`): Zaimplementuj interaktywną odprawę motywacyjną w autobusie drużyny tuż przed startem `TeamBusPreRaceSpeechBuffs`: wybór tonu przemowy menedżera (Spokojna Analiza Taktyczna, Emocjonalna Mobilizacja "Wszystko albo nic", Zdejmowanie Presji z Młodych, Żądanie Pełnego Poświęcenia dla Lidera) i indywidualnej rozmowy z liderem, co daje modyfikatory do tętna spoczynkowego, odporności na stres w peletonie i początkowego morale.
+- [ ] **Zadanie #335** (`lib/ui/widgets/team_bus_interior_briefing_modal.dart`): Stwórz klimatyczny modal wnętrza autobusu zespołu `TeamBusInteriorBriefingModal` wyświetlany przed wyjściem na linię startu: kolarze siedzący w fotelach z założonymi słuchawkami, tablica z narysowanym profilem etapu, wybór przemowy motywacyjnej i reakcje mimiki/morale poszczególnych zawodników na wybrane słowa.
+- [ ] **Zadanie #336** (`lib/engine/events/road_hazards_and_spectator_incidents.dart`): Rozbuduj silnik zdarzeń na trasie o realistyczne incydenty drogowe `RoadHazardsAndSpectatorincidents`: zwężenia przez wysepki drogowe (`Traffic Islands`) z żółtymi pachołkami na ostatnich $5\text{ km}$, przejazdy kolejowe (ryzyko zamknięcia szlabanu przed peletonem!), nieostrożni kibice robiący zdjęcia na podjeździe, mokre pasy dla pieszych na zakrętach oraz plamy oleju na zjazdach.
+- [ ] **Zadanie #337** (`lib/engine/rendering3d/traffic_islands_and_railway_3d_renderer.dart`): Dodaj do renderera 3D `TrafficIslandsAndRailway3dRenderer` wizualizację wysepek rozdzielających jezdnię ze znakami nakazu jazdy z prawej/lewej strony, progów zwalniających, torów kolejowych z migającymi czerwonymi światłami oraz sędziów na motocyklach ostrzegających peleton gwizdkiem i żółtą chorągiewką!
+- [ ] **Zadanie #338** (`lib/services/career/testimonial_farewell_race_service.dart`): Zbuduj system pożegnalnego sezonu i wyścigu dla wieloletnich legend przechodzących na emeryturę `TestimonialFarewellRaceService`: gdy zasłużony kolarz ($\ge 36\text{ lat}$) ogłasza swój ostatni sezon w karierze, otrzymuje specjalną odznakę `Final Season`, szpaler honorowy peletonu na swoim ostatnim wyścigu oraz opcję natychmiastowego zatrudnienia go w roli Dyrektora Sportowego po zakończeniu kariery!
+- [ ] **Zadanie #339** (`lib/services/career/custom_jersey_sponsor_patch_placer.dart`): Rozbuduj Studio Projektowania Koszulek o precyzyjny rozmieszczacz logotypów sponsorów `CustomJerseySponsorPatchPlacer`: nakładanie herbów sponsora głównego na klatkę piersiową i plecy, sponsora drugorzędnego na rękawki i boczne panele spodenek oraz logo producenta roweru i flagi narodowej na kołnierzyk, z automatycznym dziedziczeniem przez modele 3D w wyścigu.
+- [ ] **Zadanie #340** (`lib/engine/physics/carbohydrate_hydrogel_and_ketones_engine.dart`): Rozbuduj silnik żywienia o nowoczesną suplementację WorldTouru `CarbohydrateHydrogelAndKetonesEngine`: wybór strategii żywieniowej zespołu przed wyścigiem (`Standard 60g/h CHO`, `High-Carb Hydrogel 110g/h` wymagający wytrenowania jelit `gutTrainingLevel`, `Bicarbonate Pre-Load` zwiększający buforowanie kwasu mlekowego i pojemność $W'$ o $+6\%$ kosztem ryzyka problemów żołądkowych `GI Distress`, oraz `Post-Finish Exogenous Ketones` przyspieszające regenerację nocną o $+12\%$).
+- [ ] **Zadanie #341** (`lib/ui/widgets/nutrition_strategy_planner_panel.dart`): Stwórz w ekranie Odprawy i Centrum Medycznego panel planowania żywienia `NutritionStrategyplannerPanel`: konfiguracja gramatury węglowodanów na godzinę ($60–120\text{ g/h}$), protokołu dwuwęglanu sodu przed czasówkami i ketonów po etapie wraz z wskaźnikiem tolerancji żołądkowej każdego kolarza.
+- [ ] **Zadanie #342** (`lib/engine/peloton/finish_line_bike_throw_physics.dart`): Zaimplementuj fizykę **Rzutu Rowerem na Kreskę (Bike Throw)** na ostatnich $10\text{ m}$ sprintu `FinishLineBikeThrowPhysics`: wypchnięcie kierownicy gwałtownie do przodu z jednoczesnym cofnięciem bioder za siodło przesuwa przednie koło o dodatkowe $18–28\text{ cm}$ w ułamku sekundy! W trybie ręcznym/Be a Pro gracz wykonuje rzut rowerem w idealnym momencie przed linią mety, o czym rozstrzyga kamera szczelinowa `PhotoFinishReplayWidget` co do $0.001\text{ s}$.
+- [ ] **Zadanie #343** (`lib/ui/widgets/bike_throw_timing_minigame_overlay.dart`): Stwórz opcjonalny wskaźnik wyczucia czasu dla finiszu sprinterskiego `BikeThrowTimingMinigameOverlay`: na ostatnich $150\text{ m}$ finiszu pojawia się dynamiczny pierścień synchronizacji z linią mety — naciśnięcie przycisku `Rzut Rowerem` w zielonej strefie daje maksymalny impuls $+28\text{ cm}$ i pełną animację wyrzutu roweru w 3D!
+- [ ] **Zadanie #344** (`lib/services/career/world_records_and_strava_kom_segments.dart`): Zbuduj system wirtualnych segmentów KOM na każdym podjeździe i sektorze bruku `WorldRecordsAndStravaKomSegments`: każdy przejazd przez podjazd (np. *Poggio di Sanremo*, *Mur de Huy*, *Alpe d'Huez*, *Tourmalet*) jest automatycznie mierzony co do sekundy i zapisywany w globalnej tabeli wszech czasów kariery z oznaczeniem Korony KOM dla aktualnego rekordzisty!
+- [ ] **Zadanie #345** (`lib/ui/widgets/live_strava_segment_ghost_comparison_hud.dart`): Stwórz w trakcie wspinaczki w wyścigu 3D widżet porównania z rekordem trasy `LiveStravaSegmentGhostComparisonHud`: po wjeździe pod bramę pomiarową segmentu KOM gracz widzi na żywo swoją przewagę lub stratę sekundową do historycznego Rekordu Trasy (KOM Ghost) oraz prognozowany czas na szczycie!
+- [ ] **Zadanie #346** (`lib/engine/rendering3d/ghost_rider_hologram_3d_renderer.dart`): Dodaj do silnika 3D opcję wyświetlania półprzezroczystego złotego hologramu rekordzisty trasy (`GhostRiderHologram3dRenderer`) podczas jazdy indywidualnej na czas (ITT), próby Rekordu Godzinnego na welodromie oraz podjazdów KOM, pozwalając ścigać się ramię w ramię z najlepszym historycznym przejazdem!
+- [ ] **Zadanie #347** (`lib/services/career/custom_team_sponsor_storyline_generator.dart`): Zbuduj generator wieloletnich wątków fabularnych dla kariery `CustomTeamSponsorStorylineGenerator`: rywalizacja dwóch konkurencyjnych miliarderów w peletonie, presja narodowa na wygranie domowego wyścigu dla sponsora, powrót dawnego mistrza po kontuzji i budowanie dynastii na wzór największych ekip w historii.
+- [ ] **Zadanie #348** (`lib/ui/widgets/career_storyline_cutscene_card_modal.dart`): Stwórz filmowe karty wydarzeń fabularnych `CareerStorylineCutsceneCardModal` z ilustracjami wektorowymi, cytatami z prasy sportowej i wyborami strategicznymi wpływającymi na budżet i cele długoterminowe.
+- [ ] **Zadanie #349** (`lib/services/career/multi_season_rider_aging_and_decline_curve.dart`): Dopracuj model starzenia się i ewolucji profilu kolarza przez 15 sezonów kariery `MultiSeasonRiderAgingAndDeclineCurve`: między 18. a 23. rokiem życia szybki przyrost $\text{VO}_2\text{max}$ i wybuchowości, między 24. a 29. rokiem życia szczyt FTP i wytrzymałości wielodniowej, a po 31. roku życia powolny spadek mocy szczytowej `5s/1m` przy jednoczesnym wzroście ekonomii pedałowania, `raceIq` i odporności na zmęczenie w 3. tygodniu.
+- [ ] **Zadanie #350** (`lib/ui/widgets/rider_career_trajectory_forecast_chart.dart`): Zbuduj w ekranie Skautingu i Profilu Kolarza wykres prognozy rozwoju 5-letniego `RiderCareerTrajectoryForecastChart` z przedziałem ufności (zależnym od dokładności skauta) pokazujący przewidywaną krzywą OVR i FTP kolarza w kolejnych sezonach.
+- [ ] **Zadanie #351** (`lib/engine/peloton/team_leader_change_on_the_road_logic.dart`): Zaimplementuj dynamiczną zmianę lidera na szosie w trakcie etapu `TeamLeaderChangeOnTheRoadLogic`: jeśli główny lider drużyny (nr 1) ulegnie kraksie, straci kontakt z grupą lub zgłosi przez radio słabą dyspozycję dnia ("Bad Legs"), wicelider (nr 2) automatycznie przejmuje ochronę pomocników i status priorytetowy w grupie.
+- [ ] **Zadanie #352** (`lib/engine/events/daily_rider_day_form_variance_engine.dart`): Stwórz system dyspozycji dnia (`Daily Form / "The Legs"` od $-3$ do $+3$ diamentów) `DailyRiderDayFormVarianceEngine`: losowa wariancja dzienna silnie skorelowana z formą TSB i jakością snu, odkrywana stopniowo podczas pierwszych 30 kilometrów etapu (z komunikatem radia: *"Czuję dzisiaj niesamowity gaz w nogach! (+2)"* lub *"Mam dziś ciężkie nogi (-2)"*).
+- [ ] **Zadanie #353** (`lib/ui/widgets/daily_legs_diamond_indicator_widget.dart`): Zbuduj na kartach kolarzy w HUD wyścigowym wskaźnik dyspozycji dnia `DailyLegsDiamondIndicatorWidget`: od szarego znaku zapytania `?` na starcie, który po rozgrzewce odkrywa zielone diamenty `+1 / +2 / +3` (bonus do regeneracji $W'$ i szczytowych watów) lub czerwone `-1 / -2` (wymagające oszczędnej jazdy na kole).
+- [ ] **Zadanie #354** (`lib/ui/screens/race_replay_director_theater_screen.dart`): Stwórz Kino Powtórek Wyścigowych `RaceReplayDirectorTheaterScreen` pozwalające wczytać dowolny zapisany finisz lub kluczowy moment etapu z `StageReplayRecorder`, przewijać oś czasu klatka po klatce, przełączać kamery na dowolnego z 176 kolarzy, włączać widok strug powietrza `Aero Vision` i analizować, dlaczego dany atak lub sprint zakończył się sukcesem.
+- [ ] **Zadanie #355** (`test/be_a_pro_career_and_ds_orders_test.dart`): Napisz test jednostkowy i integracyjny `be_a_pro_career_and_ds_orders_test.dart` weryfikujący tworzenie kolarza w trybie Be a Pro, ocenianie wykonania rozkazów Dyrektora Sportowego, naliczanie XP i awans w hierarchii zespołu.
+- [ ] **Zadanie #356** (`test/cyclocross_mud_and_bunnyhop_test.dart`): Napisz test `cyclocross_mud_and_bunnyhop_test.dart` sprawdzający fizykę przyrostu masy błota na rowerze przełajowym, decyzję o zeskoczeniu z roweru i biegu (`Dismount & Run`) oraz zysk czasowy po wymianie roweru w boksie technicznym.
+- [ ] **Zadanie #357** (`test/velodrome_hour_record_physics_test.dart`): Napisz test `velodrome_hour_record_physics_test.dart` weryfikujący obliczenia przeciążenia odśrodkowego na wirażu $42^\circ$, wpływ wysokości n.p.m. welodromu na gęstość powietrza $\rho$ i dystans 60-minutowej próby Rekordu Godzinnego.
+- [ ] **Zadanie #358** (`test/pedal_biomechanics_and_hydrogel_test.dart`): Napisz test `pedal_biomechanics_and_hydrogel_test.dart` sprawdzający obliczenia bilansu L/R, Torque Effectiveness oraz wpływ strategii żywieniowej $110\text{ g/h}$ węglowodanów i dwuwęglanu sodu na zapas glikogenu i $W'$.
+- [ ] **Zadanie #359** (`test/first_person_cockpit_and_holo_card_test.dart`): Napisz test widgetów `first_person_cockpit_and_holo_card_test.dart` renderujący kamerę First-Person Cockpit 3D oraz karty kolekcjonerskie `CollectibleProRiderHoloCard` bez żadnych błędów układu czy przekroczeń zakresu.
+- [ ] **Zadanie #360** (`lib/core/diagnostics/save_compatibility_v4_migrator.dart`): Rozbuduj migrator zapisów gry o automatyczną obsługę struktur z Paczki #4 (`ProCyclistCareerState`, rekordy godzinne, puchar Cyclo-Cross i kolekcję kart) dla istniejących zapisów kariery.
+- [ ] **Zadanie #361** (`lib/core/router/app_router.dart`): Zaktualizuj `AppRouter` o nowe ścieżki dla trybu Be a Pro, Zimowego Pucharu Przełajowego CX, Welodromu (UCI Hour Record), Kina Powtórek oraz Albumu Kart Kolekcjonerskich.
+- [ ] **Zadanie #362** (`lib/core/diagnostics/sniper_package_4_audit_runner.dart`): Stwórz skrypt audytowy weryfikujący kompletną integrację Paczki #4 (#313–#362), uruchamiający wszystkie testy jednostkowe/widgetowe oraz potwierdzający zero błędów w `flutter analyze`.
+
+---
+
+## CZĘŚĆ VI: PACZKA #5 (#363 – #412) — GRAVEL WORLD SERIES, DYPLOMACJA W PELETONIE, AUTOBUS 3D, IGRZYSKA OLIMPIJSKIE, WOMEN'S WORLDTOUR & GOLD MASTER QA
+
+- [ ] **Zadanie #363** (`lib/models/race/gravel_race_and_surface_model.dart`): Stwórz kompletny model danych dla wyścigów szutrowych **UCI Gravel World Series & Ultra-Gravel** `GravelRaceAndSurfaceModel` z 5 kategoriami nawierzchni i regułami samowystarczalności (`Self-Supported Rules`, naprawa nabojami $\text{CO}_2$).
+- [ ] **Zadanie #364** (`lib/models/equipment/gravel_bike_and_tire_inserts_model.dart`): Zbuduj model sprzętu szutrowego `GravelBikeAndTireInsertsModel` (opony 38–50 mm, wkładki antyprzebiciowe `Foam Tire Inserts`, mleczko `Tubeless Sealant` i plecaki bukłakowe `Aero Hydration Pack`).
+- [ ] **Zadanie #365** (`lib/engine/physics/gravel_rolling_resistance_and_sealant_solver.dart`): Stwórz silnik fizyki szutrowej `GravelRollingResistanceAndSealantSolver` liczący straty impedancyjne na luźnym szutrze oraz samonaprawę przebić przez mleczko Tubeless.
+- [ ] **Zadanie #366** (`lib/engine/rendering3d/gravel_white_roads_and_dust_3d_renderer.dart`): Zbuduj w silniku 3D renderer białych dróg szutrowych (*Sterrato* i pustynnych prerii) z gęstymi chmurami pyłu i animacją naprawy opony na poboczu.
+- [ ] **Zadanie #367** (`lib/ui/screens/gravel_world_series_hub_screen.dart`): Stwórz ekran centrum wyścigów szutrowych `GravelWorldSeriesHubScreen` z kalendarzem i konfiguratorem opon 40–50 mm oraz stref `Oasis`.
+- [ ] **Zadanie #368** (`lib/engine/peloton/in_race_peloton_diplomacy_engine.dart`): Zbuduj system **Dyplomacji i Sojuszy na Szosie (`InRacePelotonDiplomacyEngine`)**: pakty `Stage for GC Deal`, `Anti-Leader Coalition`, `Neutralization Truce` i konsekwencje zdrady (`Betrayal!`).
+- [ ] **Zadanie #369** (`lib/ui/widgets/in_race_diplomacy_radio_modal.dart`): Stwórz interfejs negocjacji na szosie `InRaceDiplomacyRadioModal` pozwalający zawierać lub odrzucać układy z rywalami podczas etapu.
+- [ ] **Zadanie #370** (`lib/services/career/ai_rivalry_grudge_memory_service.dart`): Zbuduj system długoterminowej pamięci urazów i przyjaźni w peletonie `AiRivalryGrudgeMemoryService`.
+- [ ] **Zadanie #371** (`lib/models/team/team_bus_and_warmup_protocol_model.dart`): Stwórz model Autobusu Drużyny i Protokołu Rozgrzewki na trenażerze (`VO2 Priming` $+4.5\%$ mocy na starcie ITT).
+- [ ] **Zadanie #372** (`lib/engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart`): Zbuduj interaktywną scenę 3D Paddocku i Autobusu Drużyny przed startem etapu z kolarzami rozgrzewającymi się na trenażerach.
+- [ ] **Zadanie #373** (`lib/ui/screens/pre_stage_paddock_and_warmup_screen.dart`): Stwórz ekran Paddocku Przedstartowego `PreStagePaddockAndWarmupScreen` z konfiguracją rozgrzewki i kamizelek chłodzących `Pre-Cooling Ice Vest`.
+- [ ] **Zadanie #374** (`lib/models/career/womens_worldtour_and_mixed_relay_model.dart`): Stwórz model danych dla **Kobiecego WorldTouru (UCI Women's WorldTour)** oraz **Drużynowej Sztafety Mieszanej (Mixed Relay TTT)**.
+- [ ] **Zadanie #375** (`lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart`): Zbuduj generator 24 drużyn kobiecych i 360 zawodniczek z pełną fizjologią i rynkiem transferowym.
+- [ ] **Zadanie #376** (`lib/ui/screens/mixed_relay_ttt_handover_hud_widget.dart`): Stwórz dzielony interfejs przekazania zmiany między trójką męską a kobiecą w Sztafecie Mieszanej.
+- [ ] **Zadanie #377** (`lib/services/career/olympic_games_quadrennial_cycle_service.dart`): Zbuduj serwis **4-letniego Cyklu Igrzysk Olimpijskich** (wyścig bez radia wyścigowego, małe reprezentacje narodowe, złoty kask i rama mistrza olimpijskiego).
+- [ ] **Zadanie #378** (`lib/ui/screens/olympic_games_hub_and_medal_table_screen.dart`): Stwórz ekran Igrzysk Olimpijskich i tabeli medalowej państw `OlympicGamesHubAndMedalTableScreen`.
+- [ ] **Zadanie #379** (`lib/services/network/dual_screen_telemetry_wall_server.dart`): Zbuduj lokalny serwer WebSocket `DualScreenTelemetryWallServer` umożliwiający obsługę panelu wozu technicznego z telefonu/tabletu podczas gry na PC/Mac.
+- [ ] **Zadanie #380** (`lib/ui/screens/companion_car_dashboard_screen.dart`): Stwórz ekran Konsoli Wozu Technicznego z 3 wirtualnymi monitorami telemetrii.
+- [ ] **Zadanie #381** (`lib/engine/peloton/nature_break_and_peloton_etiquette_engine.dart`): Dodaj mechanikę niepisanych zasad peletonu (`Nature Break` i zawieszenie ataków po kraksie lidera).
+- [ ] **Zadanie #382** (`lib/engine/physics/crosswind_wheel_stability_and_gust_solver.dart`): Zbuduj fizykę podmuchów bocznych na wysokich stożkach karbonowych $65–80\text{ mm}$.
+- [ ] **Zadanie #383** (`lib/engine/rendering3d/coastal_bridges_and_cobble_trenches_3d.dart`): Rozbuduj scenerię 3D o morskie mosty (Wielki Bełt), przekopy leśne Arenberg, kredowe wzgórza Toskanii i księżycowy szczyt Mont Ventoux.
+- [ ] **Zadanie #384** (`lib/services/career/historic_legend_hall_of_fame_compare.dart`): Zbuduj moduł punktacji wieloletniej `All-Time Goat Score`.
+- [ ] **Zadanie #385** (`lib/ui/widgets/all_time_goat_pyramid_widget.dart`): Stwórz wizualną 5-piętrową Piramidę Legend Wszech Czasów w Hall of Fame.
+- [ ] **Zadanie #386** (`lib/core/l10n/app_localizations_pl_en.dart`): Zbuduj kompletny dwujęzyczny słownik lokalizacyjny `PL` i `EN` z żargonem kolarskim.
+- [ ] **Zadanie #387** (`lib/core/theme/colorblind_accessibility_palettes.dart`): Stwórz 4 palety dostępności wizualnej dla daltonistów z podwójnym kodowaniem kształtami.
+- [ ] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
+- [ ] **Zadanie #389** (`lib/ui/screens/in_game_database_roster_editor_screen.dart`): Stwórz wbudowany Edytor Bazy Danych i Składów wewnątrz gry.
+- [ ] **Zadanie #390** (`lib/engine/simulation/multi_race_parallel_day_simulator.dart`): Zbuduj symulator równoległych wyścigów w tym samym dniu kalendarzowym (podział 28-osobowej kadry na dwa fronty).
+- [ ] **Zadanie #391** (`lib/ui/widgets/split_squad_calendar_assignment_modal.dart`): Stwórz okno przydziału kolarzy i rowerów na dwa równoległe wyścigi.
+- [ ] **Zadanie #392** (`lib/engine/peloton/team_time_trial_rider_drop_strategy.dart`): Dopracuj taktykę `Kamikaze Pull & Drop` w Drużynowej Jeździe na Czas (TTT).
+- [ ] **Zadanie #393** (`lib/ui/widgets/ttt_formation_paceline_control_hud.dart`): Stwórz panel HUD sterowania zmianami i czasem 5. kolarza w TTT.
+- [ ] **Zadanie #394** (`lib/engine/events/weather_radar_live_forecast_shift.dart`): Zbuduj dynamiczny radar przesuwających się frontów burzowych w trakcie wyścigu.
+- [ ] **Zadanie #395** (`lib/ui/widgets/live_weather_doppler_radar_minimap.dart`): Stwórz nakładkę radaru opadów Dopplera na mapie trasy.
+- [ ] **Zadanie #396** (`lib/services/career/bike_sponsor_custom_prototype_lab.dart`): Zbuduj tajne laboratorium prototypów `Skunkworks Lab` na kluczowe wyścigi.
+- [ ] **Zadanie #397** (`lib/ui/widgets/skunkworks_prototype_blueprint_painter.dart`): Stwórz techniczny rysunek inżynieryjny Blueprint CAD testowanego prototypu.
+- [ ] **Zadanie #398** (`lib/services/career/career_achievements_and_trophies_engine.dart`): Zbuduj system 60 Osiągnięć Menedżerskich i Kolarskich z Platynowym Trofeum.
+- [ ] **Zadanie #399** (`lib/ui/screens/achievements_and_platinum_trophy_screen.dart`): Stwórz ekran Osiągnięć i wyskakujących powiadomień `AchievementUnlockedToast`.
+- [ ] **Zadanie #400** (`lib/ui/widgets/post_season_interactive_year_in_review_story.dart`): Zbuduj interaktywne podsumowanie roku „Season Wrapped / Year in Review”.
+- [ ] **Zadanie #401** (`test/gravel_sealant_and_tire_inserts_test.dart`): Test jednostkowy fizyki szutru, mleczka Tubeless i wkładek piankowych.
+- [ ] **Zadanie #402** (`test/in_race_diplomacy_and_grudge_test.dart`): Test dyplomacji na szosie i pamięci urazów AI.
+- [ ] **Zadanie #403** (`test/warmup_protocol_and_ttt_drop_test.dart`): Test protokołu rozgrzewki i taktyki TTT.
+- [ ] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
+- [ ] **Zadanie #405** (`test/olympic_games_and_split_squad_test.dart`): Test Igrzysk Olimpijskich i równoległych wyścigów.
+- [ ] **Zadanie #406** (`test/localization_and_accessibility_test.dart`): Test słowników PL/EN i kontrastu palet.
+- [ ] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.
+- [ ] **Zadanie #408** (`lib/core/diagnostics/ui_golden_contrast_and_font_auditor.dart`): Audytor kontrastu WCAG AA i użycia `FontFeature.tabularFigures()`.
+- [ ] **Zadanie #409** (`lib/core/diagnostics/full_state_serialization_fuzz_tester.dart`): Fuzzer serializacji stanu kariery JSON.
+- [ ] **Zadanie #410** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczki #5 w `AppRouter`.
+- [ ] **Zadanie #411** (`docs/CODE_MAP.md`): Pełna aktualizacja `docs/CODE_MAP.md` dla zadań #001–#412.
+- [ ] **Zadanie #412** (`lib/core/diagnostics/gold_master_412_certification_suite.dart`): Pakiet certyfikacji **GOLD MASTER v1.0** (#001–#412).
+
+---
+
+## CZĘŚĆ VII: PACZKA #6 (#413 – #462) — MULTIPLAYER LIGI ONLINE, KOLARSTWO GÓRSKIE MTB XCO I WŁASNA MARKA ROWEROWA
+
+- [ ] **Zadanie #413** (`lib/models/multiplayer/online_league_and_ghost_challenge_model.dart`): Model lig wieloosobowych Online (`OnlineLeagueModel`), rankingów ELO i asynchronicznych wyzwań duchów na identycznych warunkach pogodowych.
+- [ ] **Zadanie #414** (`lib/services/network/async_multiplayer_league_sync_service.dart`): Serwis synchronizacji wyników etapów ligowych, draftu kolarzy i wymiany plików wyzwań `.ppmleague`.
+- [ ] **Zadanie #415** (`lib/ui/screens/multiplayer_leagues_and_challenges_screen.dart`): Ekran Centrum Lig Online, tabel ligowych ze znajomymi i wyzwań tygodnia.
+- [ ] **Zadanie #416** (`lib/models/race/mtb_xco_course_and_suspension_model.dart`): Model danych dla **Kolarstwa Górskiego MTB Cross-Country Olympic (XCO)** (rundy $4.2\text{ km}$, rock gardeny, dropy, korzenie, zawieszenie Full-Suspension $100–120\text{ mm}$ i sztyca regulowana Dropper Post).
+- [ ] **Zadanie #417** (`lib/engine/physics/mtb_suspension_damping_and_line_choice_solver.dart`): Solver fizyki MTB XCO obliczający tłumienie nierówności przez zawieszenie, wybór linii przejazdu (`A-Line` ryzykowna i szybka vs `B-Line` bezpieczna) i przyczepność opon $2.4"$.
+- [ ] **Zadanie #418** (`lib/engine/rendering3d/mtb_forest_rock_garden_3d_renderer.dart`): Renderer 3D leśnej trasy MTB XCO z głazami (Rock Garden), drewnianymi mostkami, skoczniami i kurzem w promieniach słońca przebijających przez korony drzew.
+- [ ] **Zadanie #419** (`lib/ui/screens/mtb_xco_world_cup_screen.dart`): Ekran Pucharu Świata MTB XCO i konfiguratora ciśnienia widelca/dampera oraz opon $2.4"$.
+- [ ] **Zadanie #420** (`lib/models/team/in_house_bike_brand_manufacturing_model.dart`): Model **Własnej Marki Rowerowej Klubu (`InHouseBikeBrandModel`)** pozwalający przekształcić zespół w producenta sprzętu R&D sprzedającego licencje i ramy innym ekipom.
+- [ ] **Zadanie #421** (`lib/ui/screens/in_house_bike_brand_factory_screen.dart`): Ekran Fabryki i Działu R&D własnej marki rowerowej z projektowaniem geometrii i analizą sprzedaży detalicznej.
+- [ ] **Zadanie #422** (`lib/services/career/tv_broadcast_rights_revenue_sharing.dart`): System podziału przychodów z praw telewizyjnych w cyklu WorldTour zależny od oglądalności i wyników drużyny.
+- [ ] **Zadanie #423** (`lib/engine/audio/spatial_3d_peloton_audio_panner.dart`): Przestrzenne panoramowanie stereo dźwięku peletonu, wozów technicznych i kibiców zależnie od pozycji kamery 3D.
+- [ ] **Zadanie #424** (`test/package_6_multiplayer_mtb_brand_test.dart`): Pakiet testów jednostkowych i integracyjnych dla lig multiplayer, fizyki MTB XCO oraz fabryki własnej marki rowerowej (#413–#462).
+
+---
+
+## CZĘŚĆ VIII: PACZKA #7A (#463 – #512) — SYMULATOR KOMISARZA UCI, KEIRIN & MADISON NA TORZE ORAZ PRZECIEKI TRANSFEROWE
+
+- [ ] **Zadanie #463** (`lib/models/race/uci_commissaire_rulebook_and_var_model.dart`): Model przepisów sędziowskich UCI, analizy wideo VAR sprintów (`Sprint Deviation VAR`) oraz dynamicznej ewolucji regulaminów (np. zmiany limitu wagi roweru z $6.8\text{ kg}$ na $6.5\text{ kg}$ lub zakazów pozycji aero w kolejnych latach kariery).
+- [ ] **Zadanie #464** (`lib/ui/widgets/sprint_var_overhead_replay_inspector.dart`): Narzędzie powtórki wideo z lotu ptaka (`VAR Sprint Deviation Inspector`) z narysowanymi liniami toru jazdy sprinterów na ostatnich $200\text{ m}$ pozwalające ocenić zajechanie drogi.
+- [ ] **Zadanie #465** (`lib/engine/physics/velodrome_keirin_and_madison_sling_solver.dart`): Solver fizyki wyścigów torowych **Keirin** (jazda za motocyklem Derny rozpędzającym stawkę do $50\text{ km/h}$) oraz **Madison (Wyścig Amerykański)** z fizyką **rzutu za rękę (`Hand Sling`)** przekazującego pęd partnerowi z pary!
+- [ ] **Zadanie #466** (`lib/engine/rendering3d/velodrome_madison_hand_sling_3d_renderer.dart`): Renderer 3D wyścigu Madison i Keirin na welodromie z motocyklem Derny, zmianami par w locie i elektroniczną tablicą punktów sprinterskich co 10 okrążeń.
+- [ ] **Zadanie #467** (`lib/ui/screens/track_omnium_madison_championship_screen.dart`): Ekran Mistrzostw Torowych (Keirin, Madison, Omnium, Wyścig Punktowy).
+- [ ] **Zadanie #468** (`lib/services/career/transfer_rumor_mill_and_journalists_service.dart`): System dziennikarzy kolarskich, przecieków transferowych (`Transfer Rumor Mill`), budowania zasłony dymnej na rynku i wpływu plotek na morale obecnych zawodników.
+- [ ] **Zadanie #469** (`lib/ui/widgets/cycling_media_social_feed_panel.dart`): Panel mediów kolarskich i przecieków transferowych w biurze menedżera z możliwością zdementowania lub potwierdzenia plotki.
+- [ ] **Zadanie #470** (`test/package_7a_commissaire_madison_rumors_test.dart`): Pakiet testów jednostkowych i integracyjnych dla przepisów VAR UCI, fizyki rzutu Madison oraz systemu przecieków transferowych (#463–#512).
+
+---
+
+## CZĘŚĆ IX: PACZKA #7B (#513 – #562) — TRYB ORGANIZATORA WIELKICH TOURÓW (ASO/RCS), ULTRA-ENDURANCE BIKEPACKING 4000 KM, REAL-TIME CFD WIND TUNNEL & DIAMOND MASTER QA
+
+- [ ] **Zadanie #513** (`lib/models/organizer/race_organizer_empire_model.dart`): Model dla trybu **Promotor i Organizator Wyścigów (ASO/RCS)**: budżet, przetargi miast gospodarzy (`Host City Bids`), prawa TV i prestiż wyścigu UCI (`2.UWT`).
+- [ ] **Zadanie #514** (`lib/services/organizer/star_rider_appearance_fee_negotiator.dart`): System negocjacji opłat startowych (`Appearance Fees`) z gwiazdami peletonu i projektowania tras przyciągających liderów GC i sprinterów.
+- [ ] **Zadanie #515** (`lib/services/organizer/course_safety_barriers_and_marshals_planner.dart`): System planowania barier ochronnych (`Boplan Air-Cushion Barriers`), siatek i marshali na trasie.
+- [ ] **Zadanie #516** (`lib/ui/screens/race_organizer_hq_dashboard_screen.dart`): Główny ekran trybu Organizatora Wyścigów z mapą przetargów miast i transmisją 3D własnego wyścigu.
+- [ ] **Zadanie #517** (`lib/ui/widgets/host_city_bidding_auction_modal.dart`): Okno przetargów miast gospodarzy ubiegających się o *Grand Départ* lub metę górską.
+- [ ] **Zadanie #518** (`lib/models/race/ultra_endurance_bikepacking_race_model.dart`): Model wyścigów **Ultra-Endurance Bikepacking (4000 km non-stop)** z punktami kontrolnymi, torbami bikepackingowymi i piastą z dynamem.
+- [ ] **Zadanie #519** (`lib/engine/physics/ultra_sleep_deprivation_and_circadian_solver.dart`): Solver fizjologii braku snu (`Sleep Debt`), rytmu dobowego oraz drzemek w śpiworze Bivy vs hotele.
+- [ ] **Zadanie #520** (`lib/engine/rendering3d/night_riding_headlight_and_stars_3d_renderer.dart`): Renderer jazdy nocnej 3D ze stożkiem przedniej lampki LED, gwiazdami i czerwonym światłem tylnym.
+- [ ] **Zadanie #521** (`lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart`): Ekran wyścigów Ultra-Endurance z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych.
+- [ ] **Zadanie #522** (`lib/engine/physics/real_time_cfd_vortex_and_drag_solver.dart`): Solver strefowej aerodynamiki CFD (kask, przedramiona, tekstylia, koła i wiry Kármána).
+- [ ] **Zadanie #523** (`lib/ui/widgets/cfd_wind_tunnel_heatmap_3d_painter.dart`): Wizualizator mapy ciśnień CFD 120 FPS na sylwetce kolarza w tunelu aerodynamicznym.
+- [ ] **Zadanie #524** (`lib/services/career/global_satellite_training_centers_service.dart`): System Globalnych Akademii Satelickich (Kolumbia, Afryka Wschodnia, Flandria, Sierra Nevada).
+- [ ] **Zadanie #525** (`lib/ui/screens/global_academy_network_map_screen.dart`): Ekran mapy świata i zarządzania globalną siecią akademii treningowych.
+- [ ] **Zadanie #526** (`lib/engine/peloton/team_radio_voice_synthesis_and_chatter.dart`): Generator kontekstowych dialogów i inicjatyw kolarzy w Radiu Wyścigowym.
+- [ ] **Zadanie #527** (`lib/ui/widgets/interactive_radio_call_bubble_hud.dart`): Szklany dymek połączenia radiowego z falą głosową i przyciskami szybkiej decyzji.
+- [ ] **Zadanie #528** (`lib/engine/physics/cobble_tire_pressure_real_time_deflection.dart`): Fizyka ugięcia opon i strat wibracyjnych na bruku 5-gwiazdkowym.
+- [ ] **Zadanie #529** (`lib/services/career/historic_legend_guest_mentors_service.dart`): System zatrudniania byłych Legend Kolarstwa jako doradców na obozy i Wielkie Toury.
+- [ ] **Zadanie #530** (`lib/ui/widgets/grand_tour_jersey_standings_podium_strip.dart`): Pasek 4 koszulek klasyfikacji Grand Touru na żywo w wyścigu i na podium.
+- [ ] **Zadanie #531** (`lib/engine/rendering3d/finish_line_confetti_and_photographers_3d.dart`): Fotoreporterzy, konfetti i strefa opiekunów za linią mety w 3D.
+- [ ] **Zadanie #532** (`lib/services/career/team_bus_chef_and_microbiome_nutrition.dart`): Szef Kuchni Drużyny (`Team Chef`), bilans kaloryczny i regeneracja glikogenu.
+- [ ] **Zadanie #533** (`lib/ui/widgets/team_chef_daily_menu_planner_card.dart`): Karta planowania posiłków i bilansu energetycznego w ekranie Dnia Przerwy.
+- [ ] **Zadanie #534** (`lib/engine/peloton/sprinter_train_counter_surfing_ai.dart`): Taktyka surfowania sprintera po kołach pociągów rywali (`Surf Rival Lead-out`).
+- [ ] **Zadanie #535** (`lib/ui/widgets/sprint_final_3km_tactical_map_overlay.dart`): Mapa taktyczna z lotu ptaka na ostatnich $3\text{ km}$ sprintu.
+- [ ] **Zadanie #536** (`lib/services/career/sponsor_custom_color_rebrand_events.dart`): Limitowane edycje koszulek i rowerów na Wielkie Toury (`Special Edition Livery`).
+- [ ] **Zadanie #537** (`lib/ui/widgets/special_edition_livery_preview_modal.dart`): Modal prezentacji okazjonalnego malowania zespołu.
+- [ ] **Zadanie #538** (`lib/engine/simulation/stage_photo_album_auto_capturer.dart`): Automatyczny album zdjęć z 4 kluczowych momentów każdego etapu.
+- [ ] **Zadanie #539** (`lib/ui/widgets/post_stage_highlight_reel_carousel.dart`): Karuzela skrótów wideo i zdjęć z etapu na ekranie podium.
+- [ ] **Zadanie #540** (`lib/services/career/uci_worldtour_calendar_expansion_engine.dart`): Dynamiczna rozbudowa kalendarza WorldTour w kolejnych latach kariery.
+- [ ] **Zadanie #541** (`lib/core/config/controller_gamepad_input_mapper.dart`): Pełna obsługa kontrolerów Xbox / PlayStation DualSense / Steam Deck.
+- [ ] **Zadanie #542** (`lib/ui/widgets/quick_tactical_macro_recorder_widget.dart`): Nagrywarka makr taktycznych dla całej drużyny jednym przyciskiem.
+- [ ] **Zadanie #543** (`lib/engine/physics/altitude_descent_air_density_transition.dart`): Ciągła interpolacja gęstości powietrza $\rho(h, T)$ podczas zjazdów alpejskich.
+- [ ] **Zadanie #544** (`lib/ui/screens/manager_profile_and_reputation_screen.dart`): Ekran Profilu Menedżera, statystyk życiowych i reputacji.
+- [ ] **Zadanie #545** (`lib/services/career/manager_skill_tree_perks_service.dart`): Drzewko umiejętności i pasywnych perków menedżera.
+- [ ] **Zadanie #546** (`test/race_organizer_mode_and_bids_test.dart`): Testy trybu Organizatora Wyścigów i przetargów miast.
+- [ ] **Zadanie #547** (`test/ultra_bikepacking_sleep_and_dynamo_test.dart`): Testy fizjologii braku snu i toreb bikepackingowych.
+- [ ] **Zadanie #548** (`test/real_time_cfd_and_cobble_deflection_test.dart`): Testy aerodynamiki strefowej CFD i wibracji na bruku.
+- [ ] **Zadanie #549** (`test/sprint_counter_surfing_and_macros_test.dart`): Testy surfowania sprinterskiego i makr taktycznych.
+- [ ] **Zadanie #550** (`test/manager_perks_and_satellite_academies_test.dart`): Testy akademii satelickich i perków menedżera.
+- [ ] **Zadanie #551** (`test/all_screens_golden_smoke_render_test.dart`): Testy renderowania UI na 3 rozdzielczościach (`390x844`, `1024x768`, `1600x900`).
+- [ ] **Zadanie #552** (`lib/core/diagnostics/save_compatibility_v7_migrator.dart`): Migrator zapisów gry dla struktur Paczek #6 i #7.
+- [ ] **Zadanie #553** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczek #6 i #7 w `AppRouter`.
+- [ ] **Zadanie #554** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN.
+- [ ] **Zadanie #555** (`lib/core/diagnostics/unused_code_and_dependency_pruner.dart`): Czyszczenie martwego kodu i weryfikacja dokumentacji klas.
+- [ ] **Zadanie #556** (`lib/core/diagnostics/performance_120fps_frame_budget_auditor.dart`): Audyt budżetu klatki 3D (< $4.5\text{ ms}$ dla stałych 120 FPS).
+- [ ] **Zadanie #557** (`docs/CODE_MAP.md`): Aktualizacja indeksacji pliku `docs/CODE_MAP.md`.
+- [ ] **Zadanie #558** (`docs/GAME_DESIGN_AND_PHYSICS_BIBLE.md`): Dokumentacja naukowa i fizyczna gry.
+- [ ] **Zadanie #559** (`scripts/verify_all_platforms_build.ps1`): Aktualizacja skryptów kompilacji produkcyjnej.
+- [ ] **Zadanie #560** (`test/full_560_tasks_end_to_end_career_test.dart`): Test End-to-End wszystkich trybów rozgrywki.
+- [ ] **Zadanie #561** (`lib/core/diagnostics/final_lint_and_zero_warnings_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
+- [ ] **Zadanie #562** (`lib/core/diagnostics/diamond_master_562_certification_suite.dart`): Pakiet certyfikacji **DIAMOND MASTER v2.0** (#001–#562).
+
+---
+
+## CZĘŚĆ X: PACZKA #8 (#563 – #612) — GOLDEN ERA RETRO CLASSICS 1970–2015, UCI CYCLING ESPORTS, EKONOMIA ESG, AI TACTICAL COACH & PLATINUM APEX v3.0 QA
+
+- [ ] **Zadanie #563** (`lib/models/retro/golden_era_retro_season_model.dart`): Model trybu historycznego **„Złota Era Kolarstwa: 1970–2015”** (stalowe ramy Columbus SL $9.2\text{ kg}$, manetki cierne, wełniane koszulki nasiąkające deszczem, brak mierników mocy i radia wyścigowego).
+- [ ] **Zadanie #564** (`lib/engine/physics/retro_steel_frame_and_no_powermeter_solver.dart`): Silnik percepcji RPE (Borg 6–20) zamiast miernika mocy oraz fizyka opóźnienia zmiany biegów na dolnej rurze ramy.
+- [ ] **Zadanie #565** (`lib/engine/rendering3d/retro_sepia_film_grain_and_steel_bikes_3d.dart`): Renderer 3D chromowanych muf stalowych, czapeczek kolarskich, bidonów na kierownicy i filtra TV 16mm/VHS.
+- [ ] **Zadanie #566** (`lib/ui/screens/golden_era_retro_campaigns_screen.dart`): Ekran kampanii historycznych 1970–2015.
+- [ ] **Zadanie #567** (`lib/models/esports/uci_cycling_esports_world_model.dart`): Model **UCI Cycling Esports** (trenażery Smart, Power-Upy `Aero Helmet`, `Featherweight`, `Burrito` i wyścig eliminacyjny co 60 s).
+- [ ] **Zadanie #568** (`lib/engine/physics/esports_smart_trainer_erg_and_powerups_solver.dart`): Solver fizyki wyścigów e-Sports i strategii Power-Upów.
+- [ ] **Zadanie #569** (`lib/engine/rendering3d/esports_cyber_velodrome_and_hologram_3d.dart`): Neonowo-szklany renderer 3D światów e-Sports z hologramami Power-Upów i słupkami $\text{W/kg}$.
+- [ ] **Zadanie #570** (`lib/ui/screens/cycling_esports_and_virtual_academy_screen.dart`): Ekran Centrum e-Sports i naboru talentów *Virtual Talent ID Academy*.
+- [ ] **Zadanie #571** (`lib/models/career/team_esg_sustainability_and_green_fleet_model.dart`): Model **Ekonomii ESG i Zielonej Floty Zespołu** (elektryczne wozy techniczne, bilans $\text{CO}_2$ i zieloni sponsorzy).
+- [ ] **Zadanie #572** (`lib/ui/screens/esg_sustainability_and_fleet_screen.dart`): Ekran zarządzania flotą EV/wodorową i bilansem ekologicznym drużyny.
+- [ ] **Zadanie #573** (`lib/services/analysis/post_race_ai_tactical_coach_analyzer.dart`): **Analityk Taktyczny AI po Wyścigu** analizujący stracone waty na wietrze i timing ataków z $W'$.
+- [ ] **Zadanie #574** (`lib/ui/widgets/post_race_ai_coach_insights_card.dart`): Karta raportu Asystenta Taktycznego AI na ekranie podsumowania etapu.
+- [ ] **Zadanie #575** (`lib/engine/peloton/team_sprint_train_echelon_diagonal_formation.dart`): Diagonalna formacja wachlarza na wietrze bocznym spychająca rywali pod krawężnik (*In the Gutter*).
+- [ ] **Zadanie #576** (`lib/ui/widgets/gutter_wind_protection_diagram_hud.dart`): Mini-diagram schodkowy ochrony przed wiatrem bocznym w HUD 3D.
+- [ ] **Zadanie #577** (`lib/services/career/rider_personal_life_and_family_events.dart`): Wydarzenia z życia osobistego kolarzy (narodziny dziecka, urlop ojcowski, domowe wyścigi).
+- [ ] **Zadanie #578** (`lib/engine/physics/braking_zone_kinetic_energy_loss_solver.dart`): Model strat energii kinetycznej na dohamowaniach w kryteriach miejskich i krętych czasówkach.
+- [ ] **Zadanie #579** (`lib/ui/widgets/criterium_cornering_efficiency_chart.dart`): Wykres zysku czasowego lekkich kół na trasach z licznymi zakrętami.
+- [ ] **Zadanie #580** (`lib/services/career/national_federation_team_manager_mode.dart`): System **Selekcjonera Reprezentacji Narodowej** na Mistrzostwa Świata i Igrzyska Olimpijskie.
+- [ ] **Zadanie #581** (`lib/ui/screens/national_team_selection_hq_screen.dart`): Ekran Biura Selekcjonera Reprezentacji Narodowej i powołań kadry.
+- [ ] **Zadanie #582** (`lib/engine/rendering3d/national_team_custom_kits_3d_renderer.dart`): Renderer 3D oficjalnych koszulek reprezentacji narodowych.
+- [ ] **Zadanie #583** (`lib/services/career/transfer_deadline_day_live_event.dart`): Wydarzenie **Transfer Deadline Day** z odliczaniem godzinowym i last-minute ofertami agentów.
+- [ ] **Zadanie #584** (`lib/ui/widgets/transfer_deadline_day_ticker_modal.dart`): Studio telewizyjne Transfer Deadline Day z paskiem Breaking News.
+- [ ] **Zadanie #585** (`lib/engine/events/race_protest_and_course_reroute_engine.dart`): Protokół ekstremalnej pogody UCI i dynamiczna zmiana trasy etapu.
+- [ ] **Zadanie #586** (`lib/ui/widgets/uci_extreme_weather_protocol_modal.dart`): Modal oficjalnego komunikatu o skróceniu etapu z powodu śnieżycy lub osuwiska.
+- [ ] **Zadanie #587** (`lib/services/career/team_merchandise_and_fan_club_revenue.dart`): System przychodów ze sklepu klubowego, replik koszulek i stref kibica (`Fan Zones`).
+- [ ] **Zadanie #588** (`lib/ui/widgets/fan_base_and_merchandise_card.dart`): Karta bazy kibiców i sprzedaży gadżetów klubowych.
+- [ ] **Zadanie #589** (`lib/engine/physics/drafting_behind_team_car_and_motos_solver.dart`): Fizyka cienia aerodynamicznego za motocyklami TV i w kolumnie wozów technicznych (`Caravan Drafting`).
+- [ ] **Zadanie #590** (`lib/ui/widgets/caravan_drafting_risk_meter_hud.dart`): Wskaźnik ryzyka kary sędziowskiej podczas powrotu za wozami technicznymi.
+- [ ] **Zadanie #591** (`lib/services/career/dynamic_rider_nickname_generator.dart`): Generator przydomków kolarskich nadawanych przez media i kibiców.
+- [ ] **Zadanie #592** (`lib/ui/screens/grand_tour_route_reveal_ceremony_screen.dart`): Ceremonia prezentacji oficjalnej trasy przyszłorocznych Wielkich Tourów.
+- [ ] **Zadanie #593** (`lib/engine/rendering3d/sunrise_sunset_dynamic_sky_dome_3d.dart`): Dynamiczny cykl nieba i słońca od porannego startu po złotą godzinę na mecie.
+- [ ] **Zadanie #594** (`lib/ui/widgets/voice_command_quick_actions_stub.dart`): Paleta szybkich komend głosowych/tekstowych radia wyścigowego (`Alt+Space`).
+- [ ] **Zadanie #595** (`lib/services/database/cloud_cross_save_json_sync_adapter.dart`): Kompresja GZIP i transfer zapisów między urządzeniami (PC <-> Mac <-> Mobile).
+- [ ] **Zadanie #596** (`lib/ui/widgets/cross_device_save_transfer_modal.dart`): Okno eksportu/importu skompresowanych archiwów zapisu `.ppmsave.gz`.
+- [ ] **Zadanie #597** (`lib/services/career/end_of_career_hall_of_fame_retirement_mode.dart`): Emerytura menedżerska i tryb **New Game+ / Dynastia**.
+- [ ] **Zadanie #598** (`lib/ui/screens/manager_legacy_hall_of_fame_book_screen.dart`): Ekran Księgi Legendy Menedżera ze złotymi tłoczeniami `#D4AF37`.
+- [ ] **Zadanie #599** (`lib/core/config/app_feature_flags_and_presets.dart`): Centralny rejestr konfiguracji realizmu rozgrywki.
+- [ ] **Zadanie #600** (`lib/ui/widgets/career_realism_customizer_panel.dart`): Panel wyboru presetu realizmu przy starcie nowej kariery.
+- [ ] **Zadanie #601** (`test/golden_era_retro_and_no_powermeter_test.dart`): Testy trybu Golden Era 1970–2015 i skali RPE.
+- [ ] **Zadanie #602** (`test/cycling_esports_powerups_and_elimination_test.dart`): Testy Power-Upów e-Sports i wyścigu eliminacyjnego.
+- [ ] **Zadanie #603** (`test/esg_sustainability_and_ai_coach_test.dart`): Testy bilansu $\text{CO}_2$ ESG oraz raportów Asystenta Taktycznego AI.
+- [ ] **Zadanie #604** (`test/diagonal_echelon_and_braking_kinetic_test.dart`): Testy diagonalnych wachlarzy i strat energii na zakrętach.
+- [ ] **Zadanie #605** (`test/national_team_manager_and_cross_save_test.dart`): Testy reprezentacji narodowej, Transfer Deadline Day i kompresji GZIP.
+- [ ] **Zadanie #606** (`lib/core/diagnostics/save_compatibility_v8_migrator.dart`): Migrator zapisów gry dla struktur Paczki #8.
+- [ ] **Zadanie #607** (`lib/core/router/app_router.dart`): Integracja tras Paczki #8 w `AppRouter` i `MainShellScreen`.
+- [ ] **Zadanie #608** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN o terminy z Paczki #8.
+- [ ] **Zadanie #609** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 612 zadań.
+- [ ] **Zadanie #610** (`docs/COMPLETE_GAME_MANUAL_612.md`): Kompletny przewodnik po wszystkich 12 trybach gry i systemach fizycznych.
+- [ ] **Zadanie #611** (`lib/core/diagnostics/zero_warnings_612_lint_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
+- [ ] **Zadanie #612** (`lib/core/diagnostics/platinum_apex_612_certification_suite.dart`): Pakiet certyfikacji **PLATINUM APEX v3.0** (#001–#612).
+
+---
+
+## CZĘŚĆ XI: PACZKA #9 (#613 – #662) — GLOBAL CYCLING EXPANSION (AFRYKA/AZJA/BLISKI WSCHÓD), PSYCHOLOGIA SZATNI 2.0, SYMULATOR „WHAT-IF”, UCI PARA-CYCLING & OBSIDIAN SOVEREIGN v4.0 QA
+
+- [ ] **Zadanie #613** (`lib/models/race/global_exotic_tours_expansion_model.dart`): Model dla globalnej ekspansji kalendarza UCI na rynki pozaeuropejskie (*Tour du Rwanda*, *Tour de Langkawi*, *Tour of Oman*, *AlUla Tour*).
+- [ ] **Zadanie #614** (`lib/engine/physics/tropical_humidity_and_desert_sandstorm_solver.dart`): Solver wilgotności tropikalnej $95\%$ i pustynnego piasku zwiększającego $Crr$.
+- [ ] **Zadanie #615** (`lib/engine/rendering3d/exotic_biomes_savanna_desert_jungle_3d.dart`): Renderer 3D czerwonej ziemi Rwandy (*Mur de Kigali*), pustynnych kanionów AlUla i tropikalnej dżungli Malezji.
+- [ ] **Zadanie #616** (`lib/services/career/global_sponsor_market_expansion_service.dart`): System sponsorów z rynków wschodzących (Azja, Afryka, Bliski Wschód).
+- [ ] **Zadanie #617** (`lib/models/career/rider_relationship_chemistry_web_model.dart`): Model Psychologii Szatni 2.0, macierzy relacji `-100` do `+100` oraz paktu lojalności *Blood Brothers*.
+- [ ] **Zadanie #618** (`lib/ui/widgets/team_chemistry_relationship_web_painter.dart`): Interaktywny okrągły graf sieci relacji w drużynie ze złotymi, zielonymi i czerwonymi połączeniami.
+- [ ] **Zadanie #619** (`lib/services/career/team_bonding_retreat_and_conflict_mediation.dart`): Serwis integracji drużynowych i mediacji między liderami.
+- [ ] **Zadanie #620** (`lib/engine/simulation/what_if_tactical_sandbox_simulator.dart`): Symulator Monte Carlo scenariuszy taktycznych „Co Jeśli?” (20 wariantów w tle w $<1.5\text{ s}$).
+- [ ] **Zadanie #621** (`lib/ui/widgets/what_if_scenario_comparator_modal.dart`): Szklany modal porównania wykresów pudełkowych i prawdopodobieństwa wygranej.
+- [ ] **Zadanie #622** (`lib/models/paracycling/uci_paracycling_tandem_handbike_model.dart`): Model **UCI Para-Cycling** (Tandemy Klasa B, Handbike H1–H5, Rowery C1–C5).
+- [ ] **Zadanie #623** (`lib/engine/physics/tandem_and_handbike_physics_solver.dart`): Solver fizyki tandemów (podwójna moc $>800\text{ W}$, zjazdy $>95\text{ km/h}$) i handbike'ów.
+- [ ] **Zadanie #624** (`lib/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer.dart`): Renderer 3D tandemów dwuosobowych i trójkołowych handbike'ów.
+- [ ] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
+- [ ] **Zadanie #626** (`lib/ui/widgets/live_split_screen_telemetry_comparator_hud.dart`): Porównywacz telemetrii Split-Screen lidera i głównego rywala GC na żywo.
+- [ ] **Zadanie #627** (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`): Mechanika mowy ciała i blefowania kryzysu na podjeździe (`Poker Face`).
+- [ ] **Zadanie #628** (`lib/ui/widgets/rider_poker_face_bluff_action_button.dart`): Przycisk taktyczny `Blefuj Kryzys / Poker Face` w menu rozkazów 3D.
+- [ ] **Zadanie #629** (`lib/services/career/equipment_wind_tunnel_custom_decals_and_serials.dart`): Indywidualne numery seryjne ram i złote edycje mistrzowskie rowerów.
+- [ ] **Zadanie #630** (`lib/ui/screens/club_museum_and_legendary_bikes_screen.dart`): Ekran Muzeum Klubowego i Historycznych Rowerów 3D.
+- [ ] **Zadanie #631** (`lib/engine/physics/crosswind_peloton_gutter_collision_risk.dart`): Fizyka ryzyka zjechania na pobocze podczas wyprzedzania w rynsztoku na wietrze bocznym.
+- [ ] **Zadanie #632** (`lib/services/career/ai_director_sportif_tactical_styles_engine.dart`): Unikalne style taktyczne dyrektorów sportowych wszystkich 52 drużyn AI.
+- [ ] **Zadanie #633** (`lib/ui/widgets/rival_team_tactical_scouting_report_card.dart`): Karta wywiadu taktycznego o planie rywali na odprawie przed etapem.
+- [ ] **Zadanie #634** (`lib/engine/rendering3d/dynamic_spectator_banners_and_flags_3d.dart`): Proceduralne banery kibiców z nazwiskiem lidera gracza i flagami regionów.
+- [ ] **Zadanie #635** (`lib/services/career/tour_de_pologne_and_central_europe_pack.dart`): Pakiet wyścigów Europy Środkowej z 7-etapowym **Tour de Pologne** (Karpacz Orlinek, Gliczarów, Kraków).
+- [ ] **Zadanie #636** (`lib/engine/simulation/instant_highlight_clip_generator.dart`): Generator automatycznych 45-sekundowych skrótów telewizyjnych po etapie.
+- [ ] **Zadanie #637** (`lib/ui/widgets/tv_highlight_reel_player_overlay.dart`): Odtwarzacz skrótu telewizyjnego z grafikami przejść TV.
+- [ ] **Zadanie #638** (`lib/services/career/custom_training_microcycle_builder_service.dart`): Kreator tygodniowych mikrocykli treningowych (Interwały VO2max, Motor-Pacing, Sweet Spot).
+- [ ] **Zadanie #639** (`lib/ui/screens/weekly_training_microcycle_planner_screen.dart`): Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS i prognozą TSB.
+- [ ] **Zadanie #640** (`lib/engine/physics/motor_pacing_and_aero_tuck_adaptation.dart`): Fizjologiczna adaptacja generowania mocy w niskiej pozycji TT po treningach za skuterem.
+- [ ] **Zadanie #641** (`lib/ui/widgets/aero_vs_road_power_efficiency_gauge.dart`): Wskaźnik efektywności mocy na lemondce względem szosowego FTP.
+- [ ] **Zadanie #642** (`lib/services/career/youth_talent_summer_combine_camp.dart`): Coroczny obóz selekcyjny 17-letnich talentów z całego świata (`Global Young Talent Combine`).
+- [ ] **Zadanie #643** (`lib/ui/screens/talent_combine_tryouts_screen.dart`): Ekran testów laboratoryjnych i wyścigu selekcyjnego juniorów.
+- [ ] **Zadanie #644** (`lib/core/services/adaptive_dynamic_music_score_engine.dart`): Proceduralny, adaptacyjny silnik muzyki elektroniczno-orkiestrowej reagującej na akcję na szosie.
+- [ ] **Zadanie #645** (`lib/ui/widgets/audio_mixer_advanced_settings_panel.dart`): Rozbudowany mikser dźwięku z 6 niezależnymi suwakami głośności.
+- [ ] **Zadanie #646** (`lib/services/database/career_statistics_deep_analytics_exporter.dart`): Eksporter danych analitycznych CSV/JSON z wieloletniej kariery.
+- [ ] **Zadanie #647** (`lib/ui/screens/deep_career_analytics_bi_screen.dart`): Ekran analityki biznesowo-sportowej BI (zwrot z inwestycji ROI dla transferów i R&D).
+- [ ] **Zadanie #648** (`lib/engine/peloton/late_race_mechanical_neutral_zone_3km.dart`): Precyzyjna obsługa strefy ochronnej na ostatnich $3\text{ km}$ / $5\text{ km}$ etapów sprinterskich.
+- [ ] **Zadanie #649** (`lib/ui/widgets/neutral_zone_3km_active_banner_hud.dart`): Telewizyjny znacznik `3 KM ZONE — GC TIMES NEUTRALIZED` w widoku 3D.
+- [ ] **Zadanie #650** (`test/global_expansion_and_humidity_physics_test.dart`): Testy wyścigów w Rwandzie, Malezji i Omanie oraz wpływu wilgotności $95\%$.
+- [ ] **Zadanie #651** (`test/relationship_chemistry_and_what_if_test.dart`): Testy grafu relacji w szatni i symulatora scenariuszy „What-If”.
+- [ ] **Zadanie #652** (`test/paracycling_tandem_and_handbike_physics_test.dart`): Testy fizyki tandemów i handbike'ów Para-Cycling.
+- [ ] **Zadanie #653** (`test/poker_face_bluff_and_3km_rule_test.dart`): Testy blefowania na podjeździe i reguły neutralizacji $3\text{ km}$.
+- [ ] **Zadanie #654** (`test/weekly_microcycle_and_talent_combine_test.dart`): Testy mikrocykli TSS/TSB i obozu selekcyjnego juniorów.
+- [ ] **Zadanie #655** (`lib/core/diagnostics/save_compatibility_v9_migrator.dart`): Migrator zapisów gry dla struktur Paczki #9.
+- [ ] **Zadanie #656** (`lib/core/router/app_router.dart`): Integracja tras Paczki #9 w `AppRouter` i `MainShellScreen`.
+- [ ] **Zadanie #657** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN o terminy z Paczki #9.
+- [ ] **Zadanie #658** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 662 zadań.
+- [ ] **Zadanie #659** (`docs/COMPLETE_GAME_MANUAL_662.md`): Kompletny przewodnik po wszystkich trybach gry i systemach fizycznych.
+- [ ] **Zadanie #660** (`lib/core/diagnostics/performance_and_memory_662_profiler.dart`): Audyt wydajności 120 FPS i pamięci RAM we wszystkich trybach.
+- [ ] **Zadanie #661** (`lib/core/diagnostics/zero_warnings_662_lint_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
+- [ ] **Zadanie #662** (`lib/core/diagnostics/obsidian_sovereign_662_certification_suite.dart`): Pakiet certyfikacji **OBSIDIAN SOVEREIGN v4.0** (#001–#662).
+
+---
+
+## CZĘŚĆ XII: PACZKA #10 (#663 – #712) — AMERICAS & OCEANIA EXPANSION, SKANERY TECHNICZNE UCI & CAS, NOCNE HRV & FIZJOTERAPIA GRAND TOUROWA, TRYB REŻYSERA TV & TITANIUM IMPERIAL v5.0 QA
+
+- [ ] **Zadanie #663** (`lib/models/race/americas_and_oceania_tours_model.dart`): Stwórz model danych dla ekspansji kalendarza UCI na Amerykę Południową, Północną i Oceanię **Americas & Oceania Cycling Expansion (`AmericasAndOceaniaToursModel`)**: autentyczne wyścigi etapowe i klasyki otwierające oraz zamykające sezon: *Santos Tour Down Under* w Australii (upały $38–43^\circ\text{C}$, eksplozywny podjazd *Willunga Hill*), *Cadel Evans Great Ocean Road Race* (nadmorski wiatr boczny z Oceanu Południowego), *Tour Colombia 2.1* oraz *Vuelta a San Juan* w Argentynie (etapy startujące na $2500\text{ m}$ i wspinające się na *Alto del Colorado* na wysokość $3265\text{ m n.p.m.}$!), a także północnoamerykańskie klasyki *Grand Prix Cycliste de Québec & Montréal* (mordercze miejskie rundy Puncheur). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #664** (`lib/engine/physics/extreme_altitude_3000m_and_heatwave_solver.dart`): Zbuduj wyspecjalizowany solver fizjologii ekstremalnych wysokości ($2500–3500\text{ m n.p.m.}$) oraz fal upałów ($>38^\circ\text{C}$) `ExtremeAltitude3000mAndHeatwaveSolver`: powyżej $2800\text{ m n.p.m.}$ spadek ciśnienia parcjalnego tlenu $\text{PaO}_2$ powoduje wykładniczy spadek pojemności regeneracji $W'$ ($\tau_{W'}$ wydłuża się o $+45\%$), co oznacza, że każdy gwałtowny atak na Alto del Colorado kosztuje 2 razy więcej czasu na dojście do siebie! Jednocześnie w australijskim upale $>40^\circ\text{C}$ asfaltopodobna nawierzchnia nagrzewa się do $58^\circ\text{C}$, podnosząc opór toczenia opon $Crr$ o $+8\%$ i wymagając podwójnego nawadniania. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #665** (`lib/engine/rendering3d/andes_eucalyptus_and_quebec_biomes_3d.dart`): Rozbuduj generator scenerii 3D o 3 unikalne biomy geograficzne `AndesEucalyptusAndQuebecBiomes3d`:
+  1. **Wysokie Andy (Argentyna / Kolumbia)**: surowe, wielobarwne formacje skalne powyżej granicy lasu, kręte drogi szutrowo-asfaltowe na krawędzi przepaści, rozrzedzone błękitne niebo i kondory krążące nad przełęczą.
+  2. **Australijski Busz i Wybrzeże Wiktorii (Adelaide / Geelong)**: lasy eukaliptusowe, czerwono-złota trawa w pełnym słońcu, błękitny ocean w tle oraz tłumy kibiców w kapeluszach przeciwsłonecznych.
+  3. **Jesienne Rundy w Québec i Montréal**: historyczne brukowane uliczki Starego Miasta, klony w ognistych jesiennych barwach czerwieni i złota oraz gęste barierki miejskie. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #666** (`lib/models/uci/technical_scrutiny_and_cas_tribunal_model.dart`): Stwórz kompletny model danych dla **Kontroli Technicznych UCI, Skanerów Rentgenowskich i Trybunału CAS (`TechnicalScrutinyAndCasTribunalModel`)**: przed startem i na mecie komisarze techniczni UCI przeprowadzają losowe oraz celowane inspekcje sprzętu za pomocą tabletów magnetycznych i mobilnych skanerów X-Ray (weryfikacja braku ukrytych mikrosilników w suportach i piastach, kontrola wysokości skarpetek $\le 50\%$ długości goleni, kąta nachylenia klamek kierownicy $\le 10^\circ$ oraz wymiarów ramy na szablonie UCI), a także obsługują odwołania zespołów przed **Trybunałem Arbitrażowym ds. Sportu (CAS w Lozannie)**. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #667** (`lib/services/uci/technical_scrutiny_and_reputation_defense_service.dart`): Zbuduj serwis kontroli technicznych i obrony reputacji klubu `TechnicalScrutinyAndReputationDefenseService`: jeśli mechanicy lub dział R&D zbytnio nagięli przepisy aerodynamiczne (np. zbyt mocno zagięte klamki kierownicy, nieregulaminowa wysokość skarpetek aero lub przekroczona długość przedłużek lemondki w czasówce), komisarz techniczny zmusza kolarza do natychmiastowej korekty kluczem dynamometrycznym na 3 minuty przed startem z rampy ITT (wywołując skok stresu i spadek skupienia!), lub nakłada dyskwalifikację DSQ, od której gracz może odwołać się do Trybunału CAS z udziałem prawników sportowych. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #668** (`lib/ui/widgets/uci_technical_xray_scrutiny_modal.dart`): Stwórz klimatyczny modal kontroli technicznej przed startem `UciTechnicalXrayScrutinyModal`: wizualizacja skanera rentgenowskiego prześwietlającego rower wyścigowy kolarza (suport, rurę podsiodłową, piasty), zielone znaczniki zgodności z regulaminem UCI oraz alarm w przypadku wykrycia nieregulaminowego ustawienia kokpitu. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #669** (`lib/models/medical/grand_tour_nightly_hrv_and_physio_model.dart`): Stwórz głęboki model codziennej diagnostyki regeneracyjnej w trakcie 3-tygodniowych Wielkich Tourów **Grand Tour Nightly HRV & Recovery Biomarkers (`GrandTourNightlyHrvAndPhysioModel`)**: każdego ranka przed etapem sztab medyczny mierzy u wszystkich 8 kolarzy: nocną zmienność rytmu zatokowego **HRV (rMSSD w ms)**, tętno spoczynkowe **RHR**, poziom uszkodzeń mięśniowych **Kinazy Kreatynowej (CK w U/L)**, wskaźnik stresu hormonalnego **Kortyzol/Testosteron** oraz jakość snu (wpływaną przez długie transfery autokarem między etapami!). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #670** (`lib/services/medical/grand_tour_physiotherapy_triage_service.dart`): Zbuduj serwis codziennego zarządzania fizjoterapią i logistyką snu `GrandTourPhysiotherapyTriageService`: po każdym etapie gracz przydziela ograniczony czas swoich fizjoterapeutów i osteopatów (np. 3 specjalistów na 8 kolarzy) do konkretnych zabiegów: *Głęboki Masaż Powięziowy* (redukuje CK o $25\%$), *Terapia Tecar / Ultradźwięki* (przyspiesza gojenie stłuczeń po kraksie), *Krioterapia Ogólnoustrojowa* (podnosi nocne HRV o $+12\text{ ms}$) oraz decyzja logistyczna: wykupienie czarteru lotniczego zamiast 4-godzinnego transferu autobusem, aby dać liderom +2 godziny snu! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #671** (`lib/ui/screens/grand_tour_morning_medical_briefing_screen.dart`): Stwórz poranny ekran raportu medycznego i przydziału fizjoterapeutów `GrandTourMorningMedicalBriefingScreen` (wyświetlany podczas Wielkich Tourów): karty biometryczne 8 kolarzy z wykresami trendu nocnego HRV z ostatnich 7 dni, wskaźnikiem gotowości mięśniowej i suwakami przydziału czasu pracy fizjoterapeutów. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #672** (`lib/models/broadcast/tv_director_live_production_model.dart`): Stwórz kompletny model danych dla nowego, ekscytującego trybu **Reżysera Transmisji Telewizyjnej na Żywo (`TvDirectorLiveProductionModel`)** (inspirowany pracą reżysera sygnału międzynarodowego Tour de France): 12 niezależnych kamer na trasie (`HeliCam 1/2/3`, `MotoCam Front/Peloton/Chase`, `OnBoard Handlebars Cam`, `Finish Line Overhead`, `Team Car Interior`), wskaźnik emocji widzów (`Live TV Viewership & Drama Rating 0–100`), budżet produkcyjny oraz kolejka grafik telewizyjnych do wywołania na antenie. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #673** (`lib/ui/screens/tv_broadcast_director_control_room_screen.dart`): Zbuduj imponujący ekran **Reżyserki Telewizyjnej (`TvBroadcastDirectorControlRoomScreen`)**: centralny podgląd głównego obrazu na żywo (`PROGRAM OUT`), dolny rząd 6 mniejszych monitorów podglądu na żywo z różnych miejsc wyścigu (ucieczka, peleton, atakujący faworyt, wóz techniczny), przyciski natychmiastowego przełączania kamer (`CUT` / `DISSOLVE`), wyzwalacze grafik ekranowych (porównanie W/kg dwóch liderów, profil podjazdu 3D, powtórka w zwolnionym tempie) oraz licznik oglądalności rosnący w czasie rzeczywistym, gdy dobrze łapiesz decydujące ataki! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #674** (`lib/engine/rendering3d/onboard_bike_mounted_action_cam_3d.dart`): Zbuduj w silniku 3D dedykowany widok **Kamery Akcji Zamontowanej Pod Siodełkiem i Na Kierownicy (`OnBoardBikeMountedActionCam3d`)** z szerokim kątem obiektywu rybiego oka ($140^\circ$ FOV), mikro-drganiami asfaltu, widokiem tylnego koła i kasety kolarza jadącego z przodu oraz kolarzy wciskających się łokciami w walce o pozycję na ostatnich $1500\text{ m}$ przed sprintem! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #675** (`lib/engine/peloton/sprinter_elbow_rubbing_and_wheel_fighting.dart`): Zaimplementuj realistyczną fizykę walki o koło w pociągu sprinterskim na ostatnich $3\text{ km}$ `SprinterElbowRubbingAndWheelFighting`: zawodnicy z wysokim `raceIq` i `sprint` aktywnie bronią miejsca na kole swojego rozprowadzającego przed wcinającymi się rywalami (opór barkiem w bark przy $62\text{ km/h}$), gdzie o wygraniu pozycji decyduje masa ciała, siła core oraz agresywność taktyczna bez przekraczania przepisów sędziowskich UCI. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #676** (`lib/services/career/cyclist_olympic_and_world_champion_custom_gear.dart`): Rozbuduj system personalizacji sprzętu mistrzowskiego `CyclistOlympicAndWorldChampionCustomGear`: aktualny Mistrz Świata UCI otrzymuje w 3D białą ramę z tęczowymi pasami na rurze podsiodłowej, biały kask z tęczą i białe buty, natomiast Mistrz Olimpijski otrzymuje złoty kask (`Gold Olympic Helmet`), złotą owijkę kierownicy i złote detale na ramie, widoczne we wszystkich wyścigach przez kolejne 4 lata! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #677** (`lib/engine/physics/aerodynamic_cross_drafting_echelon_vortex.dart`): Udoskonal fizykę draftingu w wietrze bocznym `AerodynamicCrossDraftingEchelonVortex`: w wachlarzu ustawionym pod kątem $35^\circ$ do osi drogi strefa cienia aerodynamicznego przesuwa się asymetrycznie na zawietrzną stronę od tylnego koła poprzedzającego kolarza — kolarz jadący idealnie w tym przesuniętym stożku zyskuje $38\%$ redukcji oporu, podczas gdy kolarz jadący bezpośrednio za kołem zyskuje tylko $12\%$! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #678** (`lib/ui/widgets/echelon_vortex_cone_visualizer_3d.dart`): Rozbuduj tryb `Aero Vision` w 3D o wizualizację przesuniętego na wietrze bocznym stożka cienia aerodynamicznego `EchelonVortexConeVisualizer3d` (zielona strefa optymalnego schowania się w wachlarzu vs czerwona strefa ekspozycji w rynsztoku). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #679** (`lib/services/career/junior_development_loan_system_service.dart`): Zbuduj system wypożyczania młodych talentów do zaprzyjaźnionych drużyn ProTeam i Continental `JuniorDevelopmentLoanSystemService`: jeśli w 28-osobowej kadrze WorldTour brakuje miejsc startowych dla 19-letniego juniora, możesz wypożyczyć go na 1 sezon do ekipy ProTeam (z opcją natychmiastowego ściągnięcia w razie plagi kontuzji), gdzie nabierze doświadczenia wyścigowego i podniesie swoje statystyki szybciej niż na ławce rezerwowych. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #680** (`lib/ui/widgets/rider_loan_management_modal.dart`): Stwórz okno zarządzania wypożyczeniami młodych kolarzy `RiderLoanManagementModal` pokazujące listę klubów partnerskich, gwarantowaną liczbę dni wyścigowych dla juniora oraz podział pokrycia pensji. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #681** (`lib/engine/events/spectator_dog_and_vehicle_obstruction_events.dart`): Dodaj rzadkie, dramatyczne zdarzenia losowe na trasie `SpectatorDogAndVehicleObstructionEvents`: wtargnięcie psa kibica na szosę (wymagające gwałtownego ominięcia przez kolarzy z wysokim `bikeHandling`), zablokowanie wąskiej górskiej drogi przez wóz telewizyjny na stromym podjeździe (zmuszające lidera do wypięcia buta z pedału i biegu pod górę w stylu słynnego incydentu na Mont Ventoux!) oraz decyzja sędziów o neutralizacji straty czasowej! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #682** (`lib/engine/rendering3d/rider_running_uphill_incident_3d.dart`): Zaimplementuj w silniku 3D dramatyczną animację awaryjną `RiderRunningUphillIncident3d`: w przypadku zablokowania trasy przez wóz TV lub poważnej kraksy na podjeździe bez wolnego roweru technicznego, kolarz zeskakuje i biegnie pod górę w butach kolarskich w oczekiwaniu na zapasowy rower z dachu wozu drużynowego! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #683** (`lib/services/career/pre_season_wind_tunnel_camp_event.dart`): Zbuduj coroczny grudniowy obóz aerodynamiczny w tunelu i na torze `PreSeasonWindTunnelCampEvent` (np. *Silverstone Sports Engineering Hub* lub *A2 Wind Tunnel*): możliwość przetestowania 3 różnych pozycji na czasówce, nowych kasków i kombinezonów dla 6 kluczowych zawodników przed rozpoczęciem sezonu, trwale obniżając ich bazowe $CdA$ na cały rok! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #684** (`lib/ui/screens/winter_wind_tunnel_camp_screen.dart`): Stwórz ekran Grudniowego Obozu Aerodynamicznego `WinterWindTunnelCampScreen` z interaktywnym doborem zawodników do sesji testowych, pomiarami oporu w Newtonach przy $50\text{ km/h}$ i raportem zaoszczędzonych watów. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #685** (`lib/engine/physics/brake_rotor_heat_and_fade_descent_solver.dart`): Zbuduj zaawansowaną fizykę hamulców tarczowych na długich, technicznych zjazdach alpejskich `BrakeRotorHeatAndFadeDescentSolver`: wyliczanie temperatury tarcz hamulcowych ($140\text{ mm}$ vs $160\text{ mm}$) podczas gwałtownych dohamowań przed serpentynami z $85\text{ km/h}$ do $25\text{ km/h}$ — przegrzanie tarcz powyżej $450^\circ\text{C}$ powoduje chwilowy spadek siły hamowania (`Brake Fade`) i wydłuża drogę hamowania przed nawrotem! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #686** (`lib/engine/rendering3d/glowing_brake_rotors_and_tire_smoke_3d.dart`): Dodaj do renderera 3D subtelny efekt wizualny nagrzanych tarcz hamulcowych (delikatna czerwona poświata przy ekstremalnym hamowaniu przed nawrotem $180^\circ$) oraz krótki ślad dymu i pisk zblokowanej tylnej opony przy awaryjnym hamowaniu na zjeździe! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #687** (`lib/services/career/team_sponsor_hospitality_vip_events.dart`): Zbuduj system obsługi gości VIP sponsora na najważniejszych etapach `TeamSponsorHospitalityVipEvents`: zaproszenie prezesów sponsorów do strefy VIP na mecie *Paris-Roubaix* lub *Champs-Élysées*, przejażdżka w drugim wozie technicznym za peletonem i wpływ udanej gościnności na przedłużenie wieloletniego kontraktu sponsorskiego. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #688** (`lib/ui/widgets/vip_hospitality_guest_card_modal.dart`): Stwórz modal zaproszenia gości VIP sponsora na wyścig `VipHospitalityGuestCardModal` z wyborem atrakcji (przejazd w wozie dyrektora sportowego, spotkanie z liderem w autobusie po etapie, pamiątkowa koszulka z autografami) i bonusem do relacji ze sponsorem. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #689** (`lib/engine/peloton/breakaway_alliance_pact_betrayal_ai.dart`): Rozbuduj logikę ucieczki dnia o dynamiczne mikro-pakty między uciekinierami `BreakawayAlliancePactBetrayalAi`: na $15\text{ km}$ przed metą dwaj najsilniejsi uciekinierzy mogą zawrzeć pakt *„Współpracujemy do 1 km przed metą, żeby peleton nas nie złapał”*, z analizą wiarygodności partnera na podstawie jego dotychczasowej reputacji w peletonie! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #690** (`lib/ui/widgets/breakaway_cooperation_trust_meter_hud.dart`): Dodaj w widoku ucieczki dnia wskaźnik współpracy grupy `BreakawayCooperationTrustMeterHud` pokazujący procentowy wkład każdego uciekiniera w prowadzenie (np. `Kolarz A: 42% zmian, Kolarz B: 40% zmian, Kolarz C: 18% — Oszczędza siły!`). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #691** (`lib/services/career/career_save_cloud_qr_code_transfer.dart`): Stwórz generator i skaner kodów QR / kompaktowych tokenów Base64 `CareerSaveCloudQrCodeTransfer` pozwalający przenieść profil swojego kolarza z trybu *Be a Pro* lub wyścigowy skład swojej drużyny między komputerem a telefonem w ułamku sekundy! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #692** (`lib/ui/widgets/qr_roster_share_card_modal.dart`): Zbuduj elegancki modal udostępniania składu drużyny i profilu kolarza `QrRosterShareCardModal` z generowaną kartą wizytówką zespołu, statystykami OVR i kodem transferowym do schowka. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #693** (`lib/engine/rendering3d/dynamic_puddle_splash_and_tire_spray_3d.dart`): Udoskonal efekty wodne na mokrej szosie `DynamicPuddleSplashAndTireSpray3d`: kałuże na poboczu asfaltu, po wjechaniu w które koła kolarza wzbijają w powietrze dynamiczny pióropusz kropel wody, moczący jadących bezpośrednio na kole rywali i obniżający ich komfort termiczny! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #694** (`lib/services/career/end_of_season_contract_extension_window.dart`): Zbuduj dedykowane okno negocjacji przedłużeń kontraktów we wrześniu `EndOfSeasonContractExtensionWindow`: przegląd wszystkich zawodników i członków sztabu, którym wygasają umowy 31 grudnia, z automatycznym powiadomieniem, które inne ekipy WorldTour złożyły im już wstępne oferty! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #695** (`lib/ui/screens/contract_renewals_war_room_screen.dart`): Stwórz ekran Centrum Przedłużeń Kontraktów `ContractRenewalsWarRoomScreen` z podziałem na priorytety (Liderzy, Kluczowi Pomocnicy, Młode Talenty U23), prognozą budżetu płacowego na kolejny sezon i przyciskiem natychmiastowych negocjacji. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #696** (`lib/engine/physics/rider_center_of_mass_and_corner_lean_angle.dart`): Dopracuj fizykę pochylania roweru w szybkich łukach i serpentynach `RiderCenterOfMassAndCornerLeanAngle`: dokładne wyliczanie kąta przechyłu $\theta_{lean} = \arctan\left(\frac{v^2}{g \cdot R}\right)$ (do $42^\circ$ na suchym asfalcie!) wraz z balansowaniem ciałem kolarza ("wystawienie kolana do wewnątrz zakrętu") dla maksymalnej stabilności. Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #697** (`lib/ui/widgets/corner_g_force_and_lean_angle_telemetry_hud.dart`): Dodaj opcjonalny wskaźnik przeciążenia bocznego i kąta przechyłu w zakręcie `CornerGForceAndLeanAngleTelemetryHud` w trybie kamery z kierownicy (`OnBoard Action Cam`) i First-Person Cockpit! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #698** (`lib/services/career/historical_grand_tour_winners_timeline_db.dart`): Zbuduj pełną wieloletnią bazę zwycięzców wszystkich Wielkich Tourów, Monumentów i Mistrzostw Świata od roku startu kariery `HistoricalGrandTourWinnersTimelineDb`, z filtrowaniem po kraju, drużynie i kolarzu oraz automatycznym oznaczaniem zdobywców tzw. *Potrójnej Korony Kolarstwa* (Giro + Tour + Mistrzostwo Świata w jednym roku!). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #699** (`lib/ui/widgets/triple_crown_legend_trophy_banner.dart`): Stwórz specjalny złoto-tęczowy baner gratulacyjny `TripleCrownLegendTrophyBanner`, gdy kolarz prowadzony przez gracza zdobędzie historyczną *Potrójną Koronę Kolarstwa* w jednym sezonie! Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #700** (`test/americas_oceania_altitude_heat_test.dart`): Napisz test jednostkowy `americas_oceania_altitude_heat_test.dart` weryfikujący fizjologię wspinaczki powyżej $3000\text{ m n.p.m.}$ w Andach (*Alto del Colorado*) oraz upałów $42^\circ\text{C}$ na *Tour Down Under*. Zweryfikuj przez `flutter test`.
+- [ ] **Zadanie #701** (`test/uci_technical_scrutiny_and_cas_test.dart`): Napisz test `uci_technical_scrutiny_and_cas_test.dart` sprawdzający działanie skanerów technicznych UCI przed czasówką, wykrywanie nieregulaminowego kąta klamek/wysokości skarpetek oraz procedurę odwoławczą przed Trybunałem CAS. Zweryfikuj przez `flutter test`.
+- [ ] **Zadanie #702** (`test/grand_tour_nightly_hrv_and_physio_test.dart`): Napisz test `grand_tour_nightly_hrv_and_physio_test.dart` weryfikujący zmiany nocnego HRV, kinazy kreatynowej CK oraz skuteczność przydziału fizjoterapeutów i lotów czarterowych w 3-tygodniowym Grand Tourze. Zweryfikuj przez `flutter test`.
+- [ ] **Zadanie #703** (`test/tv_director_mode_and_brake_fade_test.dart`): Napisz test `tv_director_mode_and_brake_fade_test.dart` sprawdzający przełączanie 12 kamer w trybie Reżysera Transmisji TV, obliczanie oglądalności oraz termikę tarcz hamulcowych na alpejskich zjazdach. Zweryfikuj przez `flutter test`.
+- [ ] **Zadanie #704** (`test/crosswind_vortex_cone_and_loan_system_test.dart`): Napisz test `crosswind_vortex_cone_and_loan_system_test.dart` weryfikujący przesunięty stożek draftingu w wachlarzu na wietrze bocznym oraz system wypożyczania juniorów do ekip ProTeam. Zweryfikuj przez `flutter test`.
+- [ ] **Zadanie #705** (`lib/core/diagnostics/save_compatibility_v10_migrator.dart`): Rozbuduj migrator zapisów gry `SaveCompatibilityV10Migrator` o bezstratną obsługę wszystkich struktur z Paczki #10 (`AmericasAndOceaniaToursModel`, `TechnicalScrutinyAndCasTribunalModel`, `GrandTourNightlyHrvAndPhysioModel`, `TvDirectorLiveProductionModel` oraz bazy Potrójnej Korony). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #706** (`lib/core/router/app_router.dart`): Zintegruj w `AppRouter` oraz `MainShellScreen` wszystkie nowe ekrany z Paczki #10 (Reżyserka Transmisji TV na Żywo, Poranny Raport Medyczny i Fizjoterapia Grand Touru, Grudniowy Obóz Aerodynamiczny, Muzeum Klubowe Rowerów oraz Centrum Przedłużeń Kontraktów). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #707** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnij słownik lokalizacyjny `PL` i `EN` o wszystkie nowe terminy z Paczki #10 (Santos Tour Down Under, Alto del Colorado, Technical Scrutiny X-Ray, Nightly HRV/CK, TV Broadcast Director, OnBoard Action Cam, Brake Fade, Triple Crown). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #708** (`docs/CODE_MAP.md`): Przeprowadź pełną indeksację pliku `docs/CODE_MAP.md` obejmującą wszystkie 712 zadań, drzewo plików, główne providery Riverpod i trasy `GoRouter`.
+- [ ] **Zadanie #709** (`docs/COMPLETE_GAME_MANUAL_712.md`): Wygeneruj kompletną encyklopedię i instrukcję po wszystkich trybach rozgrywki, systemach fizycznych, biologicznych i taktycznych **Pro Peloton Manager** (`docs/COMPLETE_GAME_MANUAL_712.md`).
+- [ ] **Zadanie #710** (`lib/core/diagnostics/performance_and_memory_712_profiler.dart`): Przeprowadź pełny audyt wydajności 120 FPS i zarządzania pamięcią RAM we wszystkich trybach (WorldTour, Be a Pro, Cyclo-Cross, Welodrom, Gravel, MTB XCO, Ultra-Endurance, Retro 1970, e-Sports, Para-Cycling oraz Tryb Reżysera TV). Zweryfikuj przez `flutter analyze`.
+- [ ] **Zadanie #711** (`lib/core/diagnostics/zero_warnings_712_lint_gate.dart`): Uruchom rygorystyczną bramkę jakości `flutter analyze --fatal-infos` oraz testy renderowania UI na wszystkich rozdzielczościach (`390x844`, `1024x768`, `1600x900`) do uzyskania czystego wyniku `No issues found!`.
+- [ ] **Zadanie #712** (`lib/core/diagnostics/titanium_imperial_712_certification_suite.dart`): Stwórz ostateczny pakiet certyfikacji **TITANIUM IMPERIAL v5.0 (`TitaniumImperial712CertificationSuite`)** uruchamiający w jednej komendzie pełny zestaw wszystkich testów jednostkowych, fizycznych, symulacyjnych, UI i serializacji dla **wszystkich 712 zadań**, potwierdzający 100% produkcyjną gotowość gry na Windows, macOS, Android oraz iOS.
