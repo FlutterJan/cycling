@@ -141,6 +141,7 @@
 - `lib/engine/rendering3d/support_vehicles_3d_renderer.dart` — Samochody techniczne, motocykle kamerzystów i helikopter.
 - `lib/engine/rendering3d/tv_helicopter_sky_renderer.dart` — Renderer 3D helikoptera telewizyjnego krążącego nad czołem wyścigu (`TvHelicopterSkyRenderer`, `TvHelicopterSkyPainter`, `TvHelicopterTelemetryControlPanel`, `TvHelicopterFlightMode`, `TvHelicopterState`, `HelicopterRoadShadowGeometry`, `HelicopterTreeSwayDisplacement`: obracający się wirnik, kamera żyroskopowa Cineflex na dziobie, cień na szosie i podmuch wiatru poruszający korony drzew).
 - `lib/engine/rendering3d/weather_particles_renderer.dart` — Cząsteczki deszczu, śniegu i kurzu.
+- `lib/engine/rendering3d/wet_asphalt_reflections_painter.dart` — Painter mokrego asfaltu (`WetAsphaltReflectionsPainter`, `WetAsphaltSurfaceState`, `WetAsphaltPuddle`, `PelotonTireRutTracker`, `WetAsphaltReflectionsControlPanel`): ciemniejsza nawierzchnia, kałuże z falami, lustrzane odbicia sylwetek/koszulek kolarzy i suche koleiny peletonu.
 - `lib/engine/rendering3d/wheel_and_drivetrain_rotator.dart` — Animacja mechaniczna kół z motion blur (>40 km/h), tarczy korby wg RPM oraz wózka tylnej przerzutki wg przełożenia (`WheelAndDrivetrainRotator`, `DrivetrainConfig`, `DrivetrainGearSelection`, `WheelMotionBlurProfile`, `RearDerailleurKinematics`, `WheelAndDrivetrainFrameState`).
 - `lib/engine/rendering3d/wind_streamlines_visualizer.dart` — Linie strug wiatru w trybie taktycznym/tunelu.
 - `lib/engine/simulation/isolate_simulation_worker.dart` — Wątek Isolate wykonujący ticki fizyki w tle.
