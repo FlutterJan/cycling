@@ -548,7 +548,7 @@ Zasady działania pętli:
 
   2. Nachyloną pochylnię zjazdową z antypoślizgowym pasem, stojak startowy przytrzymujący tylne koło roweru TT oraz bramkę elektronicznego zegara odliczającego z diodami LED (czerwona, żółta, zielona). Wyeksportuj do `.glb`.
 
-- [ ] **Zadanie #179** (`blender_scripts/generate_podium_and_trophies.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenę dekoracji po etapie (`assets/3d/environment/podium_stage.glb`) oraz zestaw 4 prestiżowych trofeów kolarskich (`assets/3d/environment/trophies_pack.glb`):
+- [x] **Zadanie #179** (`blender_scripts/generate_podium_and_trophies.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenę dekoracji po etapie (`assets/3d/environment/podium_stage.glb`) oraz zestaw 4 prestiżowych trofeów kolarskich (`assets/3d/environment/trophies_pack.glb`):
 
   1. Trzystopniowe podium ze ścianką sponsorską, schodkami i reflektorami scenicznymi.
 
