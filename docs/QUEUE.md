@@ -702,7 +702,7 @@ Zasady działania pętli:
 
   3. Integrację tego strumienia wiadomości z dedykowanym widgetem `CyclingNewsFeedWidget` w ekranie głównym `DashboardHqScreen`. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #198** (`lib/ui/widgets/pro_cycling_stats_table_widget.dart`): Stwórz komponent tabeli danych `ProCyclingStatsTableWidget` wzorowany na kultowym portalu *ProCyclingStats (PCS)*, używany do prezentacji wyników, list startowych i statystyk kolarzy. Zaimplementuj:
+- [x] **Zadanie #198** (`lib/ui/widgets/pro_cycling_stats_table_widget.dart`): Stwórz komponent tabeli danych `ProCyclingStatsTableWidget` wzorowany na kultowym portalu *ProCyclingStats (PCS)*, używany do prezentacji wyników, list startowych i statystyk kolarzy. Zaimplementuj:
 
   1. Ultraczytelną, kompaktową tabelę o wysokim kontraście w ciemnym motywie: flaga kraju (rysowana wektorowo lub z kodu ISO), nazwisko pogrubione + imię, klikalna nazwa drużyny w jej kolorach, wiek, specjalizacja z kolorowym znacznikiem punktowym (zielony = sprint, czerwony = góry, niebieski = TT, pomarańczowy = bruk) oraz kolumny czasów/punktów.
 
