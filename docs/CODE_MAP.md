@@ -193,7 +193,7 @@
 - `lib/ui/screens/pre_race_briefing_screen.dart` — Odprawa przedstartowa i wybór składu.
 - `lib/ui/screens/quick_race_sandbox_screen.dart` — Szybki Wyścig / Laboratorium Taktyczne Sandbox 3D (`QuickRaceSandboxScreen`).
 - `lib/ui/screens/race_3d_viewport_widget.dart` — Główny viewport 3D wyścigu.
-- `lib/ui/screens/race_hud_overlay.dart` — Warstwa HUD na ekranie wyścigu 3D.
+- `lib/ui/screens/race_hud_overlay.dart` — Warstwa HUD 3D w stylu ASO Broadcast / Zwift (`RaceHudOverlay`, 8 kart kolarzy, Flamme Rouge, `GroupGapsChalkboardWidget`, `OnBikeComputerHudWidget`, `TacticalMinimap2dWidget`, `RiderEffortSliderControl`, `TeamTacticalPresetsBar`, Aero Vision Mode).
 - `lib/ui/screens/race_simulation_screen.dart` — Ekran wyścigu łączący 3D viewport, HUD i kontrolki.
 - `lib/ui/screens/rider_detail_screen.dart` — Szczegółowy profil kolarza i statystyki.
 - `lib/ui/screens/settings_and_mod_screen.dart` — Ustawienia gry i import modów.
@@ -234,4 +234,4 @@
 
 ### `blender_scripts/` & `test/`
 - `blender_scripts/build_all_assets_master.py` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz odpowiadające `test_*.py` — Generator assetów 3D `.glb` w Blenderze.
-- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.
+- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.

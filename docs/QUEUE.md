@@ -493,7 +493,7 @@ Zasady działania pętli:
 
   3. Funkcję `simulateUntilNextStop()`, która pozwala płynnie przewijać dni w kalendarzu (z animowanym licznikiem daty), zatrzymując się automatycznie przed ważnym mailem decyzyjnym, ofertą transferową lub dniem startu wyścigu. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #173** (`lib/ui/screens/race_hud_overlay.dart`): Przebuduj i ulepsz `RaceHudOverlay`, aby wyglądał jak połączenie oficjalnej oprawy telewizyjnej Tour de France (styl ASO Broadcast Graphics) oraz interfejsu Zwift/MyWhoosh. Zaimplementuj:
+- [x] **Zadanie #173** (`lib/ui/screens/race_hud_overlay.dart`): Przebuduj i ulepsz `RaceHudOverlay`, aby wyglądał jak połączenie oficjalnej oprawy telewizyjnej Tour de France (styl ASO Broadcast Graphics) oraz interfejsu Zwift/MyWhoosh. Zaimplementuj:
 
   1. Lewy Panel Kolarzy Drużyny (8 kompaktowych, szklanych kart): na każdej karcie portret kolarza, numer startowy, aktualna pozycja w wyścigu (np. `14.`), aktualne przełożenie, waty i $\text{W/kg}$ (z kolorowym tłem strefy mocy Z1–Z7), tętno bpm, dwa precyzyjne paski energii (żółty glikogen i czerwony beztlenowy $W'$), ikony pozostałych bidonów i żeli oraz ikona aktywnego rozkazu. Kliknięcie karty przełącza kamerę 3D na tego kolarza i rozwija jego panel rozkazów.
 

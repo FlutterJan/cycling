@@ -422,6 +422,13 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
         _currentSelectedRiderId = widget.selectedRiderId;
       });
     }
+    if (widget.initialAeroVision != oldWidget.initialAeroVision &&
+        widget.initialAeroVision != _isAeroVisionActive) {
+      setState(() {
+        _isAeroVisionActive = widget.initialAeroVision;
+        _windVisualizer.setAeroVisionActive(_isAeroVisionActive);
+      });
+    }
   }
 
   @override
