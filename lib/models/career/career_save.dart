@@ -547,14 +547,16 @@ class CareerSave {
       currentDate: DateTime.parse(json['currentDate'] as String),
       currentSeasonYear: (json['currentSeasonYear'] as num).toInt(),
       calendar: SeasonCalendar.fromJson(json['calendar'] as Map<String, dynamic>),
-      teams: (json['teams'] as List<dynamic>)
-          .map((e) => CyclingTeam.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      riders: (json['riders'] as List<dynamic>)
-          .map((e) => Rider.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      teams: (json['teams'] as List<dynamic>?)
+              ?.map((e) => CyclingTeam.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      riders: (json['riders'] as List<dynamic>?)
+              ?.map((e) => Rider.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       scoutedRiderIds: (json['scoutedRiderIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) => e.toString())
               .toList() ??
           const [],
       contractOffers: (json['contractOffers'] as List<dynamic>?)

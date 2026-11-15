@@ -204,9 +204,10 @@ class DedicatedSquad {
       id: json['id'] as String,
       name: json['name'] as String,
       leaderRiderId: json['leaderRiderId'] as String,
-      domestiqueRiderIds: (json['domestiqueRiderIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      domestiqueRiderIds: (json['domestiqueRiderIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
       targetSeasonObjective: json['targetSeasonObjective'] as String,
       sharedRacesCount: (json['sharedRacesCount'] as num?)?.toInt() ?? 0,
       sharedStagesCount: (json['sharedStagesCount'] as num?)?.toInt() ?? 0,

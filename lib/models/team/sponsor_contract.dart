@@ -226,9 +226,10 @@ class SponsorContract {
       annualBudgetEur: (json['annualBudgetEur'] as num).toInt(),
       contractDurationYears: (json['contractDurationYears'] as num).toInt(),
       sponsorSatisfaction: (json['sponsorSatisfaction'] as num).toDouble(),
-      objectives: (json['objectives'] as List<dynamic>)
-          .map((e) => SponsorObjective.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      objectives: (json['objectives'] as List<dynamic>?)
+              ?.map((e) => SponsorObjective.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
   }
 

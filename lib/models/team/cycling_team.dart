@@ -254,17 +254,20 @@ class CyclingTeam {
       cashBalanceEur: (json['cashBalanceEur'] as num).toInt(),
       monthlyBurnRateEur: (json['monthlyBurnRateEur'] as num).toInt(),
       uciPointsSeason: (json['uciPointsSeason'] as num).toInt(),
-      rosterRiderIds: (json['rosterRiderIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      rosterRiderIds: (json['rosterRiderIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
       staff: TeamStaff.fromJson(json['staff'] as Map<String, dynamic>),
       bikeDeal: BikeManufacturerDeal.fromJson(json['bikeDeal'] as Map<String, dynamic>),
-      sponsors: (json['sponsors'] as List<dynamic>)
-          .map((e) => SponsorContract.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inventoryBikes: (json['inventoryBikes'] as List<dynamic>)
-          .map((e) => CompleteBike.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      sponsors: (json['sponsors'] as List<dynamic>?)
+              ?.map((e) => SponsorContract.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      inventoryBikes: (json['inventoryBikes'] as List<dynamic>?)
+              ?.map((e) => CompleteBike.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
   }
 

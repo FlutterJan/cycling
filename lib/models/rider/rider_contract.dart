@@ -122,9 +122,10 @@ class RiderContract {
       contractEndYear: (json['contractEndYear'] as num).toInt(),
       morale: (json['morale'] as num).toDouble(),
       leaderLoyalty: (json['leaderLoyalty'] as num).toDouble(),
-      requiredRacesIds: (json['requiredRacesIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      requiredRacesIds: (json['requiredRacesIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
     );
   }
 

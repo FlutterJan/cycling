@@ -156,9 +156,10 @@ class RaceStage {
       stageNumber: (json['stageNumber'] as num).toInt(),
       name: json['name'] as String,
       stageType: StageType.fromJson(json['stageType'] as String),
-      segments: (json['segments'] as List<dynamic>)
-          .map((e) => StageSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      segments: (json['segments'] as List<dynamic>?)
+              ?.map((e) => StageSegment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       baseTemperatureCelsius: (json['baseTemperatureCelsius'] as num).toDouble(),
       weatherCondition: WeatherCondition.fromJson(json['weatherCondition'] as String),
       windSpeedKmh: (json['windSpeedKmh'] as num).toDouble(),

@@ -87,12 +87,14 @@ class BikeManufacturerDeal {
       annualCashContributionEur: (json['annualCashContributionEur'] as num).toInt(),
       freeBikesQuota: (json['freeBikesQuota'] as num).toInt(),
       researchAndDevelopmentLevel: (json['researchAndDevelopmentLevel'] as num).toInt(),
-      suppliedFrameIds: (json['suppliedFrameIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      suppliedWheelsetIds: (json['suppliedWheelsetIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      suppliedFrameIds: (json['suppliedFrameIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      suppliedWheelsetIds: (json['suppliedWheelsetIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
       contractYearsLeft: (json['contractYearsLeft'] as num).toInt(),
       minimumUciRankingRequired: (json['minimumUciRankingRequired'] as num).toInt(),
     );

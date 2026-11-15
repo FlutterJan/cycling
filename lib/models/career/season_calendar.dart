@@ -298,9 +298,10 @@ class SeasonCalendar {
   factory SeasonCalendar.fromJson(Map<String, dynamic> json) {
     return SeasonCalendar(
       seasonYear: (json['seasonYear'] as num).toInt(),
-      races: (json['races'] as List<dynamic>)
-          .map((e) => TourRace.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      races: (json['races'] as List<dynamic>?)
+              ?.map((e) => TourRace.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       currentRaceIndex: (json['currentRaceIndex'] as num?)?.toInt() ?? 0,
       activeRaceId: json['activeRaceId'] as String?,
       activeStageIndex: (json['activeStageIndex'] as num?)?.toInt() ?? 0,

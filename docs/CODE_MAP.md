@@ -61,6 +61,7 @@
 - `lib/core/utils/windows_desktop_window_config.dart` — Konfiguracja okna Desktop (`WindowsDesktopWindowConfig`, `DesktopResponsiveScaler`, `DesktopWindowStatusBar`, `DesktopWindowController`, `desktopWindowProvider`: skalowanie 720p–4K, `F11` pełny ekran, obciążenie fizyki Isolate, `Screenshot Mode` `F12`).
 
 ### `lib/models/`
+- `lib/models/model_serialization_audit.dart` — Walidator serializacji JSON wszystkich modeli świata gry (`ModelSerializationAudit`, `ModelAuditReport`, `ModelAuditIssue`).
 - `lib/models/career/career_save.dart` — Model pełnego zapisu kariery.
 - `lib/models/career/recovery_protocol_system.dart` — Protokoły regeneracji i zabiegi medyczne.
 - `lib/models/career/season_calendar.dart` — Kalendarz wyścigów WorldTour/ProSeries/GT.

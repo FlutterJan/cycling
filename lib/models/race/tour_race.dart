@@ -349,17 +349,27 @@ class TourRace {
       uciCategory: RaceCategory.fromJson(json['uciCategory'] as String),
       startMonth: (json['startMonth'] as num).toInt(),
       startDay: (json['startDay'] as num).toInt(),
-      stages: (json['stages'] as List<dynamic>)
-          .map((e) => RaceStage.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      stages: (json['stages'] as List<dynamic>?)
+              ?.map((e) => RaceStage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       prizePoolEur: (json['prizePoolEur'] as num).toInt(),
-      participatingTeamIds: (json['participatingTeamIds'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      participatingTeamIds: (json['participatingTeamIds'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
       ridersPerTeam: (json['ridersPerTeam'] as num).toInt(),
-      classifications: RaceClassifications.fromJson(
-        json['classifications'] as Map<String, dynamic>,
-      ),
+      classifications: json['classifications'] != null
+          ? RaceClassifications.fromJson(
+              json['classifications'] as Map<String, dynamic>,
+            )
+          : const RaceClassifications(
+              generalClassification: [],
+              pointsClassification: [],
+              mountainsClassification: [],
+              youthClassification: [],
+              teamClassification: [],
+            ),
     );
   }
 
