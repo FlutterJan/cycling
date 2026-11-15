@@ -5,8 +5,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pro_peloton_manager/engine/rendering3d/broadcast_tv_graphics_overlay.dart';
+import 'package:pro_peloton_manager/engine/simulation/key_moments_detector.dart';
 import 'package:pro_peloton_manager/models/race/race_stage.dart';
 import 'package:pro_peloton_manager/models/race/stage_segment.dart';
+import 'package:pro_peloton_manager/state/race_simulation_notifier.dart';
 import 'package:pro_peloton_manager/ui/screens/race_3d_viewport_widget.dart';
 
 void main() {
@@ -313,6 +316,101 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.text('PHOTO FINISH REPLAY'), findsNothing);
+    });
+
+    testWidgets('responsywność LayoutBuilder bez przepełnień dla 390x844, 1024x768 i 1600x900', (tester) async {
+      for (final size in const <Size>[
+        Size(390, 844),
+        Size(1024, 768),
+        Size(1600, 900),
+      ]) {
+        tester.view.physicalSize = size;
+        tester.view.devicePixelRatio = 1.0;
+
+        await tester.pumpWidget(
+          ProviderScope(
+            child: MaterialApp(
+              home: Scaffold(
+                body: SizedBox(
+                  width: size.width,
+                  height: size.height,
+                  child: const Race3DViewportWidget(),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 32));
+
+        expect(find.text('LIVE BROADCAST 3D'), findsOneWidget);
+        if (size.width >= 600) {
+          expect(find.byType(BroadcastTvGraphicsOverlay), findsOneWidget);
+        }
+      }
+
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    testWidgets('KeyMomentsDetector wyzwala płynne przejście kamery na helikopter przy ataku GC', (tester) async {
+      tester.view.physicalSize = const Size(1600, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      const attackTrigger = KeyMomentTrigger(
+        type: KeyMomentType.gcLeaderAttack,
+        kilometerMark: 142.5,
+        title: 'DECYDUJĄCY ATAK FAWORYTA GC!',
+        description: 'Atak na podjeździe Hors Categorie!',
+        shouldSwitchTo3d: true,
+        recommendedCameraMode: 'helicopter',
+        relatedRiderId: 'demo_leader',
+        triggerKey: 'gc_attack_test_1',
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          activeKeyMomentProvider.overrideWithValue(null),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      ViewportCameraMode? changedMode;
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SizedBox(
+                width: 1600,
+                height: 900,
+                child: Race3DViewportWidget(
+                  initialCameraMode: ViewportCameraMode.chasePlayerRider,
+                  onCameraModeChanged: (mode) => changedMode = mode,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 32));
+
+      // Wyzwolenie kluczowego momentu z KeyMomentsDetector
+      container.updateOverrides([
+        activeKeyMomentProvider.overrideWithValue(attackTrigger),
+      ]);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 64));
+
+      expect(changedMode, equals(ViewportCameraMode.droneOverhead));
+      expect(find.text('• DRON PELETONU'), findsOneWidget);
+      expect(find.text('DECYDUJĄCY ATAK FAWORYTA GC!'), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 5));
     });
   });
 }

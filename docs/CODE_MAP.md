@@ -205,7 +205,7 @@
 - `lib/ui/screens/pre_race_briefing_screen.dart` — Odprawa przedstartowa i wybór składu.
 - `lib/ui/screens/pre_season_team_presentation_screen.dart` — Gala Prezentacji Zespołu przed sezonem (`PreSeasonTeamPresentationScreen`, `SeasonLeaderRole`, `RosterMovementEntry`, `_GalaStageSpotlightPainter`): scena z reflektorami, 3 liderów, rower, zmiany kadrowe, numery/role i start sezonu.
 - `lib/ui/screens/quick_race_sandbox_screen.dart` — Szybki Wyścig / Laboratorium Taktyczne Sandbox 3D (`QuickRaceSandboxScreen`).
-- `lib/ui/screens/race_3d_viewport_widget.dart` — Główny viewport 3D wyścigu.
+- `lib/ui/screens/race_3d_viewport_widget.dart` — Główny viewport 3D wyścigu (`Race3DViewportWidget`, `ViewportCameraMode`, `_AtmosphericOverlayPainter`) integrujący `Peloton3dCanvasEngine`, `DynamicSkyboxAndLightingPainter`, `BoidsSteeringCollisionAvoidance`, `BroadcastTvGraphicsOverlay`, raycasting ze złotym pierścieniem `#D4AF37` i filmowe przejścia kamer `KeyMomentsDetector`.
 - `lib/ui/screens/race_hud_overlay.dart` — Warstwa HUD 3D w stylu ASO Broadcast / Zwift (`RaceHudOverlay`, 8 kart kolarzy, Flamme Rouge, `GroupGapsChalkboardWidget`, `OnBikeComputerHudWidget`, `TacticalMinimap2dWidget`, `RiderEffortSliderControl`, `TeamTacticalPresetsBar`, Aero Vision Mode).
 - `lib/ui/screens/race_simulation_screen.dart` — Ekran wyścigu łączący 3D viewport, HUD i kontrolki.
 - `lib/ui/screens/rider_detail_screen.dart` — Szczegółowy profil kolarza i statystyki.

@@ -15,6 +15,7 @@ import '../../state/race_simulation_notifier.dart';
 import '../peloton/boids_steering_collision_avoidance.dart';
 import '../peloton/rider_race_state.dart';
 import 'camera_rig_controller.dart';
+import 'dynamic_skybox_and_lighting_painter.dart';
 import 'scene_3d_math_projection.dart';
 
 /// Profil stożka karbonowego koła szosowego lub czasowego.
@@ -355,6 +356,21 @@ class _PropQueueItem {
   });
 }
 
+/// Wynik rzutowania pozycji kolarza 3D na współrzędne ekranowe 2D na potrzeby Raycastingu / Hit-testingu.
+class Peloton3dProjectedRiderHit {
+  final String riderId;
+  final Offset screenCenter;
+  final double hitRadius;
+  final double cameraDepth;
+
+  const Peloton3dProjectedRiderHit({
+    required this.riderId,
+    required this.screenCenter,
+    required this.hitRadius,
+    required this.cameraDepth,
+  });
+}
+
 /// Natywny, ultrawydajny silnik renderowania 3D na Canvasie Fluttera (120 FPS).
 ///
 /// Zapewnia pełne trójwymiarowe renderowanie wyścigu kolarskiego z wykorzystaniem
@@ -381,6 +397,10 @@ class Peloton3dCanvasEngine {
   // Kolejki sortowane back-to-front (Zero-GC reuse)
   final List<_RiderQueueItem> _riderQueue = <_RiderQueueItem>[];
   final List<_PropQueueItem> _propQueue = <_PropQueueItem>[];
+  final List<Peloton3dProjectedRiderHit> _projectedHits = <Peloton3dProjectedRiderHit>[];
+
+  /// Identyfikator aktualnie wybranego kolarza (podświetlany złotym pierścieniem taktycznym #D4AF37).
+  String? selectedRiderId;
 
   // Statystyki ostatniej klatki
   Peloton3dFrameStats _lastStats = const Peloton3dFrameStats();
@@ -446,6 +466,24 @@ class Peloton3dCanvasEngine {
   /// Resetuje manualny obrót kamery do domyślnego kąta.
   void resetCameraOrbit() {
     cameraRig.resetManualOrbit();
+  }
+
+  /// Wykrywa kliknięcie 2D na kolarza wyrenderowanego w scenie 3D (Raycasting / Hit-testing).
+  String? hitTestRider(Offset tapPosition) {
+    String? bestRiderId;
+    double bestWeightedScore = double.infinity;
+
+    for (final hit in _projectedHits) {
+      final double dist = (hit.screenCenter - tapPosition).distance;
+      if (dist <= hit.hitRadius) {
+        final double weightedScore = dist + (hit.cameraDepth * 0.65);
+        if (weightedScore < bestWeightedScore) {
+          bestWeightedScore = weightedScore;
+          bestRiderId = hit.riderId;
+        }
+      }
+    }
+    return bestRiderId;
   }
 
   /// Ładuje domyślną trasę pokazową (alpejski etap z zakrętami, brukiem i metą).
@@ -959,7 +997,11 @@ class Peloton3dCanvasEngine {
   }
 
   /// Główna metoda renderująca całą scenę 3D na Canvas Fluttera w 120 FPS.
-  Peloton3dFrameStats render(Canvas canvas, Size size) {
+  Peloton3dFrameStats render(
+    Canvas canvas,
+    Size size, {
+    DynamicSkyboxAndLightingPainter? skyboxPainter,
+  }) {
     if (size.width <= 1.0 || size.height <= 1.0) return _lastStats;
 
     final Stopwatch paintSw = Stopwatch()..start();
@@ -985,8 +1027,23 @@ class Peloton3dCanvasEngine {
         ? projHorizon.screenY.clamp(size.height * 0.10, size.height * 0.84)
         : size.height * 0.40;
 
-    // 3. Niebo, tarcza słoneczna, pasmo górskie w paralaksie i podłoże doliny
-    _drawAtmosphereAndBackdrop(canvas, size, horizonY);
+    // 3. Niebo (DynamicSkyboxAndLightingPainter jeśli podany), pasmo górskie w paralaksie i podłoże doliny
+    if (skyboxPainter != null) {
+      final SunLightState sunState = DynamicSkyboxAndLightingPainter.computeSunLightState(
+        timeOfDay: skyboxPainter.timeOfDay,
+        weatherCondition: skyboxPainter.weatherCondition,
+        elapsedSeconds: skyboxPainter.elapsedSeconds,
+      );
+      skyboxPainter.renderSkybox(
+        canvas: canvas,
+        size: size,
+        horizonY: horizonY,
+        sunState: sunState,
+      );
+      _drawMountainRidgeAndGround(canvas, size, horizonY);
+    } else {
+      _drawAtmosphereAndBackdrop(canvas, size, horizonY);
+    }
 
     // 4. Trójwymiarowa wstęga drogi z asfaltem/brukiem, pasami ruchu i barierkami
     final int roadQuadsDrawn = _drawRoadRibbonAndGuardrails(canvas, size);
@@ -1053,6 +1110,13 @@ class Peloton3dCanvasEngine {
     );
     canvas.drawCircle(Offset(sunScreenX, sunScreenY), 95.0, _fillPaint);
     _fillPaint.shader = null;
+
+    _drawMountainRidgeAndGround(canvas, size, horizonY);
+  }
+
+  void _drawMountainRidgeAndGround(Canvas canvas, Size size, double horizonY) {
+    final double w = size.width;
+    final double h = size.height;
 
     // Pasmo górskie z cieniowaniem kierunkowym (paralaksa od obrotu kamery)
     final double yawOffset = math.atan2(
@@ -1646,6 +1710,7 @@ class Peloton3dCanvasEngine {
 
   _RiderRenderCounts _drawPelotonRiders(Canvas canvas) {
     _riderQueue.clear();
+    _projectedHits.clear();
     final Vector3 camPos = cameraRig.position;
     int culled = 0;
 
@@ -1696,6 +1761,18 @@ class Peloton3dCanvasEngine {
     int lod2 = 0;
 
     for (final item in _riderQueue) {
+      final pHit = projection.worldToScreen(item.worldPos + item.roadSample.normal * 0.72);
+      if (pHit.isInFrontOfCamera) {
+        _projectedHits.add(
+          Peloton3dProjectedRiderHit(
+            riderId: item.rider.riderId,
+            screenCenter: Offset(pHit.screenX, pHit.screenY),
+            hitRadius: (58.0 * pHit.perspectiveScale).clamp(28.0, 120.0),
+            cameraDepth: item.cameraDepth,
+          ),
+        );
+      }
+
       switch (item.lod) {
         case Peloton3dLod.full:
           lod0++;
@@ -1752,15 +1829,31 @@ class Peloton3dCanvasEngine {
       _fillPaint,
     );
 
-    if (r.isPlayerRider && config.enableSelectedHighlight) {
+    final bool isSelectedRider = r.riderId == selectedRiderId ||
+        (selectedRiderId == null && r.isPlayerRider);
+    if (config.enableSelectedHighlight && (isSelectedRider || r.isPlayerRider)) {
+      if (isSelectedRider) {
+        // Złoty pierścień taktyczny (#D4AF37) pod rowerem wybranego kolarza
+        _strokePaint
+          ..color = AppColors.goldAccent.withValues(alpha: 0.34)
+          ..strokeWidth = (4.4 * pContact.perspectiveScale).clamp(2.2, 7.5);
+        canvas.drawOval(
+          Rect.fromCenter(
+            center: Offset(pContact.screenX, pContact.screenY),
+            width: shadowW * 1.48,
+            height: shadowH * 1.58,
+          ),
+          _strokePaint,
+        );
+      }
       _strokePaint
-        ..color = AppColors.goldAccent.withValues(alpha: 0.72)
-        ..strokeWidth = (1.6 * pContact.perspectiveScale).clamp(1.0, 3.0);
+        ..color = AppColors.goldAccent.withValues(alpha: isSelectedRider ? 0.96 : 0.62)
+        ..strokeWidth = ((isSelectedRider ? 2.2 : 1.4) * pContact.perspectiveScale).clamp(1.1, 3.8);
       canvas.drawOval(
         Rect.fromCenter(
           center: Offset(pContact.screenX, pContact.screenY),
-          width: shadowW * 1.25,
-          height: shadowH * 1.35,
+          width: shadowW * (isSelectedRider ? 1.32 : 1.22),
+          height: shadowH * (isSelectedRider ? 1.42 : 1.32),
         ),
         _strokePaint,
       );
@@ -2289,6 +2382,25 @@ class Peloton3dCanvasEngine {
     final double s = pTorso.perspectiveScale;
     final double wheelR = (6.0 * s).clamp(2.0, 14.0);
 
+    if (r.riderId == selectedRiderId && config.enableSelectedHighlight) {
+      final pBase = projection.worldToScreen(base);
+      if (pBase.isInFrontOfCamera) {
+        final double ringW = (24.0 * s).clamp(10.0, 56.0);
+        final double ringH = (9.0 * s).clamp(4.0, 20.0);
+        _strokePaint
+          ..color = AppColors.goldAccent.withValues(alpha: 0.92)
+          ..strokeWidth = (2.0 * s).clamp(1.2, 3.2);
+        canvas.drawOval(
+          Rect.fromCenter(
+            center: Offset(pBase.screenX, pBase.screenY),
+            width: ringW,
+            height: ringH,
+          ),
+          _strokePaint,
+        );
+      }
+    }
+
     _strokePaint
       ..color = const Color(0xFF111827)
       ..strokeWidth = (1.8 * s).clamp(0.8, 3.5);
@@ -2403,21 +2515,25 @@ class _RiderRenderCounts {
 /// CustomPainter delegujący rysowanie do [Peloton3dCanvasEngine].
 class Peloton3dCanvasPainter extends CustomPainter {
   final Peloton3dCanvasEngine engine;
+  final DynamicSkyboxAndLightingPainter? skyboxPainter;
   final int repaintToken;
 
   const Peloton3dCanvasPainter({
     required this.engine,
+    this.skyboxPainter,
     this.repaintToken = 0,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    engine.render(canvas, size);
+    engine.render(canvas, size, skyboxPainter: skyboxPainter);
   }
 
   @override
   bool shouldRepaint(covariant Peloton3dCanvasPainter oldDelegate) {
-    return oldDelegate.engine != engine || oldDelegate.repaintToken != repaintToken;
+    return oldDelegate.engine != engine ||
+        oldDelegate.skyboxPainter != skyboxPainter ||
+        oldDelegate.repaintToken != repaintToken;
   }
 }
 

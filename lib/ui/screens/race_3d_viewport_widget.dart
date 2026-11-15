@@ -13,23 +13,26 @@ import 'package:vector_math/vector_math_64.dart' hide Colors;
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../engine/events/race_incident_engine.dart';
+import '../../engine/peloton/boids_steering_collision_avoidance.dart';
 import '../../engine/peloton/drafting_grid_system.dart';
 import '../../engine/peloton/rider_race_state.dart';
+import '../../engine/rendering3d/broadcast_tv_graphics_overlay.dart';
 import '../../engine/rendering3d/camera_rig_controller.dart';
 import '../../engine/rendering3d/crash_and_mechanical_visuals.dart';
 import '../../engine/rendering3d/dynamic_skybox_and_lighting_painter.dart';
 import '../../engine/rendering3d/environment_scenery_spawner.dart';
 import '../../engine/rendering3d/glb_asset_loader_service.dart';
 import '../../engine/rendering3d/on_bike_computer_hud_widget.dart';
+import '../../engine/rendering3d/peloton_3d_canvas_engine.dart';
 import '../../engine/rendering3d/peloton_instanced_renderer.dart';
 import '../../engine/rendering3d/photo_finish_replay_widget.dart';
 import '../../engine/rendering3d/rider_floating_labels_overlay.dart';
-import '../../engine/rendering3d/road_furniture_3d_renderer.dart';
 import '../../engine/rendering3d/road_ribbon_mesh_builder.dart';
 import '../../engine/rendering3d/support_vehicles_3d_renderer.dart';
 import '../../engine/rendering3d/scene_3d_math_projection.dart';
 import '../../engine/rendering3d/weather_particles_renderer.dart';
 import '../../engine/rendering3d/wind_streamlines_visualizer.dart';
+import '../../engine/simulation/key_moments_detector.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/stage_segment.dart';
 import '../../state/race_simulation_notifier.dart';
@@ -326,12 +329,12 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   // Moduły wirtualnego silnika 3D
   late final CameraRigController _cameraRigController;
   late final Scene3DMathProjection _projection;
+  late final Peloton3dCanvasEngine _canvasEngine;
   late final RoadRibbonMeshBuilder _roadRibbonBuilder;
   late final EnvironmentScenerySpawner _scenerySpawner;
   late final PelotonInstancedRenderer _pelotonRenderer;
   late final WeatherParticlesRenderer _weatherRenderer;
   late final RiderFloatingLabelsOverlay _riderLabelsOverlay;
-  late final RoadFurniture3DRenderer _roadFurnitureRenderer;
   late final SupportVehicles3DRenderer _supportVehiclesRenderer;
   late final CrashAndMechanicalVisualsRenderer _crashVisualsRenderer;
   late final WindStreamlinesVisualizer _windVisualizer;
@@ -340,6 +343,18 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   // Rozmiar rzutni i telemetria pogodowa
   Size _viewportSize = const Size(1280.0, 720.0);
   WeatherSystemTelemetry? _lastWeatherTelemetry;
+  int _frameCounter = 0;
+  String? _loadedStageId;
+
+  // Obsługa kluczowych momentów (KeyMomentsDetector -> Cinematic Camera Transitions)
+  String? _lastHandledKeyMomentKey;
+  KeyMomentTrigger? _activeCinematicMoment;
+  Timer? _cinematicBannerTimer;
+
+  // Widoczność kart BroadcastTvGraphicsOverlay
+  bool _showBroadcastSpotlight = true;
+  bool _showBroadcastClimb = true;
+  bool _showBroadcastSplit = true;
 
   // Aktywne bufory geometrii i instancji
   RoadRibbonMesh? _currentRoadMesh;
@@ -348,7 +363,6 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   List<SceneryInstance3D> _currentSceneryInstances = [];
   double _lastSceneryUpdateDist = -9999.0;
 
-  List<RoadFurnitureInstance3D> _currentFurnitureInstances = [];
   List<SupportVehicleInstance3D> _currentSupportVehicles = [];
 
   List<PelotonRenderItem> _currentPelotonRenderItems = [];
@@ -378,13 +392,20 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     // 2. Silnik rzutowania matematycznego 3D
     _projection = Scene3DMathProjection();
 
+    // 2b. Natywny silnik 3D Canvas (#187) z fizyką kolizyjną Boids (#184)
+    _canvasEngine = Peloton3dCanvasEngine(
+      projection: _projection,
+      cameraRig: _cameraRigController,
+      boidsEngine: const BoidsSteeringCollisionAvoidance(),
+    );
+    _canvasEngine.selectedRiderId = _currentSelectedRiderId;
+
     // 3. Moduły renderujące
     _roadRibbonBuilder = const RoadRibbonMeshBuilder();
     _scenerySpawner = EnvironmentScenerySpawner();
     _pelotonRenderer = PelotonInstancedRenderer();
     _weatherRenderer = WeatherParticlesRenderer();
     _riderLabelsOverlay = RiderFloatingLabelsOverlay();
-    _roadFurnitureRenderer = RoadFurniture3DRenderer();
     _supportVehiclesRenderer = SupportVehicles3DRenderer();
     _crashVisualsRenderer = CrashAndMechanicalVisualsRenderer();
     _isAeroVisionActive = widget.initialAeroVision;
@@ -401,7 +422,9 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     // 6. Wstępna konfiguracja geometrii kamery i listy kolarzy przed pierwszą klatką
     final initialStage = widget.stage ?? _generateDemoStage();
     final initialSegments = initialStage.segments.isNotEmpty ? initialStage.segments : _generateDemoSegments();
-    _stepCameraRig(0.016, initialSegments, initialStage);
+    _loadedStageId = initialStage.id;
+    _canvasEngine.loadCourseFromStage(initialStage);
+    _stepCanvasEngine(0.016, initialSegments, initialStage);
     final double initW = _viewportSize.width > 0 ? _viewportSize.width : 1280.0;
     final double initH = _viewportSize.height > 0 ? _viewportSize.height : 720.0;
     _projection.updateCamera(
@@ -421,7 +444,12 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     if (widget.selectedRiderId != null && widget.selectedRiderId != _currentSelectedRiderId) {
       setState(() {
         _currentSelectedRiderId = widget.selectedRiderId;
+        _canvasEngine.selectedRiderId = widget.selectedRiderId;
       });
+    }
+    if (widget.stage != null && widget.stage!.id != _loadedStageId) {
+      _loadedStageId = widget.stage!.id;
+      _canvasEngine.loadCourseFromStage(widget.stage!);
     }
     if (widget.initialAeroVision != oldWidget.initialAeroVision &&
         widget.initialAeroVision != _isAeroVisionActive) {
@@ -436,7 +464,54 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   void dispose() {
     _ticker.dispose();
     _tacticalFeedbackTimer?.cancel();
+    _cinematicBannerTimer?.cancel();
     super.dispose();
+  }
+
+  void _stepCanvasEngine(
+    double dtSeconds,
+    List<StageSegment> segments,
+    RaceStage activeStage,
+  ) {
+    if (_riderPool.isEmpty) return;
+
+    final List<RiderPositionSnapshot> interpolatedSnapshots = _riderPool.values
+        .map(
+          (r) => r.toSnapshot(
+            elevationMeters: _calculateElevationAt(r.currentDistanceMeters, segments),
+            gradientPercent: _calculateGradientAt(r.currentDistanceMeters, segments),
+            segmentIndex: _findSegmentIndexAt(r.currentDistanceMeters / 1000.0, segments),
+          ),
+        )
+        .toList(growable: false);
+
+    final focusId = _currentSelectedRiderId ??
+        _riderPool.values
+            .firstWhere((r) => r.isPlayerRider, orElse: () => _riderPool.values.first)
+            .riderId;
+    _canvasEngine.selectedRiderId = focusId;
+
+    final focusRider = _riderPool[focusId] ?? _riderPool.values.first;
+    final int segIdx = _findSegmentIndexAt(focusRider.currentDistanceMeters / 1000.0, segments);
+    final StageSegment? activeSeg =
+        segments.isNotEmpty ? segments[segIdx.clamp(0, segments.length - 1)] : null;
+
+    _canvasEngine.stepFrame(
+      dtSeconds: dtSeconds,
+      snapshots: interpolatedSnapshots,
+      focusRiderId: focusId,
+      activeSegment: activeSeg,
+      windSpeedKmh: activeStage.windSpeedKmh,
+    );
+  }
+
+  int _findSegmentIndexAt(double km, List<StageSegment> segments) {
+    for (int i = 0; i < segments.length; i++) {
+      if (km >= segments[i].startKm && km <= segments[i].endKm) {
+        return i;
+      }
+    }
+    return segments.isNotEmpty ? segments.length - 1 : 0;
   }
 
   void _onTick(Duration currentDuration) {
@@ -466,8 +541,13 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
         _generateDemoStage();
     final segments = activeStage.segments.isNotEmpty ? activeStage.segments : _generateDemoSegments();
 
-    // 4. Krok kontrolera kamery 3D (Spring-Damper)
-    _stepCameraRig(dt, segments, activeStage);
+    if (_loadedStageId != activeStage.id) {
+      _loadedStageId = activeStage.id;
+      _canvasEngine.loadCourseFromStage(activeStage);
+    }
+
+    // 4. Krok natywnego silnika 3D (#187) z fizyką Boids (#184) i kamerą (Spring-Damper)
+    _stepCanvasEngine(dt, segments, activeStage);
 
     // 4b. Aktualizacja geometrii rzutowania kamery 3D
     final double vpW = _viewportSize.width > 0 ? _viewportSize.width : 1280.0;
@@ -512,7 +592,9 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     );
 
     if (mounted) {
-      setState(() {});
+      setState(() {
+        _frameCounter++;
+      });
     }
   }
 
@@ -665,75 +747,6 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     }
   }
 
-  void _stepCameraRig(double dt, List<StageSegment> segments, RaceStage activeStage) {
-    if (_riderPool.isEmpty) return;
-
-    final targetRiderId = _currentSelectedRiderId ??
-        _riderPool.values.firstWhere((r) => r.isPlayerRider, orElse: () => _riderPool.values.first).riderId;
-    final targetRider = _riderPool[targetRiderId] ?? _riderPool.values.first;
-
-    final double targetElevation = _calculateElevationAt(targetRider.currentDistanceMeters, segments);
-    final double targetGradient = _calculateGradientAt(targetRider.currentDistanceMeters, segments);
-
-    final targetPose = Scene3DMathProjection.courseToCyclistPose(
-      coursePosition: CoursePosition(
-        distanceMeters: targetRider.currentDistanceMeters,
-        lateralOffsetMeters: targetRider.currentLateralOffsetMeters,
-        elevationMeters: targetElevation,
-      ),
-      roadGeometry: RoadGeometryParameters(
-        turningRadiusMeters: double.infinity,
-        gradientPercent: targetGradient,
-        speedMs: targetRider.currentSpeedKmh / 3.6,
-      ),
-    );
-
-    // Obliczenie centroidu peletonu (dla HeliCam)
-    double sumDist = 0.0;
-    for (final r in _riderPool.values) {
-      sumDist += r.currentDistanceMeters;
-    }
-    final double avgDist = sumDist / _riderPool.length;
-    final centroidPose = Scene3DMathProjection.courseToCyclistPose(
-      coursePosition: CoursePosition(
-        distanceMeters: avgDist,
-        lateralOffsetMeters: 0.0,
-        elevationMeters: _calculateElevationAt(avgDist, segments),
-      ),
-      roadGeometry: RoadGeometryParameters(
-        turningRadiusMeters: double.infinity,
-        gradientPercent: _calculateGradientAt(avgDist, segments),
-        speedMs: 12.5,
-      ),
-    );
-
-    // Pozycja bramy mety
-    final double finishDist = activeStage.totalDistanceKm * 1000.0;
-    final finishPose = Scene3DMathProjection.courseToCyclistPose(
-      coursePosition: CoursePosition(
-        distanceMeters: finishDist,
-        lateralOffsetMeters: 0.0,
-        elevationMeters: _calculateElevationAt(finishDist, segments),
-      ),
-      roadGeometry: const RoadGeometryParameters(
-        turningRadiusMeters: double.infinity,
-        gradientPercent: 0.0,
-      ),
-    );
-
-    _cameraRigController.update(
-      dtSeconds: dt,
-      targetRiderPose: targetPose,
-      pelotonCentroid: centroidPose.position,
-      pelotonSpreadRadius: 20.0,
-      finishLinePosition: finishPose.position,
-      finishApproachDirection: finishPose.tangent,
-      isSprinting: targetRider.currentWatts > 750,
-      isAttacking: targetRider.isPulling && targetRider.currentWatts > 450,
-      riderSpeedMs: targetRider.currentSpeedKmh / 3.6,
-    );
-  }
-
   void _updateRoadAndScenery(List<StageSegment> segments, RaceStage activeStage) {
     if (_riderPool.isEmpty) return;
 
@@ -763,16 +776,6 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
         projection: _projection,
         stageSeed: activeStage.stageNumber * 37 + 101,
         totalStageLengthKm: activeStage.totalDistanceKm,
-      );
-
-      // Odświeżanie instancji infrastruktury szosowej (bramy, barierki, tablice)
-      final allFurniture = _roadFurnitureRenderer.spawnFurnitureForStage(
-        stage: activeStage,
-        segments: segments,
-      );
-      _currentFurnitureInstances = _roadFurnitureRenderer.getFurnitureInWindow(
-        allFurniture: allFurniture,
-        cameraDistanceMeters: currentDist,
       );
     }
   }
@@ -894,12 +897,35 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     setState(() {
       _cameraMode = newMode;
     });
-    _cameraRigController.switchMode(newMode.toRigMode());
-    _cameraRigController.resetManualOrbit();
+    _canvasEngine.switchCameraMode(
+      newMode.toRigMode(),
+      transitionDurationSeconds: 0.85,
+    );
+    _canvasEngine.resetCameraOrbit();
     widget.onCameraModeChanged?.call(newMode);
   }
 
   /// Wykrywa kliknięcie 3D na kolarza w peletonie (Screen Raycast / Hit-Testing).
+  /// Najpierw sprawdza współrzędne ekranowe 2D wyliczone podczas rzutowania 3D w [Peloton3dCanvasEngine].
+  RiderPositionSnapshot? _hitTestRiderSnapshot(Offset tapPosition, List<StageSegment> segments) {
+    final String? engineHitId = _canvasEngine.hitTestRider(tapPosition);
+    if (engineHitId != null) {
+      final poolRider = _riderPool[engineHitId];
+      if (poolRider != null) {
+        return poolRider.toSnapshot(
+          elevationMeters: _calculateElevationAt(poolRider.currentDistanceMeters, segments),
+          gradientPercent: _calculateGradientAt(poolRider.currentDistanceMeters, segments),
+          segmentIndex: _findSegmentIndexAt(poolRider.currentDistanceMeters / 1000.0, segments),
+        );
+      }
+      final renderHit = _currentPelotonRenderItems.where((it) => it.snapshot.riderId == engineHitId);
+      if (renderHit.isNotEmpty) {
+        return renderHit.first.snapshot;
+      }
+    }
+    return _hitTestRider(tapPosition)?.snapshot;
+  }
+
   PelotonRenderItem? _hitTestRider(Offset tapPosition) {
     PelotonRenderItem? bestMatch;
     double minWeightedDist = double.infinity;
@@ -941,16 +967,75 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   }
 
   void _handleViewportTap(BuildContext context, Offset tapPosition) {
-    final hitRider = _hitTestRider(tapPosition);
-    if (hitRider != null) {
-      final selectedId = hitRider.snapshot.riderId;
+    final activeStage = widget.stage ??
+        ref.read(raceSimulationProvider).simulationState?.stage ??
+        _generateDemoStage();
+    final segments = activeStage.segments.isNotEmpty ? activeStage.segments : _generateDemoSegments();
+
+    final hitSnapshot = _hitTestRiderSnapshot(tapPosition, segments);
+    if (hitSnapshot != null) {
+      final selectedId = hitSnapshot.riderId;
       setState(() {
         _currentSelectedRiderId = selectedId;
+        _canvasEngine.selectedRiderId = selectedId;
+        _showBroadcastSpotlight = true;
       });
       widget.onRiderSelected?.call(selectedId);
 
-      _showRiderTacticalSheet(context, hitRider.snapshot);
+      _showRiderTacticalSheet(context, hitSnapshot);
     }
+  }
+
+  void _handleKeyMomentTrigger(KeyMomentTrigger moment) {
+    if (_lastHandledKeyMomentKey == moment.triggerKey) return;
+    _lastHandledKeyMomentKey = moment.triggerKey;
+
+    final ViewportCameraMode targetMode;
+    switch (moment.recommendedCameraMode) {
+      case 'helicopter':
+        targetMode = ViewportCameraMode.droneOverhead;
+        break;
+      case 'motoLead':
+        targetMode = ViewportCameraMode.motoTvLead;
+        break;
+      case 'finishLine':
+        targetMode = ViewportCameraMode.finishLineGantry;
+        break;
+      default:
+        targetMode = moment.type == KeyMomentType.gcLeaderAttack ||
+                moment.type == KeyMomentType.decisiveClimb ||
+                moment.type == KeyMomentType.severeCrosswindEchelon
+            ? ViewportCameraMode.droneOverhead
+            : (moment.type == KeyMomentType.finaleFinal5Km
+                ? ViewportCameraMode.motoTvLead
+                : ViewportCameraMode.chasePlayerRider);
+    }
+
+    setState(() {
+      _cameraMode = targetMode;
+      if (moment.relatedRiderId != null && _riderPool.containsKey(moment.relatedRiderId)) {
+        _currentSelectedRiderId = moment.relatedRiderId;
+        _canvasEngine.selectedRiderId = moment.relatedRiderId;
+      }
+      _activeCinematicMoment = moment;
+    });
+
+    // Płynne filmowe przejście kamery (Cinematic Camera Transition)
+    _canvasEngine.switchCameraMode(
+      targetMode.toRigMode(),
+      transitionDurationSeconds: 1.25,
+    );
+    _canvasEngine.resetCameraOrbit();
+    widget.onCameraModeChanged?.call(targetMode);
+
+    _cinematicBannerTimer?.cancel();
+    _cinematicBannerTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) {
+        setState(() {
+          _activeCinematicMoment = null;
+        });
+      }
+    });
   }
 
   void _issueTacticalOrder(RiderPositionSnapshot rider, TacticalOrder order) {
@@ -1166,8 +1251,180 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
     );
   }
 
+  DynamicSkyboxAndLightingPainter _buildDynamicSkyboxPainter({
+    required RaceStage activeStage,
+    required _InterpolatedRiderState trackedRider,
+    required List<StageSegment> segments,
+  }) {
+    final double totalMeters = math.max(1000.0, activeStage.totalDistanceKm * 1000.0);
+    final double progressRatio = (trackedRider.currentDistanceMeters / totalMeters).clamp(0.0, 1.0);
+    final int segIdx = _findSegmentIndexAt(trackedRider.currentDistanceMeters / 1000.0, segments);
+    final StageSegment? activeSeg =
+        segments.isNotEmpty ? segments[segIdx.clamp(0, segments.length - 1)] : null;
+
+    final Vector3 camForward = _cameraRigController.target - _cameraRigController.position;
+    final double cameraBearing = math.atan2(camForward.x, camForward.z);
+
+    return DynamicSkyboxAndLightingPainter(
+      timeOfDay: StageTimeOfDay.forStageProgress(
+        stageType: activeStage.stageType,
+        progressRatio: progressRatio,
+        stageName: activeStage.name,
+      ),
+      weatherCondition: activeStage.weatherCondition,
+      cameraBearingRadians: cameraBearing,
+      elapsedSeconds: _elapsedAnimSeconds,
+      projection: _projection,
+      pelotonRenderItems: _currentPelotonRenderItems,
+      supportVehicles: _currentSupportVehicles,
+      roadMesh: _currentRoadMesh,
+      roadGradientPercent: activeSeg?.gradientPercent ?? 0.0,
+    );
+  }
+
+  BroadcastRiderSpotlightData _buildBroadcastSpotlightData(
+    _InterpolatedRiderState rider,
+    List<StageSegment> segments,
+  ) {
+    final snap = rider.toSnapshot(
+      elevationMeters: _calculateElevationAt(rider.currentDistanceMeters, segments),
+      gradientPercent: _calculateGradientAt(rider.currentDistanceMeters, segments),
+    );
+    final List<_InterpolatedRiderState> sorted = _riderPool.values.toList()
+      ..sort((a, b) => b.currentDistanceMeters.compareTo(a.currentDistanceMeters));
+    final int rank = sorted.indexWhere((r) => r.riderId == rider.riderId) + 1;
+    final double leaderDist = sorted.isNotEmpty ? sorted.first.currentDistanceMeters : rider.currentDistanceMeters;
+    final double gapSec = math.max(0.0, (leaderDist - rider.currentDistanceMeters) / math.max(5.0, rider.currentSpeedKmh / 3.6));
+
+    return BroadcastRiderSpotlightData(
+      riderId: rider.riderId,
+      riderName: rider.riderName,
+      teamName: rider.isPlayerRider ? 'Pro Peloton Team' : 'WorldTour Peloton',
+      teamShortCode: rider.isPlayerRider ? 'PPM' : 'WTP',
+      nationalityIso: rider.isPlayerRider ? 'PL' : 'SI',
+      primaryJerseyHex: rider.teamJerseyHex,
+      gcPosition: rank > 0 ? rank : 1,
+      gcGapSeconds: gapSec,
+      currentPowerWatts: rider.currentWatts.toDouble(),
+      riderWeightKg: rider.currentWattsPerKg > 0.5
+          ? (rider.currentWatts / rider.currentWattsPerKg).clamp(52.0, 90.0)
+          : 68.0,
+      heartRateBpm: snap.heartRateBpm,
+      speedKmh: rider.currentSpeedKmh,
+      cadenceRpm: rider.currentCadenceRpm,
+      isAttacking: rider.currentWatts >= 550 || rider.isPulling,
+      isRaceLeader: rank == 1,
+    );
+  }
+
+  BroadcastClimbTelemetryData? _buildBroadcastClimbData(
+    _InterpolatedRiderState rider,
+    List<StageSegment> segments,
+  ) {
+    final double riderKm = rider.currentDistanceMeters / 1000.0;
+    final int segIdx = _findSegmentIndexAt(riderKm, segments);
+    if (segments.isEmpty) return null;
+    final StageSegment seg = segments[segIdx.clamp(0, segments.length - 1)];
+    if (!seg.isClimb && seg.gradientPercent < 3.5) return null;
+
+    final double remainingKm = math.max(0.0, seg.endKm - riderKm);
+    final double speedMs = math.max(2.5, rider.currentSpeedKmh / 3.6);
+    final double estRemainingSec = (remainingKm * 1000.0) / speedMs;
+    final double vam = speedMs * (seg.gradientPercent / 100.0) * 3600.0;
+
+    return BroadcastClimbTelemetryData(
+      climbName: 'Sektor ${seg.index + 1} (${seg.sprintOrKomClassification.name.toUpperCase()})',
+      category: seg.sprintOrKomClassification,
+      totalLengthKm: math.max(0.5, seg.lengthKm),
+      remainingKm: remainingKm,
+      averageGradientPercent: seg.gradientPercent,
+      currentGradientPercent: seg.gradientPercent,
+      summitElevationM: seg.endElevationM,
+      currentElevationM: _calculateElevationAt(rider.currentDistanceMeters, segments),
+      estimatedClimbTimeSeconds: estRemainingSec,
+      leaderGroupVamMetersPerHour: vam.clamp(600.0, 2200.0),
+      elevationProfileSamples: const <double>[0.1, 0.25, 0.42, 0.62, 0.80, 1.0],
+    );
+  }
+
+  Widget _buildCinematicKeyMomentBanner(KeyMomentTrigger moment) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 460),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.goldAccent.withValues(alpha: 0.85), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.goldAccent.withValues(alpha: 0.22),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.videocam_rounded, color: AppColors.goldAccent, size: 18),
+          const SizedBox(width: 10),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  moment.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.goldAccent,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+                Text(
+                  moment.description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textSecondary,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          InkWell(
+            onTap: () {
+              _cinematicBannerTimer?.cancel();
+              setState(() => _activeCinematicMoment = null);
+            },
+            borderRadius: BorderRadius.circular(8),
+            child: const Padding(
+              padding: EdgeInsets.all(4),
+              child: Icon(Icons.close_rounded, color: AppColors.textSecondary, size: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Nasłuchiwanie na kluczowe momenty wyścigu (KeyMomentsDetector -> Płynne przejście kamery)
+    ref.listen<KeyMomentTrigger?>(activeKeyMomentProvider, (previous, next) {
+      if (next != null) {
+        _handleKeyMomentTrigger(next);
+      }
+    });
+
     final activeStage = widget.stage ??
         ref.watch(raceSimulationProvider).simulationState?.stage ??
         _generateDemoStage();
@@ -1182,37 +1439,46 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
             : null);
 
     if (trackedRider == null) {
-      return const ColoredBox(color: Colors.black);
+      return const ColoredBox(color: AppColors.background);
     }
 
     final segments = activeStage.segments.isNotEmpty ? activeStage.segments : _generateDemoSegments();
     final weatherTelemetry = _lastWeatherTelemetry ??
         _buildWeatherTelemetry(dt: 0.016, activeStage: activeStage, segments: segments);
 
+    final skyboxPainter = _buildDynamicSkyboxPainter(
+      activeStage: activeStage,
+      trackedRider: trackedRider,
+      segments: segments,
+    );
+
     final bool isManualOrbitActive = _cameraRigController.manualOrbitYaw.abs() > 0.04 ||
         _cameraRigController.manualOrbitPitch.abs() > 0.04 ||
         (_cameraRigController.manualZoomScale - 1.0).abs() > 0.04;
 
     return ClipRect(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 1. Główny Canvas 3D renderujący pełną scenę wyścigu z gestami myszy i dotyku
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.hasBoundedWidth && constraints.hasBoundedHeight) {
-                _viewportSize = Size(constraints.maxWidth, constraints.maxHeight);
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.hasBoundedWidth && constraints.hasBoundedHeight) {
+            _viewportSize = Size(constraints.maxWidth, constraints.maxHeight);
+          }
+          final bool isCompactMobile = constraints.maxWidth < 600.0;
+          final bool isWideDesktop = constraints.maxWidth >= 1024.0;
+
+          return Listener(
+            onPointerSignal: (event) {
+              if (event is PointerScrollEvent) {
+                final double deltaZoom = event.scrollDelta.dy * 0.0012;
+                setState(() {
+                  _cameraRigController.addManualOrbit(deltaZoom: deltaZoom);
+                });
               }
-              return Listener(
-                onPointerSignal: (event) {
-                  if (event is PointerScrollEvent) {
-                    final double deltaZoom = event.scrollDelta.dy * 0.0012;
-                    setState(() {
-                      _cameraRigController.addManualOrbit(deltaZoom: deltaZoom);
-                    });
-                  }
-                },
-                child: GestureDetector(
+            },
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // 1. Główny Canvas 3D (Peloton3dCanvasEngine #187 + DynamicSkyboxAndLightingPainter #186 + Boids #184)
+                GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onScaleStart: (details) {
                     _baseZoomScale = _cameraRigController.manualZoomScale;
@@ -1220,7 +1486,6 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
                   onScaleUpdate: (details) {
                     setState(() {
                       if (details.pointerCount == 1) {
-                        // Obracanie kamery wokół kolarza (Drag to Orbit Yaw & Pitch)
                         final double deltaX = details.focalPointDelta.dx;
                         final double deltaY = details.focalPointDelta.dy;
                         _cameraRigController.addManualOrbit(
@@ -1228,7 +1493,6 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
                           deltaPitch: -deltaY * 0.005,
                         );
                       } else if (details.pointerCount >= 2) {
-                        // Przybliżanie szczypaniem (Pinch-to-zoom)
                         _cameraRigController.setManualOrbit(
                           zoomScale: _baseZoomScale / details.scale,
                         );
@@ -1243,95 +1507,152 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
                       _cameraRigController.resetManualOrbit();
                     });
                   },
-                  child: CustomPaint(
-                    painter: _ZwiftStyle3DViewportPainter(
-                      stage: activeStage,
-                      cameraRigController: _cameraRigController,
-                      projection: _projection,
-                      roadMesh: _currentRoadMesh,
-                      scenerySpawner: _scenerySpawner,
-                      sceneryInstances: _currentSceneryInstances,
-                      roadFurnitureRenderer: _roadFurnitureRenderer,
-                      furnitureInstances: _currentFurnitureInstances,
-                      supportVehiclesRenderer: _supportVehiclesRenderer,
-                      supportVehicles: _currentSupportVehicles,
-                      pelotonRenderer: _pelotonRenderer,
-                      pelotonRenderItems: _currentPelotonRenderItems,
-                      crashVisualsRenderer: _crashVisualsRenderer,
-                      showIncidentVisuals: widget.showIncidentVisuals,
-                      windVisualizer: _windVisualizer,
-                      isAeroVisionActive: _isAeroVisionActive,
-                      weatherRenderer: _weatherRenderer,
-                      weatherTelemetry: weatherTelemetry,
-                      riderLabelsOverlay: _riderLabelsOverlay,
-                      selectedRiderId: trackedRider.riderId,
-                      playerRiderIds: widget.playerRiderIds,
-                      elapsedAnimSeconds: _elapsedAnimSeconds,
-                      showDraftingStreams: widget.showDraftingStreams,
-                      showRiderLabels: widget.showRiderLabels,
-                    ),
-                    size: Size.infinite,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      RepaintBoundary(
+                        child: CustomPaint(
+                          painter: Peloton3dCanvasPainter(
+                            engine: _canvasEngine,
+                            skyboxPainter: skyboxPainter,
+                            repaintToken: _frameCounter,
+                          ),
+                          size: Size.infinite,
+                        ),
+                      ),
+                      IgnorePointer(
+                        child: CustomPaint(
+                          painter: _AtmosphericOverlayPainter(
+                            stage: activeStage,
+                            projection: _projection,
+                            pelotonRenderItems: _currentPelotonRenderItems,
+                            crashVisualsRenderer: _crashVisualsRenderer,
+                            showIncidentVisuals: widget.showIncidentVisuals,
+                            windVisualizer: _windVisualizer,
+                            isAeroVisionActive: _isAeroVisionActive,
+                            weatherRenderer: _weatherRenderer,
+                            weatherTelemetry: weatherTelemetry,
+                            riderLabelsOverlay: _riderLabelsOverlay,
+                            selectedRiderId: trackedRider.riderId,
+                            playerRiderIds: widget.playerRiderIds,
+                            elapsedAnimSeconds: _elapsedAnimSeconds,
+                            showRiderLabels: widget.showRiderLabels,
+                          ),
+                          size: Size.infinite,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
 
-          // 2. Transmisja TV / Telemetria Wyścigu (Broadcast HUD Overlay)
-          if (widget.showBroadcastHud)
-            Positioned(
-              top: 16,
-              left: 16,
-              child: _buildBroadcastHudCard(activeStage, trackedRider),
-            ),
-
-          // 3. Wskaźnik ręcznego obrotu kamery (Orbit / Zoom Indicator z przyciskiem RESET)
-          if (isManualOrbitActive)
-            Positioned(
-              top: 16,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: _buildCameraOrbitIndicator(),
-              ),
-            ),
-
-          // 4. Pasek powiadomienia o wydanym rozkazie taktycznym
-          if (_tacticalFeedbackMessage != null)
-            Positioned(
-              top: 70,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: _buildTacticalFeedbackBanner(),
-              ),
-            ),
-
-          // 5. Pasek Przełączania Kamer i Trybu Aero Vision
-          if (widget.showCameraControls)
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: _buildCameraAndAeroControlsHud(activeStage),
-            ),
-
-          // 6. Komputer Rowerowy Kolarza Gracza (Garmin Edge / Wahoo Elemnt HUD)
-          if (widget.showOnBikeComputer &&
-              (trackedRider.isPlayerRider || widget.playerRiderIds.contains(trackedRider.riderId)))
-            Positioned(
-              bottom: 16,
-              left: 16,
-              child: OnBikeComputerHudWidget(
-                riderSnapshot: trackedRider.toSnapshot(
-                  elevationMeters: _calculateElevationAt(trackedRider.currentDistanceMeters, segments),
-                  gradientPercent: _calculateGradientAt(trackedRider.currentDistanceMeters, segments),
+              // 2. Oprawa Telewizyjna Eurosport/TDF (#185) — responsywna dla 390x844, 1024x768 i 1600x900
+              if (widget.showBroadcastHud && !isCompactMobile)
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 76,
+                      bottom: isWideDesktop ? 86 : 74,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: BroadcastTvGraphicsOverlay(
+                      riderSpotlight: _buildBroadcastSpotlightData(trackedRider, segments),
+                      climbTelemetry: _buildBroadcastClimbData(trackedRider, segments),
+                      showRiderSpotlight: _showBroadcastSpotlight && isWideDesktop,
+                      showClimbBanner: _showBroadcastClimb,
+                      showLiveSplit: _showBroadcastSplit,
+                      isInteractiveControlsVisible: false,
+                      onDismissSpotlight: () => setState(() => _showBroadcastSpotlight = false),
+                      onDismissClimbBanner: () => setState(() => _showBroadcastClimb = false),
+                      onDismissLiveSplit: () => setState(() => _showBroadcastSplit = false),
+                      onRiderSpotlightTap: (_) {
+                        final snap = trackedRider.toSnapshot(
+                          elevationMeters: _calculateElevationAt(trackedRider.currentDistanceMeters, segments),
+                          gradientPercent: _calculateGradientAt(trackedRider.currentDistanceMeters, segments),
+                        );
+                        _showRiderTacticalSheet(context, snap);
+                      },
+                    ),
+                    ),
+                  ),
                 ),
-                stage: activeStage,
-                segments: segments,
-                model: widget.bikeComputerModel,
-              ),
+
+              // 3. Kompaktowy pasek transmisji TV (LIVE BROADCAST 3D)
+              if (widget.showBroadcastHud)
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  right: isCompactMobile ? 16 : null,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: _buildBroadcastHudCard(activeStage, trackedRider),
+                  ),
+                ),
+
+              // 4. Wskaźnik ręcznego obrotu kamery (Orbit / Zoom Indicator z przyciskiem RESET)
+              if (isManualOrbitActive)
+                Positioned(
+                  top: 16,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: _buildCameraOrbitIndicator(),
+                  ),
+                ),
+
+              // 5. Filmowe powiadomienie o kluczowym momencie (KeyMomentsDetector)
+              if (_activeCinematicMoment != null)
+                Positioned(
+                  top: isManualOrbitActive ? 68 : 16,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: _buildCinematicKeyMomentBanner(_activeCinematicMoment!),
+                  ),
+                ),
+
+              // 6. Pasek powiadomienia o wydanym rozkazie taktycznym
+              if (_tacticalFeedbackMessage != null)
+                Positioned(
+                  top: 70,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: _buildTacticalFeedbackBanner(),
+                  ),
+                ),
+
+              // 7. Pasek Przełączania Kamer i Trybu Aero Vision
+              if (widget.showCameraControls)
+                Positioned(
+                  bottom: 16,
+                  right: 16,
+                  left: isCompactMobile ? 16 : null,
+                  child: _buildCameraAndAeroControlsHud(activeStage),
+                ),
+
+              // 8. Komputer Rowerowy Kolarza Gracza (Garmin Edge / Wahoo Elemnt HUD)
+              if (widget.showOnBikeComputer &&
+                  !isCompactMobile &&
+                  (trackedRider.isPlayerRider || widget.playerRiderIds.contains(trackedRider.riderId)))
+                Positioned(
+                  bottom: 16,
+                  left: 16,
+                  child: OnBikeComputerHudWidget(
+                    riderSnapshot: trackedRider.toSnapshot(
+                      elevationMeters: _calculateElevationAt(trackedRider.currentDistanceMeters, segments),
+                      gradientPercent: _calculateGradientAt(trackedRider.currentDistanceMeters, segments),
+                    ),
+                    stage: activeStage,
+                    segments: segments,
+                    model: widget.bikeComputerModel,
+                  ),
+                ),
+              ],
             ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -1428,19 +1749,22 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   }
 
   Widget _buildCameraAndAeroControlsHud(RaceStage activeStage) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Przełącznik kamer
-        _buildCameraSwitcherHud(),
-        const SizedBox(width: 8),
-        // Przycisk przełączania trybu Aero Vision ("Tunel Aerodynamiczny na żywo")
-        _buildAeroVisionToggleButton(),
-        const SizedBox(width: 8),
-        // Przycisk Photo Finish
-        _buildPhotoFinishButton(activeStage),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Przełącznik kamer
+          _buildCameraSwitcherHud(),
+          const SizedBox(width: 8),
+          // Przycisk przełączania trybu Aero Vision ("Tunel Aerodynamiczny na żywo")
+          _buildAeroVisionToggleButton(),
+          const SizedBox(width: 8),
+          // Przycisk Photo Finish
+          _buildPhotoFinishButton(activeStage),
+        ],
+      ),
     );
   }
 
@@ -1679,19 +2003,11 @@ class _Race3DViewportWidgetState extends ConsumerState<Race3DViewportWidget>
   }
 }
 
-/// Główny Painter Perspektywy 3D Szosy, Kolarzy, Strugi Aero i Otoczenia (Zwift Engine).
-class _ZwiftStyle3DViewportPainter extends CustomPainter {
+/// Warstwa nakładek atmosferycznych, incydentów, Aero Vision i etykiet kolarzy
+/// renderowana nad główną sceną 3D silnika [Peloton3dCanvasEngine].
+class _AtmosphericOverlayPainter extends CustomPainter {
   final RaceStage stage;
-  final CameraRigController cameraRigController;
   final Scene3DMathProjection projection;
-  final RoadRibbonMesh? roadMesh;
-  final EnvironmentScenerySpawner scenerySpawner;
-  final List<SceneryInstance3D> sceneryInstances;
-  final RoadFurniture3DRenderer roadFurnitureRenderer;
-  final List<RoadFurnitureInstance3D> furnitureInstances;
-  final SupportVehicles3DRenderer supportVehiclesRenderer;
-  final List<SupportVehicleInstance3D> supportVehicles;
-  final PelotonInstancedRenderer pelotonRenderer;
   final List<PelotonRenderItem> pelotonRenderItems;
   final CrashAndMechanicalVisualsRenderer? crashVisualsRenderer;
   final WindStreamlinesVisualizer? windVisualizer;
@@ -1701,47 +2017,13 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
   final String selectedRiderId;
   final List<String> playerRiderIds;
   final double elapsedAnimSeconds;
-  final bool showDraftingStreams;
   final bool showRiderLabels;
   final bool showIncidentVisuals;
   final bool isAeroVisionActive;
 
-  // Statyczne bufory farb malarskich
-  static final Paint _groundPaint = Paint()
-    ..color = const Color(0xFF131D16)
-    ..style = PaintingStyle.fill;
-
-  static final Paint _roadPaint = Paint()..style = PaintingStyle.fill;
-  static final Paint _vergePaint = Paint()
-    ..style = PaintingStyle.fill
-    ..color = const Color(0xFF1B2E1E);
-  static final Paint _vergeAltPaint = Paint()
-    ..style = PaintingStyle.fill
-    ..color = const Color(0xFF142416);
-  static final Paint _edgeLinePaint = Paint()
-    ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.round
-    ..color = const Color(0xD9FFFFFF);
-  static final Paint _centerLinePaint = Paint()
-    ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.round
-    ..color = const Color(0xB3FFFFFF);
-  static final Paint _wetSheenPaint = Paint()
-    ..style = PaintingStyle.fill
-    ..color = const Color(0x10FFFFFF);
-
-  _ZwiftStyle3DViewportPainter({
+  _AtmosphericOverlayPainter({
     required this.stage,
-    required this.cameraRigController,
     required this.projection,
-    required this.roadMesh,
-    required this.scenerySpawner,
-    required this.sceneryInstances,
-    required this.roadFurnitureRenderer,
-    required this.furnitureInstances,
-    required this.supportVehiclesRenderer,
-    required this.supportVehicles,
-    required this.pelotonRenderer,
     required this.pelotonRenderItems,
     this.crashVisualsRenderer,
     this.windVisualizer,
@@ -1751,7 +2033,6 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
     required this.selectedRiderId,
     required this.playerRiderIds,
     required this.elapsedAnimSeconds,
-    required this.showDraftingStreams,
     required this.showRiderLabels,
     this.showIncidentVisuals = true,
     this.isAeroVisionActive = false,
@@ -1759,142 +2040,6 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double w = size.width;
-    final double h = size.height;
-
-    // 1. Konfiguracja geometrii rzutowania 3D
-    projection.updateCamera(
-      cameraRigController.toCameraConfig(),
-      viewportWidth: w,
-      viewportHeight: h,
-    );
-
-    // 2. Analityczne wyznaczenie linii horyzontu na ekranie
-    final forwardDir = (cameraRigController.target - cameraRigController.position);
-    if (forwardDir.length2 > 1e-6) forwardDir.normalize();
-    final horizTarget = Vector3(forwardDir.x, 0.0, forwardDir.z);
-    if (horizTarget.length2 > 1e-6) horizTarget.normalize();
-    final farPoint = cameraRigController.position + (horizTarget * 2000.0);
-    final projHorizon = projection.worldToScreen(farPoint);
-
-    final double horizonY = projHorizon.isInFrontOfCamera
-        ? projHorizon.screenY.clamp(h * 0.15, h * 0.85)
-        : h * 0.44;
-
-    final double totalStageMeters = stage.totalDistanceKm > 0.1
-        ? stage.totalDistanceKm * 1000.0
-        : 21000.0;
-    final double leaderDistMeters = pelotonRenderItems.isNotEmpty
-        ? pelotonRenderItems.first.snapshot.distanceCoveredMeters
-        : 0.0;
-    final double stageProgress = (leaderDistMeters / totalStageMeters).clamp(0.0, 1.0);
-    final StageTimeOfDay stageTime = StageTimeOfDay.forStageProgress(
-      stageType: stage.stageType,
-      progressRatio: stageProgress,
-      stageName: stage.name,
-    );
-    final SunLightState sunState = DynamicSkyboxAndLightingPainter.computeSunLightState(
-      timeOfDay: stageTime,
-      weatherCondition: weatherTelemetry.weatherCondition,
-      elapsedSeconds: elapsedAnimSeconds,
-    );
-    final lightingPainter = DynamicSkyboxAndLightingPainter(
-      timeOfDay: stageTime,
-      weatherCondition: weatherTelemetry.weatherCondition,
-      cameraBearingRadians: weatherTelemetry.cameraBearingRadians,
-      elapsedSeconds: elapsedAnimSeconds,
-      projection: projection,
-      pelotonRenderItems: pelotonRenderItems,
-      supportVehicles: supportVehicles,
-      roadMesh: roadMesh,
-    );
-
-    // 3. Rysowanie proceduralnego nieba, słońca, chmur burzowych i latarni (Dynamic Skybox)
-    lightingPainter.renderSkybox(
-      canvas: canvas,
-      size: size,
-      horizonY: horizonY,
-      sunState: sunState,
-    );
-
-    // 4. Rysowanie pasma górskiego w paralaksie (Parallax Mountains)
-    _drawParallaxMountains(canvas, w, horizonY);
-
-    // 5. Podłoże doliny / trawa poniżej horyzontu
-    canvas.drawRect(Rect.fromLTWH(0, horizonY, w, h - horizonY), _groundPaint);
-
-    // 6. Mgła wysokogórska i pasma chmur na szczytach Hors Categorie
-    weatherRenderer.renderAlpineFog(
-      canvas: canvas,
-      size: size,
-      elevationMeters: weatherTelemetry.currentElevationMeters,
-      isHorsCategorie: weatherTelemetry.isHorsCategorie,
-      elapsedSeconds: elapsedAnimSeconds,
-      horizonY: horizonY,
-    );
-
-    // 7. Rysowanie wstęgi szosy 3D (Road Ribbon, Cobblestones, Edge Lines & Fan Graffiti)
-    if (roadMesh != null) {
-      _drawRoadMesh(canvas, roadMesh!, projection);
-      if (sunState.isWetSurface) {
-        lightingPainter.renderWetRoadSpecularReflections(
-          canvas: canvas,
-          size: size,
-          projection: projection,
-          pelotonItems: pelotonRenderItems,
-          supportVehicles: supportVehicles,
-          sunState: sunState,
-        );
-      }
-    }
-
-    // 8. Rysowanie obiektów krajobrazu i kibiców (Environment Scenery Spawner)
-    if (sceneryInstances.isNotEmpty) {
-      scenerySpawner.renderSceneryInstances(
-        canvas: canvas,
-        projection: projection,
-        instances: sceneryInstances,
-        animSeconds: elapsedAnimSeconds,
-      );
-    }
-
-    // 8b. Rysowanie infrastruktury szosowej (bramy Flamme Rouge, KOM, sprint, mety, barierki, tablice km)
-    if (furnitureInstances.isNotEmpty) {
-      roadFurnitureRenderer.renderRoadFurniture(
-        canvas: canvas,
-        projection: projection,
-        instances: furnitureInstances,
-        elapsedAnimSeconds: elapsedAnimSeconds,
-      );
-    }
-
-    // 8c. Rysowanie pojazdów towarzyszących (wozy techniczne z rowerami na dachu, motocykle TV, neutralny serwis)
-    if (supportVehicles.isNotEmpty) {
-      supportVehiclesRenderer.renderSupportVehicles(
-        canvas: canvas,
-        projection: projection,
-        vehicles: supportVehicles,
-        elapsedAnimSeconds: elapsedAnimSeconds,
-      );
-    }
-
-    // 9. Rysowanie rzutowanych cieni kolarzy na asfalt oraz samych kolarzy (LOD 0/1/2)
-    if (pelotonRenderItems.isNotEmpty) {
-      lightingPainter.renderProjectedDropShadows(
-        canvas: canvas,
-        projection: projection,
-        pelotonItems: pelotonRenderItems,
-        sunState: sunState,
-      );
-      pelotonRenderer.renderPeloton(
-        canvas: canvas,
-        size: size,
-        projection: projection,
-        renderItems: pelotonRenderItems,
-      );
-    }
-
-    // 9b. Wizualizacja zdarzeń losowych w 3D (awarie sprzętowe, wymiana kół, kraksy i podnoszenie się kolarzy)
     if (showIncidentVisuals && crashVisualsRenderer != null) {
       crashVisualsRenderer!.renderIncidentVisuals(
         canvas: canvas,
@@ -1903,7 +2048,6 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
       );
     }
 
-    // 9c. Wizualizacja tunelu aerodynamicznego na żywo ("Aero Vision Mode" - strefy cienia, wiatr boczny, kompas)
     if (isAeroVisionActive && windVisualizer != null) {
       windVisualizer!.renderAeroVision(
         canvas: canvas,
@@ -1913,20 +2057,16 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
       );
     }
 
-    // 10. Trójwymiarowe pióropusze wody spod kół (spray) i chmury pyłu (Strade/Bruk)
     weatherRenderer.renderWorldParticles(
       canvas: canvas,
       projection: projection,
     );
-
-    // 11. Efekty ekranowe (deszcz, wyładowania burzowe, krople na obiektywie kamery TV)
     weatherRenderer.renderScreenWeather(
       canvas: canvas,
       size: size,
       telemetry: weatherTelemetry,
     );
 
-    // 12. Pływające etykiety kolarzy (Zwift-Style Nameplates: Flaga, Nazwisko, W/kg, Koszulki, Atak/Tarcza)
     if (showRiderLabels && pelotonRenderItems.isNotEmpty) {
       riderLabelsOverlay.renderFloatingLabels(
         canvas: canvas,
@@ -1940,220 +2080,9 @@ class _ZwiftStyle3DViewportPainter extends CustomPainter {
     }
   }
 
-  // ===========================================================================
-  // 2. PARALAKSA GÓRSKA
-  // ===========================================================================
-
-  void _drawParallaxMountains(Canvas canvas, double w, double horizonY) {
-    final mountainPaintFar = Paint()..color = const Color(0xFF1C2C42);
-    final mountainPaintNear = Paint()..color = const Color(0xFF152233);
-    final snowcapPaint = Paint()..color = Colors.white.withValues(alpha: 0.35);
-
-    final double panShift = (cameraRigController.position.x * 2.5 + cameraRigController.position.z * 0.05) % w;
-
-    // Pasmo dalekie
-    final pathFar = Path()..moveTo(0, horizonY);
-    for (double x = -100; x <= w + 100; x += 120) {
-      final double peakY = horizonY - 60 - math.sin((x + panShift) * 0.01) * 45;
-      pathFar.lineTo(x + 60, peakY);
-      pathFar.lineTo(x + 120, horizonY);
-    }
-    pathFar.lineTo(w, horizonY);
-    pathFar.close();
-    canvas.drawPath(pathFar, mountainPaintFar);
-
-    // Pasmo bliskie z ośnieżonymi szczytami
-    final pathNear = Path()..moveTo(0, horizonY);
-    for (double x = -80; x <= w + 80; x += 160) {
-      final double peakY = horizonY - 45 - math.cos((x - panShift) * 0.015) * 35;
-      pathNear.lineTo(x + 80, peakY);
-
-      // Śnieg na szczycie
-      final snowPath = Path()
-        ..moveTo(x + 65, peakY + 12)
-        ..lineTo(x + 80, peakY)
-        ..lineTo(x + 95, peakY + 12)
-        ..close();
-      canvas.drawPath(snowPath, snowcapPaint);
-
-      pathNear.lineTo(x + 160, horizonY);
-    }
-    pathNear.lineTo(w, horizonY);
-    pathNear.close();
-    canvas.drawPath(pathNear, mountainPaintNear);
-  }
-
-  // ===========================================================================
-  // 3. WSTĘGA SZOSY 3D, BRUK, LINIE I NAPISY KIBICÓW (ROAD RIBBON)
-  // ===========================================================================
-
-  void _drawRoadMesh(Canvas canvas, RoadRibbonMesh mesh, Scene3DMathProjection proj) {
-    final slices = mesh.slices;
-    if (slices.length < 2) return;
-
-    final eyePos = cameraRigController.position;
-    final surfaceProps = mesh.materialProperties;
-    final bool isWet = surfaceProps.isWet;
-
-    final Color baseAsphalt = _parseHexColor(surfaceProps.baseColorHex, const Color(0xFF1E2430));
-    final Color darkerAsphalt = Color.lerp(baseAsphalt, Colors.black, 0.14)!;
-
-    // Sortowanie segmentów szosy w porządku Back-to-Front (najdalsze najpierw)
-    final quads = <(int, double)>[];
-    for (int i = 0; i < slices.length - 1; i++) {
-      final midDist = (slices[i].center - eyePos).length;
-      quads.add((i, midDist));
-    }
-    quads.sort((a, b) => b.$2.compareTo(a.$2));
-
-    for (final entry in quads) {
-      final int i = entry.$1;
-      final slice0 = slices[i];
-      final slice1 = slices[i + 1];
-
-      final pLeftVerge0 = proj.worldToScreen(slice0.leftVerge);
-      final pLeftRoad0 = proj.worldToScreen(slice0.leftRoadEdge);
-      final pCenter0 = proj.worldToScreen(slice0.center);
-      final pRightRoad0 = proj.worldToScreen(slice0.rightRoadEdge);
-      final pRightVerge0 = proj.worldToScreen(slice0.rightVerge);
-
-      final pLeftVerge1 = proj.worldToScreen(slice1.leftVerge);
-      final pLeftRoad1 = proj.worldToScreen(slice1.leftRoadEdge);
-      final pCenter1 = proj.worldToScreen(slice1.center);
-      final pRightRoad1 = proj.worldToScreen(slice1.rightRoadEdge);
-      final pRightVerge1 = proj.worldToScreen(slice1.rightVerge);
-
-      // Pomijanie fragmentów całkowicie znajdujących się za plecami kamery
-      if (!pCenter0.isInFrontOfCamera && !pCenter1.isInFrontOfCamera) continue;
-
-      // Obcinanie marginesów ekranu
-      if ((pCenter0.screenY < -240 && pCenter1.screenY < -240) ||
-          (pCenter0.screenY > proj.viewportHeight + 240 && pCenter1.screenY > proj.viewportHeight + 240)) {
-        continue;
-      }
-
-      final bool isAlt = (i % 2 == 0);
-
-      // 1. Lewe pobocze
-      final leftVergePath = Path()
-        ..moveTo(pLeftVerge0.screenX, pLeftVerge0.screenY)
-        ..lineTo(pLeftVerge1.screenX, pLeftVerge1.screenY)
-        ..lineTo(pLeftRoad1.screenX, pLeftRoad1.screenY)
-        ..lineTo(pLeftRoad0.screenX, pLeftRoad0.screenY)
-        ..close();
-      canvas.drawPath(leftVergePath, isAlt ? _vergePaint : _vergeAltPaint);
-
-      // 2. Prawe pobocze
-      final rightVergePath = Path()
-        ..moveTo(pRightRoad0.screenX, pRightRoad0.screenY)
-        ..lineTo(pRightRoad1.screenX, pRightRoad1.screenY)
-        ..lineTo(pRightVerge1.screenX, pRightVerge1.screenY)
-        ..lineTo(pRightVerge0.screenX, pRightVerge0.screenY)
-        ..close();
-      canvas.drawPath(rightVergePath, isAlt ? _vergePaint : _vergeAltPaint);
-
-      // 3. Nawierzchnia jezdni (asfalt / bruk)
-      _roadPaint.color = isAlt ? baseAsphalt : darkerAsphalt;
-      final roadPath = Path()
-        ..moveTo(pLeftRoad0.screenX, pLeftRoad0.screenY)
-        ..lineTo(pLeftRoad1.screenX, pLeftRoad1.screenY)
-        ..lineTo(pRightRoad1.screenX, pRightRoad1.screenY)
-        ..lineTo(pRightRoad0.screenX, pRightRoad0.screenY)
-        ..close();
-      canvas.drawPath(roadPath, _roadPaint);
-
-      // Mokry asfalt z odbiciami świetlnymi
-      if (isWet) {
-        canvas.drawPath(roadPath, _wetSheenPaint);
-      }
-
-      // 4. Białe linie krawędziowe jezdni
-      final double lineWidth = (pCenter0.perspectiveScale * 3.2).clamp(1.0, 4.5);
-      _edgeLinePaint.strokeWidth = lineWidth;
-      canvas.drawLine(
-        Offset(pLeftRoad0.screenX, pLeftRoad0.screenY),
-        Offset(pLeftRoad1.screenX, pLeftRoad1.screenY),
-        _edgeLinePaint,
-      );
-      canvas.drawLine(
-        Offset(pRightRoad0.screenX, pRightRoad0.screenY),
-        Offset(pRightRoad1.screenX, pRightRoad1.screenY),
-        _edgeLinePaint,
-      );
-
-      // 5. Przerywana oś jezdni (co drugi segment, pomijana na brukach)
-      if (isAlt && !surfaceProps.surfaceType.name.contains('cobble')) {
-        _centerLinePaint.strokeWidth = lineWidth * 0.85;
-        canvas.drawLine(
-          Offset(pCenter0.screenX, pCenter0.screenY),
-          Offset(pCenter1.screenX, pCenter1.screenY),
-          _centerLinePaint,
-        );
-      }
-    }
-
-    // 6. Rysowanie malowanych haseł kibiców na asfalcie
-    _drawGraffitiDecals(canvas, mesh.graffitiDecals, proj, eyePos);
-  }
-
-  void _drawGraffitiDecals(
-    Canvas canvas,
-    List<RoadMarkingDecal> decals,
-    Scene3DMathProjection proj,
-    Vector3 eyePos,
-  ) {
-    for (final decal in decals) {
-      final dist = (decal.positionWorld - eyePos).length;
-      if (dist > 140.0) continue;
-
-      final pCenter = proj.worldToScreen(decal.positionWorld);
-      if (!pCenter.isInFrontOfCamera || !pCenter.isInViewport) continue;
-
-      final double scale = (pCenter.perspectiveScale * 14.0).clamp(0.4, 3.2);
-      final Color decalColor = _parseHexColor(decal.colorHex, Colors.white).withValues(alpha: 0.85);
-
-      final textSpan = TextSpan(
-        text: decal.text,
-        style: TextStyle(
-          color: decalColor,
-          fontSize: (11.0 * scale).clamp(8.0, 22.0),
-          fontWeight: FontWeight.w900,
-          letterSpacing: 2.0,
-          shadows: [
-            Shadow(
-              color: Colors.black.withValues(alpha: 0.5),
-              blurRadius: 2.0,
-            ),
-          ],
-        ),
-      );
-
-      final tp = TextPainter(
-        text: textSpan,
-        textDirection: TextDirection.ltr,
-      )..layout();
-
-      canvas.save();
-      canvas.translate(pCenter.screenX, pCenter.screenY);
-      tp.paint(canvas, Offset(-tp.width * 0.5, -tp.height * 0.5));
-      canvas.restore();
-    }
-  }
-
-  Color _parseHexColor(String hexString, Color fallback) {
-    try {
-      String hex = hexString.replaceAll('#', '').trim();
-      if (hex.length == 6) hex = 'FF$hex';
-      if (hex.length == 8) return Color(int.parse(hex, radix: 16));
-      return fallback;
-    } catch (_) {
-      return fallback;
-    }
-  }
-
   @override
-  bool shouldRepaint(covariant _ZwiftStyle3DViewportPainter oldDelegate) {
-    return true; // Płynne odświeżanie 60/120 FPS kontrolowane przez Ticker
+  bool shouldRepaint(covariant _AtmosphericOverlayPainter oldDelegate) {
+    return true;
   }
 }
 

@@ -720,7 +720,7 @@ Zasady działania pętli:
 
   2. Wizualny wskaźnik "Zapałek" (Matches Burned Counter): licznik pokazujący, ile razy podczas dzisiejszego etapu kolarz wykonał głęboki zryw beztlenowy powyżej $120\%$ FTP trwający dłużej niż 15 sekund. Każda "spalona zapałka" lekko obniża maksymalny sprint na finiszu! Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #201** (`lib/ui/screens/race_3d_viewport_widget.dart` - Pełne Połączenie Silnika 3D): Zintegruj w pliku `lib/ui/screens/race_3d_viewport_widget.dart` natywny silnik `Peloton3dCanvasEngine` (#187), oświetlenie i niebo `DynamicSkyboxAndLightingPainter` (#186), fizykę omijania kolizji `BoidsSteeringCollisionAvoidance` (#184) oraz oprawę telewizyjną `BroadcastTvGraphicsOverlay` (#185). Zaimplementuj:
+- [x] **Zadanie #201** (`lib/ui/screens/race_3d_viewport_widget.dart` - Pełne Połączenie Silnika 3D): Zintegruj w pliku `lib/ui/screens/race_3d_viewport_widget.dart` natywny silnik `Peloton3dCanvasEngine` (#187), oświetlenie i niebo `DynamicSkyboxAndLightingPainter` (#186), fizykę omijania kolizji `BoidsSteeringCollisionAvoidance` (#184) oraz oprawę telewizyjną `BroadcastTvGraphicsOverlay` (#185). Zaimplementuj:
 
   1. Płynną pętlę renderowania `Ticker` / `AnimationController` odświeżającą scenę w 60/120 FPS z interpolacją pozycji pomiędzy kolejnymi tickami z `RaceSimulationNotifier`.
 
