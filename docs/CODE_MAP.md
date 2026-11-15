@@ -183,6 +183,7 @@
 - `lib/ui/screens/hall_of_fame_and_records_screen.dart` — Galeria sław i historyczne rekordy.
 - `lib/ui/screens/jersey_and_bike_livery_studio_screen.dart` — Studio projektowania koszulek i malowania ram.
 - `lib/ui/screens/main_shell_screen.dart` — Główna nawigacja boczna/dolna powłoki kariery.
+- `lib/ui/screens/main_title_menu_screen.dart` — Ekran tytułowy AAA (`MainTitleMenuScreen`, `AnimatedPelotonBackdropPainter`) z animowanym tłem alpejskim 60/120 FPS i szklanym panelem nawigacyjnym.
 - `lib/ui/screens/medical_and_recovery_center_screen.dart` — Centrum medyczne, kontuzje i paszport biologiczny.
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).

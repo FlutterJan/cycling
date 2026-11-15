@@ -419,7 +419,7 @@ Zasady działania pętli:
 
      * Kolumna 3 (Szybki Setup Sprzętowy): wybór presetu rowerowego dla drużyny (`Full Aero 65mm`, `Ultralight Climbing 6.8kg`, `Cobble Tubeless 32mm 3.8 bar`), przycisk "START SYMULACJI 3D" w kolorze `#8E4A49` ze złotym podświetleniem hover `#D4AF37`, który inicjuje `RaceSimulationNotifier` i przenosi gracza na ekran `Race3dViewportWidget`. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #167** (`lib/ui/screens/main_title_menu_screen.dart`): Stwórz ekran tytułowy gry klasy AAA `MainTitleMenuScreen`, który robi piorunujące pierwsze wrażenie po uruchomieniu gry na PC/Mac i telefonie. Zaimplementuj:
+- [x] **Zadanie #167** (`lib/ui/screens/main_title_menu_screen.dart`): Stwórz ekran tytułowy gry klasy AAA `MainTitleMenuScreen`, który robi piorunujące pierwsze wrażenie po uruchomieniu gry na PC/Mac i telefonie. Zaimplementuj:
 
   1. Dynamiczne tło 3D/Canvas (`AnimatedPelotonBackdropPainter`): płynnie animowana w 60/120 FPS scena sylwetek kolarzy pokonujących alpejską serpentynę o zachodzie słońca (głęboki granat `#0F1115` przechodzący w krwistą czerwień `#8E4A49` i złoto `#D4AF37` na horyzoncie, obracające się szprychy, smugi świateł wozów technicznych i subtelny ruch kamery z efektami paralaksy reagującymi na ruch kursora myszy).
 

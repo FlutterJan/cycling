@@ -13,6 +13,7 @@ import '../../ui/screens/calendar_and_race_planner_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
+import '../../ui/screens/main_title_menu_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
 import '../../ui/screens/post_stage_podium_screen.dart';
@@ -110,11 +111,11 @@ GoRouter createAppRouter({
     initialLocation: initialLocation,
     observers: observers,
     routes: [
-      // 1. Ekran startowy i menu wyboru zapisu
+      // 1. Ekran tytułowy AAA i menu wyboru zapisu
       GoRoute(
         path: AppRoutes.start,
         name: AppRouteNames.start,
-        builder: (context, state) => const GameStartScreen(),
+        builder: (context, state) => const MainTitleMenuScreen(),
       ),
       GoRoute(
         path: AppRoutes.welcome,
