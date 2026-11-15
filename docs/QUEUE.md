@@ -401,7 +401,7 @@ Zasady działania pętli:
 
   4. Generator struktur `TransferNewsItem` (data, kolarz, stara drużyna, nowa drużyna, kwota kontraktu, rola, komentarz ekspercki) przekazywanych do paska informacyjnego "Transfer Ticker" w Dashboardzie oraz skrzynki Inbox. Zweryfikuj brak błędów przez `flutter analyze`.
 
-- [ ] **Zadanie #165** (`lib/ui/widgets/keyboard_shortcuts_manager.dart`): Stwórz kompletny system skrótów klawiszowych i obsługi kontrolerów `KeyboardShortcutsManager` (oparty o `Shortcuts`, `Actions`, `FocusNode` i `HardwareKeyboard` we Flutterze) dla wersji Windows (`.exe`), macOS (`.dmg`) i tabletów z klawiaturą. Zaimplementuj:
+- [x] **Zadanie #165** (`lib/ui/widgets/keyboard_shortcuts_manager.dart`): Stwórz kompletny system skrótów klawiszowych i obsługi kontrolerów `KeyboardShortcutsManager` (oparty o `Shortcuts`, `Actions`, `FocusNode` i `HardwareKeyboard` we Flutterze) dla wersji Windows (`.exe`), macOS (`.dmg`) i tabletów z klawiaturą. Zaimplementuj:
 
   1. Skróty wyścigowe 3D: `Spacja` (Pauza / Wznów symulację), klawisze `+` / `-` lub `[` / `]` (zmiana mnożnika prędkości czasu `1x, 2x, 4x, 8x`), klawisze `1`–`8` (wybór kolarza nr 1–8 z drużyny i natychmiastowe wycentrowanie na nim kamery 3D), `A` (rozkaz natychmiastowego ataku), `R` (daj zmianę na czele grupy), `P` (chroń lidera), `G` (spożyj żel energetyczny), `B` (spłyń do wozu technicznego po bidony), `C` (cykliczne przełączanie kamer: `ChaseCam -> MotoTvCam -> HeliCam -> FinishLineCam`), `V` (włączenie widoku strug powietrza `Aero Vision Mode`), `Tab` (ukrycie/pokazanie bocznych paneli telemetrii HUD).
 

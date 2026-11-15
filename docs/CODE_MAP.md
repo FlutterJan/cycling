@@ -210,6 +210,7 @@
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.
 - `lib/ui/widgets/group_gaps_chalkboard_widget.dart` — Tablica różnic czasowych między grupami.
+- `lib/ui/widgets/keyboard_shortcuts_manager.dart` — System skrótów klawiszowych (`KeyboardShortcutsManager`, `ShortcutsCheatSheetOverlay`, `ShortcutKeycap`) dla 3D i Menedżera.
 - `lib/ui/widgets/key_moment_overlay.dart` — Powiadomienie i najazd na kluczowy moment wyścigu.
 - `lib/ui/widgets/live_virtual_standings_drawer.dart` — Wysuwana tabela wirtualnej klasyfikacji GC na żywo.
 - `lib/ui/widgets/mechanic_workshop_panel.dart` — Panel warsztatu mechaników (ciśnienie opon, wosk, koła).
