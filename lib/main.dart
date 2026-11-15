@@ -8,6 +8,7 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/performance_profiler_overlay.dart';
+import 'ui/widgets/achievement_unlock_toast_overlay.dart';
 
 /// Punkt startowy gry Pro Peloton Manager.
 /// Inicjalizuje platformy (iOS, Android, macOS, Windows), Riverpod ProviderScope,
@@ -80,7 +81,9 @@ class ProPelotonManagerApp extends ConsumerWidget {
                 ),
           ),
           child: PerformanceProfilerOverlay(
-            child: child ?? const SizedBox.shrink(),
+            child: AchievementUnlockToastOverlay(
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         );
       },

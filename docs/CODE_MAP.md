@@ -133,6 +133,7 @@
 - `lib/engine/weather/dynamic_mountain_weather_engine.dart` — Pogoda zależna od wysokości n.p.m. i godziny.
 
 ### `lib/services/`
+- `lib/services/career/achievement_and_milestones_service.dart` — Serwis 45 osiągnięć i kamieni milowych (`AchievementAndMilestonesService`, `AchievementTier`, `AchievementUnlockEvent`, `StageEvaluationContext`, `SeasonEvaluationContext`).
 - `lib/services/career/ai_team_transfer_simulation_service.dart` — Symulacja rynku transferowego AI (`AiTeamTransferSimulationService`, `TeamRosterNeedsAnalyzer`, `TransferNewsItem`).
 - `lib/services/career/anti_doping_and_whereabouts_service.dart` — Kontrole antydopingowe i paszport biologiczny.
 - `lib/services/career/bike_manufacturer_negotiation_service.dart` — Negocjacje kontraktów z producentami rowerów.
@@ -208,6 +209,7 @@
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
 
 ### `lib/ui/widgets/`
+- `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/bike_preview_painter.dart` — Wektorowy podgląd roweru drużynowego.
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).

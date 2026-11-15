@@ -503,7 +503,7 @@ Zasady działania pętli:
 
   4. Dolna Konsola Taktyczna: `RiderEffortSliderControl` oraz `TeamTacticalPresetsBar` z płynnymi animacjami wejścia/wyjścia. Użyj `LayoutBuilder`, aby na mniejszych ekranach panele boczne mogły być zwijane jednym kliknięciem bez zasłaniania widoku 3D kolarzy. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #174** (`lib/services/career/achievement_and_milestones_service.dart`): Stwórz kompletny serwis `AchievementAndMilestonesService` zarządzający 45 osiągnięciami (Achievements) i kamieniami milowymi kariery menedżera, podzielonymi na 4 rangi (`Bronze`, `Silver`, `Gold`, `Platinum Legend`). Zaimplementuj:
+- [x] **Zadanie #174** (`lib/services/career/achievement_and_milestones_service.dart`): Stwórz kompletny serwis `AchievementAndMilestonesService` zarządzający 45 osiągnięciami (Achievements) i kamieniami milowymi kariery menedżera, podzielonymi na 4 rangi (`Bronze`, `Silver`, `Gold`, `Platinum Legend`). Zaimplementuj:
 
   1. Definicje 45 wyzwań kolarskich z warunkami sprawdzanymi automatycznie po każdym etapie i sezonie, m.in.:
 
