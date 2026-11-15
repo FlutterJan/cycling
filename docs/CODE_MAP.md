@@ -187,6 +187,7 @@
 - `lib/ui/screens/jersey_and_bike_livery_studio_screen.dart` — Studio projektowania koszulek i malowania ram.
 - `lib/ui/screens/main_shell_screen.dart` — Główna nawigacja powłoki kariery (`MainShellScreen`, `MainNavigationSection`, `MainNavigationTab` 4 sekcje / 20 ekranów, TopBar, `CareerInboxView`, `UciRankingsAndLicenseView`, `ManagerProfileAndAchievementsView`).
 - `lib/ui/screens/main_title_menu_screen.dart` — Ekran tytułowy AAA (`MainTitleMenuScreen`, `AnimatedPelotonBackdropPainter`) z animowanym tłem alpejskim 60/120 FPS i szklanym panelem nawigacyjnym.
+- `lib/ui/screens/manager_profile_and_achievements_screen.dart` — Profil Menedżera (`ManagerProfileAndAchievementsScreen`): holograficzna licencja UCI VIP, wykresy zwycięstw wg terenu (`fl_chart`) i siatka 45 osiągnięć z filtrami rangi i paskami postępu.
 - `lib/ui/screens/medical_and_recovery_center_screen.dart` — Centrum medyczne, kontuzje i paszport biologiczny.
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).

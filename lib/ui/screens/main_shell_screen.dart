@@ -20,6 +20,7 @@ import 'dashboard_hq_screen.dart';
 import 'development_academy_screen.dart';
 import 'hall_of_fame_and_records_screen.dart';
 import 'jersey_and_bike_livery_studio_screen.dart';
+import 'manager_profile_and_achievements_screen.dart';
 import 'medical_and_recovery_center_screen.dart';
 import 'physiology_lab_screen.dart';
 import 'pre_race_briefing_screen.dart';
@@ -1583,7 +1584,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           currentSeasonYear: save.currentSeasonYear,
         );
       case MainNavigationTab.managerProfile:
-        return const ManagerProfileAndAchievementsView();
+        return const ManagerProfileAndAchievementsScreen();
       case MainNavigationTab.stageEditor:
         return const StageEditorCreatorScreen();
       case MainNavigationTab.settings:

@@ -519,7 +519,7 @@ Zasady działania pętli:
 
   2. Emitowanie zdarzeń odblokowania osiągnięcia, które wyświetlają na ekranie elegancki, animowany baner powiadomienia (Toast w stylu trofeów PlayStation/Steam ze złotym blaskiem `#D4AF37`). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #175** (`lib/ui/screens/manager_profile_and_achievements_screen.dart`): Stwórz ekran `ManagerProfileAndAchievementsScreen` prezentujący dorobek kariery gracza. Zaimplementuj:
+- [x] **Zadanie #175** (`lib/ui/screens/manager_profile_and_achievements_screen.dart`): Stwórz ekran `ManagerProfileAndAchievementsScreen` prezentujący dorobek kariery gracza. Zaimplementuj:
 
   1. Kartę Licencji Dyrektora Sportowego UCI (wyglądającą jak fizyczna, holograficzna przepustka VIP z Touru): imię i nazwisko menedżera, narodowość, poziom reputacji (1–100), ulubiona specjalizacja taktyczna, liczba rozegranych sezonów, bilans zwycięstw (Etapy, Klasyfikacje Generalne, Monumenty) oraz łączna kwota wygranych nagród finansowych.
 

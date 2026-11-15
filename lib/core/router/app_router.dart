@@ -17,6 +17,7 @@ import '../../ui/screens/hall_of_fame_and_records_screen.dart';
 import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
 import '../../ui/screens/main_title_menu_screen.dart';
+import '../../ui/screens/manager_profile_and_achievements_screen.dart';
 import '../../ui/screens/medical_and_recovery_center_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
@@ -346,7 +347,7 @@ GoRouter createAppRouter({
             path: AppRoutes.managerProfile,
             name: AppRouteNames.managerProfile,
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: ManagerProfileAndAchievementsView(),
+              child: ManagerProfileAndAchievementsScreen(),
             ),
           ),
           GoRoute(
