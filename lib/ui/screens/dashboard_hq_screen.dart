@@ -11,9 +11,11 @@ import '../../models/race/tour_race.dart';
 import '../../models/rider/rider.dart';
 import '../../models/rider/rider_contract.dart';
 import '../../models/team/cycling_team.dart';
+import '../../services/career/social_media_and_cycling_news_service.dart';
 import '../../state/career_controller.dart';
 import '../../state/career_state_notifier.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../widgets/cycling_news_feed_widget.dart';
 import '../widgets/elevation_profile_chart.dart';
 import '../widgets/power_curve_chart_widget.dart';
 import '../widgets/rider_avatar_painter.dart';
@@ -285,6 +287,10 @@ class _DashboardHqScreenState extends ConsumerState<DashboardHqScreen> {
 
         // RZĄD 3: Szybki podgląd rankingu UCI WorldTour (12 cols)
         _buildUciRankingLeaderboardCard(context, save),
+        const SizedBox(height: 16),
+
+        // RZĄD 4: Strumień Mediów Kolarskich & Peloton Social (12 cols)
+        _buildCyclingNewsSection(save, careerState, careerStateNotifier),
       ],
     );
   }
@@ -315,7 +321,30 @@ class _DashboardHqScreenState extends ConsumerState<DashboardHqScreen> {
         _buildFinancialRunwayCard(context, save),
         const SizedBox(height: 16),
         _buildUciRankingLeaderboardCard(context, save),
+        const SizedBox(height: 16),
+        _buildCyclingNewsSection(save, careerState, careerStateNotifier),
       ],
+    );
+  }
+
+  Widget _buildCyclingNewsSection(
+    CareerSave save,
+    CareerState careerState,
+    CareerStateNotifier careerStateNotifier,
+  ) {
+    final items = careerState.newsFeed.isNotEmpty
+        ? careerState.newsFeed
+        : const SocialMediaAndCyclingNewsService().generateInitialFeed(save);
+
+    return CyclingNewsFeedWidget(
+      items: items,
+      onToggleLike: careerState.newsFeed.isNotEmpty
+          ? careerStateNotifier.toggleNewsLike
+          : null,
+      onToggleBookmark: careerState.newsFeed.isNotEmpty
+          ? careerStateNotifier.toggleNewsBookmark
+          : null,
+      onRefresh: careerStateNotifier.refreshDailyNewsFeed,
     );
   }
 

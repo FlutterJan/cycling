@@ -694,7 +694,7 @@ Zasady działania pętli:
 
   3. Przycisk "ROZPOCZNIJ SEZON WYŚCIGOWY", który generuje artykuł prasowy w mediach i przenosi gracza do kalendarza styczniowych wyścigów. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #197** (`lib/services/career/social_media_and_cycling_news_service.dart`): Aby świat gry tętnił życiem każdego dnia, stwórz serwis mediów kolarskich `SocialMediaAndCyclingNewsService` (wzorowany na portalach *Cyclingnews / ProCyclingStats / Velonews* oraz wpisach zawodników po wyścigach). Zaimplementuj:
+- [x] **Zadanie #197** (`lib/services/career/social_media_and_cycling_news_service.dart`): Aby świat gry tętnił życiem każdego dnia, stwórz serwis mediów kolarskich `SocialMediaAndCyclingNewsService` (wzorowany na portalach *Cyclingnews / ProCyclingStats / Velonews* oraz wpisach zawodników po wyścigach). Zaimplementuj:
 
   1. Generator codziennych artykułów i nagłówków prasowych po każdym rozegranym wyścigu na świecie: zapowiedzi faworytów przed etapem ("5 gwiazdek dla..."), relacje z ucieczek, komentarze po kraksach, plotki transferowe oraz wyliczenia ekspertów dotyczące watów i rekordów VAM na podjazdach.
 

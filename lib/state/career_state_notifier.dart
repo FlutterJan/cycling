@@ -14,6 +14,7 @@ import '../services/career/anti_doping_and_whereabouts_service.dart';
 import '../services/career/finance_and_budget_service.dart';
 import '../services/career/press_conference_service.dart';
 import '../services/career/scouting_and_youth_academy_service.dart';
+import '../services/career/social_media_and_cycling_news_service.dart';
 import '../services/career/sponsor_objectives_evaluator.dart';
 import '../services/career/training_and_camps_service.dart';
 import '../services/database/save_game_manager.dart';
@@ -273,6 +274,7 @@ class CareerState {
   final List<PressConferenceSession> pendingPressConferences;
   final List<AntiDopingTestResult> recentAntiDopingResults;
   final Set<String> triggeredOneTimeEventKeys;
+  final List<CyclingNewsItem> newsFeed;
 
   const CareerState({
     required this.currentDate,
@@ -301,6 +303,7 @@ class CareerState {
     this.pendingPressConferences = const [],
     this.recentAntiDopingResults = const [],
     this.triggeredOneTimeEventKeys = const {},
+    this.newsFeed = const [],
   });
 
   /// Skład kolarzy w drużynie gracza
@@ -373,6 +376,7 @@ class CareerState {
     List<PressConferenceSession>? pendingPressConferences,
     List<AntiDopingTestResult>? recentAntiDopingResults,
     Set<String>? triggeredOneTimeEventKeys,
+    List<CyclingNewsItem>? newsFeed,
   }) {
     return CareerState(
       currentDate: currentDate ?? this.currentDate,
@@ -401,6 +405,7 @@ class CareerState {
       pendingPressConferences: pendingPressConferences ?? this.pendingPressConferences,
       recentAntiDopingResults: recentAntiDopingResults ?? this.recentAntiDopingResults,
       triggeredOneTimeEventKeys: triggeredOneTimeEventKeys ?? this.triggeredOneTimeEventKeys,
+      newsFeed: newsFeed ?? this.newsFeed,
     );
   }
 
@@ -461,6 +466,9 @@ class CareerState {
             ),
           ];
 
+    const newsService = SocialMediaAndCyclingNewsService();
+    final initialNewsFeed = newsService.generateInitialFeed(save);
+
     return CareerState(
       currentDate: save.currentDate,
       currentSeasonYear: save.currentSeasonYear,
@@ -476,6 +484,7 @@ class CareerState {
       isRaceDayForPlayerTeam: raceDay,
       activeSlotNumber: activeSlotNumber,
       rawSave: save,
+      newsFeed: initialNewsFeed,
     );
   }
 
@@ -1334,6 +1343,25 @@ class CareerStateNotifier extends StateNotifier<CareerState> {
       );
     }
 
+    // 5b. Codzienne wiadomości mediów kolarskich i wpisy społecznościowe kolarzy
+    final newlyCompletedRaces = updatedCalendar.raceHistory.entries
+        .where((e) => !current.calendar.raceHistory.containsKey(e.key))
+        .map((e) => e.value)
+        .toList();
+    final dailyNews = const SocialMediaAndCyclingNewsService().generateDailyFeed(
+      currentDate: newDate,
+      calendar: updatedCalendar,
+      teams: updatedTeams,
+      riders: updatedRiders,
+      playerTeamId: current.playerTeamId,
+      recentTransfers: updatedTransferNews,
+      newlyCompletedRaces: newlyCompletedRaces,
+    );
+    final updatedNewsFeed = [...dailyNews, ...current.newsFeed];
+    if (updatedNewsFeed.length > 45) {
+      updatedNewsFeed.removeRange(45, updatedNewsFeed.length);
+    }
+
     // -------------------------------------------------------------------------
     // 6. ZŁOŻENIE NOWEGO STANU
     // -------------------------------------------------------------------------
@@ -1373,6 +1401,7 @@ class CareerStateNotifier extends StateNotifier<CareerState> {
       recentAntiDopingResults: updatedDopingResults,
       triggeredOneTimeEventKeys: triggeredKeys,
       rawSave: nextSave,
+      newsFeed: updatedNewsFeed,
     );
   }
 
@@ -1620,6 +1649,47 @@ class CareerStateNotifier extends StateNotifier<CareerState> {
     state = state.copyWith(
       inboxMessages: [message, ...state.inboxMessages],
     );
+  }
+
+  /// Przełącza polubienie wpisu w strumieniu mediów kolarskich
+  void toggleNewsLike(String newsId) {
+    final updated = state.newsFeed.map((item) {
+      if (item.id != newsId) return item;
+      final nextLiked = !item.isLikedByPlayer;
+      return item.copyWith(
+        isLikedByPlayer: nextLiked,
+        likesCount: item.likesCount + (nextLiked ? 1 : -1),
+      );
+    }).toList();
+    state = state.copyWith(newsFeed: updated);
+  }
+
+  /// Przełącza zakładkę (zapis) wpisu w strumieniu mediów kolarskich
+  void toggleNewsBookmark(String newsId) {
+    final updated = state.newsFeed.map((item) {
+      if (item.id != newsId) return item;
+      return item.copyWith(isBookmarked: !item.isBookmarked);
+    }).toList();
+    state = state.copyWith(newsFeed: updated);
+  }
+
+  /// Ręcznie odświeża lub dogenerowuje świeży przegląd mediów kolarskich
+  void refreshDailyNewsFeed({int? seed}) {
+    final fresh = const SocialMediaAndCyclingNewsService().generateDailyFeed(
+      currentDate: state.currentDate,
+      calendar: state.calendar,
+      teams: state.teams,
+      riders: state.riders,
+      playerTeamId: state.playerTeamId,
+      recentTransfers: state.recentTransferNews,
+      seed: seed ?? DateTime.now().millisecondsSinceEpoch,
+    );
+    if (fresh.isEmpty) return;
+    final merged = [...fresh, ...state.newsFeed];
+    if (merged.length > 45) {
+      merged.removeRange(45, merged.length);
+    }
+    state = state.copyWith(newsFeed: merged);
   }
 
   // ===========================================================================

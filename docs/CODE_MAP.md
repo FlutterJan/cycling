@@ -157,6 +157,7 @@
 - `lib/services/career/rider_ego_and_conflicts_service.dart` — Konflikty w zespole, ego liderów i lojalność.
 - `lib/services/career/scouting_and_youth_academy_service.dart` — Skauting talentów na świecie i akademia.
 - `lib/services/career/season_transition_service.dart` — Przejście między sezonami, emerytury i nowi juniorzy.
+- `lib/services/career/social_media_and_cycling_news_service.dart` — Serwis mediów kolarskich i social kolarzy (`SocialMediaAndCyclingNewsService`, `CyclingNewsItem`, `BikeComputerRideSnapshot`, `CyclingNewsStarPick`: zapowiedzi 5★, ucieczki, kraksy, plotki, W/kg i VAM).
 - `lib/services/career/sponsor_negotiation_service.dart` — Negocjacje ze sponsorami tytularnymi.
 - `lib/services/career/sponsor_objectives_evaluator.dart` — Ewaluacja celów sponsorskich po wyścigu i wypłata bonusów.
 - `lib/services/career/team_chemistry_and_builder_service.dart` — Chemia drużyny i hierarchia liderów.
@@ -225,6 +226,7 @@
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/bike_preview_painter.dart` — Wektorowy podgląd roweru drużynowego.
 - `lib/ui/widgets/custom_carbon_and_glass_containers.dart` — Luksusowe kontenery UI (`CustomCarbonAndGlassContainers`, `CarbonFiberCard` 3K 45°, `GlassmorphicHudPanel` blur 14px + szum, `AnimatedStatBadge` z `TweenAnimationBuilder`).
+- `lib/ui/widgets/cycling_news_feed_widget.dart` — Strumień mediów kolarskich i wpisów kolarzy z licznikami (`CyclingNewsFeedWidget`, `CyclingNewsFilter`, filtry kategorii/ekipy, typy 5★, telemetria NP/W/kg/VAM).
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.
