@@ -1,0 +1,7 @@
+# Pro Peloton Manager - zasady dla modelu Flash 3.8 (nocna kolejka)
+
+- Zawsze pisz kompletny kod Dart bez komentarzy typu // TODO.
+- Używaj ciemnej palety barw: tło #0F1115, karty #181B22, akcent główny #8E4A49, złoty #D4AF37.
+- Każdy model danych musi posiadać metody toJson i fromJson oraz copyWith.
+- Nie używaj zewnętrznych generatorów kodu (build_runner) w kolejce nocnej – pisz serializację jawnie w pliku, aby uniknąć błędów kompilacji.
+
