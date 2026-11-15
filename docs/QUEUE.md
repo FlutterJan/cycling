@@ -379,7 +379,7 @@ Zasady działania pętli:
 
 ## CZĘŚĆ II: AKTYWNA KOLEJKA — PACZKA 50 ULTRA-SZCZEGÓŁOWYCH ZADAŃ (#163 – #212)
 
-- [ ] **Zadanie #163** (`lib/ui/widgets/rider_comparison_side_by_side_modal.dart`): Stwórz w 100% produkcyjny, wizualnie zjawiskowy modal `RiderComparisonSideBySideModal` (iOS Dark Mode #0F1115, karty #181B22 z subtelnym obramowaniem 1px #2A2F3D i efektem `BackdropFilter` blur 16px). Widget musi pozwalać na jednoczesne porównanie 2 lub 3 obiektów `Rider` obok siebie. Zaimplementuj:
+- [x] **Zadanie #163** (`lib/ui/widgets/rider_comparison_side_by_side_modal.dart`): Stwórz w 100% produkcyjny, wizualnie zjawiskowy modal `RiderComparisonSideBySideModal` (iOS Dark Mode #0F1115, karty #181B22 z subtelnym obramowaniem 1px #2A2F3D i efektem `BackdropFilter` blur 16px). Widget musi pozwalać na jednoczesne porównanie 2 lub 3 obiektów `Rider` obok siebie. Zaimplementuj:
 
   1. Nagłówek z portretami `RiderAvatarWidget`, flagami narodowości, wiekiem, specjalizacją, oceną OVR (w złotym okręgu `#D4AF37` dla lidera) oraz aktualną pensją i klauzulą wykupu.
 

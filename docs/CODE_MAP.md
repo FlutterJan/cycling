@@ -219,6 +219,7 @@
 - `lib/ui/widgets/race_top_hud_bar.dart` — Górny pasek HUD (km, prędkość, wiatr, pogoda).
 - `lib/ui/widgets/rainbow_and_national_jersey_badge.dart` — Oznaczenia Tęczowej Koszulki i Mistrzów Krajowych.
 - `lib/ui/widgets/rider_avatar_painter.dart` — Proceduralny portret kolarza w kasku i okularach.
+- `lib/ui/widgets/rider_comparison_side_by_side_modal.dart` — Modal porównania 2–3 kolarzy obok siebie (`RiderComparisonSideBySideModal`).
 - `lib/ui/widgets/rider_effort_slider_control.dart` — Suwak wysiłku i rozkazów taktycznych kolarza.
 - `lib/ui/widgets/rider_telemetry_hud.dart` — Karta telemetrii kolarza na żywo (W, BPM, W', glikogen).
 - `lib/ui/widgets/tactical_minimap_2d_widget.dart` — Minimapa 2D trasy i pozycji grup.
