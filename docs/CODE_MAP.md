@@ -127,6 +127,7 @@
 - `lib/engine/rendering3d/dynamic_skybox_and_lighting_painter.dart` — Renderer nieba, słońca/Golden Hour/latarni, burz z błyskami, cieni rzucanych (`ProjectedShadowResult`) i mokrego asfaltu (`DynamicSkyboxAndLightingPainter`, `StageTimeOfDay`, `SunLightState`).
 - `lib/engine/rendering3d/environment_scenery_spawner.dart` — Proceduralne drzewa, skały, budynki i kibice.
 - `lib/engine/rendering3d/glb_asset_loader_service.dart` — Ładowanie i cache modeli `.glb`.
+- `lib/engine/rendering3d/glb_mesh_integrity_validator.dart` — Automatyczny walidator startowy plików `.glb` (`GlbMeshIntegrityValidator`, `GlbIntegrityValidationReport`, `GlbMeshIntegrityNotifier`, `GlbMeshIntegrityStatusPanel`) z generacją brakujących/uszkodzonych siatek w RAM.
 - `lib/engine/rendering3d/inverse_kinematics_limb_solver.dart` — Dwustawowy analityczny solver IK 3D nóg i rąk (`InverseKinematicsLimbSolver`, `IkGripType`, `LimbIkGeometryConfig`, `LimbIkFrameInput`, `LimbIkFrameResult`, `SolvedTwoBoneLimb`: kolana, kostki, korba 165–175 mm, łokcie w chwytach `Tops`/`Hoods`/`Drops`/`AeroTuck`).
 - `lib/engine/rendering3d/neutral_service_and_medical_cars.dart` — Kontroler i renderer 3D żółtych/niebieskich aut neutralnego serwisu z rowerami na dachu, ambulansu oraz wozów `Commissaire Car` z czerwonym dachem (`NeutralServiceAndMedicalCarsController`, `NeutralAndMedicalVehicle3D`, `RaceConvoyVehicleRole`, `ConvoyPlacementZone`, `RaceConvoyGroupMetrics`, `NeutralAndMedicalCarsConfig`).
 - `lib/engine/rendering3d/on_bike_computer_hud_widget.dart` — Licznik na kierownicy w widoku FPP.
