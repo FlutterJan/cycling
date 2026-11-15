@@ -207,6 +207,7 @@
 - `lib/ui/screens/race_simulation_screen.dart` — Ekran wyścigu łączący 3D viewport, HUD i kontrolki.
 - `lib/ui/screens/rider_detail_screen.dart` — Szczegółowy profil kolarza i statystyki.
 - `lib/ui/screens/settings_and_mod_screen.dart` — Ustawienia gry i import modów.
+- `lib/ui/screens/sponsor_pitch_deck_negotiation_modal.dart` — Interaktywne okno negocjacji ze sponsorem tytularnym (`SponsorPitchDeckNegotiationModal`, `TeamBibShortsPainter`, `PitchDeckMediaForecast`, `PitchNegotiationStatus`) z podglądem stroju, Media Value Index, 3 rundami suwaków/celów i wskaźnikiem cierpliwości.
 - `lib/ui/screens/sponsors_and_finance_screen.dart` — Zarządzanie sponsorami i budżetem.
 - `lib/ui/screens/squad_roster_screen.dart` — Lista składu drużyny z filtrami i statystykami.
 - `lib/ui/screens/staff_management_screen.dart` — Zatrudnianie i zarządzanie personelem.

@@ -8,6 +8,7 @@ import '../../models/team/sponsor_contract.dart';
 import '../../services/career/finance_and_budget_service.dart';
 import '../../services/career/sponsor_negotiation_service.dart';
 import '../../state/career_controller.dart';
+import 'sponsor_pitch_deck_negotiation_modal.dart';
 
 /// Zakładki główne ekranu Sponsorów i Finansów.
 enum SponsorsFinanceTab {
@@ -1035,273 +1036,34 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
     );
   }
 
-  void _openPitchDeckDialog(
+  Future<void> _openPitchDeckDialog(
     CareerSave save,
     CyclingTeam team,
     PotentialSponsorCompany company,
-  ) {
-    SponsorTier tier = company.defaultTier;
-    int budgetEur = company.baseAnnualBudgetEur;
-    int durationYears = 2;
-    String? featuredRiderId = save.playerRoster.isNotEmpty ? save.playerRoster.first.id : null;
-    final List<PromisedObjectiveType> selectedObjectives = [
-      PromisedObjectiveType.targetStageWinsCount,
-      PromisedObjectiveType.breakawayTvAirtimeKm,
-    ];
+  ) async {
+    final int wtStarts = save.calendar.races
+        .where((r) => r.uciCategory.name.toLowerCase().contains('world'))
+        .length;
 
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setDialogState) {
-            final starRider = save.playerRoster.firstWhere(
-              (r) => r.id == featuredRiderId,
-              orElse: () => save.playerRoster.first,
-            );
-            final starRating = SponsorNegotiationService.calculateRiderMediaStarRating(starRider);
-
-            return AlertDialog(
-              backgroundColor: AppColors.cardDark,
-              title: Text(
-                'Pitch Deck & Negocjacje: ${company.name}',
-                style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w800),
-              ),
-              content: SizedBox(
-                width: 550,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Profil marketingowy sponsora: ${company.marketingFocus.label}',
-                        style: const TextStyle(
-                          color: AppColors.primaryGold,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-
-                      // Wybór rangi
-                      const Text('Ranga współpracy:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                      DropdownButton<SponsorTier>(
-                        value: tier,
-                        isExpanded: true,
-                        dropdownColor: AppColors.cardSurface,
-                        style: const TextStyle(color: AppColors.textPrimary),
-                        items: SponsorTier.values.map((t) {
-                          return DropdownMenuItem(value: t, child: Text(t.name.toUpperCase()));
-                        }).toList(),
-                        onChanged: (val) {
-                          if (val != null) setDialogState(() => tier = val);
-                        },
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Żądany budżet roczny
-                      Text(
-                        'Żądany budżet roczny: €${_formatCurrency(budgetEur)} / rok',
-                        style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w700),
-                      ),
-                      Slider(
-                        value: budgetEur.toDouble(),
-                        min: (company.baseAnnualBudgetEur * 0.5),
-                        max: (company.baseAnnualBudgetEur * 1.6),
-                        divisions: 22,
-                        activeColor: AppColors.statusSuccess,
-                        inactiveColor: AppColors.cardBorder,
-                        onChanged: (v) => setDialogState(() => budgetEur = v.round()),
-                      ),
-                      const SizedBox(height: 10),
-
-                      // Długość kontraktu
-                      Text(
-                        'Długość kontraktu: $durationYears lata',
-                        style: const TextStyle(color: AppColors.textPrimary),
-                      ),
-                      Slider(
-                        value: durationYears.toDouble(),
-                        min: 1,
-                        max: 4,
-                        divisions: 3,
-                        activeColor: AppColors.accentBlue,
-                        onChanged: (v) => setDialogState(() => durationYears = v.round()),
-                      ),
-                      const SizedBox(height: 10),
-
-                      // Twarz kampanii marketingowej (Star Rider)
-                      const Text('Twarz projektu sponsorskiego (Lider):', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                      DropdownButton<String>(
-                        value: featuredRiderId,
-                        isExpanded: true,
-                        dropdownColor: AppColors.cardSurface,
-                        style: const TextStyle(color: AppColors.textPrimary),
-                        items: save.playerRoster.map((r) {
-                          return DropdownMenuItem(
-                            value: r.id,
-                            child: Text('${r.fullName} (${r.specialization.name}, ${r.age} lat)'),
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          if (val != null) setDialogState(() => featuredRiderId = val);
-                        },
-                      ),
-                      Text(
-                        'Siła medialna wybranego kolarza: ${starRating.toStringAsFixed(1)} / 100 pkt',
-                        style: const TextStyle(color: AppColors.accentBlue, fontSize: 11, fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 14),
-
-                      // Obietnice sportowe
-                      const Text(
-                        'Obietnice sportowe w ofercie:',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 6),
-                      ...PromisedObjectiveType.values.take(6).map((obj) {
-                        final isIncluded = selectedObjectives.contains(obj);
-                        return CheckboxListTile(
-                          value: isIncluded,
-                          dense: true,
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(obj.label, style: const TextStyle(fontSize: 11.5, color: AppColors.textPrimary)),
-                          activeColor: AppColors.primaryGold,
-                          onChanged: (checked) {
-                            setDialogState(() {
-                              if (checked == true) {
-                                selectedObjectives.add(obj);
-                              } else {
-                                selectedObjectives.remove(obj);
-                              }
-                            });
-                          },
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  child: const Text('Anuluj', style: TextStyle(color: AppColors.textSecondary)),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _submitPitchDeck(
-                      company,
-                      tier,
-                      budgetEur,
-                      durationYears,
-                      featuredRiderId,
-                      selectedObjectives,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGold,
-                    foregroundColor: Colors.black,
-                  ),
-                  child: const Text('Złóż Ofertę Zarządowi'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _submitPitchDeck(
-    PotentialSponsorCompany company,
-    SponsorTier tier,
-    int budgetEur,
-    int durationYears,
-    String? featuredRiderId,
-    List<PromisedObjectiveType> objectives,
-  ) {
-    final deck = SponsorPitchDeck(
-      sponsorCompanyId: company.id,
-      proposedTier: tier,
-      requestedAnnualBudgetEur: budgetEur,
-      contractDurationYears: durationYears,
-      featuredStarRiderId: featuredRiderId,
-      promisedObjectives: objectives,
+    final signedContract = await SponsorPitchDeckNegotiationModal.show(
+      context,
+      company: company,
+      team: team,
+      roster: save.playerRoster,
+      worldTourStartsCount: wtStarts > 0 ? wtStarts : null,
     );
 
-    final result = ref.read(careerProvider.notifier).submitSponsorPitchDeck(deck);
-
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: AppColors.cardDark,
-          title: Text(
-            result.isAccepted
-                ? 'Oferta Zaakceptowana!'
-                : (result.isCounterOffer ? 'Kontroferta Zarządu' : 'Oferta Odrzucona'),
-            style: TextStyle(
-              color: result.isAccepted
-                  ? AppColors.statusSuccess
-                  : (result.isCounterOffer ? AppColors.primaryGold : AppColors.powerZone6),
-              fontWeight: FontWeight.w800,
-            ),
+    if (signedContract != null && mounted) {
+      ref.read(careerProvider.notifier).acceptSponsorContract(signedContract);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.statusSuccess,
+          content: Text(
+            'Podpisano oficjalny kontrakt ze sponsorem ${signedContract.companyName}!',
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '"${result.corporateDirectorQuote}"',
-                style: const TextStyle(fontStyle: FontStyle.italic, color: AppColors.textPrimary),
-              ),
-              const SizedBox(height: 14),
-              Text(
-                'Ogólna ocena prezentacji: ${result.overallScore.toStringAsFixed(1)} / 100 pkt',
-                style: const TextStyle(color: AppColors.accentBlue, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Oferowany budżet roczny: €${_formatCurrency(result.offeredAnnualBudgetEur)}/rok (${result.contractDurationYears} lata)',
-                style: const TextStyle(color: AppColors.statusSuccess, fontWeight: FontWeight.w800),
-              ),
-              if (result.rejectionReason != null) ...[
-                const SizedBox(height: 8),
-                Text(
-                  'Powód odmowy: ${result.rejectionReason}',
-                  style: const TextStyle(color: AppColors.powerZone6, fontSize: 12),
-                ),
-              ],
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Zamknij', style: TextStyle(color: AppColors.textSecondary)),
-            ),
-            if (result.resultingContract != null)
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  ref.read(careerProvider.notifier).acceptSponsorContract(result.resultingContract!);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: AppColors.statusSuccess,
-                      content: Text('Podpisano oficjalny kontrakt ze sponsorem ${result.resultingContract!.companyName}!'),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.statusSuccess,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Podpisz Kontrakt i Wypłać Transzę'),
-              ),
-          ],
-        );
-      },
-    );
+        ),
+      );
+    }
   }
 
   // ===========================================================================

@@ -670,7 +670,7 @@ Zasady działania pętli:
 
   3. Na ekranie podsumowania etapu oś czasu pozwala przewijać i analizować, w którym dokładnie kilometrze wyścigu rozstrzygnęły się losy klasyfikacji generalnej. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #195** (`lib/ui/screens/sponsor_pitch_deck_negotiation_modal.dart`): Stwórz interaktywne okno negocjacji ze sponsorem tytularnym `SponsorPitchDeckNegotiationModal`, w którym gracz składa ofertę budżetową na nowy sezon. Zaimplementuj:
+- [x] **Zadanie #195** (`lib/ui/screens/sponsor_pitch_deck_negotiation_modal.dart`): Stwórz interaktywne okno negocjacji ze sponsorem tytularnym `SponsorPitchDeckNegotiationModal`, w którym gracz składa ofertę budżetową na nowy sezon. Zaimplementuj:
 
   1. Wizualną prezentację "Pitch Decku" drużyny: podgląd nowej koszulki zespołu z wyeksponowanym logo negocjowanego sponsora na piersi i spodenkach, prognozę ekspozycji telewizyjnej (Media Value Index wyliczany z liczby startów w WorldTourze i popularności liderów).
 
