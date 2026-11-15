@@ -90,6 +90,7 @@
 ### `lib/engine/`
 - `lib/engine/audio/procedural_cycling_audio_engine.dart` — Synteza dźwięku wiatru, bębenka i tłumu.
 - `lib/engine/audio/race_radio_tts_and_beeps.dart` — Sygnały radia wyścigowego i alarmy Garmin.
+- `lib/engine/audio/sound_effects_manager_provider.dart` — Centralny menedżer dźwięku i haptyki UI/3D (`SoundEffectsManagerProvider`, `soundEffectsManagerProvider`, `UiSoundSynthesizer`, `UiSoundEffect`, `SoundEffectsState`) łączący #117, #118 i 5-kanałowy mikser z natychmiastowym zapisem.
 - `lib/engine/events/race_incident_engine.dart` — Generator kraks, defektów i przebić opon.
 - `lib/engine/events/race_radio_generator.dart` — Generator komunikatów dyrektora sportowego.
 - `lib/engine/peloton/boids_steering_collision_avoidance.dart` — Silnik fizyki ruchu ciągłego 60 FPS bez kolizji (`BoidsSteeringCollisionAvoidance`, `BoidRiderState`, `BoidSteeringVectors`, `BoidsFrameResult`, `OvertakeLaneDirection`: separacja 1.85x0.65m, draft/wachlarz, wyprzedzanie 15m, efekt akordeonu).

@@ -93,6 +93,10 @@ class GameSettings {
   final bool particleEffects;
   final bool bikeDetailLOD;
   final double soundVolume;
+  final double raceEnvironmentVolume;
+  final double crowdAtmosphereVolume;
+  final double raceRadioVolume;
+  final double uiSoundsVolume;
   final bool commentaryAudio;
   final int autoSaveIntervalMinutes;
   final bool showFpsCounter;
@@ -108,7 +112,11 @@ class GameSettings {
     this.motionBlur = false,
     this.particleEffects = true,
     this.bikeDetailLOD = true,
-    this.soundVolume = 0.8,
+    this.soundVolume = 0.85,
+    this.raceEnvironmentVolume = 0.85,
+    this.crowdAtmosphereVolume = 0.80,
+    this.raceRadioVolume = 0.90,
+    this.uiSoundsVolume = 0.75,
     this.commentaryAudio = true,
     this.autoSaveIntervalMinutes = 15,
     this.showFpsCounter = false,
@@ -116,6 +124,9 @@ class GameSettings {
     this.hasCompletedRaceTutorial = false,
     this.showTutorialHints = true,
   });
+
+  /// Alias dla głośności ogólnej (Master)
+  double get masterVolume => soundVolume;
 
   /// Szacowany wskaźnik obciążenia baterii / GPU (1.0 = b. niskie, 5.0 = maksymalne)
   double get estimatedLoadScore {
@@ -249,6 +260,10 @@ class GameSettings {
     bool? particleEffects,
     bool? bikeDetailLOD,
     double? soundVolume,
+    double? raceEnvironmentVolume,
+    double? crowdAtmosphereVolume,
+    double? raceRadioVolume,
+    double? uiSoundsVolume,
     bool? commentaryAudio,
     int? autoSaveIntervalMinutes,
     bool? showFpsCounter,
@@ -265,6 +280,10 @@ class GameSettings {
       particleEffects: particleEffects ?? this.particleEffects,
       bikeDetailLOD: bikeDetailLOD ?? this.bikeDetailLOD,
       soundVolume: soundVolume ?? this.soundVolume,
+      raceEnvironmentVolume: raceEnvironmentVolume ?? this.raceEnvironmentVolume,
+      crowdAtmosphereVolume: crowdAtmosphereVolume ?? this.crowdAtmosphereVolume,
+      raceRadioVolume: raceRadioVolume ?? this.raceRadioVolume,
+      uiSoundsVolume: uiSoundsVolume ?? this.uiSoundsVolume,
       commentaryAudio: commentaryAudio ?? this.commentaryAudio,
       autoSaveIntervalMinutes: autoSaveIntervalMinutes ?? this.autoSaveIntervalMinutes,
       showFpsCounter: showFpsCounter ?? this.showFpsCounter,
@@ -284,6 +303,10 @@ class GameSettings {
       'particleEffects': particleEffects,
       'bikeDetailLOD': bikeDetailLOD,
       'soundVolume': soundVolume,
+      'raceEnvironmentVolume': raceEnvironmentVolume,
+      'crowdAtmosphereVolume': crowdAtmosphereVolume,
+      'raceRadioVolume': raceRadioVolume,
+      'uiSoundsVolume': uiSoundsVolume,
       'commentaryAudio': commentaryAudio,
       'autoSaveIntervalMinutes': autoSaveIntervalMinutes,
       'showFpsCounter': showFpsCounter,
@@ -308,7 +331,15 @@ class GameSettings {
       motionBlur: json['motionBlur'] as bool? ?? false,
       particleEffects: json['particleEffects'] as bool? ?? true,
       bikeDetailLOD: json['bikeDetailLOD'] as bool? ?? true,
-      soundVolume: (json['soundVolume'] as num?)?.toDouble() ?? 0.8,
+      soundVolume: ((json['soundVolume'] as num?)?.toDouble() ?? 0.85).clamp(0.0, 1.0),
+      raceEnvironmentVolume:
+          ((json['raceEnvironmentVolume'] as num?)?.toDouble() ?? 0.85).clamp(0.0, 1.0),
+      crowdAtmosphereVolume:
+          ((json['crowdAtmosphereVolume'] as num?)?.toDouble() ?? 0.80).clamp(0.0, 1.0),
+      raceRadioVolume:
+          ((json['raceRadioVolume'] as num?)?.toDouble() ?? 0.90).clamp(0.0, 1.0),
+      uiSoundsVolume:
+          ((json['uiSoundsVolume'] as num?)?.toDouble() ?? 0.75).clamp(0.0, 1.0),
       commentaryAudio: json['commentaryAudio'] as bool? ?? true,
       autoSaveIntervalMinutes: (json['autoSaveIntervalMinutes'] as num?)?.toInt() ?? 15,
       showFpsCounter: json['showFpsCounter'] as bool? ?? false,

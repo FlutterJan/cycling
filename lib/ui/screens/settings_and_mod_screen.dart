@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../engine/audio/sound_effects_manager_provider.dart';
 import '../../models/career/career_save.dart';
 import '../../models/rider/rider.dart';
 import '../../models/settings/game_settings.dart';
@@ -80,10 +81,18 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
       vsync: this,
       initialIndex: widget.initialTabIndex.clamp(0, 3),
     );
+    _tabController.addListener(_onTabChanged);
+  }
+
+  void _onTabChanged() {
+    if (!_tabController.indexIsChanging) {
+      ref.read(soundEffectsManagerProvider.notifier).playTabClick();
+    }
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
     _jsonModController.dispose();
     _riderSearchController.dispose();
@@ -132,28 +141,32 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
               child: const Icon(Icons.settings_suggest_rounded, color: AppColors.primaryGold, size: 20),
             ),
             const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'USTAWIENIA & BAZA DANYCH (MODY)',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.8,
-                    color: AppColors.textPrimary,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'USTAWIENIA & BAZA DANYCH (MODY)',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.8,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
-                ),
-                Text(
-                  careerSave != null
-                      ? 'Kariera: ${careerSave.saveName} • Sezon ${careerSave.currentSeasonYear}'
-                      : 'Tryb Główny Gry',
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textMuted,
+                  Text(
+                    careerSave != null
+                        ? 'Kariera: ${careerSave.saveName} • Sezon ${careerSave.currentSeasonYear}'
+                        : 'Tryb Główny Gry',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textMuted,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -467,8 +480,10 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     const Text(
                       'SZACUNKOWY PROFIL EKSPLOATACJI',
@@ -671,9 +686,12 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
             children: [
               Icon(Icons.wb_sunny_outlined, color: AppColors.primaryGold, size: 18),
               SizedBox(width: 8),
-              Text(
-                'JAKOŚĆ CIENI (SHADOW MAPS)',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+              Expanded(
+                child: Text(
+                  'JAKOŚĆ CIENI (SHADOW MAPS)',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                ),
               ),
             ],
           ),
@@ -741,9 +759,12 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
             children: [
               Icon(Icons.groups_rounded, color: AppColors.accentBlue, size: 18),
               SizedBox(width: 8),
-              Text(
-                'GĘSTOŚĆ KIBICÓW PRZY TRASIE (CROWD DENSITY)',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+              Expanded(
+                child: Text(
+                  'GĘSTOŚĆ KIBICÓW PRZY TRASIE (CROWD DENSITY)',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                ),
               ),
             ],
           ),
@@ -810,15 +831,20 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.motion_photos_on_rounded, color: Color(0xFFC084FC), size: 18),
-                  SizedBox(width: 8),
-                  Text(
-                    'LIMIT KLATEK NA SEKUNDĘ (TARGET FPS)',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-                  ),
-                ],
+              const Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.motion_photos_on_rounded, color: Color(0xFFC084FC), size: 18),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'LIMIT KLATEK NA SEKUNDĘ (TARGET FPS)',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 children: [
@@ -890,11 +916,13 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppColors.cardBorder),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'EFEKTY POST-PROCESSINGU & SYMULACJA ŚRODOWISKA',
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'EFEKTY POST-PROCESSINGU & SYMULACJA ŚRODOWISKA',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 12),
@@ -925,54 +953,298 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
             activeThumbColor: AppColors.primaryGold,
           ),
         ],
+        ),
       ),
     );
   }
 
   Widget _buildAudioSettingsCard(GameSettings settings, GameSettingsNotifier notifier) {
+    final soundState = ref.watch(soundEffectsManagerProvider);
+    final soundManager = ref.read(soundEffectsManagerProvider.notifier);
+
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.cardDark,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.cardBorder),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder, width: 1),
       ),
-      child: Column(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 520;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryGold.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.primaryGold.withValues(alpha: 0.35)),
+                    ),
+                    child: Icon(
+                      soundState.isMuted ? Icons.volume_off_rounded : Icons.graphic_eq_rounded,
+                      color: soundState.isMuted ? AppColors.textMuted : AppColors.primaryGold,
+                      size: 18,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'MIKSER AUDIO, RADIO WYŚCIGOWE I HAPTICS',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.6,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'Każda zmiana suwaków jest zapisywana natychmiastowo.',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _AudioTestPillButton(
+                    icon: soundState.isMuted ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+                    label: soundState.isMuted ? 'Włącz dźwięk' : 'Wycisz',
+                    isActive: soundState.isMuted,
+                    onTap: () => soundManager.setMuted(!soundState.isMuted),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              _buildAudioChannelSlider(
+                icon: Icons.volume_up_rounded,
+                label: 'Głośność Ogólna (Master)',
+                value: settings.soundVolume,
+                accentColor: AppColors.primaryGold,
+                isCompact: isCompact,
+                enabled: !soundState.isMuted,
+                onChanged: notifier.setMasterVolume,
+              ),
+              const SizedBox(height: 10),
+              _buildAudioChannelSlider(
+                icon: Icons.air_rounded,
+                label: 'Otoczenie Wyścigu (Koła, Bębenek, Wiatr)',
+                value: settings.raceEnvironmentVolume,
+                accentColor: AppColors.accentBlue,
+                isCompact: isCompact,
+                enabled: !soundState.isMuted && settings.soundVolume > 0,
+                onChanged: notifier.setRaceEnvironmentVolume,
+              ),
+              const SizedBox(height: 10),
+              _buildAudioChannelSlider(
+                icon: Icons.campaign_rounded,
+                label: 'Kibice i Atmosfera',
+                value: settings.crowdAtmosphereVolume,
+                accentColor: AppColors.statusSuccess,
+                isCompact: isCompact,
+                enabled: !soundState.isMuted && settings.soundVolume > 0,
+                onChanged: notifier.setCrowdAtmosphereVolume,
+              ),
+              const SizedBox(height: 10),
+              _buildAudioChannelSlider(
+                icon: Icons.headset_mic_rounded,
+                label: 'Radio Wyścigowe i Alarmy Garmin',
+                value: settings.raceRadioVolume,
+                accentColor: AppColors.primaryAccent,
+                isCompact: isCompact,
+                enabled: !soundState.isMuted && settings.soundVolume > 0,
+                onChanged: notifier.setRaceRadioVolume,
+              ),
+              const SizedBox(height: 10),
+              _buildAudioChannelSlider(
+                icon: Icons.touch_app_rounded,
+                label: 'Dźwięki Interfejsu',
+                value: settings.uiSoundsVolume,
+                accentColor: AppColors.cyanAccent,
+                isCompact: isCompact,
+                enabled: !soundState.isMuted && settings.soundVolume > 0,
+                onChanged: notifier.setUiSoundsVolume,
+              ),
+              const SizedBox(height: 12),
+              Material(
+                type: MaterialType.transparency,
+                child: SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text(
+                    'Komunikaty radiowe dyrektora sportowego (Radio + TTS)',
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 13, color: AppColors.textPrimary),
+                  ),
+                  value: settings.commentaryAudio,
+                  onChanged: (val) {
+                    soundManager.playTabClick();
+                    notifier.setCommentaryAudio(val);
+                  },
+                  activeThumbColor: AppColors.primaryGold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'ODSŁUCH I TEST SYGNAŁÓW UI / 3D',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.8,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _AudioTestPillButton(
+                    icon: Icons.tab_rounded,
+                    label: 'Zakładka',
+                    enabled: soundState.effectiveUiVolume > 0,
+                    onTap: () => soundManager.playTabClick(),
+                  ),
+                  _AudioTestPillButton(
+                    icon: Icons.draw_rounded,
+                    label: 'Kontrakt',
+                    enabled: soundState.effectiveUiVolume > 0,
+                    onTap: () => soundManager.playContractSigned(),
+                  ),
+                  _AudioTestPillButton(
+                    icon: Icons.mark_email_unread_rounded,
+                    label: 'Skrzynka',
+                    enabled: soundState.effectiveUiVolume > 0,
+                    onTap: () => soundManager.playInboxMessage(),
+                  ),
+                  _AudioTestPillButton(
+                    icon: Icons.build_rounded,
+                    label: 'Klucz dynamometryczny',
+                    enabled: soundState.effectiveUiVolume > 0,
+                    onTap: () => soundManager.playTorqueWrenchClick(),
+                  ),
+                  _AudioTestPillButton(
+                    icon: Icons.timer_rounded,
+                    label: 'Rampa TT (BEEP!)',
+                    enabled: soundState.effectiveUiVolume > 0,
+                    onTap: () => soundManager.playTtCountdownBeep(isGoSignal: true),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAudioChannelSlider({
+    required IconData icon,
+    required String label,
+    required double value,
+    required Color accentColor,
+    required bool isCompact,
+    required bool enabled,
+    required ValueChanged<double> onChanged,
+  }) {
+    final effectiveColor = enabled ? accentColor : AppColors.textMuted.withValues(alpha: 0.45);
+    final pctText = '${(value * 100).round()}%';
+
+    if (isCompact) {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'DŹWIĘK I KOMENTARZ RADIOWY',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-          ),
-          const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.volume_up_rounded, color: AppColors.primaryGold, size: 20),
-              const SizedBox(width: 12),
+              Icon(icon, color: effectiveColor, size: 18),
+              const SizedBox(width: 8),
               Expanded(
-                child: Slider(
-                  value: settings.soundVolume,
-                  min: 0.0,
-                  max: 1.0,
-                  activeColor: AppColors.primaryGold,
-                  onChanged: (val) => notifier.setSoundVolume(val),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: enabled ? AppColors.textPrimary : AppColors.textMuted,
+                  ),
                 ),
               ),
               Text(
-                '${(settings.soundVolume * 100).round()}%',
-                style: const TextStyle(fontWeight: FontWeight.w700, color: AppColors.primaryGold),
+                pctText,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                  color: effectiveColor,
+                ),
               ),
             ],
           ),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Komunikaty radiowe dyrektora sportowego', style: TextStyle(fontSize: 13)),
-            value: settings.commentaryAudio,
-            onChanged: (val) => notifier.setCommentaryAudio(val),
-            activeThumbColor: AppColors.primaryGold,
+          Slider(
+            value: value.clamp(0.0, 1.0),
+            min: 0.0,
+            max: 1.0,
+            activeColor: effectiveColor,
+            inactiveColor: AppColors.surfaceLight,
+            onChanged: enabled ? onChanged : null,
           ),
         ],
-      ),
+      );
+    }
+
+    return Row(
+      children: [
+        Icon(icon, color: effectiveColor, size: 19),
+        const SizedBox(width: 10),
+        SizedBox(
+          width: 260,
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 12.5,
+              fontWeight: FontWeight.w600,
+              color: enabled ? AppColors.textPrimary : AppColors.textMuted,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Slider(
+            value: value.clamp(0.0, 1.0),
+            min: 0.0,
+            max: 1.0,
+            activeColor: effectiveColor,
+            inactiveColor: AppColors.surfaceLight,
+            onChanged: enabled ? onChanged : null,
+          ),
+        ),
+        SizedBox(
+          width: 44,
+          child: Text(
+            pctText,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 12.5,
+              fontWeight: FontWeight.w700,
+              fontFeatures: const [FontFeature.tabularFigures()],
+              color: effectiveColor,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -2343,5 +2615,97 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
     } catch (_) {
       return Colors.grey;
     }
+  }
+}
+
+class _AudioTestPillButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool enabled;
+  final bool isActive;
+
+  const _AudioTestPillButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.enabled = true,
+    this.isActive = false,
+  });
+
+  @override
+  State<_AudioTestPillButton> createState() => _AudioTestPillButtonState();
+}
+
+class _AudioTestPillButtonState extends State<_AudioTestPillButton> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool active = widget.isActive || _isPressed;
+    final Color bgColor;
+    final Color borderColor;
+    final Color fgColor;
+
+    if (!widget.enabled) {
+      bgColor = AppColors.surfaceLight.withValues(alpha: 0.35);
+      borderColor = AppColors.cardBorder.withValues(alpha: 0.5);
+      fgColor = AppColors.textMuted.withValues(alpha: 0.5);
+    } else if (active) {
+      bgColor = AppColors.primaryGold.withValues(alpha: 0.22);
+      borderColor = AppColors.primaryGold;
+      fgColor = AppColors.primaryGold;
+    } else if (_isHovered || _isFocused) {
+      bgColor = AppColors.surfaceLight;
+      borderColor = AppColors.primaryGold.withValues(alpha: 0.65);
+      fgColor = AppColors.textPrimary;
+    } else {
+      bgColor = AppColors.surfaceLight.withValues(alpha: 0.75);
+      borderColor = AppColors.cardBorder;
+      fgColor = AppColors.textSecondary;
+    }
+
+    return FocusableActionDetector(
+      enabled: widget.enabled,
+      onShowHoverHighlight: (hovered) => setState(() => _isHovered = hovered),
+      onShowFocusHighlight: (focused) => setState(() => _isFocused = focused),
+      child: GestureDetector(
+        onTapDown: widget.enabled ? (_) => setState(() => _isPressed = true) : null,
+        onTapUp: widget.enabled ? (_) => setState(() => _isPressed = false) : null,
+        onTapCancel: widget.enabled ? () => setState(() => _isPressed = false) : null,
+        onTap: widget.enabled ? widget.onTap : null,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: _isFocused ? AppColors.cyanAccent : borderColor,
+              width: _isFocused ? 1.5 : 1.0,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(widget.icon, size: 15, color: fgColor),
+              const SizedBox(width: 6),
+              Text(
+                widget.label,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: fgColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

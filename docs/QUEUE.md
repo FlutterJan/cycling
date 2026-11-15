@@ -728,7 +728,7 @@ Zasady działania pętli:
 
   3. Płynne przejścia kamer (Cinematic Camera Transitions) przy wykryciu kluczowego momentu przez `KeyMomentsDetector` (np. automatyczny najazd kamery z helikoptera na czoło peletonu, gdy rozpoczyna się atak w górach). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #202** (`lib/engine/audio/sound_effects_manager_provider.dart`): Stwórz centralny menedżer dźwięku i udźwiękowienia UI/3D `SoundEffectsManagerProvider` (oparty o `flutter_riverpod`), który łączy `ProceduralCyclingAudioEngine` (#117) oraz `RaceRadioTtsAndBeeps` (#118) z całą aplikacją. Zaimplementuj:
+- [x] **Zadanie #202** (`lib/engine/audio/sound_effects_manager_provider.dart`): Stwórz centralny menedżer dźwięku i udźwiękowienia UI/3D `SoundEffectsManagerProvider` (oparty o `flutter_riverpod`), który łączy `ProceduralCyclingAudioEngine` (#117) oraz `RaceRadioTtsAndBeeps` (#118) z całą aplikacją. Zaimplementuj:
 
   1. Subtelne, nowoczesne dźwięki interfejsu (UI Haptics & Audio Feedback): ciche kliknięcie przy przełączaniu zakładek, dźwięk podpisania kontraktu, sygnał nowej wiadomości w skrzynce, dźwięk klucza dynamometrycznego w garażu rowerowym oraz dźwięk odliczania na rampie startowej TT (`Beep... Beep... BEEP!`).
 
