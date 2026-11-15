@@ -117,6 +117,7 @@
 - `lib/engine/physics/speed_solver.dart` — Solver prędkości m/s z mocy W i sił oporu.
 - `lib/engine/physics/tire_pressure_calculator.dart` — Kalkulator optymalnego ciśnienia BAR/PSI.
 - `lib/engine/physics/w_prime_balance_engine.dart` — Model Skiba W'bal (zużycie i regeneracja beztlenowa).
+- `lib/engine/rendering3d/alpine_crowd_tunnel_renderer.dart` — Efekt "Tunelu Kibiców" 3D na stromych podjazdach >8% (`AlpineCrowdTunnelRenderer`, `AlpineCrowdTunnelConfig`, `AlpineCrowdTunnelZone`, `AlpineCrowdTunnelSpectator3D`, `AlpineCrowdTunnelTelemetry`, `AlpineCrowdTunnelControlPanel`, `CrowdTunnelNationJersey`, `CrowdTunnelFlareColor`: koszulki narodowe, flagi, dym z flar pomarańczowy/czerwony, korytarz 2.8m i odsuwanie przed kołem lidera).
 - `lib/engine/rendering3d/boids_peloton_flocking_solver.dart` — Solver unikania kolizji i ruchu 176 kolarzy 3D (`BoidsPelotonFlockingSolver`, `BoidsFlockingConfig`, `PelotonBoidAgent`, `BoidsFlockingStepResult`, `BoidFlockingForceBreakdown`, `FlockingForceVector`: `Separation` ≥0.45 m, `Alignment`, `DraftSeeking` CdA, `OvertakeLaneShift` Δv>0.8 m/s).
 - `lib/engine/rendering3d/broadcast_tv_graphics_overlay.dart` — Nakładka grafik TV Eurosport/TDF (`BroadcastTvGraphicsOverlay`, `BroadcastRiderSpotlightData`, `BroadcastClimbTelemetryData`, `BroadcastLiveSplitData`: belka kolarza `#D4AF37`, profil podjazdu z VAM, stoper do setnych z Top 5).
 - `lib/engine/rendering3d/camera_rig_controller.dart` — Kamery wyścigowe (helikopter, moto, tył, pierwsza osoba).
