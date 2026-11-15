@@ -254,6 +254,7 @@
 - `lib/ui/widgets/rider_effort_slider_control.dart` — Suwak wysiłku i rozkazów taktycznych kolarza.
 - `lib/ui/widgets/rider_telemetry_hud.dart` — Karta telemetrii kolarza na żywo (W, BPM, W', glikogen).
 - `lib/ui/widgets/rider_telemetry_sparklines_card.dart` — Karta Sparklines 60s mocy (gradient Z1–Z7) + przerywane tętno i licznik spalonych zapałek (`RiderTelemetrySparklinesCard`, `RiderTelemetrySparklinePainter`, `MatchesBurnedCalculator`).
+- `lib/ui/widgets/save_load_slots_modal.dart` — Okno zarządzania zapisami gry (`SaveLoadSlotsModal`, `TeamCrestPainter`, `SaveSlotEnrichedInfo`, `SaveLoadModalMode`, `SaveLoadModalResult`) dla 5 slotów ręcznych + `Auto-Save` z eksportem/importem `.json`.
 - `lib/ui/widgets/tactical_minimap_2d_widget.dart` — Minimapa 2D trasy i pozycji grup.
 - `lib/ui/widgets/team_tactical_presets_bar.dart` — Szybkie presety taktyczne dla całej drużyny.
 - `lib/ui/widgets/tutorial_coach_marks_overlay.dart` — Interaktywny samouczek wyścigowy (`TutorialCoachMarksOverlay`, `TutorialAcademyStep`, `TutorialTargetZone`) w estetyce ciemnego szkła ze strzałkami wektorowymi.
