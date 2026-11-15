@@ -183,6 +183,7 @@
 - `lib/services/career/team_chemistry_and_builder_service.dart` — Chemia drużyny i hierarchia liderów.
 - `lib/services/career/training_and_camps_service.dart` — Zgrupowania wysokogórskie i plany treningowe.
 - `lib/services/career/transfer_market_service.dart` — Rynek transferowy kolarzy i wolni agenci.
+- `lib/services/career/uci_points_live_ledger_service.dart` — Księga punktów UCI na żywo (`UciPointsLiveLedgerService`, `UciPointsLedgerState`, `UciLedgerEntry`, `UciIndividualRankingEntry`, `UciLiveLedgerBatchResult`, `UciPointAwardSource`) dla miejsc 1–60 w klasykach, etapów, GC i dni w koszulce lidera z natychmiastową aktualizacją rankingu indywidualnego i 3-letniego cyklu licencyjnego.
 - `lib/services/career/uci_promotion_relegation_cycle_service.dart` — 3-letni cykl licencyjny WorldTour i walka o utrzymanie.
 - `lib/services/career/winter_offseason_training_service.dart` — Przygotowania zimowe i testy przedsezonowe.
 - `lib/services/database/custom_mod_importer_service.dart` — Import modów JSON (bazy danych, drużyny, wyścigi).
