@@ -236,7 +236,7 @@
 - `lib/ui/widgets/tutorial_coach_marks_overlay.dart` — Interaktywny samouczek wyścigowy (`TutorialCoachMarksOverlay`, `TutorialAcademyStep`, `TutorialTargetZone`) w estetyce ciemnego szkła ze strzałkami wektorowymi.
 
 ### `blender_scripts/` & `test/`
-- `blender_scripts/build_all_assets_master.py` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz odpowiadające `test_*.py` — Generator assetów 3D `.glb` w Blenderze.
+- `blender_scripts/build_all_assets_master.py` + `build_3d_assets_windows.bat` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz `test_*.py` — Master pipeline #086–#182 dla Blender 5.3.0 na Windows z `asset_manifest.json`, izolacją `try/except` i skryptem `.bat`.
 - `blender_scripts/generate_cobble_monument_props.py` — Generator 3D welodromu (`velodrome_finish_arena.glb`) i rekwizytów sektora bruku (`cobble_sector_props.glb`) w Blender 5.3.
 - `blender_scripts/generate_alpine_summit_scenery.py` — Generator 3D scenerii szczytu Hors Categorie (`alpine_summit_pack.glb`: obserwatorium z wieżą, ściany śnieżne 3m, 3 kampery z markizami i flagami) w Blender 5.3.
 - `blender_scripts/generate_time_trial_start_ramp.py` — Generator 3D domku i rampy startowej jazdy na czas (`tt_start_ramp.glb`: pawilon stalowo-szklany `#181B22`/`#8E4A49`, pochylnia z antypoślizgowym pasem, stojak koła TT, zegar LED z diodami R/Y/G) w Blender 5.3.
