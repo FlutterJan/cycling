@@ -564,7 +564,7 @@ Zasady działania pętli:
 
   1. Aerodynamiczny kadłub śmigłowca w barwach transmisji wyścigowej, płozy podwozia, wirnik główny i ogonowy (jako osobne, nazwane obiekty pod animację obrotu) oraz kulistą głowicę kamery żyroskopowej Cineflex zamontowaną pod dziobem.
 
-- [ ] **Zadanie #182** (`blender_scripts/generate_jersey_textures_baker.py`): Napisz skrypt w Pythonie (kompatybilny ze środowiskiem Pythona wbudowanym w Blender 5.3), który proceduralnie generuje i zapisuje na dysku w folderze `assets/textures/jerseys/` zestaw tekstur PNG (rozdzielczość 1024x1024) dla modeli 3D kolarzy:
+- [x] **Zadanie #182** (`blender_scripts/generate_jersey_textures_baker.py`): Napisz skrypt w Pythonie (kompatybilny ze środowiskiem Pythona wbudowanym w Blender 5.3), który proceduralnie generuje i zapisuje na dysku w folderze `assets/textures/jerseys/` zestaw tekstur PNG (rozdzielczość 1024x1024) dla modeli 3D kolarzy:
 
   1. Koszulki liderów klasyfikacji: `jersey_gc_yellow.png` (#D4AF37), `jersey_points_green.png` (#10B981), `jersey_kom_polkadot.png` (biała w czerwone grochy #EF4444), `jersey_youth_white.png` (#F3F4F6), `jersey_world_champ_rainbow.png` (5 pasów tęczy UCI na białym tle).
 
