@@ -166,6 +166,7 @@
 - `lib/services/career/equipment_sponsorship_bidding_engine.dart` — Przetargi i oferty sponsorów sprzętowych.
 - `lib/services/career/finance_and_budget_service.dart` — Przepływy finansowe, pensje i nagrody wyścigowe.
 - `lib/services/career/historical_records_and_palmares_service.dart` — Rekordy historyczne, Hall of Fame i palmares.
+- `lib/services/career/medical_post_race_trauma_report.dart` — Generator raportów medycznych RTG/MRI po kraksach (`MedicalPostRaceTraumaReport`, `RiderTraumaCaseReport`, `DiagnosticImagingResult`, `TraumaDiagnosisCategory`, `RaceClearanceDecision`: stłuczenia, szlify "road rash" -25% regeneracji nocnej, złamania obojczyka/nadgarstka DNF/DNS).
 - `lib/services/career/national_championships_and_worlds_service.dart` — Mistrzostwa Krajowe i Mistrzostwa Świata UCI.
 - `lib/services/career/physiology_lab_testing_service.dart` — Badania wydolnościowe VO2max i krzywej mleczanowej.
 - `lib/services/career/post_race_equipment_degradation_service.dart` — Serwis zużycia sprzętu po etapie (`PostRaceEquipmentDegradationService`, `PostRaceSparePartsBudgetReport`, `BikePostRaceDegradationReport`, `CassetteAndBearingWear`, `RiderBikeStageUsage`, `SparePartCategory`: łańcuch, kaseta, opony, łożyska 3x w deszczu i na bruku oraz raport kosztów części dla budżetu).
