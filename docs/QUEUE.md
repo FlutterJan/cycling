@@ -714,7 +714,7 @@ Zasady działania pętli:
 
   2. Model stresu cieplnego (`CoreBodyTemperatureCelsius`): podczas jazdy pod górę w upale $>32^\circ\text{C}$ przy niskiej prędkości powietrza chłodzącego temperatura głęboka ciała rośnie z $37.0^\circ\text{C}$ w stronę $39.5^\circ\text{C}$. Kolarze mogą używać "skarpet lodowych" (Ice Socks podawanych z wozu technicznego), aby schłodzić organizm i uchronić się przed przegrzaniem. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #200** (`lib/ui/widgets/rider_telemetry_sparklines_card.dart`): Stwórz zaawansowany komponent analityczny `RiderTelemetrySparklinesCard` wyświetlający mikro-wykresy na żywo (Sparklines) wewnątrz kart kolarzy podczas wyścigu 3D oraz w laboratorium. Zaimplementuj:
+- [x] **Zadanie #200** (`lib/ui/widgets/rider_telemetry_sparklines_card.dart`): Stwórz zaawansowany komponent analityczny `RiderTelemetrySparklinesCard` wyświetlający mikro-wykresy na żywo (Sparklines) wewnątrz kart kolarzy podczas wyścigu 3D oraz w laboratorium. Zaimplementuj:
 
   1. Lekki `CustomPainter` rysujący płynną krzywą ostatnich 60 sekund generowanej mocy (z wypełnieniem gradientowym pod wykresem odpowiadającym aktualnej strefie mocy Z1–Z7) oraz nałożoną przerywaną linię tętna.
 
