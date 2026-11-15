@@ -554,7 +554,7 @@ Zasady działania pętli:
 
   2. Modele trofeów z materiałami złota (`Metallic = 1.0, Roughness = 0.15`), granitu i szkła: Kostka Bruku na drewnianym postumencie, Złoty Puchar Wielkiego Touru, Złota Spirala nieskończoności oraz Trójząb Morza Tyrreńskiego.
 
-- [ ] **Zadanie #180** (`blender_scripts/generate_wind_tunnel_facility.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D komorę pomiarową Tunelu Aerodynamicznego (`assets/3d/environment/wind_tunnel_room.glb`):
+- [x] **Zadanie #180** (`blender_scripts/generate_wind_tunnel_facility.py`): Napisz skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D komorę pomiarową Tunelu Aerodynamicznego (`assets/3d/environment/wind_tunnel_room.glb`):
 
   1. Cylindryczny kanał powietrzny z ogromnym, 12-łopatkowym wirnikiem wentylatora w tle i siatką prostującą przepływ.
 
