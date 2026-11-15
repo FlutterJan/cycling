@@ -170,6 +170,7 @@
 - `lib/services/career/physiology_lab_testing_service.dart` — Badania wydolnościowe VO2max i krzywej mleczanowej.
 - `lib/services/career/press_conference_service.dart` — Wywiady prasowe przed/po etapach i wpływ na morale.
 - `lib/services/career/race_calendar_selection_service.dart` — Zgłaszanie składów i dzikie karty na wyścigi.
+- `lib/services/career/race_day_pipeline_orchestrator.dart` — Orkiestrator dnia wyścigowego (`RaceDayPipelineOrchestrator`, `RaceDayPipelineNotifier`, `raceDayPipelineProvider`, `RaceDayPipelinePhase`) łączący Calendar → PreRaceBriefing → Symulację 3D → StageResultsCalculator → Podium → SponsorObjectivesEvaluator → RecoveryProcessor → AutoSave.
 - `lib/services/career/race_reconnaissance_service.dart` — Rekonesans tras i premia taktyczna.
 - `lib/services/career/rider_ego_and_conflicts_service.dart` — Konflikty w zespole, ego liderów i lojalność.
 - `lib/services/career/scouting_and_youth_academy_service.dart` — Skauting talentów na świecie i akademia.
