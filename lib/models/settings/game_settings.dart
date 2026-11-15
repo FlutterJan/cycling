@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../core/localization/app_localizations_pl_en.dart';
+
 /// Poziom jakości renderowania cieni w widoku 3D wyścigu
 enum ShadowQuality {
   disabled('Wyłączone', 'Brak cieni - maksymalna oszczędność baterii', 0),
@@ -103,6 +105,7 @@ class GameSettings {
   final double uiScale;
   final bool hasCompletedRaceTutorial;
   final bool showTutorialHints;
+  final AppLanguage language;
 
   const GameSettings({
     this.shadowQuality = ShadowQuality.medium,
@@ -123,6 +126,7 @@ class GameSettings {
     this.uiScale = 1.0,
     this.hasCompletedRaceTutorial = false,
     this.showTutorialHints = true,
+    this.language = AppLanguage.pl,
   });
 
   /// Alias dla głośności ogólnej (Master)
@@ -270,6 +274,7 @@ class GameSettings {
     double? uiScale,
     bool? hasCompletedRaceTutorial,
     bool? showTutorialHints,
+    AppLanguage? language,
   }) {
     return GameSettings(
       shadowQuality: shadowQuality ?? this.shadowQuality,
@@ -290,6 +295,7 @@ class GameSettings {
       uiScale: uiScale ?? this.uiScale,
       hasCompletedRaceTutorial: hasCompletedRaceTutorial ?? this.hasCompletedRaceTutorial,
       showTutorialHints: showTutorialHints ?? this.showTutorialHints,
+      language: language ?? this.language,
     );
   }
 
@@ -313,6 +319,7 @@ class GameSettings {
       'uiScale': uiScale,
       'hasCompletedRaceTutorial': hasCompletedRaceTutorial,
       'showTutorialHints': showTutorialHints,
+      'language': language.toJson(),
     };
   }
 
@@ -346,6 +353,9 @@ class GameSettings {
       uiScale: (json['uiScale'] as num?)?.toDouble() ?? 1.0,
       hasCompletedRaceTutorial: json['hasCompletedRaceTutorial'] as bool? ?? false,
       showTutorialHints: json['showTutorialHints'] as bool? ?? true,
+      language: json['language'] != null
+          ? AppLanguage.fromJson(json['language'] as String)
+          : AppLanguage.pl,
     );
   }
 

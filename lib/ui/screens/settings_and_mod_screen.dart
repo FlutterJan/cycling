@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/localization/app_localizations_pl_en.dart';
 import '../../core/theme/app_colors.dart';
 import '../../engine/audio/sound_effects_manager_provider.dart';
 import '../../models/career/career_save.dart';
@@ -121,6 +122,7 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
   @override
   Widget build(BuildContext context) {
     final gameSettings = ref.watch(gameSettingsProvider);
+    final l10n = ref.watch(appLocalizationsProvider);
     final careerUi = ref.watch(careerControllerProvider);
     final careerSave = careerUi.save;
 
@@ -145,10 +147,11 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'USTAWIENIA & BAZA DANYCH (MODY)',
+                  Text(
+                    l10n.settingsHeaderTitle,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.8,
@@ -157,10 +160,14 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
                   ),
                   Text(
                     careerSave != null
-                        ? 'Kariera: ${careerSave.saveName} • Sezon ${careerSave.currentSeasonYear}'
-                        : 'Tryb Główny Gry',
+                        ? l10n.settingsHeaderCareerSubtitle(
+                            careerSave.saveName,
+                            careerSave.currentSeasonYear,
+                          )
+                        : l10n.settingsHeaderMainMode,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 11,
                       color: AppColors.textMuted,
                     ),
@@ -170,6 +177,17 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: Center(
+              child: _LanguagePillToggle(
+                activeLanguage: gameSettings.language,
+                onSelect: (lang) => _handleLanguageSelect(lang),
+              ),
+            ),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: AppColors.primaryGold,
@@ -177,12 +195,16 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
           labelColor: AppColors.primaryGold,
           unselectedLabelColor: AppColors.textMuted,
           isScrollable: true,
-          labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-          tabs: const [
-            Tab(icon: Icon(Icons.videogame_asset_outlined), text: 'Grafika 3D i Wydajność'),
-            Tab(icon: Icon(Icons.public_rounded), text: 'Społeczność & Mody JSON'),
-            Tab(icon: Icon(Icons.badge_outlined), text: 'Edytor Kolarzy'),
-            Tab(icon: Icon(Icons.shield_outlined), text: 'Edytor Drużyn i Barw'),
+          labelStyle: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+          ),
+          tabs: [
+            Tab(icon: const Icon(Icons.videogame_asset_outlined), text: l10n.settingsTabGraphics),
+            Tab(icon: const Icon(Icons.public_rounded), text: l10n.settingsTabMods),
+            Tab(icon: const Icon(Icons.badge_outlined), text: l10n.settingsTabRiders),
+            Tab(icon: const Icon(Icons.shield_outlined), text: l10n.settingsTabTeams),
           ],
         ),
       ),
@@ -190,7 +212,7 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
         controller: _tabController,
         children: [
           // 1. Ustawienia Grafiki 3D i Wydajności
-          _buildTab1GraphicsSettings(gameSettings),
+          _buildTab1GraphicsSettings(gameSettings, l10n),
 
           // 2. Modyfikacje JSON i Społeczność
           _buildTab2CommunityMods(careerSave),
@@ -205,11 +227,34 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
     );
   }
 
+  void _handleLanguageSelect(AppLanguage language) {
+    final notifier = ref.read(gameSettingsProvider.notifier);
+    if (ref.read(gameSettingsProvider).language == language) return;
+    ref.read(soundEffectsManagerProvider.notifier).playTabClick();
+    notifier.setLanguage(language);
+    final nextL10n = AppLocalizationsPlEn.ofLanguage(language);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            nextL10n.languageSwitchedSnackbar,
+            style: const TextStyle(fontFamily: 'Inter'),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+  }
+
   // ===========================================================================
   // 1. ZAKŁADKA 1: GRAFIKA 3D, CIENIE, KIBICE, FPS, OSZCZĘDZANIE BATERII
   // ===========================================================================
 
-  Widget _buildTab1GraphicsSettings(GameSettings settings) {
+  Widget _buildTab1GraphicsSettings(
+    GameSettings settings,
+    AppLocalizationsPlEn l10n,
+  ) {
     final notifier = ref.read(gameSettingsProvider.notifier);
 
     return SingleChildScrollView(
@@ -217,14 +262,19 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Karta wyboru języka gry (PL / EN) z podglądem żargonu kolarskiego
+          _buildLanguageSwitcherCard(settings, l10n),
+          const SizedBox(height: 20),
+
           // Pasek profilu i obciążenia sprzętowego
           _buildHardwareStatusBanner(settings),
           const SizedBox(height: 24),
 
           // Profile Szybkiego Wyboru (One-click presets)
-          const Text(
-            'PROFIL WYDAJNOŚCIOWY',
-            style: TextStyle(
+          Text(
+            l10n.settingsPerformanceProfile,
+            style: const TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12,
               fontWeight: FontWeight.w800,
               letterSpacing: 1.2,
@@ -269,15 +319,215 @@ class _SettingsAndModScreenState extends ConsumerState<SettingsAndModScreen>
               onPressed: () {
                 notifier.resetToDefaults();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Przywrócono domyślne ustawienia graficzne (Zbalansowane 60 FPS).')),
+                  SnackBar(
+                    content: Text(
+                      l10n.settingsResetSnackbar,
+                      style: const TextStyle(fontFamily: 'Inter'),
+                    ),
+                  ),
                 );
               },
               icon: const Icon(Icons.restore_rounded, color: AppColors.textMuted),
-              label: const Text('Przywróć domyślne parametry fabryczne', style: TextStyle(color: AppColors.textMuted)),
+              label: Text(
+                l10n.settingsResetDefaults,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  color: AppColors.textMuted,
+                ),
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLanguageSwitcherCard(
+    GameSettings settings,
+    AppLocalizationsPlEn l10n,
+  ) {
+    final previewTerms = <String>[
+      l10n.echelons,
+      l10n.crosswinds,
+      l10n.stickyBottle,
+      l10n.dayCondition,
+      l10n.sprintTrain,
+      l10n.wheelToWheel,
+      l10n.bonking,
+      l10n.polkaDotJersey,
+      l10n.generalClassification,
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isCompact = constraints.maxWidth < 540;
+
+        return Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: AppColors.cardDark,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppColors.goldAccent.withValues(alpha: 0.45),
+              width: 1,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.goldAccent.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.translate_rounded,
+                      color: AppColors.goldAccent,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.languageCardTitle,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.6,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          l10n.languageCardSubtitle,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            height: 1.4,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (!isCompact) ...[
+                    const SizedBox(width: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceLight,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppColors.cardBorder),
+                      ),
+                      child: Text(
+                        l10n.languageActiveBadge,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.goldAccent,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 14),
+              if (isCompact)
+                Column(
+                  children: [
+                    _LanguageOptionTile(
+                      language: AppLanguage.pl,
+                      title: l10n.t('language_pl'),
+                      subtitle: 'Wachlarze • Ranty • Noga dnia',
+                      selected: settings.language == AppLanguage.pl,
+                      onTap: () => _handleLanguageSelect(AppLanguage.pl),
+                    ),
+                    const SizedBox(height: 10),
+                    _LanguageOptionTile(
+                      language: AppLanguage.en,
+                      title: l10n.t('language_en'),
+                      subtitle: 'Echelons • Crosswinds • Day condition',
+                      selected: settings.language == AppLanguage.en,
+                      onTap: () => _handleLanguageSelect(AppLanguage.en),
+                    ),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    Expanded(
+                      child: _LanguageOptionTile(
+                        language: AppLanguage.pl,
+                        title: l10n.t('language_pl'),
+                        subtitle: 'Wachlarze • Ranty • Noga dnia',
+                        selected: settings.language == AppLanguage.pl,
+                        onTap: () => _handleLanguageSelect(AppLanguage.pl),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _LanguageOptionTile(
+                        language: AppLanguage.en,
+                        title: l10n.t('language_en'),
+                        subtitle: 'Echelons • Crosswinds • Day condition',
+                        selected: settings.language == AppLanguage.en,
+                        onTap: () => _handleLanguageSelect(AppLanguage.en),
+                      ),
+                    ),
+                  ],
+                ),
+              const SizedBox(height: 14),
+              Text(
+                l10n.languageJargonPreviewTitle,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textMuted,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: previewTerms
+                    .map(
+                      (term) => Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: AppColors.cardBorder),
+                        ),
+                        child: Text(
+                          term,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(growable: false),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -2701,6 +2951,244 @@ class _AudioTestPillButtonState extends State<_AudioTestPillButton> {
                   fontWeight: FontWeight.w600,
                   color: fgColor,
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Kompaktowy przełącznik języka PL / EN w pasku górnym ekranu ustawień.
+class _LanguagePillToggle extends StatelessWidget {
+  final AppLanguage activeLanguage;
+  final ValueChanged<AppLanguage> onSelect;
+
+  const _LanguagePillToggle({
+    required this.activeLanguage,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: AppLanguage.values
+            .map(
+              (lang) => _LanguagePillItem(
+                code: lang.code,
+                selected: activeLanguage == lang,
+                onTap: () => onSelect(lang),
+              ),
+            )
+            .toList(growable: false),
+      ),
+    );
+  }
+}
+
+class _LanguagePillItem extends StatefulWidget {
+  final String code;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _LanguagePillItem({
+    required this.code,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  State<_LanguagePillItem> createState() => _LanguagePillItemState();
+}
+
+class _LanguagePillItemState extends State<_LanguagePillItem> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor = widget.selected
+        ? AppColors.goldAccent
+        : _isPressed
+            ? AppColors.surfaceLight
+            : _isHovered
+                ? AppColors.surface
+                : Colors.transparent;
+    final fgColor = widget.selected
+        ? AppColors.background
+        : _isHovered
+            ? AppColors.textPrimary
+            : AppColors.textSecondary;
+
+    return FocusableActionDetector(
+      onShowHoverHighlight: (hovered) => setState(() => _isHovered = hovered),
+      onShowFocusHighlight: (focused) => setState(() => _isFocused = focused),
+      child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapCancel: () => setState(() => _isPressed = false),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(9),
+            border: _isFocused
+                ? Border.all(color: AppColors.goldAccent, width: 1.5)
+                : null,
+          ),
+          child: Text(
+            widget.code,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 11.5,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.6,
+              color: fgColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Pełny kafelek wyboru języka z obsługą stanów hover, active, focus i animacją 250ms.
+class _LanguageOptionTile extends StatefulWidget {
+  final AppLanguage language;
+  final String title;
+  final String subtitle;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _LanguageOptionTile({
+    required this.language,
+    required this.title,
+    required this.subtitle,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  State<_LanguageOptionTile> createState() => _LanguageOptionTileState();
+}
+
+class _LanguageOptionTileState extends State<_LanguageOptionTile> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final borderColor = widget.selected || _isFocused
+        ? AppColors.goldAccent
+        : _isHovered
+            ? AppColors.textMuted
+            : AppColors.cardBorder;
+    final bgColor = widget.selected
+        ? AppColors.goldAccent.withValues(alpha: 0.14)
+        : _isPressed
+            ? AppColors.surfaceLight
+            : _isHovered
+                ? AppColors.surfaceLight.withValues(alpha: 0.6)
+                : AppColors.background.withValues(alpha: 0.65);
+
+    return FocusableActionDetector(
+      onShowHoverHighlight: (hovered) => setState(() => _isHovered = hovered),
+      onShowFocusHighlight: (focused) => setState(() => _isFocused = focused),
+      child: InkWell(
+        onTap: widget.onTap,
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapCancel: () => setState(() => _isPressed = false),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        borderRadius: BorderRadius.circular(14),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 240),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: borderColor,
+              width: widget.selected || _isFocused ? 1.5 : 1.0,
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 36,
+                height: 28,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: widget.selected
+                      ? AppColors.goldAccent
+                      : AppColors.surfaceLight,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  widget.language.code,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: widget.selected
+                        ? AppColors.background
+                        : AppColors.textPrimary,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: widget.selected
+                            ? AppColors.goldAccent
+                            : AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.subtitle,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 11,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                widget.selected
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked_rounded,
+                size: 18,
+                color: widget.selected
+                    ? AppColors.goldAccent
+                    : AppColors.textMuted,
               ),
             ],
           ),

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/localization/app_localizations_pl_en.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/performance_profiler_overlay.dart';
+import 'state/game_settings_notifier.dart';
 import 'ui/widgets/achievement_unlock_toast_overlay.dart';
 
 /// Punkt startowy gry Pro Peloton Manager.
@@ -62,6 +64,7 @@ class ProPelotonManagerApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final localizations = ref.watch(appLocalizationsProvider);
 
     return MaterialApp.router(
       title: 'Pro Peloton Manager',
@@ -72,17 +75,20 @@ class ProPelotonManagerApp extends ConsumerWidget {
       routerConfig: router,
       scrollBehavior: const AppScrollBehavior(),
       builder: (context, child) {
-        return MediaQuery(
-          // Zabezpieczenie przed ekstremalnym skalowaniem czcionek w ustawieniach systemu
-          data: MediaQuery.of(context).copyWith(
-            textScaler: MediaQuery.of(context).textScaler.clamp(
-                  minScaleFactor: 0.85,
-                  maxScaleFactor: 1.15,
-                ),
-          ),
-          child: PerformanceProfilerOverlay(
-            child: AchievementUnlockToastOverlay(
-              child: child ?? const SizedBox.shrink(),
+        return AppLocalizationsScope(
+          localizations: localizations,
+          child: MediaQuery(
+            // Zabezpieczenie przed ekstremalnym skalowaniem czcionek w ustawieniach systemu
+            data: MediaQuery.of(context).copyWith(
+              textScaler: MediaQuery.of(context).textScaler.clamp(
+                    minScaleFactor: 0.85,
+                    maxScaleFactor: 1.15,
+                  ),
+            ),
+            child: PerformanceProfilerOverlay(
+              child: AchievementUnlockToastOverlay(
+                child: child ?? const SizedBox.shrink(),
+              ),
             ),
           ),
         );

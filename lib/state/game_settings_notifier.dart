@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../core/localization/app_localizations_pl_en.dart';
 import '../models/settings/game_settings.dart';
 
 /// Interfejs trwałego zapisu preferencji użytkownika (natychmiastowy zapis przy zmianie).
@@ -58,6 +59,17 @@ final gameSettingsProvider =
     StateNotifierProvider<GameSettingsNotifier, GameSettings>((ref) {
   return GameSettingsNotifier.withStorage(storage: FileGameSettingsStorage())
     ..loadSavedSettings();
+});
+
+/// Provider aktywnego języka gry (PL / EN) aktualizowany natychmiastowo.
+final appLanguageProvider = Provider<AppLanguage>((ref) {
+  return ref.watch(gameSettingsProvider.select((settings) => settings.language));
+});
+
+/// Provider aktywnego słownika lokalizacyjnego [AppLocalizationsPlEn].
+final appLocalizationsProvider = Provider<AppLocalizationsPlEn>((ref) {
+  final language = ref.watch(appLanguageProvider);
+  return AppLocalizationsPlEn.ofLanguage(language);
 });
 
 class GameSettingsNotifier extends StateNotifier<GameSettings> {
@@ -217,6 +229,19 @@ class GameSettingsNotifier extends StateNotifier<GameSettings> {
     _updateState(state.copyWith(showTutorialHints: enabled));
   }
 
+  /// Zmienia język gry (PL / EN) z natychmiastowym zapisem i odświeżeniem UI.
+  void setLanguage(AppLanguage language) {
+    if (state.language == language) return;
+    _updateState(state.copyWith(language: language));
+  }
+
+  /// Przełącza język gry pomiędzy PL a EN.
+  void toggleLanguage() {
+    setLanguage(
+      state.language == AppLanguage.pl ? AppLanguage.en : AppLanguage.pl,
+    );
+  }
+
   /// Aplikuje jeden z gotowych profili graficznych, zachowując indywidualne suwaki audio.
   void applyPreset(GraphicsPreset preset) {
     final GameSettings base;
@@ -245,6 +270,7 @@ class GameSettingsNotifier extends StateNotifier<GameSettings> {
         raceRadioVolume: state.raceRadioVolume,
         uiSoundsVolume: state.uiSoundsVolume,
         commentaryAudio: state.commentaryAudio,
+        language: state.language,
       ),
     );
   }

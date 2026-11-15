@@ -52,6 +52,7 @@
 ### `lib/` & `lib/core/`
 - `lib/main.dart` — Punkt wejścia aplikacji, `ProviderScope` i konfiguracja motywu/routera.
 - `lib/core/constants/physics_constants.dart` — Stałe fizyczne (grawitacja, gęstość powietrza, opory toczenia).
+- `lib/core/localization/app_localizations_pl_en.dart` — Słownik i system lokalizacji PL/EN (`AppLocalizationsPlEn`, `AppLanguage`, `CyclingGlossaryEntry`, `AppLocalizationsScope`, `AppLocalizationsContext`) z pełnym żargonem kolarskim i natychmiastowym przełączaniem przez `appLocalizationsProvider`.
 - `lib/core/router/app_router.dart` — Konfiguracja `GoRouter` i stałych `AppRoutes`.
 - `lib/core/theme/app_colors.dart` — Paleta kolorów gry i stref mocy Z1–Z7.
 - `lib/core/theme/app_theme.dart` — Ciemny motyw `ThemeData`, typografia `Inter` i style kart.
