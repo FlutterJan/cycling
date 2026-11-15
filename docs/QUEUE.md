@@ -648,7 +648,7 @@ Zasady działania pętli:
 
   4. `Imperium Galaktyczne`: zarządzasz najbogatszą drużyną świata (budżet 45 mln EUR) z trzema gwiazdami w składzie, musisz pogodzić ich wielkie ego i wygrać wszystkie 3 Grand Toury w jednym sezonie. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #193** (`lib/engine/simulation/tactical_ai_personality_profiles.dart`): Stwórz system osobowości taktycznych dla kolarzy i dyrektorów sportowych AI `TacticalAiPersonalityProfiles`, aby rywale w wyścigu 3D zachowywali się nieprzewidywalnie i z charakterem. Zaimplementuj 6 archetypów AI:
+- [x] **Zadanie #193** (`lib/engine/simulation/tactical_ai_personality_profiles.dart`): Stwórz system osobowości taktycznych dla kolarzy i dyrektorów sportowych AI `TacticalAiPersonalityProfiles`, aby rywale w wyścigu 3D zachowywali się nieprzewidywalnie i z charakterem. Zaimplementuj 6 archetypów AI:
 
   1. `CannibalAttacker` (styl Pogačara): nie czeka na ostatni kilometr – atakuje już na przedostatniej przełęczy 50 km przed metą, jeśli czuje słabość rywali.
 
