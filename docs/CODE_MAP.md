@@ -207,7 +207,7 @@
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).
 - `lib/ui/screens/post_stage_podium_screen.dart` — Ceremonia podium i klasyfikacje po etapie.
-- `lib/ui/screens/pre_race_briefing_screen.dart` — Odprawa przedstartowa i wybór składu.
+- `lib/ui/screens/pre_race_briefing_screen.dart` — 4-krokowy Stepper Odprawy Przedstartowej (`PreRaceBriefingScreen`, `StageTacticalRole`, `StageBikePreset`): Trasa/Pogoda Górska (#151)/Rekonesans (#140), `MechanicWorkshopPanel` (#134) z `Zastosuj Optymalny Setup Mechanika`, `TeamBusLockerRoomScreen` (#188) z rolami taktycznymi oraz start KM 0.0 -> Widok 3D.
 - `lib/ui/screens/pre_season_team_presentation_screen.dart` — Gala Prezentacji Zespołu przed sezonem (`PreSeasonTeamPresentationScreen`, `SeasonLeaderRole`, `RosterMovementEntry`, `_GalaStageSpotlightPainter`): scena z reflektorami, 3 liderów, rower, zmiany kadrowe, numery/role i start sezonu.
 - `lib/ui/screens/quick_race_sandbox_screen.dart` — Szybki Wyścig / Laboratorium Taktyczne Sandbox 3D (`QuickRaceSandboxScreen`).
 - `lib/ui/screens/race_3d_viewport_widget.dart` — Główny viewport 3D wyścigu (`Race3DViewportWidget`, `ViewportCameraMode`, `_AtmosphericOverlayPainter`) integrujący `Peloton3dCanvasEngine`, `DynamicSkyboxAndLightingPainter`, `BoidsSteeringCollisionAvoidance`, `BroadcastTvGraphicsOverlay`, raycasting ze złotym pierścieniem `#D4AF37` i filmowe przejścia kamer `KeyMomentsDetector`.
@@ -267,4 +267,4 @@
 - `blender_scripts/generate_wind_tunnel_facility.py` — Generator 3D komory pomiarowej Tunelu Aerodynamicznego (`assets/3d/environment/wind_tunnel_room.glb`: kanał cylindryczny, 12-łopatkowy wirnik, siatka prostująca, obrotowa platforma Yaw ±15° z rolkami, listwy LED, dysza i strugi dymu) w Blender 5.3.
 - `blender_scripts/generate_helicopter_and_blimp.py` — Generator 3D śmigłowca telewizyjnego (`assets/3d/environment/tv_helicopter.glb`: `TV_Heli_Fuselage` w barwach transmisji, `TV_Heli_Skids`, osobne wirniki `TV_Heli_Main_Rotor`/`TV_Heli_Tail_Rotor` pod animację obrotu oraz głowica `TV_Heli_Cineflex_Gimbal`) w Blender 5.3.
 - `blender_scripts/generate_jersey_textures_baker.py` — Proceduralny generator tekstur koszulek 1024x1024 PNG (`assets/textures/jerseys/`: 5 koszulek liderów GC/Points/KOM/Youth/WorldChamp + 8 szablonów drużynowych do barwienia) w Blender 5.3.
-- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.
+- `test/new_career_setup_test.dart`, `test/tactical_minimap_2d_widget_test.dart`, `test/ui/race_hud_overlay_test.dart`, `test/ui/pre_race_briefing_screen_test.dart` oraz testy jednostkowe w `test/{core,engine,models,services,ui}/`.

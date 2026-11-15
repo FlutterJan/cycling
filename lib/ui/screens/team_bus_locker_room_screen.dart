@@ -183,6 +183,7 @@ class TeamBusLockerRoomScreen extends StatefulWidget {
   final ValueChanged<TeamBusBriefingResult>? onSpeechDelivered;
   final ValueChanged<TeamBusBriefingResult>? onProceedToStart;
   final bool instantWarmUpForTesting;
+  final bool isEmbedded;
 
   const TeamBusLockerRoomScreen({
     super.key,
@@ -193,6 +194,7 @@ class TeamBusLockerRoomScreen extends StatefulWidget {
     this.onSpeechDelivered,
     this.onProceedToStart,
     this.instantWarmUpForTesting = false,
+    this.isEmbedded = false,
   });
 
   @override
@@ -635,42 +637,54 @@ class _TeamBusLockerRoomScreenState extends State<TeamBusLockerRoomScreen>
     final accentColor =
         _parseHexColor(_team.accentJerseyColorHex, AppColors.goldAccent);
 
+    final content = LayoutBuilder(
+      builder: (context, constraints) {
+        final double width = constraints.maxWidth;
+        final bool isDesktop = width >= 1200;
+        final bool isTablet = width >= 720 && width < 1200;
+
+        return Column(
+          children: [
+            _buildTopHeader(
+              context: context,
+              primaryColor: primaryColor,
+              accentColor: accentColor,
+              isCompact: width < 720,
+            ),
+            Expanded(
+              child: isDesktop
+                  ? _buildDesktopLayout(
+                      primaryColor: primaryColor,
+                      secondaryColor: secondaryColor,
+                      accentColor: accentColor,
+                    )
+                  : _buildScrollableLayout(
+                      isTablet: isTablet,
+                      primaryColor: primaryColor,
+                      secondaryColor: secondaryColor,
+                      accentColor: accentColor,
+                    ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (widget.isEmbedded) {
+      return Container(
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.cardBorder),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: content,
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final double width = constraints.maxWidth;
-            final bool isDesktop = width >= 1200;
-            final bool isTablet = width >= 720 && width < 1200;
-
-            return Column(
-              children: [
-                _buildTopHeader(
-                  context: context,
-                  primaryColor: primaryColor,
-                  accentColor: accentColor,
-                  isCompact: width < 720,
-                ),
-                Expanded(
-                  child: isDesktop
-                      ? _buildDesktopLayout(
-                          primaryColor: primaryColor,
-                          secondaryColor: secondaryColor,
-                          accentColor: accentColor,
-                        )
-                      : _buildScrollableLayout(
-                          isTablet: isTablet,
-                          primaryColor: primaryColor,
-                          secondaryColor: secondaryColor,
-                          accentColor: accentColor,
-                        ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+      body: SafeArea(child: content),
     );
   }
 

@@ -759,7 +759,7 @@ Zasady działania pętli:
   * osobowości taktyczne AI (#193) oraz omijanie kolizji Boids (#184)
     bezpośrednio z główną pętlą `StageSimulationLoop` (#038) oraz wątkiem `IsolateSimulationWorker` (#123). Upewnij się, że żaden kalkulator nie jest martwym kodem i każdy parametr wpływa na prędkość kolarza w wyścigu 3D! Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #207** (`lib/ui/screens/pre_race_briefing_screen.dart` - Pełna Integracja Przedstartowa): Rozbuduj ekran `PreRaceBriefingScreen`, aby łączył w jednym płynnym procesie (Stepper 4-krokowy przed wyścigiem):
+- [x] **Zadanie #207** (`lib/ui/screens/pre_race_briefing_screen.dart` - Pełna Integracja Przedstartowa): Rozbuduj ekran `PreRaceBriefingScreen`, aby łączył w jednym płynnym procesie (Stepper 4-krokowy przed wyścigiem):
 
   1. Krok 1: Analiza Trasy, Pogody Górskiej (#151) i Rekonesansu (#140).
 

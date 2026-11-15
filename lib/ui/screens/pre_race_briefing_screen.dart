@@ -4,12 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../engine/peloton/rider_race_state.dart';
+import '../../engine/physics/tire_pressure_calculator.dart';
+import '../../engine/weather/dynamic_mountain_weather_engine.dart';
 import '../../models/career/career_save.dart';
 import '../../models/equipment/complete_bike.dart';
+import '../../models/equipment/equipment_wear_and_maintenance.dart';
 import '../../models/race/race_stage.dart';
+import '../../models/race/stage_segment.dart';
 import '../../models/race/tour_race.dart';
 import '../../models/rider/rider.dart';
 import '../../models/team/cycling_team.dart';
+import '../../services/career/race_reconnaissance_service.dart';
 import '../../services/generators/fictional_brands_catalog.dart';
 import '../../services/generators/rider_procedural_generator.dart';
 import '../../services/generators/stage_profile_builder.dart';
@@ -17,8 +22,10 @@ import '../../state/career_controller.dart';
 import '../../state/race_simulation_notifier.dart';
 import '../widgets/bike_preview_painter.dart';
 import '../widgets/elevation_profile_chart.dart';
+import '../widgets/mechanic_workshop_panel.dart';
 import '../widgets/rider_avatar_painter.dart';
 import 'race_simulation_screen.dart';
+import 'team_bus_locker_room_screen.dart';
 
 // Stałe kolorystyczne kokpitu odprawy taktycznej
 const Color _cyanAccent = Color(0xFF00E5FF);
@@ -203,9 +210,9 @@ class PreRaceBriefingScreen extends ConsumerStatefulWidget {
   ConsumerState<PreRaceBriefingScreen> createState() => _PreRaceBriefingScreenState();
 }
 
-class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
+  // Aktywny krok 4-krokowego procesu przedstartowego (0..3)
+  int _currentStep = 0;
 
   // Aktywna kadra na etap
   List<Rider> _stageLineup = [];
@@ -223,22 +230,18 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
   String _teamTireCompound = 'all_round'; // 'all_round', 'rain_grip', 'cobble_shield'
   StageBikePreset _activePreset = StageBikePreset.climbingLightweight;
 
+  // Integracja Warsztatu Mechaników (#134), Rekonesansu (#140) i Autobusu Drużyny (#188)
+  bool _mechanicOptimalApplied = false;
+  int _workshopKeyCounter = 0;
+  CompleteBike? _workshopUpdatedBike;
+  TirePressureRecommendation? _workshopPressureRec;
+  bool _isStageReconCompleted = false;
+  TeamBusBriefingResult? _busBriefingResult;
+
   // Nadpisania sprzętu dla konkretnego kolarza
   String? _selectedRiderForBikePreview;
   final Map<String, int> _riderRimDepthOverrides = {};
   final Map<String, int> _riderTireWidthOverrides = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   void _ensureDataInitialized(CareerSave? save, RaceStage activeStage) {
     if (_isDataLoaded) return;
@@ -562,59 +565,308 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
             ),
           ],
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Container(
-            color: AppColors.surfaceLight.withValues(alpha: 0.6),
-            child: TabBar(
-              controller: _tabController,
-              indicatorColor: AppColors.goldAccent,
-              indicatorWeight: 3,
-              labelColor: AppColors.goldAccent,
-              unselectedLabelColor: AppColors.textSecondary,
-              labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
-              tabs: const [
-                Tab(
-                  icon: Icon(Icons.show_chart_rounded, size: 18),
-                  text: 'PROFIL & WIATR',
-                ),
-                Tab(
-                  icon: Icon(Icons.settings_outlined, size: 18),
-                  text: 'SPRZĘT & OPONY',
-                ),
-                Tab(
-                  icon: Icon(Icons.groups_rounded, size: 18),
-                  text: 'ROLE TAKTYCZNE',
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Górny pasek metryk etapu
-            _buildTopStageMetricsBar(activeStage),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final double viewportWidth = constraints.maxWidth;
+            return Column(
+              children: [
+                // Pasek 4-krokowego Steppera przed wyścigiem
+                _buildStepperHeader(viewportWidth),
 
-            // Główny obszar roboczy z zakładkami
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildTabProfileAndWind(activeStage),
-                  _buildTabEquipment(activeStage),
-                  _buildTabTacticsAndRoles(activeStage),
-                ],
+                // Górny pasek metryk etapu
+                _buildTopStageMetricsBar(activeStage),
+
+                // Główny obszar roboczy aktywnego kroku
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 280),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeOutCubic,
+                    child: KeyedSubtree(
+                      key: ValueKey<int>(_currentStep),
+                      child: _buildCurrentStepContent(
+                        context: context,
+                        save: save,
+                        activeStage: activeStage,
+                        activeRace: activeRace,
+                        simController: simController,
+                        viewportWidth: viewportWidth,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Dolny pasek nawigacji i gotowości do startu
+                _buildBottomActionBar(
+                  context: context,
+                  save: save,
+                  activeStage: activeStage,
+                  simController: simController,
+                  viewportWidth: viewportWidth,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // 4-KROKOWY STEPPER PRZEDSTARTOWY & KONTROLA KROKÓW
+  // ===========================================================================
+
+  Widget _buildStepperHeader(double viewportWidth) {
+    final bool isMobile = viewportWidth < 720;
+    const steps = <({String title, String subtitle, IconData icon})>[
+      (
+        title: '1. Trasa & Pogoda',
+        subtitle: 'Profil, Pogoda #151, Rekonesans #140',
+        icon: Icons.terrain_rounded,
+      ),
+      (
+        title: '2. Warsztat Mechanika',
+        subtitle: 'Sprzęt, Opony BAR/PSI, Smar #134',
+        icon: Icons.build_circle_rounded,
+      ),
+      (
+        title: '3. Autobus & Role',
+        subtitle: 'Dyspozycja, Mowa DS #188, Taktyka',
+        icon: Icons.directions_bus_rounded,
+      ),
+      (
+        title: '4. Start Honorowy',
+        subtitle: 'KM 0.0 -> Widok 3D',
+        icon: Icons.flag_rounded,
+      ),
+    ];
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 10 : 16,
+        vertical: 10,
+      ),
+      decoration: const BoxDecoration(
+        color: AppColors.surfaceLight,
+        border: Border(bottom: BorderSide(color: AppTheme.borderColor, width: 1)),
+      ),
+      child: Row(
+        children: List.generate(steps.length, (index) {
+          final step = steps[index];
+          final bool isActive = _currentStep == index;
+          final bool isDone = index < _currentStep;
+          final Color accent = isActive
+              ? AppColors.goldAccent
+              : (isDone ? _emeraldGreen : AppColors.textSecondary);
+
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 3 : 5),
+              child: InkWell(
+                onTap: () => setState(() => _currentStep = index),
+                borderRadius: BorderRadius.circular(12),
+                hoverColor: AppColors.goldAccent.withValues(alpha: 0.08),
+                focusColor: AppColors.goldAccent.withValues(alpha: 0.14),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 240),
+                  curve: Curves.easeOutCubic,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 6 : 12,
+                    vertical: isMobile ? 8 : 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? AppColors.goldAccent.withValues(alpha: 0.14)
+                        : (isDone
+                            ? _emeraldGreen.withValues(alpha: 0.08)
+                            : AppColors.surface),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isActive
+                          ? AppColors.goldAccent
+                          : (isDone
+                              ? _emeraldGreen.withValues(alpha: 0.55)
+                              : AppTheme.borderColor),
+                      width: isActive ? 1.5 : 1.0,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isDone ? Icons.check_circle_rounded : step.icon,
+                        color: accent,
+                        size: isMobile ? 16 : 18,
+                      ),
+                      if (!isMobile || isActive) ...[
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                step.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  color: isActive
+                                      ? AppColors.goldAccent
+                                      : AppColors.textPrimary,
+                                  fontSize: isMobile ? 11 : 12,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              if (!isMobile)
+                                Text(
+                                  step.subtitle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    color: AppColors.textSecondary,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
+          );
+        }),
+      ),
+    );
+  }
 
-            // Dolny pasek gotowości do startu
-            _buildBottomActionBar(
-              context: context,
-              save: save,
-              activeStage: activeStage,
-              simController: simController,
+  Widget _buildCurrentStepContent({
+    required BuildContext context,
+    required CareerSave? save,
+    required RaceStage activeStage,
+    required TourRace? activeRace,
+    required RaceSimulationNotifier simController,
+    required double viewportWidth,
+  }) {
+    switch (_currentStep) {
+      case 0:
+        return _buildTabProfileAndWind(activeStage, activeRace, viewportWidth);
+      case 1:
+        return _buildTabEquipment(activeStage, viewportWidth);
+      case 2:
+        return _buildStep3TeamBusAndRoles(save, activeStage, viewportWidth);
+      case 3:
+      default:
+        return _buildStep4HonoraryStart(
+          context: context,
+          save: save,
+          activeStage: activeStage,
+          simController: simController,
+          viewportWidth: viewportWidth,
+        );
+    }
+  }
+
+  void _applyOptimalMechanicSetup(RaceStage stage) {
+    final bool hasCobbles = stage.segments.any((s) => s.isCobblestone);
+    final bool isRain = stage.weatherCondition == WeatherCondition.lightRain ||
+        stage.weatherCondition == WeatherCondition.heavyStorm;
+
+    final StageBikePreset targetPreset;
+    if (hasCobbles) {
+      targetPreset = StageBikePreset.cobbleRoubaix;
+    } else if (isRain) {
+      targetPreset = StageBikePreset.rainWetRoad;
+    } else if (stage.stageType == StageType.highMountain ||
+        stage.stageType == StageType.summitFinish) {
+      targetPreset = StageBikePreset.climbingLightweight;
+    } else {
+      targetPreset = StageBikePreset.aeroSpeed;
+    }
+
+    final previewRider = _stageLineup.isNotEmpty ? _stageLineup.first : null;
+    final double riderWeight = previewRider?.physiology.weightKg ?? 68.0;
+    final SegmentSurfaceType surface = hasCobbles
+        ? SegmentSurfaceType.cobblestonesSector4
+        : (isRain
+            ? SegmentSurfaceType.roughAsphalt
+            : SegmentSurfaceType.smoothAsphalt);
+
+    final RoadSurfaceCategory surfaceCat = hasCobbles
+        ? RoadSurfaceCategory.cobblestones
+        : (isRain
+            ? RoadSurfaceCategory.roughAsphalt
+            : RoadSurfaceCategory.smoothAsphalt);
+
+    final rec = TirePressureCalculator.calculateOptimalPressure(
+      totalMassKg: riderWeight + 7.2 + 1.0,
+      tireWidthMm: targetPreset.tireWidthMm,
+      tireSystem: targetPreset.isTubeless
+          ? TireSystemType.tubeless
+          : TireSystemType.tpuTube,
+      surface: surfaceCat,
+      isWet: isRain,
+      rimType: RimType.hooked,
+    );
+
+    final baseBike = _buildConfiguredBikeForRider(
+      previewRider?.id ?? 'team_leader',
+      stage,
+    );
+    final DrivetrainLubricantType optimalLube = isRain
+        ? DrivetrainLubricantType.hotMeltWaxAllWeather
+        : DrivetrainLubricantType.hotMeltWaxStandard;
+    final currentWear = baseBike.wearAndMaintenance ??
+        EquipmentWearAndMaintenance.brandNew(allWeatherWax: isRain);
+    final updatedBike = baseBike.applyWear(
+      currentWear.copyWith(
+        chain: currentWear.chain.copyWith(
+          lubricantType: optimalLube,
+          waxFilmRemainingPercent: 100.0,
+          chainElongationPercent: 0.05,
+          isWashedOut: false,
+        ),
+      ),
+    );
+
+    setState(() {
+      _activePreset = targetPreset;
+      _teamRimDepthMm = targetPreset.rimDepthMm;
+      _teamTireWidthMm = targetPreset.tireWidthMm;
+      _teamIsTubeless = targetPreset.isTubeless;
+      _teamTirePressureBar = rec.frontPressureBar;
+      _teamIsHotMeltWax = !isRain || optimalLube == DrivetrainLubricantType.hotMeltWaxAllWeather;
+      _teamTireCompound = isRain
+          ? 'rain_grip'
+          : (hasCobbles ? 'cobble_shield' : 'all_round');
+      _riderRimDepthOverrides.clear();
+      _riderTireWidthOverrides.clear();
+      _workshopPressureRec = rec;
+      _workshopUpdatedBike = updatedBike;
+      _mechanicOptimalApplied = true;
+      _workshopKeyCounter++;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: AppColors.surfaceLight,
+        content: Row(
+          children: [
+            const Icon(Icons.auto_fix_high_rounded, color: AppColors.goldAccent),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Optymalny setup mechanika zastosowany (${targetPreset.title}, '
+                '${rec.frontPressureBar.toStringAsFixed(1)}/${rec.rearPressureBar.toStringAsFixed(1)} BAR, '
+                '${surface.name}).',
+                style: const TextStyle(color: AppColors.textPrimary, fontSize: 12),
+              ),
             ),
           ],
         ),
@@ -640,62 +892,65 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
         color: AppColors.surface,
         border: Border(bottom: BorderSide(color: AppTheme.borderColor, width: 1)),
       ),
-      child: Row(
-        children: [
-          _buildStageTypeBadge(stage.stageType),
-          const SizedBox(width: 14),
-          _buildStageMetricPill(
-            icon: Icons.straighten_rounded,
-            label: 'Dystans',
-            value: '${stage.totalDistanceKm.toStringAsFixed(1)} km',
-          ),
-          const SizedBox(width: 14),
-          _buildStageMetricPill(
-            icon: Icons.trending_up_rounded,
-            label: 'Przewyższenie',
-            value: '+${stage.totalElevationGainM.round()} m',
-          ),
-          const SizedBox(width: 14),
-          _buildStageMetricPill(
-            icon: Icons.landscape_rounded,
-            label: 'Szczyt',
-            value: '${stage.maxElevationM.round()} m',
-          ),
-          const SizedBox(width: 14),
-          _buildStageMetricPill(
-            icon: Icons.terrain_rounded,
-            label: 'Górskie / Sprint',
-            value: '$komCount KOM / $sprintCount Sprint',
-          ),
-          const Spacer(),
-          if (cobbleKm > 0) ...[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: _amberWarning.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: _amberWarning),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.warning_amber_rounded, color: _amberWarning, size: 14),
-                  const SizedBox(width: 4),
-                  Text(
-                    '$cobbleKm km Bruków!',
-                    style: const TextStyle(
-                      color: _amberWarning,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildStageTypeBadge(stage.stageType),
+            const SizedBox(width: 14),
+            _buildStageMetricPill(
+              icon: Icons.straighten_rounded,
+              label: 'Dystans',
+              value: '${stage.totalDistanceKm.toStringAsFixed(1)} km',
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 14),
+            _buildStageMetricPill(
+              icon: Icons.trending_up_rounded,
+              label: 'Przewyższenie',
+              value: '+${stage.totalElevationGainM.round()} m',
+            ),
+            const SizedBox(width: 14),
+            _buildStageMetricPill(
+              icon: Icons.landscape_rounded,
+              label: 'Szczyt',
+              value: '${stage.maxElevationM.round()} m',
+            ),
+            const SizedBox(width: 14),
+            _buildStageMetricPill(
+              icon: Icons.terrain_rounded,
+              label: 'Górskie / Sprint',
+              value: '$komCount KOM / $sprintCount Sprint',
+            ),
+            const SizedBox(width: 14),
+            if (cobbleKm > 0) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: _amberWarning.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: _amberWarning),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.warning_amber_rounded, color: _amberWarning, size: 14),
+                    const SizedBox(width: 4),
+                    Text(
+                      '$cobbleKm km Bruków!',
+                      style: const TextStyle(
+                        color: _amberWarning,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+            ],
+            _buildWeatherPill(stage),
           ],
-          _buildWeatherPill(stage),
-        ],
+        ),
       ),
     );
   }
@@ -830,9 +1085,17 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
   // ZAKŁADKA 1: PROFIL ETAPU, POGODA, WIATR & SEKTORY
   // ===========================================================================
 
-  Widget _buildTabProfileAndWind(RaceStage stage) {
+  Widget _buildTabProfileAndWind(
+    RaceStage stage,
+    TourRace? race,
+    double viewportWidth,
+  ) {
+    final bool isCompact = viewportWidth < 720;
+    final StageWeatherProfile weatherProfile =
+        DynamicMountainWeatherEngine.generateStageWeatherProfile(stage: stage);
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isCompact ? 12 : 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -840,7 +1103,7 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
           Container(
             decoration: BoxDecoration(
               color: _cardSurface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: AppTheme.borderColor),
             ),
             clipBehavior: Clip.antiAlias,
@@ -849,32 +1112,38 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
-                  child: Row(
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       const Icon(Icons.show_chart_rounded, color: AppColors.goldAccent, size: 18),
-                      const SizedBox(width: 8),
                       Text(
                         'PROFIL WYSOKOŚCIOWY: ${stage.name.toUpperCase()}',
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           color: AppColors.textPrimary,
                           fontSize: 13,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
                         ),
                       ),
-                      const Spacer(),
                       const Text(
                         'Przeciągnij suwak, by zbadać nachylenia',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 10),
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          color: AppColors.textSecondary,
+                          fontSize: 10,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 250,
+                  height: isCompact ? 200 : 250,
                   child: ElevationProfileChart(
                     stage: stage,
-                    height: 250,
+                    height: isCompact ? 200 : 250,
                     showHeader: false,
                     enableScrubber: true,
                   ),
@@ -884,29 +1153,320 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
           ),
           const SizedBox(height: 16),
 
-          // Siatka: Pogoda i Analiza Wiatru & Wachlarzy
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Karta Pogody & Nawierzchni
-              Expanded(
-                flex: 5,
-                child: _buildWeatherAnalysisCard(stage),
-              ),
-              const SizedBox(width: 14),
+          // Siatka: Pogoda i Analiza Wiatru & Wachlarzy (responsywna)
+          if (isCompact) ...[
+            _buildWeatherAnalysisCard(stage),
+            const SizedBox(height: 14),
+            _buildWindEchelonAnalysisCard(stage),
+          ] else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: _buildWeatherAnalysisCard(stage),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  flex: 6,
+                  child: _buildWindEchelonAnalysisCard(stage),
+                ),
+              ],
+            ),
+          const SizedBox(height: 16),
 
-              // Karta Wiatru & Zagrożenia Wachlarzami
-              Expanded(
-                flex: 6,
-                child: _buildWindEchelonAnalysisCard(stage),
-              ),
-            ],
-          ),
+          // Integracja #151 (Pogoda Górska) oraz #140 (Rekonesans Trasy)
+          if (isCompact) ...[
+            _buildMountainWeatherCard(weatherProfile),
+            const SizedBox(height: 14),
+            _buildReconnaissanceCard(stage, race),
+          ] else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildMountainWeatherCard(weatherProfile)),
+                const SizedBox(width: 14),
+                Expanded(child: _buildReconnaissanceCard(stage, race)),
+              ],
+            ),
           const SizedBox(height: 16),
 
           // Wykaz kluczowych sektorów i podjazdów
           _buildKeySegmentsCard(stage),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMountainWeatherCard(StageWeatherProfile profile) {
+    final LocalWeatherSnapshot startSnap = profile.waypoints.isNotEmpty
+        ? profile.waypoints.first
+        : profile.getWeatherAtDistance(0.0);
+    final LocalWeatherSnapshot peakSnap = profile.waypoints.isNotEmpty
+        ? profile.waypoints.reduce(
+            (a, b) => a.altitudeMeters >= b.altitudeMeters ? a : b,
+          )
+        : startSnap;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.cloud_sync_rounded, color: AppColors.accentBlue, size: 18),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text(
+                  'POGODA GÓRSKA & MIKROKLIMAT (#151)',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: AppColors.accentBlue.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  'Max ${profile.peakAltitudeM.round()} m',
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.accentBlue,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _buildDetailInfoRow(
+            'Dolina / Start (${profile.baseValleyAltitudeM.round()} m)',
+            '${startSnap.weatherType.displayNamePl} • ${startSnap.ambientTemperatureCelsius.toStringAsFixed(1)} °C',
+          ),
+          _buildDetailInfoRow(
+            'Szczyt / Przełęcz (${peakSnap.altitudeMeters.round()} m)',
+            '${peakSnap.weatherType.displayNamePl} • ${peakSnap.ambientTemperatureCelsius.toStringAsFixed(1)} °C (odcz. ${peakSnap.apparentTemperatureCelsius.toStringAsFixed(1)} °C)',
+          ),
+          _buildDetailInfoRow(
+            'Gęstość powietrza na szczycie',
+            '${peakSnap.airDensityKgM3.toStringAsFixed(3)} kg/m³',
+          ),
+          if (profile.meteorologicalAlerts.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: _amberWarning.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: _amberWarning.withValues(alpha: 0.5)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: _amberWarning, size: 16),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      profile.meteorologicalAlerts.first,
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        color: _amberWarning,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReconnaissanceCard(RaceStage stage, TourRace? race) {
+    final List<ReconCandidateStage> candidates = race != null
+        ? RaceReconnaissanceService.identifyHighPriorityStages(race)
+        : const <ReconCandidateStage>[];
+    final ReconCandidateStage? matchedCandidate = candidates.cast<ReconCandidateStage?>().firstWhere(
+          (c) => c?.stage.id == stage.id,
+          orElse: () => null,
+        );
+    final ReconnaissanceType reconType = matchedCandidate?.reconType ??
+        (stage.segments.any((s) => s.isCobblestone)
+            ? ReconnaissanceType.cobbledSectors
+            : ReconnaissanceType.alpineMountainPasses);
+    const ReconnaissanceStageBonus bonusPreview = ReconnaissanceStageBonus();
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: _isStageReconCompleted
+              ? _emeraldGreen.withValues(alpha: 0.65)
+              : AppTheme.borderColor,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                _isStageReconCompleted
+                    ? Icons.verified_rounded
+                    : Icons.map_rounded,
+                color: _isStageReconCompleted ? _emeraldGreen : AppColors.goldAccent,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text(
+                  'REKONESANS TRASY (#140)',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: (_isStageReconCompleted ? _emeraldGreen : _amberWarning)
+                      .withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  _isStageReconCompleted ? 'ZALICZONY' : 'ANALIZA SATELITARNA',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: _isStageReconCompleted ? _emeraldGreen : _amberWarning,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            reconType.displayName,
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              color: AppColors.goldAccent,
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            matchedCandidate?.rationale ?? reconType.description,
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              color: AppColors.textSecondary,
+              fontSize: 11,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            children: [
+              _buildReconBadge('+${bonusPreview.bikeHandlingBonus} Prowadzenie'),
+              _buildReconBadge('+${bonusPreview.descendingBonus} Zjazdy'),
+              _buildReconBadge('+${bonusPreview.positioningAdvantageScore} Pozycja'),
+              _buildReconBadge('-45% Ryzyko kraksy'),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: _isStageReconCompleted
+                  ? null
+                  : () {
+                      setState(() => _isStageReconCompleted = true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: AppColors.surfaceLight,
+                          content: Text(
+                            'Rekonesans wideo i GPS zakończony — premie taktyczne aktywne dla zespołu!',
+                            style: TextStyle(color: AppColors.textPrimary),
+                          ),
+                        ),
+                      );
+                    },
+              icon: Icon(
+                _isStageReconCompleted
+                    ? Icons.check_circle_rounded
+                    : Icons.satellite_alt_rounded,
+                size: 16,
+              ),
+              label: Text(
+                _isStageReconCompleted
+                    ? 'Premia Rekonesansu Aktywna na Etapie'
+                    : 'Przeprowadź Szybki Rekonesans Wideo (DS)',
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _isStageReconCompleted
+                    ? _emeraldGreen
+                    : AppColors.goldAccent,
+                side: BorderSide(
+                  color: _isStageReconCompleted
+                      ? _emeraldGreen.withValues(alpha: 0.5)
+                      : AppColors.goldAccent,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReconBadge(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Inter',
+          color: AppColors.textPrimary,
+          fontSize: 10,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -1019,11 +1579,14 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
             children: [
               Icon(Icons.air_rounded, color: riskColor, size: 18),
               const SizedBox(width: 8),
-              const Text(
-                'RÓŻA WIATRÓW & WACHLARZE (ECHELONS)',
-                style: TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w900),
+              const Expanded(
+                child: Text(
+                  'RÓŻA WIATRÓW & WACHLARZE (ECHELONS)',
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w900),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
@@ -1128,11 +1691,14 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
             children: [
               const Icon(Icons.flag_rounded, color: AppColors.goldAccent, size: 18),
               const SizedBox(width: 8),
-              const Text(
-                'KLUCZOWE PUNKTY ETAPU (KOM, SPRINTY, BRUKI)',
-                style: TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w900),
+              const Expanded(
+                child: Text(
+                  'KLUCZOWE PUNKTY ETAPU (KOM, SPRINTY, BRUKI)',
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w900),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               Text(
                 'Łącznie punktów: ${climbsAndCobbles.length}',
                 style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
@@ -1157,7 +1723,10 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
               separatorBuilder: (_, __) => const Divider(color: Colors.white10, height: 12),
               itemBuilder: (ctx, idx) {
                 final seg = climbsAndCobbles[idx];
-                return Row(
+                return Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       'km ${seg.startKm.toStringAsFixed(1)}',
@@ -1229,10 +1798,33 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-          Text(value, style: const TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w700)),
+          Flexible(
+            flex: 4,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Inter',
+                color: AppColors.textSecondary,
+                fontSize: 11,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 5,
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: const TextStyle(
+                fontFamily: 'Inter',
+                color: AppColors.textPrimary,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -1242,23 +1834,144 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
   // ZAKŁADKA 2: KONFIGURACJA SPRZĘTU (KOŁA, OPONY, CIŚNIENIE)
   // ===========================================================================
 
-  Widget _buildTabEquipment(RaceStage stage) {
+  Widget _buildTabEquipment(RaceStage stage, double viewportWidth) {
+    final bool isCompact = viewportWidth < 720;
     final previewRiderId = _selectedRiderForBikePreview ?? _stageLineup.first.id;
-    final configuredBike = _buildConfiguredBikeForRider(previewRiderId, stage);
-    final optimalPressure = _calculateOptimalPressure(stage, _stageLineup.firstWhere((r) => r.id == previewRiderId));
+    final previewRider = _stageLineup.firstWhere(
+      (r) => r.id == previewRiderId,
+      orElse: () => _stageLineup.first,
+    );
+    final configuredBike = _workshopUpdatedBike ?? _buildConfiguredBikeForRider(previewRiderId, stage);
+    final optimalPressure = _calculateOptimalPressure(stage, previewRider);
 
     final double pressureDelta = (_teamTirePressureBar - optimalPressure).abs();
     final bool isPressureOptimal = pressureDelta <= 0.2;
+    final bool hasCobbles = stage.segments.any((s) => s.isCobblestone);
+    final bool isRain = stage.weatherCondition == WeatherCondition.lightRain ||
+        stage.weatherCondition == WeatherCondition.heavyStorm;
+    final SegmentSurfaceType upcomingSurface = hasCobbles
+        ? SegmentSurfaceType.cobblestonesSector4
+        : (isRain ? SegmentSurfaceType.roughAsphalt : SegmentSurfaceType.smoothAsphalt);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isCompact ? 12 : 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Baner automatycznego doboru setupu mechanika
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: _mechanicOptimalApplied
+                    ? _emeraldGreen.withValues(alpha: 0.7)
+                    : AppColors.goldAccent.withValues(alpha: 0.6),
+              ),
+            ),
+            child: Builder(
+              builder: (context) {
+                final infoRow = Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.goldAccent.withValues(alpha: 0.14),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.build_circle_rounded,
+                        color: AppColors.goldAccent,
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _mechanicOptimalApplied
+                                ? 'OPTYMALNY SETUP MECHANIKA AKTYWNY'
+                                : 'WARSZTAT MECHANIKÓW & DOBÓR SPRZĘTU (#134)',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: _mechanicOptimalApplied
+                                  ? _emeraldGreen
+                                  : AppColors.textPrimary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          const Text(
+                            'Dobierz ramę, stożki kół, opony, ciśnienie BAR/PSI i smarowanie łańcucha na dzisiejszy etap.',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: AppColors.textSecondary,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+
+                final actionButton = ElevatedButton.icon(
+                  onPressed: () => _applyOptimalMechanicSetup(stage),
+                  icon: const Icon(Icons.auto_fix_high_rounded, size: 18, color: Colors.black),
+                  label: const Text(
+                    'Zastosuj Optymalny Setup Mechanika',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.goldAccent,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+
+                if (isCompact) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      infoRow,
+                      const SizedBox(height: 12),
+                      actionButton,
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: infoRow),
+                    const SizedBox(width: 16),
+                    actionButton,
+                  ],
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
+
           // Szybkie presety konfiguracji
           const Text(
             'SZYBKIE PRESETY DRUŻYNOWE NA ETAP:',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.w800),
+            style: TextStyle(
+              fontFamily: 'Inter',
+              color: AppColors.textSecondary,
+              fontSize: 11,
+              fontWeight: FontWeight.w800,
+            ),
           ),
           const SizedBox(height: 8),
           SingleChildScrollView(
@@ -1269,14 +1982,20 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: InkWell(
-                    onTap: () => _applyPreset(preset),
+                    onTap: () {
+                      _workshopUpdatedBike = null;
+                      _applyPreset(preset);
+                    },
                     borderRadius: BorderRadius.circular(10),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       decoration: BoxDecoration(
                         color: isSelected ? preset.color.withValues(alpha: 0.2) : _cardSurface,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: isSelected ? preset.color : AppTheme.borderColor, width: 1.5),
+                        border: Border.all(
+                          color: isSelected ? preset.color : AppTheme.borderColor,
+                          width: 1.5,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -1288,6 +2007,7 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                               Text(
                                 preset.title,
                                 style: TextStyle(
+                                  fontFamily: 'Inter',
                                   color: isSelected ? preset.color : AppColors.textPrimary,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w800,
@@ -1295,7 +2015,11 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                               ),
                               Text(
                                 preset.subtitle,
-                                style: const TextStyle(color: AppColors.textSecondary, fontSize: 9),
+                                style: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  color: AppColors.textSecondary,
+                                  fontSize: 9,
+                                ),
                               ),
                             ],
                           ),
@@ -1314,41 +2038,56 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: _cardSurface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: AppTheme.borderColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     const Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.pedal_bike_rounded, color: AppColors.goldAccent, size: 18),
                         SizedBox(width: 8),
-                        Text(
-                          'MASZYNA STARTOWA: DRUGIE POKOLENIE WORLDTOUR',
-                          style: TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w900),
+                        Flexible(
+                          child: Text(
+                            'MASZYNA STARTOWA WORLDTOUR',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: AppColors.textPrimary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w900,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
                     Text(
                       'Waga: ${configuredBike.totalWeightKg.toStringAsFixed(2)} kg (Limit UCI: 6.80 kg)',
-                      style: const TextStyle(color: _cyanAccent, fontSize: 11, fontWeight: FontWeight.w800),
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        color: _cyanAccent,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-
-                // Podgląd wizualny roweru
                 SizedBox(
-                  height: 190,
+                  height: 180,
                   child: Center(
                     child: BikePreviewWidget(
                       bike: configuredBike,
-                      height: 180,
-                      showSpecsPill: true,
+                      height: 170,
+                      showSpecsPill: !isCompact,
                     ),
                   ),
                 ),
@@ -1357,21 +2096,67 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
           ),
           const SizedBox(height: 16),
 
-          // Sekcja parametrów: Koła, Opony, Ciśnienie i Smarowanie
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Kolumna 1: Koła i wysokość stożka
-              Expanded(
-                child: _buildWheelsetSelectorCard(),
-              ),
-              const SizedBox(width: 14),
+          // Sekcja parametrów: Koła, Opony, Ciśnienie i Smarowanie (responsywna)
+          if (isCompact) ...[
+            _buildWheelsetSelectorCard(),
+            const SizedBox(height: 14),
+            _buildTireAndPressureCard(stage, optimalPressure, isPressureOptimal),
+          ] else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildWheelsetSelectorCard()),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: _buildTireAndPressureCard(stage, optimalPressure, isPressureOptimal),
+                ),
+              ],
+            ),
+          const SizedBox(height: 16),
 
-              // Kolumna 2: Opony, ciśnienie i smarowanie
-              Expanded(
-                child: _buildTireAndPressureCard(stage, optimalPressure, isPressureOptimal),
-              ),
-            ],
+          // Pełny Panel Warsztatu Mechaników (#134)
+          Builder(
+            builder: (context) {
+              final workshopPanel = MechanicWorkshopPanel(
+                key: ValueKey<int>(_workshopKeyCounter),
+                bike: configuredBike,
+                riderWeightKg: previewRider.physiology.weightKg,
+                riderName: previewRider.fullName,
+                upcomingSurface: upcomingSurface,
+                isUpcomingRain: isRain,
+                onBikeUpdated: (updated) {
+                  setState(() {
+                    _workshopUpdatedBike = updated;
+                    final lube = updated.wearAndMaintenance?.chain.lubricantType;
+                    _teamIsHotMeltWax =
+                        lube == DrivetrainLubricantType.hotMeltWaxStandard ||
+                            lube == DrivetrainLubricantType.hotMeltWaxAllWeather;
+                  });
+                },
+                onPressureApplied: (rec) {
+                  setState(() {
+                    _workshopPressureRec = rec;
+                    _teamTirePressureBar = rec.frontPressureBar;
+                  });
+                },
+              );
+
+              if (isCompact) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: 720,
+                    height: 560,
+                    child: workshopPanel,
+                  ),
+                );
+              }
+
+              return SizedBox(
+                height: 640,
+                child: workshopPanel,
+              );
+            },
           ),
         ],
       ),
@@ -1458,14 +2243,18 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    color: isSelected ? _cyanAccent : AppColors.textPrimary,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
+                Expanded(
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                      color: isSelected ? _cyanAccent : AppColors.textPrimary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
                   '$weightGrams g • $aeroWatts',
                   style: const TextStyle(color: AppColors.goldAccent, fontSize: 10, fontWeight: FontWeight.w700),
@@ -1504,15 +2293,19 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
           const SizedBox(height: 12),
 
           // Szerokość opony (25, 28, 30, 32)
-          Row(
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
             children: [
               const Text('Szerokość:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-              const Spacer(),
-              ...[25, 28, 30, 32].map((w) {
-                final isSelected = _teamTireWidthMm == w;
-                return Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: InkWell(
+              Wrap(
+                spacing: 6,
+                runSpacing: 4,
+                children: [25, 28, 30, 32].map((w) {
+                  final isSelected = _teamTireWidthMm == w;
+                  return InkWell(
                     onTap: () {
                       setState(() {
                         _teamTireWidthMm = w;
@@ -1533,16 +2326,19 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }).toList(),
+              ),
             ],
           ),
           const SizedBox(height: 14),
 
           // Suwak ciśnienia
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               const Text('Ciśnienie w oponach:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
               Text(
@@ -1568,8 +2364,11 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
               });
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text('Rekomendowane: ${optimalPressure.toStringAsFixed(1)} bar',
                   style: const TextStyle(color: AppColors.textSecondary, fontSize: 10)),
@@ -1593,11 +2392,16 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
           const SizedBox(height: 14),
 
           // Smarowanie napędu
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
             children: [
               const Text('Smarowanie łańcucha:', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-              Row(
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
                 children: [
                   ChoiceChip(
                     label: const Text('Gorący Wosk (-3.5W)', style: TextStyle(fontSize: 10)),
@@ -1605,7 +2409,6 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                     selectedColor: AppColors.goldAccent,
                     onSelected: (val) => setState(() => _teamIsHotMeltWax = true),
                   ),
-                  const SizedBox(width: 6),
                   ChoiceChip(
                     label: const Text('Olej Mokry', style: TextStyle(fontSize: 10)),
                     selected: !_teamIsHotMeltWax,
@@ -1622,69 +2425,8 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
   }
 
   // ===========================================================================
-  // ZAKŁADKA 3: PRZYPISANIE RÓL TAKTYCZNYCH DLA KOLARZY
+  // ELEMENTY POMOCNICZE RÓL TAKTYCZNYCH
   // ===========================================================================
-
-  Widget _buildTabTacticsAndRoles(RaceStage stage) {
-    final int breakawayCount = _assignedRoles.values.where((r) => r == StageTacticalRole.breakawayHunter).length;
-    final int leaderCount = _assignedRoles.values.where((r) => r == StageTacticalRole.protectedLeader).length;
-    final int sprinterCount = _assignedRoles.values.where((r) => r == StageTacticalRole.sprintFinisher).length;
-    final int helperCount = _assignedRoles.values.where((r) =>
-        r == StageTacticalRole.bodyguardRoadCaptain ||
-        r == StageTacticalRole.mountainPaceSetter ||
-        r == StageTacticalRole.waterCarrier).length;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Baner odprawy Dyrektora Sportowego (DS Briefing Speech)
-          _buildDsBriefingSpeechCard(stage, breakawayCount, leaderCount, sprinterCount),
-          const SizedBox(height: 14),
-
-          // Pasek podsumowania ról w zespole
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: _cardSurface,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppTheme.borderColor),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildRoleStatItem('Uciekinier', breakawayCount, const Color(0xFFF59E0B)),
-                _buildRoleStatItem('Lider GC', leaderCount, const Color(0xFFFFD700)),
-                _buildRoleStatItem('Sprinter', sprinterCount, const Color(0xFF10B981)),
-                _buildRoleStatItem('Pomocnicy', helperCount, const Color(0xFF818CF8)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Lista kolarzy do przypisania ról
-          const Text(
-            'KADRA ZESPOŁU NA DZISIEJSZY ETAP (7-8 ZAWODNIKÓW):',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.w800),
-          ),
-          const SizedBox(height: 10),
-
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _stageLineup.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
-            itemBuilder: (ctx, idx) {
-              final rider = _stageLineup[idx];
-              final currentRole = _assignedRoles[rider.id] ?? StageTacticalRole.freeAgent;
-              return _buildRiderTacticalCard(rider, currentRole);
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildRoleStatItem(String label, int count, Color color) {
     return Row(
@@ -1806,12 +2548,15 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
               children: [
                 Row(
                   children: [
-                    Text(
-                      rider.fullName,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
+                    Flexible(
+                      child: Text(
+                        rider.fullName,
+                        style: const TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -1822,13 +2567,15 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                   ],
                 ),
                 const SizedBox(height: 3),
-                Row(
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       'FTP: ${rider.physiology.ftpWatts}W (${wPerKg.toStringAsFixed(1)} W/kg)',
                       style: const TextStyle(color: _cyanAccent, fontSize: 10, fontWeight: FontWeight.w700),
                     ),
-                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       decoration: BoxDecoration(
@@ -1849,12 +2596,14 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
               ],
             ),
           ),
+          const SizedBox(width: 8),
 
           // Selektor roli taktycznej
           Expanded(
             flex: 3,
             child: DropdownButtonFormField<StageTacticalRole>(
               initialValue: currentRole,
+              isExpanded: true,
               dropdownColor: const Color(0xFF1E2330),
               style: const TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w700),
               decoration: InputDecoration(
@@ -1871,7 +2620,13 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
                     children: [
                       Icon(role.icon, color: role.badgeColor, size: 14),
                       const SizedBox(width: 6),
-                      Text(role.shortLabel, style: TextStyle(color: role.badgeColor, fontSize: 11)),
+                      Flexible(
+                        child: Text(
+                          role.shortLabel,
+                          style: TextStyle(color: role.badgeColor, fontSize: 11),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -1894,70 +2649,520 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen>
   // DOLNY PASEK STARTU ETAPU
   // ===========================================================================
 
+  // ===========================================================================
+  // KROK 3: AUTOBUS DRUŻYNY (#188) & ROLE TAKTYCZNE
+  // ===========================================================================
+
+  Widget _buildStep3TeamBusAndRoles(
+    CareerSave? save,
+    RaceStage stage,
+    double viewportWidth,
+  ) {
+    final bool isCompact = viewportWidth < 720;
+    final bool isWideDesktop = viewportWidth >= 1360;
+
+    final busWidget = SizedBox(
+      height: isCompact ? 560 : 620,
+      child: TeamBusLockerRoomScreen(
+        team: save?.playerTeam,
+        stage: stage,
+        riders: _stageLineup,
+        isEmbedded: true,
+        onSpeechDelivered: (result) {
+          setState(() {
+            _busBriefingResult = result;
+          });
+        },
+        onProceedToStart: (result) {
+          setState(() {
+            _busBriefingResult = result;
+            _currentStep = 3;
+          });
+        },
+      ),
+    );
+
+    final rolesWidget = _buildRolesAssignmentSection(stage, isCompact: isCompact);
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(isCompact ? 12 : 16),
+      child: isWideDesktop
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 6, child: busWidget),
+                const SizedBox(width: 16),
+                Expanded(flex: 5, child: rolesWidget),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                busWidget,
+                const SizedBox(height: 16),
+                rolesWidget,
+              ],
+            ),
+    );
+  }
+
+  Widget _buildRolesAssignmentSection(RaceStage stage, {required bool isCompact}) {
+    final int breakawayCount = _assignedRoles.values.where((r) => r == StageTacticalRole.breakawayHunter).length;
+    final int leaderCount = _assignedRoles.values.where((r) => r == StageTacticalRole.protectedLeader).length;
+    final int sprinterCount = _assignedRoles.values.where((r) => r == StageTacticalRole.sprintFinisher).length;
+    final int helperCount = _assignedRoles.values
+        .where((r) =>
+            r == StageTacticalRole.bodyguardRoadCaptain ||
+            r == StageTacticalRole.mountainPaceSetter ||
+            r == StageTacticalRole.waterCarrier ||
+            r == StageTacticalRole.leadoutPilot)
+        .length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildDsBriefingSpeechCard(stage, breakawayCount, leaderCount, sprinterCount),
+        const SizedBox(height: 14),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: _cardSurface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppTheme.borderColor),
+          ),
+          child: Wrap(
+            spacing: 14,
+            runSpacing: 8,
+            alignment: WrapAlignment.spaceAround,
+            children: [
+              _buildRoleStatItem('Lider GC', leaderCount, const Color(0xFFFFD700)),
+              _buildRoleStatItem('Ochroniarz / Lead-out', helperCount, const Color(0xFF818CF8)),
+              _buildRoleStatItem('Uciekinier', breakawayCount, const Color(0xFFF59E0B)),
+              _buildRoleStatItem('Sprinter', sprinterCount, const Color(0xFF10B981)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        Row(
+          children: [
+            const Expanded(
+              child: Text(
+                'WYZNACZENIE RÓL TAKTYCZNYCH:',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  color: AppColors.textSecondary,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                setState(() {
+                  _assignedRoles.clear();
+                  _autoAssignTacticalRoles(stage);
+                });
+              },
+              icon: const Icon(Icons.auto_awesome_rounded, size: 15, color: AppColors.goldAccent),
+              label: const Text(
+                'Auto-przydziel',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  color: AppColors.goldAccent,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: _stageLineup.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          itemBuilder: (ctx, idx) {
+            final rider = _stageLineup[idx];
+            final currentRole = _assignedRoles[rider.id] ?? StageTacticalRole.freeAgent;
+            return _buildRiderTacticalCard(rider, currentRole);
+          },
+        ),
+      ],
+    );
+  }
+
+  // ===========================================================================
+  // KROK 4: WYJAZD NA START HONOROWY (KM 0.0) -> WIDOK 3D
+  // ===========================================================================
+
+  Widget _buildStep4HonoraryStart({
+    required BuildContext context,
+    required CareerSave? save,
+    required RaceStage activeStage,
+    required RaceSimulationNotifier simController,
+    required double viewportWidth,
+  }) {
+    final bool isCompact = viewportWidth < 720;
+    final int warmedUpCount = _busBriefingResult?.riderSlots.where((s) => s.isWarmedUp).length ?? 0;
+    final String speechTitle = _busBriefingResult?.deliveredSpeech?.title ?? 'Gotowość taktyczna standardowa';
+    final int leaderCount = _assignedRoles.values.where((r) => r == StageTacticalRole.protectedLeader).length;
+    final int bodyguardCount = _assignedRoles.values.where((r) => r == StageTacticalRole.bodyguardRoadCaptain).length;
+    final int breakawayCount = _assignedRoles.values.where((r) => r == StageTacticalRole.breakawayHunter).length;
+    final int leadoutCount = _assignedRoles.values.where((r) => r == StageTacticalRole.leadoutPilot).length;
+
+    final String pressureSummary = _workshopPressureRec != null
+        ? '${_workshopPressureRec!.frontPressureBar.toStringAsFixed(1)} / ${_workshopPressureRec!.rearPressureBar.toStringAsFixed(1)} BAR'
+        : '${_teamTirePressureBar.toStringAsFixed(1)} BAR (${(_teamTirePressureBar * 14.5038).round()} PSI)';
+
+    void triggerStart() {
+      if (save != null) {
+        _launchRaceSimulation(
+          context: context,
+          save: save,
+          activeStage: activeStage,
+          simController: simController,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.surfaceLight,
+            content: Text(
+              'Brak aktywnego zapisu kariery – uruchomiono podgląd odprawy przedstartowej.',
+              style: TextStyle(color: AppColors.textPrimary),
+            ),
+          ),
+        );
+      }
+    }
+
+    final summaryCards = <Widget>[
+      _buildFinalReadinessCard(
+        title: '1. Trasa, Pogoda & Rekonesans',
+        icon: Icons.terrain_rounded,
+        accent: AppColors.accentBlue,
+        rows: [
+          ('Etap', '${activeStage.totalDistanceKm.toStringAsFixed(1)} km (+${activeStage.totalElevationGainM.round()} m)'),
+          ('Szczyt / Temp.', '${activeStage.maxElevationM.round()} m • ${activeStage.baseTemperatureCelsius.toStringAsFixed(1)} °C'),
+          ('Rekonesans (#140)', _isStageReconCompleted ? 'Zaliczony (+bonusy)' : 'Dane satelitarne'),
+        ],
+      ),
+      _buildFinalReadinessCard(
+        title: '2. Warsztat Mechaników (#134)',
+        icon: Icons.build_circle_rounded,
+        accent: AppColors.goldAccent,
+        rows: [
+          ('Setup', _mechanicOptimalApplied ? 'Optymalny Mechanika' : _activePreset.title),
+          ('Koła & Opony', '${_teamRimDepthMm}mm • ${_teamTireWidthMm}mm (${_teamIsTubeless ? "Tubeless" : "TPU"})'),
+          ('Ciśnienie & Smar', '$pressureSummary • ${_teamIsHotMeltWax ? "Hot Melt Wax" : "Wet Lube"}'),
+        ],
+      ),
+      _buildFinalReadinessCard(
+        title: '3. Autobus & Role Taktyczne (#188)',
+        icon: Icons.directions_bus_rounded,
+        accent: _emeraldGreen,
+        rows: [
+          ('Rozgrzewka', '$warmedUpCount / ${_stageLineup.length} kolarzy'),
+          ('Mowa DS', speechTitle),
+          ('Role', 'Lider: $leaderCount • Ochroniarz: $bodyguardCount • Ucieczka: $breakawayCount • Lead-out: $leadoutCount'),
+        ],
+      ),
+    ];
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(isCompact ? 14 : 24),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: EdgeInsets.all(isCompact ? 18 : 26),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.goldAccent.withValues(alpha: 0.6), width: 1.5),
+                ),
+                child: Column(
+                  children: [
+                    const Icon(Icons.flag_circle_rounded, color: AppColors.goldAccent, size: 44),
+                    const SizedBox(height: 10),
+                    Text(
+                      'GOTOWOŚĆ DO STARTU HONOROWEGO — ${activeStage.name.toUpperCase()}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: AppColors.textPrimary,
+                        fontSize: isCompact ? 16 : 20,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Zweryfikuj raport przedstartowy z analizy trasy, warsztatu mechaników oraz autobusu drużyny i wyjedź na KM 0.0.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: AppColors.textSecondary,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(height: 22),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: triggerStart,
+                        icon: const Icon(Icons.sports_score_rounded, size: 24, color: Colors.black),
+                        label: Text(
+                          'WYJAZD NA START HONOROWY (KM 0.0) -> WIDOK 3D',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: Colors.black,
+                            fontSize: isCompact ? 13 : 16,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.7,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.goldAccent,
+                          foregroundColor: Colors.black,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isCompact ? 16 : 28,
+                            vertical: isCompact ? 16 : 20,
+                          ),
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
+              if (isCompact)
+                Column(
+                  children: [
+                    summaryCards[0],
+                    const SizedBox(height: 12),
+                    summaryCards[1],
+                    const SizedBox(height: 12),
+                    summaryCards[2],
+                  ],
+                )
+              else
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: summaryCards[0]),
+                    const SizedBox(width: 14),
+                    Expanded(child: summaryCards[1]),
+                    const SizedBox(width: 14),
+                    Expanded(child: summaryCards[2]),
+                  ],
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFinalReadinessCard({
+    required String title,
+    required IconData icon,
+    required Color accent,
+    required List<(String, String)> rows,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: accent, size: 18),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          for (final item in rows) _buildDetailInfoRow(item.$1, item.$2),
+        ],
+      ),
+    );
+  }
+
+  // ===========================================================================
+  // DOLNY PASEK NAWIGACJI 4-KROKOWEJ I STARTU
+  // ===========================================================================
+
   Widget _buildBottomActionBar({
     required BuildContext context,
     required CareerSave? save,
     required RaceStage activeStage,
     required RaceSimulationNotifier simController,
+    required double viewportWidth,
   }) {
+    final bool isCompact = viewportWidth < 720;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(
+        horizontal: isCompact ? 12 : 16,
+        vertical: 12,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppTheme.borderColor, width: 1)),
       ),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'SKŁAD: ${_stageLineup.length} KOLARZY GOTOWYCH',
-                style: const TextStyle(color: _emeraldGreen, fontSize: 11, fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                'Sprzęt: ${_activePreset.title} (${_teamRimDepthMm}mm / ${_teamTireWidthMm}mm)',
-                style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
-              ),
-            ],
-          ),
-          const Spacer(),
-          ElevatedButton.icon(
-            onPressed: () {
-              if (save != null) {
-                _launchRaceSimulation(
-                  context: context,
-                  save: save,
-                  activeStage: activeStage,
-                  simController: simController,
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Brak aktywnego zapisu kariery – uruchomiono symulację próbną.'),
-                  ),
-                );
-              }
-            },
-            icon: const Icon(Icons.sports_score_rounded, size: 20, color: Colors.black),
+          OutlinedButton.icon(
+            onPressed: _currentStep > 0
+                ? () => setState(() => _currentStep--)
+                : null,
+            icon: const Icon(Icons.arrow_back_rounded, size: 16),
             label: const Text(
-              'RUSZAJ NA START ETAPU! 🏁',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.5,
-              ),
+              'Wstecz',
+              style: TextStyle(fontFamily: 'Inter', fontSize: 12, fontWeight: FontWeight.w700),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.goldAccent,
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-              elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.textPrimary,
+              disabledForegroundColor: AppColors.textSecondary.withValues(alpha: 0.4),
+              side: BorderSide(
+                color: _currentStep > 0
+                    ? AppTheme.borderColor
+                    : AppTheme.borderColor.withValues(alpha: 0.4),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
           ),
+          const SizedBox(width: 12),
+          if (!isCompact)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'KROK ${_currentStep + 1} Z 4 • SKŁAD: ${_stageLineup.length} KOLARZY GOTOWYCH',
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      color: _emeraldGreen,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Sprzęt: ${_activePreset.title} (${_teamRimDepthMm}mm / ${_teamTireWidthMm}mm • ${_teamTirePressureBar.toStringAsFixed(1)} BAR)',
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      color: AppColors.textSecondary,
+                      fontSize: 10,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            )
+          else
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Krok ${_currentStep + 1} / 4',
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          const SizedBox(width: 12),
+          if (_currentStep < 3)
+            ElevatedButton.icon(
+              onPressed: () => setState(() => _currentStep++),
+              icon: const Icon(Icons.arrow_forward_rounded, size: 18, color: Colors.black),
+              label: Text(
+                isCompact ? 'Dalej' : 'Następny Krok',
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.goldAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            )
+          else
+            ElevatedButton.icon(
+              onPressed: () {
+                if (save != null) {
+                  _launchRaceSimulation(
+                    context: context,
+                    save: save,
+                    activeStage: activeStage,
+                    simController: simController,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: AppColors.surfaceLight,
+                      content: Text(
+                        'Brak aktywnego zapisu kariery – uruchomiono podgląd odprawy.',
+                        style: TextStyle(color: AppColors.textPrimary),
+                      ),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.sports_score_rounded, size: 18, color: Colors.black),
+              label: Text(
+                isCompact
+                    ? 'KM 0.0 -> 3D'
+                    : 'WYJAZD NA START HONOROWY (KM 0.0) -> WIDOK 3D',
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.4,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.goldAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                elevation: 4,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
         ],
       ),
     );
