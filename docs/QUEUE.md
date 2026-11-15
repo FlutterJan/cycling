@@ -534,7 +534,7 @@ Zasady działania pętli:
   2. Zestaw rekwizytów sektora bruku (`assets/3d/environment/cobble_sector_props.glb`): drewniana brama wjazdowa na sektor z oznaczeniem 5 gwiazdek trudności (`*****`), kamienny pomnik przy drodze oraz geometryczne tafle błota i kałuż z materiałem o niskim `Roughness = 0.08` (efekt lustra wody).
      Skrypt musi automatycznie tworzyć katalogi wyjściowe i eksportować pliki w formacie glTF 2.0 (`.glb`).
 
-- [ ] **Zadanie #177** (`blender_scripts/generate_alpine_summit_scenery.py`): Napisz kompletny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenerię szczytu wysokogórskiego Hors Categorie (`assets/3d/environment/alpine_summit_pack.glb`):
+- [x] **Zadanie #177** (`blender_scripts/generate_alpine_summit_scenery.py`): Napisz kompletny skrypt Blender 5.3 Python API (`bpy`), który proceduralnie modeluje w 3D scenerię szczytu wysokogórskiego Hors Categorie (`assets/3d/environment/alpine_summit_pack.glb`):
 
   1. Charakterystyczny budynek obserwatorium meteorologicznego z biało-czerwoną wieżą przekaźnikową (inspirowany Mont Ventoux / Pic du Midi).
 
