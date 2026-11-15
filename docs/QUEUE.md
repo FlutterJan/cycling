@@ -584,7 +584,7 @@ Zasady działania pętli:
 
   2. Uwzględnij zwężenia szosy (np. wjazd na wąski sektor bruku o szerokości $3.2\text{ m}$), co naturalnie rozciąga peleton w długiego "węża" (efekt akordeonu / *gruppo allungato*). Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #185** (`lib/engine/rendering3d/broadcast_tv_graphics_overlay.dart`): Stwórz zestaw autentycznych grafik telewizyjnych `BroadcastTvGraphicsOverlay` wzorowanych na oficjalnej oprawie telewizyjnej Eurosportu / Tour de France, które pojawiają się dynamicznie podczas transmisji wyścigu 3D. Zaimplementuj:
+- [x] **Zadanie #185** (`lib/engine/rendering3d/broadcast_tv_graphics_overlay.dart`): Stwórz zestaw autentycznych grafik telewizyjnych `BroadcastTvGraphicsOverlay` wzorowanych na oficjalnej oprawie telewizyjnej Eurosportu / Tour de France, które pojawiają się dynamicznie podczas transmisji wyścigu 3D. Zaimplementuj:
 
   1. **Belkę dolną prezentacji kolarza (Lower-Third Rider Spotlight):** gdy kamera przełącza się na lidera lub atakującego zawodnika, z dołu ekranu wyjeżdża animowana belka ze złotym paskiem `#D4AF37`, portretem, flagą, miejscem w klasyfikacji generalnej, aktualną mocą (W i W/kg), tętnem oraz prędkością chwilową.
 

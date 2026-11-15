@@ -109,6 +109,7 @@
 - `lib/engine/physics/speed_solver.dart` — Solver prędkości m/s z mocy W i sił oporu.
 - `lib/engine/physics/tire_pressure_calculator.dart` — Kalkulator optymalnego ciśnienia BAR/PSI.
 - `lib/engine/physics/w_prime_balance_engine.dart` — Model Skiba W'bal (zużycie i regeneracja beztlenowa).
+- `lib/engine/rendering3d/broadcast_tv_graphics_overlay.dart` — Nakładka grafik TV Eurosport/TDF (`BroadcastTvGraphicsOverlay`, `BroadcastRiderSpotlightData`, `BroadcastClimbTelemetryData`, `BroadcastLiveSplitData`: belka kolarza `#D4AF37`, profil podjazdu z VAM, stoper do setnych z Top 5).
 - `lib/engine/rendering3d/camera_rig_controller.dart` — Kamery wyścigowe (helikopter, moto, tył, pierwsza osoba).
 - `lib/engine/rendering3d/crash_and_mechanical_visuals.dart` — Wizualizacja kraks i defektów na trasie 3D.
 - `lib/engine/rendering3d/cyclist_3d_pose_animator.dart` — Animacja kadencji, jazdy na stojąco i aero tuck.
