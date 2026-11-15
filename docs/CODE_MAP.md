@@ -103,6 +103,7 @@
 - `lib/engine/peloton/tactical_orders_processor.dart` — Przetwarzanie rozkazów taktycznych gracza.
 - `lib/engine/physics/aero_calculator.dart` — Obliczenia oporu aerodynamicznego CdA i wiatru.
 - `lib/engine/physics/bike_fit_and_wind_tunnel_engine.dart` — Symulacja tunelu aero i bike fittingu.
+- `lib/engine/physics/day_condition_and_biorhythm_engine.dart` — Silnik dyspozycji dnia -5..+5 (`DayConditionAndBiorhythmEngine`, `DayConditionDrawInputs`, `DayConditionModifiers`, `RiderDayConditionState`): losowanie ważone (TSB, sen, pogoda, morale, lojalność), wpływ na FTP/W'/VO2max/regenerację oraz odkrywanie `?` powyżej LT1 na podjeździe.
 - `lib/engine/physics/gravity_and_rolling_calculator.dart` — Siła grawitacji i opory toczenia CRR.
 - `lib/engine/physics/heart_rate_simulator.dart` — Kinetyka tętna BPM w zależności od wysiłku.
 - `lib/engine/physics/nutrition_and_glycogen_engine.dart` — Spalanie glikogenu, węglowodany i "odcięcie prądu".

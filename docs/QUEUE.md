@@ -616,7 +616,7 @@ Zasady działania pętli:
 
   3. Możliwość wygłoszenia mowy motywacyjnej przez Dyrektora Sportowego przed wyjściem na linię startu (`Zdejmijcie presję`, `Jedziemy dziś wszystko na naszego lidera!`, `Zaatakujcie od kilometra zero!`, `Przetrwajcie ten etap w limicie czasu`), która modyfikuje morale i początkową koncentrację kolarzy na pierwszych 20 kilometrach wyścigu. Zweryfikuj przez `flutter analyze`.
 
-- [ ] **Zadanie #189** (`lib/engine/physics/day_condition_and_biorhythm_engine.dart`): Stwórz silnik dyspozycji dnia `DayConditionAndBiorhythmEngine`, który decyduje o subtelnych wahaniach dyspozycji kolarza w konkretnym dniu wyścigowym (od $-5$ "Kryzys / Ciężkie nogi" do $+5$ "Dzień Konia / Diamentowa noga"). Zaimplementuj:
+- [x] **Zadanie #189** (`lib/engine/physics/day_condition_and_biorhythm_engine.dart`): Stwórz silnik dyspozycji dnia `DayConditionAndBiorhythmEngine`, który decyduje o subtelnych wahaniach dyspozycji kolarza w konkretnym dniu wyścigowym (od $-5$ "Kryzys / Ciężkie nogi" do $+5$ "Dzień Konia / Diamentowa noga"). Zaimplementuj:
 
   1. Algorytm losowania ważonego oparty o: aktualną świeżość (TSB), jakość snu/regeneracji nocnej, dopasowanie pogody do preferencji kolarza (`rainResistance`, `heatTolerance`), morale oraz lojalność wobec lidera.
 
