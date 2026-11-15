@@ -279,6 +279,7 @@
 - `lib/ui/widgets/tactical_radial_command_menu.dart` — Kołowe menu rozkazów taktycznych 3D (`TacticalRadialCommandMenu`, `TacticalRadialCommandType`): 8 wycinków (Atakuj, Pozycja, Zmiana, Na Kole, Chroń, Żel, Bidony, Grupetto) z animacją sprężynową 200ms, obsługą klawiatury i pełną responsywnością.
 - `lib/ui/widgets/team_tactical_presets_bar.dart` — Szybkie presety taktyczne dla całej drużyny.
 - `lib/ui/widgets/tutorial_coach_marks_overlay.dart` — Interaktywny samouczek wyścigowy (`TutorialCoachMarksOverlay`, `TutorialAcademyStep`, `TutorialTargetZone`) w estetyce ciemnego szkła ze strzałkami wektorowymi.
+- `lib/ui/widgets/tv_broadcast_lower_third_banner.dart` — Telewizyjna belka dolna w stylu Tour de France (`TvBroadcastLowerThirdBanner`, `TvBroadcastLowerThirdData`, `TvBroadcastBannerStyle`: warianty złoto-czarny i bordowo-złoty, waty/W/kg, tętno, prędkość, strata/przewaga GC, pełne stany interakcji i responsywność).
 
 ### `blender_scripts/` & `test/`
 - `blender_scripts/build_all_assets_master.py` + `build_3d_assets_windows.bat` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz `test_*.py` — Master pipeline #086–#182 dla Blender 5.3.0 na Windows z `asset_manifest.json`, izolacją `try/except` i skryptem `.bat`.
