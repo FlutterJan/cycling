@@ -280,6 +280,7 @@
 - `lib/ui/widgets/team_tactical_presets_bar.dart` — Szybkie presety taktyczne dla całej drużyny.
 - `lib/ui/widgets/tutorial_coach_marks_overlay.dart` — Interaktywny samouczek wyścigowy (`TutorialCoachMarksOverlay`, `TutorialAcademyStep`, `TutorialTargetZone`) w estetyce ciemnego szkła ze strzałkami wektorowymi.
 - `lib/ui/widgets/tv_broadcast_lower_third_banner.dart` — Telewizyjna belka dolna w stylu Tour de France (`TvBroadcastLowerThirdBanner`, `TvBroadcastLowerThirdData`, `TvBroadcastBannerStyle`: warianty złoto-czarny i bordowo-złoty, waty/W/kg, tętno, prędkość, strata/przewaga GC, pełne stany interakcji i responsywność).
+- `lib/ui/widgets/tv_climb_gradient_3d_ribbon_hud.dart` — Telewizyjny profil podjazdu 3D w rogu ekranu (`TvClimbGradient3dRibbonHud`, `TvClimbGradient3dRibbonData`, `ClimbKilometerSegment`, `ClimbGradientDifficultyBand`: trójwymiarowe słupki km wg nachylenia 4–6% żółty / 7–9% pomarańczowy / 10–12% czerwony / >12% czarny oraz średnie VAM lidera).
 
 ### `blender_scripts/` & `test/`
 - `blender_scripts/build_all_assets_master.py` + `build_3d_assets_windows.bat` + `generate_*.py`, `rig_and_animate_cyclist.py`, `style_and_materials.py` oraz `test_*.py` — Master pipeline #086–#182 dla Blender 5.3.0 na Windows z `asset_manifest.json`, izolacją `try/except` i skryptem `.bat`.
