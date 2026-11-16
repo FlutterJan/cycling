@@ -231,6 +231,7 @@
 - `lib/services/career/sponsor_negotiation_service.dart` — Negocjacje ze sponsorami tytularnymi.
 - `lib/services/career/sponsor_objectives_evaluator.dart` — Ewaluacja celów sponsorskich po wyścigu i wypłata bonusów.
 - `lib/services/career/team_chemistry_and_builder_service.dart` — Chemia drużyny i hierarchia liderów.
+- `lib/services/career/team_service_course_hq_upgrades.dart` — System rozbudowy 5 modułów Bazy Logistycznej Zespołu (`TeamServiceCourseHqUpgrades`, `ServiceCourseModuleId`, `ServiceCourseModuleDefinition`, `ServiceCourseModuleLevelSpec`, `ServiceCourseModuleState`, `ServiceCourseCareerBonuses`, `TeamServiceCourseHqState`, `TeamServiceCourseHqNotifier`, `teamServiceCourseHqProvider`, `TeamServiceCourseHqPanel`: Tunel Aero, Centrum Hipoksji, Flota Autobusów, Warsztat Wosku, Akademia Skautingu).
 - `lib/services/career/training_and_camps_service.dart` — Zgrupowania wysokogórskie i plany treningowe.
 - `lib/services/career/transfer_market_service.dart` — Rynek transferowy kolarzy i wolni agenci.
 - `lib/services/career/tv_exposure_and_media_value_tracker.dart` — Śledzenie ekspozycji TV sponsora i ekwiwalentu reklamowego w M EUR (`TvExposureAndMediaValueTracker`, `TvExposureMediaValuePanel`, `TvCameraExposureSource`, `TvExposureCameraSample`, `StageTvExposureReport`, `SeasonTvMediaValueSummary`, `SponsorMediaRoiGrade`).
@@ -410,3 +411,4 @@
 - `test/ui/photo_mode_3d_camera_studio_overlay_test.dart` — Testy jednostkowe i widgetowe `PhotoMode3dCameraStudioOverlay` (optyka 24–200 mm, Bokeh, filtry kolorystyczne, Free Fly Cam, zapis do galerii oraz responsywność 390x844 / 1024x768 / 1600x900).
 - `test/ui/in_game_cycling_encyclopedia_screen_test.dart` — Testy jednostkowe `EncyclopediaPhysicsCalculator` oraz responsywności i przełączania 9 haseł `InGameCyclingEncyclopediaScreen` (390x844 / 1024x768 / 1600x900).
 - `test/ui/tactical_challenges_hub_screen_test.dart` — Testy jednostkowe i responsywne widgetowe `TacticalChallengesHubScreen` (10 scenariuszy, medale, tablica czasów, stan pusty i responsywność 390x844 / 1024x768 / 1600x900).
+- `test/services/team_service_course_hq_upgrades_test.dart` — Testy jednostkowe i responsywne widgetowe `TeamServiceCourseHqUpgrades` oraz `TeamServiceCourseHqPanel` (5 modułów × 5 poziomów, budżet, postęp dni, anulowanie ze zwrotem 50%, JSON, Riverpod i responsywność 390x844 / 1024x768 / 1600x900).
