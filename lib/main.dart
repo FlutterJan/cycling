@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/diagnostics/global_error_boundary_widget.dart';
 import 'core/localization/app_localizations_pl_en.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_colors.dart';
@@ -49,6 +50,7 @@ Future<void> main() async {
       debugPrint('[ProPelotonManager Error]: ${details.exceptionAsString()}');
     }
   };
+  GlobalErrorBoundaryWidget.install();
 
   runApp(
     const ProviderScope(
