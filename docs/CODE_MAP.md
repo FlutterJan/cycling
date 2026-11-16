@@ -108,6 +108,7 @@
 - `lib/engine/peloton/mountain_gc_ai_controller.dart` — AI faworytów GC na podjazdach górskich.
 - `lib/engine/peloton/peloton_chase_ai_controller.dart` — AI pościgu peletonu za ucieczką.
 - `lib/engine/peloton/rider_race_state.dart` — Dynamiczny stan kolarza podczas etapu.
+- `lib/engine/peloton/sprint_leadout_aerodynamic_slingshot.dart` — Efekt "procy aerodynamicznej" na ostatnich 250 m (`SprintLeadoutAerodynamicSlingshot`, `SprintSlingshotInput`, `SprintSlingshotStepResult`, `SprintSlingshotSimulationSummary`, `SlingshotPhase`: wyskok z koła rozprowadzającego przy 65 km/h z pełnym W' do 72–76 km/h dzięki opóźnionemu narastaniu oporu czołowego przez 1.5 s).
 - `lib/engine/peloton/sprint_train_ai_controller.dart` — AI pociągów sprinterskich i rozprowadzania.
 - `lib/engine/peloton/tactical_orders_processor.dart` — Przetwarzanie rozkazów taktycznych gracza.
 - `lib/engine/physics/aero_calculator.dart` — Obliczenia oporu aerodynamicznego CdA i wiatru.
