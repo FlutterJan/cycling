@@ -291,6 +291,7 @@
 - `lib/ui/widgets/custom_race_route_elevation_brush.dart` — Pędzel rzeźbienia terenu w Kreatorze Etapów (`CustomRaceRouteElevationBrush`, `ClimbCategoryCalculator`, `ElevationBrushMode`, `DetectedClimbSummary`) z rysowaniem profilu wysokościowego myszą/palcem oraz automatycznym wyliczaniem kategorii podjazdów (Cat 4–HC) i nachylenia %.
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.
+- `lib/ui/widgets/fps_and_simulation_telemetry_overlay.dart` — Opcjonalny licznik wydajności w rogu ekranu (`FpsAndSimulationTelemetryOverlay`, `SimulationTelemetrySnapshot`, `TelemetryOverlayCorner`: FPS, render ramki ms, fizyka Isolate ms, wielokąty 3D, RAM + wykres historii klatek).
 - `lib/ui/widgets/global_search_spotlight_modal.dart` — Globalna wyszukiwarka Spotlight `Ctrl+K` (`GlobalSearchSpotlightModal`, `SpotlightSearchIndex`, `SpotlightSearchCategory`, `SpotlightSearchItem`, `SpotlightClimbEntry`) dla 800+ kolarzy, 53 drużyn, wyścigów i podjazdów z podglądem i przejściem do profilu.
 - `lib/ui/widgets/grand_tour_jersey_point_rules_modal.dart` — Modal zasad punktacji, bonifikat czasowych (10-6-4 s / 8-5-2 s) i limitu czasu OTL Wielkich Tourów (`GrandTourJerseyPointRulesModal`, `GrandTourPointRulesCatalog`, `GrandTourJerseyTheme`, `OtlCalculationPreview`, `GrandTourRuleEdition`, `GrandTourRulesTab`) z kalkulatorem OTL na żywo.
 - `lib/ui/widgets/group_gaps_chalkboard_widget.dart` — Tablica różnic czasowych między grupami.
