@@ -276,6 +276,7 @@
 - `lib/ui/widgets/rider_avatar_painter.dart` — Proceduralny portret kolarza w kasku i okularach.
 - `lib/ui/widgets/rider_comparison_side_by_side_modal.dart` — Modal porównania 2–3 kolarzy obok siebie (`RiderComparisonSideBySideModal`).
 - `lib/ui/widgets/rider_effort_slider_control.dart` — Suwak wysiłku i rozkazów taktycznych kolarza.
+- `lib/ui/widgets/rider_fatigue_body_heatmap_painter.dart` — Anatomiczny diagram zmęczenia mięśniowego i CNS kolarza (`RiderFatigueBodyHeatmapPainter`, `RiderFatigueBodyHeatmapWidget`, `RiderMuscleFatigueProfile`, `BodyFatigueGroup`, `FatigueSeverityLevel`: czworogłowe, łydki, pośladki, lędźwie, CNS w skali zielony–ciemnoczerwony).
 - `lib/ui/widgets/rider_telemetry_hud.dart` — Karta telemetrii kolarza na żywo (W, BPM, W', glikogen).
 - `lib/ui/widgets/rider_telemetry_sparklines_card.dart` — Karta Sparklines 60s mocy (gradient Z1–Z7) + przerywane tętno i licznik spalonych zapałek (`RiderTelemetrySparklinesCard`, `RiderTelemetrySparklinePainter`, `MatchesBurnedCalculator`).
 - `lib/ui/widgets/save_load_slots_modal.dart` — Okno zarządzania zapisami gry (`SaveLoadSlotsModal`, `TeamCrestPainter`, `SaveSlotEnrichedInfo`, `SaveLoadModalMode`, `SaveLoadModalResult`) dla 5 slotów ręcznych + `Auto-Save` z eksportem/importem `.json`.
