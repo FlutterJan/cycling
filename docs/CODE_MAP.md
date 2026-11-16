@@ -279,6 +279,7 @@
 - `lib/ui/widgets/rider_telemetry_hud.dart` — Karta telemetrii kolarza na żywo (W, BPM, W', glikogen).
 - `lib/ui/widgets/rider_telemetry_sparklines_card.dart` — Karta Sparklines 60s mocy (gradient Z1–Z7) + przerywane tętno i licznik spalonych zapałek (`RiderTelemetrySparklinesCard`, `RiderTelemetrySparklinePainter`, `MatchesBurnedCalculator`).
 - `lib/ui/widgets/save_load_slots_modal.dart` — Okno zarządzania zapisami gry (`SaveLoadSlotsModal`, `TeamCrestPainter`, `SaveSlotEnrichedInfo`, `SaveLoadModalMode`, `SaveLoadModalResult`) dla 5 slotów ręcznych + `Auto-Save` z eksportem/importem `.json`.
+- `lib/ui/widgets/season_calendar_gantt_timeline.dart` — Poziomy wykres Gantta sezonu (`SeasonCalendarGanttTimeline`, `GanttRiderScheduleRow`, `GanttTimelineBlock`, `GanttPeakFormWindow`) dla wszystkich 28 kolarzy (STY–PAŹ), obozów wysokogórskich, Peak 1/2 i wykrywania kolizji wyścigów.
 - `lib/ui/widgets/tactical_minimap_2d_widget.dart` — Minimapa 2D trasy i pozycji grup.
 - `lib/ui/widgets/tactical_radial_command_menu.dart` — Kołowe menu rozkazów taktycznych 3D (`TacticalRadialCommandMenu`, `TacticalRadialCommandType`): 8 wycinków (Atakuj, Pozycja, Zmiana, Na Kole, Chroń, Żel, Bidony, Grupetto) z animacją sprężynową 200ms, obsługą klawiatury i pełną responsywnością.
 - `lib/ui/widgets/team_tactical_presets_bar.dart` — Szybkie presety taktyczne dla całej drużyny.

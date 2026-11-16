@@ -15,6 +15,7 @@ import '../../services/career/race_calendar_selection_service.dart';
 import '../../services/career/team_chemistry_and_builder_service.dart';
 import '../../state/career_controller.dart';
 import '../widgets/rider_avatar_painter.dart';
+import '../widgets/season_calendar_gantt_timeline.dart';
 
 const Color _cyanAccent = Color(0xFF00E5FF);
 const Color _accentRed = Color(0xFFEF4444);
@@ -57,6 +58,7 @@ class _CalendarAndRacePlannerScreenState
   String _categoryFilter = 'all'; // all, grandTour, monument, worldTourStageRace, worldTourOneDay, proSeries, myTeam
   String _searchQuery = '';
   final Set<String> _expandedRaceIds = {};
+  bool _showGanttView = false;
 
   // Miesiące w kalendarzu kolarskim
   static const List<Map<String, dynamic>> _months = [
@@ -183,36 +185,54 @@ class _CalendarAndRacePlannerScreenState
             totalPrizeMoneyEur: totalPrizeMoneyEur,
             careerController: careerController,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
-          // 2. Karuzela selektora miesięcy (Styczeń – Październik)
-          _buildMonthCarousel(save: save, allRaces: allRaces),
+          // Przełącznik widoku: Lista Wyścigów / Wykres Gantta Sezonu
+          _buildViewModeSwitcher(rosterCount: save.playerRoster.length),
           const SizedBox(height: 14),
 
-          // 3. Pasek filtrów kategorii i wyszukiwarki
-          _buildFilterBar(allRaces: allRaces, playerTeamId: playerTeam.id),
-          const SizedBox(height: 16),
-
-          // 4. Lista wyścigów
-          if (filteredRaces.isEmpty)
-            _buildEmptyState()
-          else
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: filteredRaces.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (ctx, idx) {
-                final race = filteredRaces[idx];
-                return _buildRaceCard(
-                  context: context,
-                  race: race,
-                  save: save,
-                  careerController: careerController,
-                );
+          if (_showGanttView) ...[
+            SeasonCalendarGanttTimeline(
+              save: save,
+              onRaceTap: (race) {
+                setState(() {
+                  _showGanttView = false;
+                  _selectedMonth = race.startMonth.clamp(1, 10);
+                  _expandedRaceIds.add(race.id);
+                });
               },
             ),
-          const SizedBox(height: 40),
+            const SizedBox(height: 40),
+          ] else ...[
+            // 2. Karuzela selektora miesięcy (Styczeń – Październik)
+            _buildMonthCarousel(save: save, allRaces: allRaces),
+            const SizedBox(height: 14),
+
+            // 3. Pasek filtrów kategorii i wyszukiwarki
+            _buildFilterBar(allRaces: allRaces, playerTeamId: playerTeam.id),
+            const SizedBox(height: 16),
+
+            // 4. Lista wyścigów
+            if (filteredRaces.isEmpty)
+              _buildEmptyState()
+            else
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: filteredRaces.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                itemBuilder: (ctx, idx) {
+                  final race = filteredRaces[idx];
+                  return _buildRaceCard(
+                    context: context,
+                    race: race,
+                    save: save,
+                    careerController: careerController,
+                  );
+                },
+              ),
+            const SizedBox(height: 40),
+          ],
         ],
       ),
     );
@@ -256,6 +276,74 @@ class _CalendarAndRacePlannerScreenState
   // ===========================================================================
   // 1. NAGŁÓWEK SEZONU I TELEMETRIA KALENDARZA
   // ===========================================================================
+
+  Widget _buildViewModeSwitcher({required int rosterCount}) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _buildPlannerModeTab(
+          label: 'Lista Wyścigów',
+          icon: Icons.view_list_rounded,
+          selected: !_showGanttView,
+          onTap: () => setState(() => _showGanttView = false),
+        ),
+        _buildPlannerModeTab(
+          label: 'Wykres Gantta Sezonu ($rosterCount kolarzy)',
+          icon: Icons.view_timeline_rounded,
+          selected: _showGanttView,
+          onTap: () => setState(() => _showGanttView = true),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPlannerModeTab({
+    required String label,
+    required IconData icon,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color: selected
+              ? AppColors.goldAccent.withValues(alpha: 0.16)
+              : AppColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? AppColors.goldAccent : AppTheme.borderColor,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: selected ? AppColors.goldAccent : AppColors.textSecondary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Inter',
+                color: selected ? AppColors.goldAccent : AppColors.textPrimary,
+                fontSize: 12.5,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _buildSeasonHeader({
     required CareerSave save,
