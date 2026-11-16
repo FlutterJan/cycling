@@ -273,6 +273,7 @@
 - `lib/state/race_simulation_notifier.dart` — Stan symulacji wyścigu na żywo i snapshoty kolarzy.
 
 ### `lib/ui/screens/`
+- `lib/ui/screens/be_a_pro_character_creator_screen.dart` — Kreator własnego kolarza w trybie „Zostań Legendą” (`BeAProCharacterCreatorScreen`, `BeAProGeneticArchetype`, `BeAProPhysicsCalculator`, `BeAProCharacterDraft`, `BeAPro3dRiderPreviewPainter`, `BeAProU23TeamOffer`): tożsamość, wzrost 160–198 cm / waga 52–86 kg z fizyką $CdA$ i predyspozycjami, 5 archetypów, podgląd 3D na żywo (twarz, fryzura, okulary, kolor butów) oraz wybór drużyny U23/Continental.
 - `lib/ui/screens/bike_garage_rnd_screen.dart` — Garaż rowerowy, R&D i konfiguracja sprzętu.
 - `lib/ui/screens/calendar_and_race_planner_screen.dart` — Kalendarz sezonu i planowanie szczytów formy.
 - `lib/ui/screens/career_dashboard_screen.dart` — Widok pulpitu kariery.
@@ -448,3 +449,4 @@
 - `test/stress_test_176_riders_storm_cobbles.dart` — Ekstremalny test obciążeniowy 176 kolarzy w `StageSimulationLoop` na 5-gwiazdkowym sektorze bruku (`SegmentSurfaceType.cobblestonesSector5`) podczas ulewy (`WeatherCondition.heavyStorm`) z wiatrem bocznym 50 km/h, weryfikujący stabilność przy `dt=1.0 s` i `dt=0.5 s`, dynamiczne rozkazy taktyczne oraz brak wartości `NaN` i `Infinity`.
 - `test/ui/loading_race_screen_with_pro_tips_test.dart` — Testy jednostkowe i responsywne widgetowe `SportsDirectorProTipsCatalog` oraz `LoadingRaceScreenWithProTips` (postęp `AssetBundlePreloadWarmer`, nawigacja porad, stan błędu/disabled oraz `390x844` / `1024x768` / `1600x900`).
 - `docs/RELEASE_CHECKLIST_AND_MANUAL.md` — Kompletna instrukcja gracza i dokumentacja wydania: skróty klawiszowe, taktyka wyścigowa, fizjologia treningu/żywienia/termoregulacji, lista kontrolna wydania oraz komendy kompilacji na Windows, macOS, Android i iOS.
+- `test/ui/be_a_pro_character_creator_screen_test.dart` — Testy jednostkowe fizyki $CdA$/W·kg i archetypów (`BeAProPhysicsCalculator`, `BeAProCharacterDraft`) oraz responsywności i przepływu 4 kroków `BeAProCharacterCreatorScreen` (`390x844` / `1024x768` / `1600x900`).
