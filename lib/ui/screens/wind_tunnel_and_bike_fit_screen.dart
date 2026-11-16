@@ -18,6 +18,7 @@ import '../../models/rider/rider.dart';
 import '../../services/generators/rider_procedural_generator.dart';
 import '../../state/career_controller.dart';
 import '../widgets/rider_avatar_painter.dart';
+import '../widgets/wind_tunnel_cda_delta_comparator.dart';
 
 /// Tryb pozycji korby w wizualizacji kinematyki
 enum CrankKinematicMode {
@@ -316,6 +317,19 @@ class _WindTunnelAndBikeFitScreenState
                                 const SizedBox(height: 16),
                                 _buildAeroTelemetryCards(yawPoint, evaluation),
                                 const SizedBox(height: 16),
+                                WindTunnelCdaDeltaComparator(
+                                  physiology: _selectedRider.physiology,
+                                  currentFit: currentFit,
+                                  currentBike: _activeBike,
+                                  windSpeedKmh: _windSpeedKmh,
+                                  onBikeChanged: (updatedBike) {
+                                    setState(() => _activeBike = updatedBike);
+                                  },
+                                  onSpacersChanged: (newSpacers) {
+                                    setState(() => _spacersStackMm = newSpacers);
+                                  },
+                                ),
+                                const SizedBox(height: 16),
                                 _buildJointSafetyAndComfortPanel(
                                     evaluation.biomechanicalImpact, currentFit),
                                 const SizedBox(height: 16),
@@ -350,6 +364,19 @@ class _WindTunnelAndBikeFitScreenState
                           _buildWindTunnelStage(currentFit, evaluation),
                           const SizedBox(height: 14),
                           _buildAeroTelemetryCards(yawPoint, evaluation),
+                          const SizedBox(height: 14),
+                          WindTunnelCdaDeltaComparator(
+                            physiology: _selectedRider.physiology,
+                            currentFit: currentFit,
+                            currentBike: _activeBike,
+                            windSpeedKmh: _windSpeedKmh,
+                            onBikeChanged: (updatedBike) {
+                              setState(() => _activeBike = updatedBike);
+                            },
+                            onSpacersChanged: (newSpacers) {
+                              setState(() => _spacersStackMm = newSpacers);
+                            },
+                          ),
                           const SizedBox(height: 14),
                           _buildJointSafetyAndComfortPanel(
                               evaluation.biomechanicalImpact, currentFit),
