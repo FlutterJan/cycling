@@ -148,6 +148,7 @@
 - `lib/engine/rendering3d/photo_finish_replay_widget.dart` — Kamera fotofiniszu na mecie.
 - `lib/engine/rendering3d/procedural_pbr_texture_atlas_generator.dart` — Generator proceduralnego atlasu tekstur PBR w pamięci RAM (`ProceduralPbrTextureAtlasGenerator`, `PbrTextureAtlasMaps`, `PbrGpuTextureAtlas`, `PbrMaterialSpec`, `PbrUvRegion`, `PbrTextureAtlasInspectorPanel`: splot 3K/UD, metaliczny lakier, opony Tan-Wall i asfalt bez plików PNG).
 - `lib/engine/rendering3d/projected_planar_shadows_painter.dart` — Miękkie cienie planarne na asfalcie (`ProjectedPlanarShadowsPainter`, `SlopeExposureProfile`, `PlanarSunProjectionState`, `PlanarShadowRiderInput`, `PlanarShadowTreeInput`, `PlanarShadowGateInput`) dla kolarzy, rowerów, drzew i bram (11:00–17:30 + ekspozycja zbocza).
+- `lib/engine/rendering3d/render_object_pool_manager.dart` — Menedżer puli obiektów 3D Zero-GC 120 FPS (`RenderObjectPoolManager`, `RenderPoolConfig`, `RenderPoolMemoryStats`, `RiderPoolBuffer`, `WheelPoolBuffer`, `WeatherParticlePoolBuffer`, `ScratchMathPool`, `RenderObjectPoolInspectorPanel`) z prealokowanymi tablicami `Float64List` dla 176 kolarzy, 352 kół i 890 cząsteczek pogody.
 - `lib/engine/rendering3d/rider_floating_labels_overlay.dart` — Pływające etykiety nad kolarzami w 3D.
 - `lib/engine/rendering3d/road_furniture_3d_renderer.dart` — Brama km, barierki, znaki i reklamy przy trasie.
 - `lib/engine/rendering3d/road_ribbon_mesh_builder.dart` — Budowa wstęgi asfaltu, bruku i zakrętów 3D.
