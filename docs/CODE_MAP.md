@@ -73,6 +73,7 @@
 ### `lib/models/`
 - `lib/models/model_serialization_audit.dart` — Walidator serializacji JSON wszystkich modeli świata gry (`ModelSerializationAudit`, `ModelAuditReport`, `ModelAuditIssue`).
 - `lib/models/career/career_save.dart` — Model pełnego zapisu kariery.
+- `lib/models/career/pro_cyclist_career_state.dart` — Model stanu kariery pojedynczego kolarza "Zostań Legendą" (`ProCyclistCareerState`, `ProCyclistCareerTier`, `DsTrustTier`, `ProCyclistRealEstate`, `ProCyclistPrivateEquipment`, `ProCyclistRaceAssignment`, `ProCyclistJournalEntry`, `ProCyclistPalmares`, `ProCyclistPersonalSponsor`).
 - `lib/models/career/recovery_protocol_system.dart` — Protokoły regeneracji i zabiegi medyczne.
 - `lib/models/career/season_calendar.dart` — Kalendarz wyścigów WorldTour/ProSeries/GT.
 - `lib/models/career/staff_member.dart` — Model personelu (dyrektorzy, mechanicy, lekarze, skauci).
