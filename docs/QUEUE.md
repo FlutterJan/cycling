@@ -387,7 +387,7 @@ Zasady działania pętli:
 - [x] **Zadanie #309** (`lib/ui/widgets/loading_race_screen_with_pro_tips.dart`): Zbuduj stylowy ekran przejściowy ładowania wyścigu 3D `LoadingRaceScreenWithProTips`: animowany łańcuch rowerowy na zębatce, pasek postępu `AssetBundlePreloadWarmer`, profil wysokościowy wczytywanego etapu oraz losowe porady taktyczne dyrektora sportowego.
 - [x] **Zadanie #310** (`lib/core/diagnostics/full_navigation_routes_verifier.dart`): Napisz automatyczny weryfikator nawigacji sprawdzający wszystkie ścieżki w `AppRouter`, parametry przekazywane między ekranami i poprawność działania przycisku `Wstecz` na każdej platformie.
 - [x] **Zadanie #311** (`docs/RELEASE_CHECKLIST_AND_MANUAL.md`): Wygeneruj kompletną instrukcję gracza i dokumentację wydania `docs/RELEASE_CHECKLIST_AND_MANUAL.md` opisującą skróty klawiszowe, taktykę wyścigową, fizjologię treningu i komendy kompilacji na Windows, macOS, Android oraz iOS.
-- [ ] **Zadanie #312** (`lib/core/diagnostics/sniper_master_final_certification.dart`): Stwórz finalny skrypt certyfikacji `sniper_master_final_certification.dart` uruchamiający weryfikację wszystkich 312 zadań, pełny pakiet testów i analizę statyczną `flutter analyze` z wynikiem `No issues found!`.
+- [x] **Zadanie #312** (`lib/core/diagnostics/sniper_master_final_certification.dart`): Stwórz finalny skrypt certyfikacji `sniper_master_final_certification.dart` uruchamiający weryfikację wszystkich 312 zadań, pełny pakiet testów i analizę statyczną `flutter analyze` z wynikiem `No issues found!`.
 
 ---
 
