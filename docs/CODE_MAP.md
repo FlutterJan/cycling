@@ -105,6 +105,7 @@
 - `lib/engine/peloton/drafting_grid_system.dart` — Siatka aerodynamiczna peletonu i oszczędność W.
 - `lib/engine/peloton/echelon_crosswind_engine.dart` — Silnik wiatru bocznego i formowania wachlarzy.
 - `lib/engine/peloton/feeding_and_rain_jacket_mechanics.dart` — Mechanika bidonów, żeli i peleryn przeciwdeszczowych.
+- `lib/engine/peloton/kom_polka_dot_hunter_ai_controller.dart` — AI łowców koszulki w grochy (`KomPolkaDotHunterAiController`, `KomHunterTacticalPhase`, `KomClimbPrimeInfo`, `StageKomPointsEvaluation`, `KomJerseyStandingContext`, `KomHunterDecision`: kalkulacja punktów górskich na etapach, oszczędzanie sił na zjazdach/dolinach i dynamiczny finisz na ostatnich 600 m premii Cat 2, Cat 1 i HC).
 - `lib/engine/peloton/mountain_gc_ai_controller.dart` — AI faworytów GC na podjazdach górskich.
 - `lib/engine/peloton/peloton_chase_ai_controller.dart` — AI pościgu peletonu za ucieczką.
 - `lib/engine/peloton/rider_race_state.dart` — Dynamiczny stan kolarza podczas etapu.
