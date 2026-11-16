@@ -119,6 +119,7 @@
 - `lib/engine/physics/grand_tour_third_week_fatigue_decay.dart` — Model kumulacji zmęczenia 3. tygodnia Grand Touru na etapach 14–21 (`GrandTourThirdWeekFatigueDecay`, `GrandTourThirdWeekFatigueResult`, `GrandTourFatigueResilienceTier`): spadek FTP (2–3% specjaliści GT, 9–14% kolarze 1-dniowi), VO2max i glikogenu wątrobowego zależny od `recoveryRate`.
 - `lib/engine/physics/gravity_and_rolling_calculator.dart` — Siła grawitacji i opory toczenia CRR.
 - `lib/engine/physics/heart_rate_simulator.dart` — Kinetyka tętna BPM w zależności od wysiłku.
+- `lib/engine/physics/high_altitude_hypoxia_calculator.dart` — Naukowy model hipoksji wysokogórskiej >2000 m n.p.m. (`HighAltitudeHypoxiaCalculator`, `HighAltitudeHypoxiaResult`, `HypoxiaSeverityZone`, `AlpineHypoxiaPassBenchmark`: nieliniowy spadek VO2max i FTP wg `ΔP = -0.0085 * ((h - 1500)/100)^1.4`, redukowany o połowę po obozie wysokogórskim lub dla kolarzy z Andów).
 - `lib/engine/physics/nutrition_and_glycogen_engine.dart` — Spalanie glikogenu, węglowodany i "odcięcie prądu".
 - `lib/engine/physics/speed_solver.dart` — Solver prędkości m/s z mocy W i sił oporu.
 - `lib/engine/physics/tire_pressure_calculator.dart` — Kalkulator optymalnego ciśnienia BAR/PSI.
