@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import '../../state/race_simulation_notifier.dart';
+import 'spatial_hash_grid_1d_2d.dart';
 
 /// Konfiguracja parametrów fizycznych i wag 4 wektorów sił dla [BoidsPelotonFlockingSolver].
 class BoidsFlockingConfig {
@@ -236,8 +237,10 @@ class BoidsFlockingStepResult {
 class BoidsPelotonFlockingSolver {
   final BoidsFlockingConfig config;
 
+  // Siatka przestrzenna 5 m (O(N)) eliminująca sortowanie i porównania każdy-z-każdym.
+  final SpatialHashGrid1d2d _spatialGrid;
+
   // Wstępnie alokowane bufory robocze eliminujące alokacje GC w pętli 60/120 FPS.
-  Int32List _sortedIndices = Int32List(0);
   Float64List _dist = Float64List(0);
   Float64List _lat = Float64List(0);
   Float64List _spd = Float64List(0);
@@ -253,11 +256,15 @@ class BoidsPelotonFlockingSolver {
   Int32List _outLeaderIdx = Int32List(0);
   Int32List _outOvertakeDir = Int32List(0);
 
-  BoidsPelotonFlockingSolver({this.config = const BoidsFlockingConfig()});
+  BoidsPelotonFlockingSolver({
+    this.config = const BoidsFlockingConfig(),
+    double spatialBucketMeters = 5.0,
+  }) : _spatialGrid = SpatialHashGrid1d2d(
+          longitudinalBucketMeters: spatialBucketMeters,
+        );
 
   void _ensureCapacity(int n) {
-    if (_sortedIndices.length >= n) return;
-    _sortedIndices = Int32List(n);
+    if (_dist.length >= n) return;
     _dist = Float64List(n);
     _lat = Float64List(n);
     _spd = Float64List(n);
@@ -274,7 +281,7 @@ class BoidsPelotonFlockingSolver {
     _outOvertakeDir = Int32List(n);
   }
 
-  /// Wykonuje jeden krok symulacji dla listy kolarzy (do 176+ jednostek) w czasie O(N·k).
+  /// Wykonuje jeden krok symulacji dla listy kolarzy (do 176+ jednostek) w czasie O(N).
   ///
   /// Parametr [collectBreakdowns] pozwala pominąć alokację mapy diagnostycznej w gorącej pętli.
   BoidsFlockingStepResult step(
@@ -310,7 +317,6 @@ class BoidsPelotonFlockingSolver {
 
     for (var i = 0; i < n; i++) {
       final a = agents[i];
-      _sortedIndices[i] = i;
       _dist[i] = a.distanceMeters;
       _lat[i] = a.lateralOffsetMeters;
       _spd[i] = a.speedMs;
@@ -319,22 +325,16 @@ class BoidsPelotonFlockingSolver {
       _active[i] = a.isActive ? 1 : 0;
     }
 
-    // Sortowanie wstawianiowe indeksów po distanceMeters — O(N) dla niemal posortowanego peletonu.
-    for (var i = 1; i < n; i++) {
-      final keyIdx = _sortedIndices[i];
-      final keyDist = _dist[keyIdx];
-      var j = i - 1;
-      while (j >= 0 && _dist[_sortedIndices[j]] > keyDist) {
-        _sortedIndices[j + 1] = _sortedIndices[j];
-        j--;
-      }
-      _sortedIndices[j + 1] = keyIdx;
-    }
+    // Budowa siatki przestrzennej O(N) — koszyki co 5 m bez sortowania.
+    _spatialGrid.rebuildFromArrays(n, _dist, laterals: _lat, activeFlags: _active);
+    final gridNext = _spatialGrid.nextArray;
+    final gridCellX = _spatialGrid.cellXArray;
 
     final maxScanRange = math.max(
       config.overtakeScanDistanceMeters,
       math.max(config.alignmentLookaheadMeters, config.draftMaxRangeMeters),
     );
+    final backScanRange = config.minLongitudinalSeparationMeters * 1.4;
     final echelonSlope = -math.sin(windAngleRad) * (crosswindSpeedMs / 8.0).clamp(-1.0, 1.0) * 0.35;
     final breakdowns = collectBreakdowns ? <String, BoidFlockingForceBreakdown>{} : const <String, BoidFlockingForceBreakdown>{};
 
@@ -342,8 +342,7 @@ class BoidsPelotonFlockingSolver {
     var overtakeCount = 0;
     var cdaSum = 0.0;
 
-    for (var pos = 0; pos < n; pos++) {
-      final i = _sortedIndices[pos];
+    for (var i = 0; i < n; i++) {
       if (_active[i] == 0) {
         _outDist[i] = _dist[i];
         _outLat[i] = _lat[i];
@@ -377,90 +376,91 @@ class BoidsPelotonFlockingSolver {
       var blockingLeaderIdx = -1;
       var blockingLeaderDist = double.infinity;
 
-      // Skanowanie sąsiadów w tył (do 4.5 m dla separacji).
-      for (var p = pos - 1; p >= 0; p--) {
-        final j = _sortedIndices[p];
-        final dx = _dist[j] - distI; // ujemne
-        if (-dx > config.minLongitudinalSeparationMeters * 1.4) break;
-        if (_active[j] == 0) continue;
+      final minCx = _spatialGrid.cellXFor(distI - backScanRange);
+      final maxCx = _spatialGrid.cellXFor(distI + maxScanRange);
 
-        final dy = _lat[j] - latI;
-        final absDx = -dx;
-        final absDy = dy.abs();
-        if (absDx < config.minLongitudinalSeparationMeters &&
-            absDy < config.minLateralSeparationMeters * 1.8) {
-          final nx = absDx / config.minLongitudinalSeparationMeters;
-          final ny = absDy / config.minLateralSeparationMeters;
-          final ellipSq = nx * nx + ny * ny;
-          if (ellipSq < 1.0) {
-            final intensity = 1.0 - math.sqrt(ellipSq);
-            final latSign = dy == 0.0 ? (i < j ? -1.0 : 1.0) : (dy > 0.0 ? -1.0 : 1.0);
-            sepY += latSign * intensity * config.separationWeight * 1.6;
-            sepX += intensity * config.separationWeight * 0.35;
-          }
-        }
-      }
+      // Jednoprzebiegowe skanowanie sąsiadów w koszykach [distI - backScanRange, distI + maxScanRange].
+      for (var cx = minCx; cx <= maxCx; cx++) {
+        var j = _spatialGrid.bucketHeadRaw(cx);
+        while (j != -1) {
+          if (j != i && gridCellX[j] == cx) {
+            final dx = _dist[j] - distI;
+            if (dx < 0.0) {
+              final absDx = -dx;
+              if (absDx <= backScanRange) {
+                final dy = _lat[j] - latI;
+                final absDy = dy.abs();
+                if (absDx < config.minLongitudinalSeparationMeters &&
+                    absDy < config.minLateralSeparationMeters * 1.8) {
+                  final nx = absDx / config.minLongitudinalSeparationMeters;
+                  final ny = absDy / config.minLateralSeparationMeters;
+                  final ellipSq = nx * nx + ny * ny;
+                  if (ellipSq < 1.0) {
+                    final intensity = 1.0 - math.sqrt(ellipSq);
+                    final latSign = dy == 0.0 ? (i < j ? -1.0 : 1.0) : (dy > 0.0 ? -1.0 : 1.0);
+                    sepY += latSign * intensity * config.separationWeight * 1.6;
+                    sepX += intensity * config.separationWeight * 0.35;
+                  }
+                }
+              }
+            } else if (dx <= maxScanRange) {
+              final dy = _lat[j] - latI;
+              final absDy = dy.abs();
 
-      // Skanowanie sąsiadów w przód (Separation, Alignment, DraftSeeking, blokada Overtake).
-      for (var p = pos + 1; p < n; p++) {
-        final j = _sortedIndices[p];
-        final dx = _dist[j] - distI; // dodatnie
-        if (dx > maxScanRange) break;
-        if (_active[j] == 0) continue;
+              // 1. Separation (odpychanie boczne min. 0.45 m + bufor wzdłużny).
+              if (dx < config.minLongitudinalSeparationMeters &&
+                  absDy < config.minLateralSeparationMeters * 1.8) {
+                final nx = dx / config.minLongitudinalSeparationMeters;
+                final ny = absDy / config.minLateralSeparationMeters;
+                final ellipSq = nx * nx + ny * ny;
+                if (ellipSq < 1.0) {
+                  final intensity = 1.0 - math.sqrt(ellipSq);
+                  final latSign = dy == 0.0 ? (i < j ? -1.0 : 1.0) : (dy > 0.0 ? -1.0 : 1.0);
+                  sepY += latSign * intensity * config.separationWeight * 1.6;
+                  if (absDy < config.minLateralSeparationMeters * 0.9) {
+                    sepX -= intensity * config.separationWeight * 1.1;
+                  }
+                }
+              }
 
-        final dy = _lat[j] - latI;
-        final absDy = dy.abs();
+              // 2. Alignment (wyrównanie prędkości do kolarzy jadących z przodu).
+              if (dx <= config.alignmentLookaheadMeters && absDy <= 0.95) {
+                final w = (1.0 - dx / config.alignmentLookaheadMeters) *
+                    (1.0 - absDy / 1.1).clamp(0.15, 1.0);
+                alignSpeedSum += _spd[j] * w;
+                alignLatVelSum += _latVel[j] * w;
+                alignWeightSum += w;
+              }
 
-        // 1. Separation (odpychanie boczne min. 0.45 m + bufor wzdłużny).
-        if (dx < config.minLongitudinalSeparationMeters &&
-            absDy < config.minLateralSeparationMeters * 1.8) {
-          final nx = dx / config.minLongitudinalSeparationMeters;
-          final ny = absDy / config.minLateralSeparationMeters;
-          final ellipSq = nx * nx + ny * ny;
-          if (ellipSq < 1.0) {
-            final intensity = 1.0 - math.sqrt(ellipSq);
-            final latSign = dy == 0.0 ? (i < j ? -1.0 : 1.0) : (dy > 0.0 ? -1.0 : 1.0);
-            sepY += latSign * intensity * config.separationWeight * 1.6;
-            if (absDy < config.minLateralSeparationMeters * 0.9) {
-              sepX -= intensity * config.separationWeight * 1.1;
+              // Wykrywanie kolarza blokującego korytarz przed nami.
+              if (dx <= config.overtakeScanDistanceMeters &&
+                  absDy < config.minLateralSeparationMeters * 1.45 &&
+                  dx < blockingLeaderDist) {
+                blockingLeaderDist = dx;
+                blockingLeaderIdx = j;
+              }
+
+              // 3. DraftSeeking (szukanie kieszeni najniższego CdA).
+              if (dx >= 0.65 && dx <= config.draftMaxRangeMeters) {
+                final pocketY = (_lat[j] + echelonSlope * dx).clamp(-halfUsableRoad, halfUsableRoad);
+                final latErr = (latI - pocketY).abs();
+                if (latErr <= 1.6) {
+                  final gapDelta = (dx - config.draftOptimalGapMeters).abs();
+                  final longFactor = (1.0 - gapDelta / config.draftMaxRangeMeters).clamp(0.0, 1.0);
+                  final latFactor = math.exp(-(latErr * latErr) / (2.0 * 0.55 * 0.55));
+                  final savings = (1.0 - config.minDraftCdaMultiplier) * longFactor * latFactor;
+                  final candidateCda = config.baseRiderCda * (1.0 - savings);
+                  if (candidateCda < bestCda) {
+                    bestCda = candidateCda;
+                    bestLeaderIdx = j;
+                    bestPocketX = _dist[j] - config.draftOptimalGapMeters;
+                    bestPocketY = pocketY;
+                  }
+                }
+              }
             }
           }
-        }
-
-        // 2. Alignment (wyrównanie prędkości do kolarzy jadących z przodu).
-        if (dx <= config.alignmentLookaheadMeters && absDy <= 0.95) {
-          final w = (1.0 - dx / config.alignmentLookaheadMeters) *
-              (1.0 - absDy / 1.1).clamp(0.15, 1.0);
-          alignSpeedSum += _spd[j] * w;
-          alignLatVelSum += _latVel[j] * w;
-          alignWeightSum += w;
-        }
-
-        // Wykrywanie kolarza blokującego korytarz przed nami.
-        if (dx <= config.overtakeScanDistanceMeters &&
-            absDy < config.minLateralSeparationMeters * 1.45 &&
-            dx < blockingLeaderDist) {
-          blockingLeaderDist = dx;
-          blockingLeaderIdx = j;
-        }
-
-        // 3. DraftSeeking (szukanie kieszeni najniższego CdA).
-        if (dx >= 0.65 && dx <= config.draftMaxRangeMeters) {
-          final pocketY = (_lat[j] + echelonSlope * dx).clamp(-halfUsableRoad, halfUsableRoad);
-          final latErr = (latI - pocketY).abs();
-          if (latErr <= 1.6) {
-            final gapDelta = (dx - config.draftOptimalGapMeters).abs();
-            final longFactor = (1.0 - gapDelta / config.draftMaxRangeMeters).clamp(0.0, 1.0);
-            final latFactor = math.exp(-(latErr * latErr) / (2.0 * 0.55 * 0.55));
-            final savings = (1.0 - config.minDraftCdaMultiplier) * longFactor * latFactor;
-            final candidateCda = config.baseRiderCda * (1.0 - savings);
-            if (candidateCda < bestCda) {
-              bestCda = candidateCda;
-              bestLeaderIdx = j;
-              bestPocketX = _dist[j] - config.draftOptimalGapMeters;
-              bestPocketY = pocketY;
-            }
-          }
+          j = gridNext[j];
         }
       }
 
@@ -477,13 +477,12 @@ class BoidsPelotonFlockingSolver {
           final rightTarget = blockLat + config.overtakeLaneOffsetMeters;
 
           final leftClear = leftTarget >= -halfUsableRoad &&
-              _isLaneClear(pos, n, distI, leftTarget, config.overtakeScanDistanceMeters);
+              _isLaneClear(i, distI, leftTarget, config.overtakeScanDistanceMeters);
           final rightClear = rightTarget <= halfUsableRoad &&
-              _isLaneClear(pos, n, distI, rightTarget, config.overtakeScanDistanceMeters);
+              _isLaneClear(i, distI, rightTarget, config.overtakeScanDistanceMeters);
 
           if (leftClear || rightClear) {
             if (leftClear && rightClear) {
-              // Wybierz stronę bliższą obecnej pozycji lub korzystniejszą względem wiatru.
               final preferRight = (rightTarget - latI).abs() < (leftTarget - latI).abs();
               overtakeDir = preferRight ? 1 : -1;
             } else {
@@ -599,20 +598,27 @@ class BoidsPelotonFlockingSolver {
   }
 
   bool _isLaneClear(
-    int pos,
-    int n,
+    int selfIdx,
     double distI,
     double targetLat,
     double scanDistance,
   ) {
     final minClear = config.minLateralSeparationMeters * 1.15;
-    for (var p = pos + 1; p < n; p++) {
-      final j = _sortedIndices[p];
-      final dx = _dist[j] - distI;
-      if (dx > scanDistance) break;
-      if (_active[j] == 0) continue;
-      if ((_lat[j] - targetLat).abs() < minClear) {
-        return false;
+    final minCx = _spatialGrid.cellXFor(distI);
+    final maxCx = _spatialGrid.cellXFor(distI + scanDistance);
+    final gridNext = _spatialGrid.nextArray;
+    final gridCellX = _spatialGrid.cellXArray;
+
+    for (var cx = minCx; cx <= maxCx; cx++) {
+      var j = _spatialGrid.bucketHeadRaw(cx);
+      while (j != -1) {
+        if (j != selfIdx && gridCellX[j] == cx) {
+          final dx = _dist[j] - distI;
+          if (dx >= 0.0 && dx <= scanDistance && (_lat[j] - targetLat).abs() < minClear) {
+            return false;
+          }
+        }
+        j = gridNext[j];
       }
     }
     return true;
@@ -622,22 +628,33 @@ class BoidsPelotonFlockingSolver {
     final minLat = config.minLateralSeparationMeters;
     final overlapLong = config.minLongitudinalSeparationMeters * 0.82;
 
-    for (var pos = 0; pos < n; pos++) {
-      final i = _sortedIndices[pos];
+    _spatialGrid.rebuildFromArrays(n, _outDist, laterals: _outLat, activeFlags: _active);
+    final gridNext = _spatialGrid.nextArray;
+    final gridCellX = _spatialGrid.cellXArray;
+
+    for (var i = 0; i < n; i++) {
       if (_active[i] == 0) continue;
+      final distI = _outDist[i];
+      final minCx = _spatialGrid.cellXFor(distI);
+      final maxCx = _spatialGrid.cellXFor(distI + overlapLong);
 
-      for (var p = pos + 1; p < n; p++) {
-        final j = _sortedIndices[p];
-        if ((_outDist[j] - _outDist[i]).abs() > overlapLong) break;
-        if (_active[j] == 0) continue;
-
-        final dy = _outLat[j] - _outLat[i];
-        final absDy = dy.abs();
-        if (absDy < minLat) {
-          final push = (minLat - absDy) * 0.52;
-          final sign = dy == 0.0 ? (i < j ? 1.0 : -1.0) : (dy > 0.0 ? 1.0 : -1.0);
-          _outLat[i] = (_outLat[i] - sign * push).clamp(-halfUsableRoad, halfUsableRoad);
-          _outLat[j] = (_outLat[j] + sign * push).clamp(-halfUsableRoad, halfUsableRoad);
+      for (var cx = minCx; cx <= maxCx; cx++) {
+        var j = _spatialGrid.bucketHeadRaw(cx);
+        while (j != -1) {
+          if (j != i && gridCellX[j] == cx) {
+            final dx = _outDist[j] - distI;
+            if (dx >= 0.0 && dx <= overlapLong && (dx > 0.0 || j > i)) {
+              final dy = _outLat[j] - _outLat[i];
+              final absDy = dy.abs();
+              if (absDy < minLat) {
+                final push = (minLat - absDy) * 0.52;
+                final sign = dy == 0.0 ? (i < j ? 1.0 : -1.0) : (dy > 0.0 ? 1.0 : -1.0);
+                _outLat[i] = (_outLat[i] - sign * push).clamp(-halfUsableRoad, halfUsableRoad);
+                _outLat[j] = (_outLat[j] + sign * push).clamp(-halfUsableRoad, halfUsableRoad);
+              }
+            }
+          }
+          j = gridNext[j];
         }
       }
     }

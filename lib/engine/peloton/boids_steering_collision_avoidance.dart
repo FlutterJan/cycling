@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import '../../models/race/stage_segment.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../rendering3d/spatial_hash_grid_1d_2d.dart';
 import 'rider_race_state.dart';
 
 /// Kierunek wybranego korytarza podczas manewru wyprzedzania.
@@ -245,6 +246,11 @@ class BoidsFrameResult {
 class BoidsSteeringCollisionAvoidance {
   final BoidsSteeringConfig config;
 
+  // Siatka przestrzenna 5 m (O(N)) współdzielona w ramach bieżącego izolatu (Zero-GC).
+  static final SpatialHashGrid1d2d _sharedGrid = SpatialHashGrid1d2d(
+    longitudinalBucketMeters: 5.0,
+  );
+
   const BoidsSteeringCollisionAvoidance({
     this.config = const BoidsSteeringConfig(),
   });
@@ -336,51 +342,49 @@ class BoidsSteeringCollisionAvoidance {
         ? 1.0 + (0.75 - roadNarrowingRatio) * 1.4
         : 1.0;
 
-    // Zachowujemy oryginalne indeksy, pracując na kopii posortowanej wzdłużnie (Sweep-and-Prune).
-    final originalIndexById = <String, int>{};
+    // Budowa siatki przestrzennej O(N) z koszykami co 5 m zamiast sortowania O(N log N).
+    final grid = _sharedGrid;
+    grid.beginFrame(riders.length);
     final activeIndices = <int>[];
-    for (var i = 0; i < riders.length; i++) {
-      originalIndexById[riders[i].riderId] = i;
-      if (!riders[i].isCrashed && !riders[i].isDnf) {
-        activeIndices.add(i);
-      }
-    }
-
-    activeIndices.sort(
-      (a, b) => riders[a].distanceMeters.compareTo(riders[b].distanceMeters),
-    );
-
     final nextStates = List<BoidRiderState>.from(riders);
     final vectorsMap = <String, BoidSteeringVectors>{};
-    for (final r in riders) {
-      if (r.isCrashed || r.isDnf) {
+
+    for (var i = 0; i < riders.length; i++) {
+      final r = riders[i];
+      if (!r.isCrashed && !r.isDnf) {
+        activeIndices.add(i);
+        grid.insert(i, r.distanceMeters, r.lateralOffsetMeters);
+      } else {
         vectorsMap[r.riderId] = BoidSteeringVectors.zero;
       }
     }
 
     var activeOvertakesCount = 0;
     final scanWindow = config.overtakeScanRadiusMeters;
+    final nearbyNeighbors = <BoidRiderState>[];
+    final gridNext = grid.nextArray;
+    final gridCellX = grid.cellXArray;
 
-    // Główna pętla wyliczająca 3 wektory sterujące dla każdego aktywnego kolarza.
-    for (var sortedPos = 0; sortedPos < activeIndices.length; sortedPos++) {
-      final idx = activeIndices[sortedPos];
+    // Główna pętla wyliczająca 3 wektory sterujące dla każdego aktywnego kolarza w czasie O(N).
+    for (var pos = 0; pos < activeIndices.length; pos++) {
+      final idx = activeIndices[pos];
       final rider = riders[idx];
 
-      // Zbieramy sąsiadów w oknie wzdłużnym [-scanWindow, +scanWindow] w O(k).
-      final nearbyNeighbors = <BoidRiderState>[];
-      for (var back = sortedPos - 1; back >= 0; back--) {
-        final neighbor = riders[activeIndices[back]];
-        if (rider.distanceMeters - neighbor.distanceMeters > scanWindow) {
-          break;
+      // Zbieramy sąsiadów z koszyków w oknie wzdłużnym [-scanWindow, +scanWindow] w O(1).
+      nearbyNeighbors.clear();
+      final minCx = grid.cellXFor(rider.distanceMeters - scanWindow);
+      final maxCx = grid.cellXFor(rider.distanceMeters + scanWindow);
+      for (var cx = minCx; cx <= maxCx; cx++) {
+        var j = grid.bucketHeadRaw(cx);
+        while (j != -1) {
+          if (j != idx && gridCellX[j] == cx) {
+            final neighbor = riders[j];
+            if ((neighbor.distanceMeters - rider.distanceMeters).abs() <= scanWindow) {
+              nearbyNeighbors.add(neighbor);
+            }
+          }
+          j = gridNext[j];
         }
-        nearbyNeighbors.add(neighbor);
-      }
-      for (var fwd = sortedPos + 1; fwd < activeIndices.length; fwd++) {
-        final neighbor = riders[activeIndices[fwd]];
-        if (neighbor.distanceMeters - rider.distanceMeters > scanWindow) {
-          break;
-        }
-        nearbyNeighbors.add(neighbor);
       }
 
       // 1. Wektor Separacji (Collision Avoidance: kopuła 1.85 m x 0.65 m).
@@ -763,7 +767,7 @@ class BoidsSteeringCollisionAvoidance {
   }
 
   /// Twarde rozdzielenie nakładających się kopuł (1.85 m x 0.65 m),
-  /// gwarantujące brak przenikania siatek 3D nawet w dużym ścisku.
+  /// gwarantujące brak przenikania siatek 3D nawet w dużym ścisku w czasie O(N).
   int _resolveHardCollisions({
     required List<BoidRiderState> states,
     required List<int> activeIndices,
@@ -772,63 +776,74 @@ class BoidsSteeringCollisionAvoidance {
     final safeLength = config.riderLengthMeters;
     final safeWidth = config.riderWidthMeters;
     var resolvedPairs = 0;
+    final grid = _sharedGrid;
 
-    final sorted = List<int>.from(activeIndices);
-
-    for (var pass = 0; pass < 4; pass++) {
-      sorted.sort(
-        (a, b) => states[a].distanceMeters.compareTo(states[b].distanceMeters),
-      );
+    for (var pass = 0; pass < 32; pass++) {
+      grid.beginFrame(states.length);
+      for (final idx in activeIndices) {
+        final s = states[idx];
+        grid.insert(idx, s.distanceMeters, s.lateralOffsetMeters);
+      }
+      final gridNext = grid.nextArray;
+      final gridCellX = grid.cellXArray;
       var anyOverlapInPass = false;
 
-      for (var i = 0; i < sorted.length; i++) {
-        final idxA = sorted[i];
-        for (var j = i + 1; j < sorted.length; j++) {
-          final idxB = sorted[j];
-          final a = states[idxA];
-          final b = states[idxB];
+      final reverseOrder = pass.isEven;
+      final count = activeIndices.length;
+      for (var step = 0; step < count; step++) {
+        final idxA = activeIndices[reverseOrder ? (count - 1 - step) : step];
+        final a = states[idxA];
+        final minCx = grid.cellXFor(a.distanceMeters);
+        final maxCx = grid.cellXFor(a.distanceMeters + safeLength);
 
-          final dx = b.distanceMeters - a.distanceMeters;
-          if (dx >= safeLength) {
-            break;
+        for (var cx = minCx; cx <= maxCx; cx++) {
+          var idxB = grid.bucketHeadRaw(cx);
+          while (idxB != -1) {
+            if (idxB != idxA && gridCellX[idxB] == cx) {
+              final curA = states[idxA];
+              final b = states[idxB];
+              final dx = b.distanceMeters - curA.distanceMeters;
+              if (dx >= 0.0 && dx < safeLength && (dx > 0.0 || idxB > idxA)) {
+                final dy = b.lateralOffsetMeters - curA.lateralOffsetMeters;
+                final absDy = dy.abs();
+                if (absDy < safeWidth) {
+                  anyOverlapInPass = true;
+                  resolvedPairs++;
+                  final overlapY = (safeWidth - absDy) + 0.005;
+                  final overlapX = (safeLength - dx) + 0.005;
+
+                  final dirY = absDy > 0.0001
+                      ? (dy >= 0 ? 1.0 : -1.0)
+                      : (curA.riderId.compareTo(b.riderId) <= 0 ? 1.0 : -1.0);
+
+                  final newYA = (curA.lateralOffsetMeters - dirY * overlapY * 0.5).clamp(
+                    -halfPlayableWidth,
+                    halfPlayableWidth,
+                  );
+                  final newYB = (b.lateralOffsetMeters + dirY * overlapY * 0.5).clamp(
+                    -halfPlayableWidth,
+                    halfPlayableWidth,
+                  );
+
+                  final remainingOverlapY = safeWidth - (newYB - newYA).abs();
+                  var newXA = curA.distanceMeters;
+                  if (remainingOverlapY > 0.0) {
+                    newXA -= overlapX;
+                  } else if (pass >= 6) {
+                    // Rozładowanie zakleszczenia wielokierunkowego przy dużym ścisku.
+                    newXA -= overlapX * 0.25;
+                  }
+
+                  states[idxA] = curA.copyWith(
+                    distanceMeters: newXA,
+                    lateralOffsetMeters: newYA,
+                  );
+                  states[idxB] = b.copyWith(lateralOffsetMeters: newYB);
+                }
+              }
+            }
+            idxB = gridNext[idxB];
           }
-          final dy = b.lateralOffsetMeters - a.lateralOffsetMeters;
-          final absDy = dy.abs();
-          if (absDy >= safeWidth) {
-            continue;
-          }
-
-          anyOverlapInPass = true;
-          resolvedPairs++;
-          final overlapY = (safeWidth - absDy) + 0.005;
-          final overlapX = (safeLength - dx) + 0.005;
-
-          // Preferujemy rozsunąć kolarzy na boki, jeśli mieści się to w szerokości szosy.
-          final dirY = absDy > 0.0001
-              ? (dy >= 0 ? 1.0 : -1.0)
-              : (a.riderId.compareTo(b.riderId) <= 0 ? 1.0 : -1.0);
-
-          final newYA = (a.lateralOffsetMeters - dirY * overlapY * 0.5).clamp(
-            -halfPlayableWidth,
-            halfPlayableWidth,
-          );
-          final newYB = (b.lateralOffsetMeters + dirY * overlapY * 0.5).clamp(
-            -halfPlayableWidth,
-            halfPlayableWidth,
-          );
-
-          final remainingOverlapY = safeWidth - (newYB - newYA).abs();
-          var newXA = a.distanceMeters;
-          if (remainingOverlapY > 0.0) {
-            // Gdy szosa jest za wąska (np. bruk 3.2 m), cofamy tylnego kolarza (efekt akordeonu).
-            newXA -= overlapX;
-          }
-
-          states[idxA] = a.copyWith(
-            distanceMeters: newXA,
-            lateralOffsetMeters: newYA,
-          );
-          states[idxB] = b.copyWith(lateralOffsetMeters: newYB);
         }
       }
 
