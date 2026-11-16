@@ -108,6 +108,7 @@
 - `lib/engine/peloton/mountain_gc_ai_controller.dart` — AI faworytów GC na podjazdach górskich.
 - `lib/engine/peloton/peloton_chase_ai_controller.dart` — AI pościgu peletonu za ucieczką.
 - `lib/engine/peloton/rider_race_state.dart` — Dynamiczny stan kolarza podczas etapu.
+- `lib/engine/peloton/satellite_rider_relay_tactics_engine.dart` — Zaawansowana taktyka "Stacji Przekaźnikowych" (`SatelliteRiderRelayTacticsEngine`, `SatelliteRelayMissionState`, `PenultimatePassCheckpoint`, `SatelliteDomestiqueCandidate`, `SatelliteRelayPhase`, `SatelliteRelayOrder`, `SatelliteRelayTacticsPanel`: wysłanie pomocnika do porannej ucieczki, rozkaz `Wait for GC Leader` na przedostatniej przełęczy, rendezvous i ciągnięcie lidera GC w dolinie oraz na początku finałowego podjazdu).
 - `lib/engine/peloton/sprint_leadout_aerodynamic_slingshot.dart` — Efekt "procy aerodynamicznej" na ostatnich 250 m (`SprintLeadoutAerodynamicSlingshot`, `SprintSlingshotInput`, `SprintSlingshotStepResult`, `SprintSlingshotSimulationSummary`, `SlingshotPhase`: wyskok z koła rozprowadzającego przy 65 km/h z pełnym W' do 72–76 km/h dzięki opóźnionemu narastaniu oporu czołowego przez 1.5 s).
 - `lib/engine/peloton/sprint_train_ai_controller.dart` — AI pociągów sprinterskich i rozprowadzania.
 - `lib/engine/peloton/tactical_orders_processor.dart` — Przetwarzanie rozkazów taktycznych gracza.
@@ -321,3 +322,4 @@
 - `test/ui_responsive_layout_overflow_test.dart` — Automatyczny test widgetów weryfikujący brak błędów `RenderFlex overflowed` dla 30 głównych ekranów aplikacji w rozdzielczościach `390x844` (iPhone), `1024x768` (iPad) oraz `1600x900` (Desktop).
 - `test/core/memory_and_stream_leak_guard_test.dart` — Testy jednostkowe i widgetowe `MemoryAndStreamLeakGuard` oraz `MemoryAndStreamLeakGuardPanel` (czyste wyjście 3D, wykrywanie i czyszczenie wycieków `Isolate`/`AnimationController`/`StreamSubscription`, responsywność 390x844 / 1024x768 / 1600x900).
 - `test/core/sniper_package_1_audit_runner_test.dart` — Testy jednostkowe i widgetowe `SniperPackage1AuditRunner` oraz `SniperPackage1AuditPanel` (spójność 50 zadań Paczki #1 #163–#212, kompletność `docs/CODE_MAP.md`, parser `flutter analyze`, responsywność 390x844 / 1024x768 / 1600x900).
+- `test/engine/satellite_rider_relay_tactics_engine_test.dart` — Testy jednostkowe i widgetowe `SatelliteRiderRelayTacticsEngine` oraz `SatelliteRelayTacticsPanel` (wykrywanie przedostatniej przełęczy, ocena kandydatów, cykl `Wait for GC Leader` -> dolina -> finałowy podjazd, responsywność 390x844 / 1024x768 / 1600x900).
