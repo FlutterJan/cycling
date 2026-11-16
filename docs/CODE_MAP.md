@@ -277,6 +277,7 @@
 - `lib/ui/widgets/interactive_stage_timeline_scrubber.dart` — Interaktywna oś czasu wyścigu nad profilem (`InteractiveStageTimelineScrubber`, `StageProfileWithTimelineScrubber`, `StageTimelineEvent`, `StageTimelineEventType`, `StageGcGapSnapshot`) z markerami wydarzeń, tooltipami i analizą GC.
 - `lib/ui/widgets/keyboard_shortcuts_manager.dart` — System skrótów klawiszowych (`KeyboardShortcutsManager`, `ShortcutsCheatSheetOverlay`, `ShortcutKeycap`) dla 3D i Menedżera.
 - `lib/ui/widgets/key_moment_overlay.dart` — Powiadomienie i najazd na kluczowy moment wyścigu.
+- `lib/ui/widgets/live_energy_expenditure_sparklines_hud.dart` — Panel HUD mini-wykresów 60s mocy (W), tętna (BPM), spalania glikogenu (kcal/h) i prognozy odcięcia dla 8 kolarzy (`LiveEnergyExpenditureSparklinesHud`, `RiderEnergyTelemetryData`, `EnergyExpenditureSample`, `BonkPredictionCalculator`, `BonkPredictionResult`, `SparklineMetricMode`, `EnergyHudSortMode`).
 - `lib/ui/widgets/live_tv_commentary_ticker.dart` — Pasek komentarza TV na żywo (`LiveTvCommentaryTicker`, `LiveTvCommentaryGenerator`, `TvCommentaryInputEvent`, `TvCommentaryLine`, `TvCommentaryTriggerType`) z dwoma komentatorami reagującymi na ataki >10 W/kg, ranty, kraksy, bufet i Virtual GC.
 - `lib/ui/widgets/live_virtual_standings_drawer.dart` — Wysuwana tabela wirtualnej klasyfikacji GC na żywo.
 - `lib/ui/widgets/mechanic_workshop_panel.dart` — Panel warsztatu mechaników (ciśnienie opon, wosk, koła).
