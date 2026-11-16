@@ -12,6 +12,7 @@ import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
 import '../../state/career_controller.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../widgets/post_race_watts_per_kg_leaderboard_card.dart';
 import '../widgets/rider_avatar_painter.dart';
 
 // Stałe kolorystyczne klasyfikacji UCI (Tour de France / Giro d'Italia / Vuelta a España)
@@ -1263,6 +1264,16 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
 
         // 2. Kto stracił najwięcej energii (Zużycie glikogenu & Obciążenie TSS)
         _buildEnergyExpenditureSection(teamReport, save),
+        const SizedBox(height: 16),
+
+        // 2b. Najlepsze rekordy mocy dnia (5s / 1m / 5m / 20m) vs rekordy historyczne
+        PostRaceWattsPerKgLeaderboardCard(
+          data: PostRaceWattsPerKgLeaderboardData.fromStageReport(
+            report: report,
+            playerTeamId: playerTeamId,
+            save: save,
+          ),
+        ),
         const SizedBox(height: 16),
 
         // 3. Raport medyczny: Kraksy, upadki i gabinet lekarza
