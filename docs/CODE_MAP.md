@@ -192,6 +192,7 @@
 - `lib/services/career/race_calendar_selection_service.dart` — Zgłaszanie składów i dzikie karty na wyścigi.
 - `lib/services/career/race_day_pipeline_orchestrator.dart` — Orkiestrator dnia wyścigowego (`RaceDayPipelineOrchestrator`, `RaceDayPipelineNotifier`, `raceDayPipelineProvider`, `RaceDayPipelinePhase`) łączący Calendar → PreRaceBriefing → Symulację 3D → StageResultsCalculator → Podium → SponsorObjectivesEvaluator → RecoveryProcessor → AutoSave.
 - `lib/services/career/race_reconnaissance_service.dart` — Rekonesans tras i premia taktyczna.
+- `lib/services/career/regional_scouting_networks_service.dart` — System 8 regionalnych siatek skautingowych i panel UI (`RegionalScoutingNetworksService`, `ScoutingRegionId`, `RegionalSpecializationProfile`, `ScoutingNetworkTier`, `RegionalScoutingNetworkNode`, `RegionalScoutingNetworkState`, `RegionalScoutingNetworkNotifier`, `regionalScoutingNetworkProvider`, `RegionalScoutingNetworksPanel`: specjalizacja fizjologiczna m.in. Kolumbia <58 kg i Flandria bruk/wiatr).
 - `lib/services/career/rider_ego_and_conflicts_service.dart` — Konflikty w zespole, ego liderów i lojalność.
 - `lib/services/career/roster_uci_compliance_validator.dart` — Walidator przepisów UCI dla składów i sprzętu (`RosterUciComplianceValidator`, `RosterUciComplianceReport`, `BikeComplianceCheckResult`, `RosterAutoFillAction`: limit 8/7 kolarzy, zawieszenia medyczne/dopingowe, rowery >= 6.80 kg i auto-uzupełnianie rezerwami).
 - `lib/services/career/scouting_and_youth_academy_service.dart` — Skauting talentów na świecie i akademia.
