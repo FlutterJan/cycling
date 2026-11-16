@@ -275,6 +275,7 @@
 
 ### `lib/ui/widgets/`
 - `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
+- `lib/ui/widgets/animated_screen_transition_router.dart` — Zestaw płynnych przejść `GoRouter` (`AnimatedScreenTransitionRouter`, `ScreenTransitionPreset`, `SharedAxisDirection`, `ScreenTransitionPreviewPanel`): najazd kamery z lotu ptaka na szosę 3D oraz `SharedAxisTransition` (300 ms, `Curves.easeOutExpo`).
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/bike_preview_painter.dart` — Wektorowy podgląd roweru drużynowego.
 - `lib/ui/widgets/career_onboarding_interactive_tour.dart` — Nieinwazyjny 5-krokowy samouczek nowego gracza (`CareerOnboardingInteractiveTour`, `CareerOnboardingTourNotifier`, `careerOnboardingTourProvider`, `OnboardingTourStep`, `OnboardingHighlightTarget`) podświetlający biuro menedżera, budowanie pociągu, ciśnienie opon i sterowanie 3D z opcją zwinięcia i pominięcia.

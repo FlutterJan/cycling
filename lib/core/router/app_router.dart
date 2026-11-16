@@ -36,6 +36,7 @@ import '../../ui/screens/team_builder_hierarchy_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
 import '../../ui/screens/wind_tunnel_and_bike_fit_screen.dart';
+import '../../ui/widgets/animated_screen_transition_router.dart';
 import '../theme/app_colors.dart';
 
 /// Stałe ścieżek URL (Route Paths) w aplikacji Pro Peloton Manager
@@ -181,29 +182,37 @@ GoRouter createAppRouter({
           GoRoute(
             path: AppRoutes.dashboard,
             name: AppRouteNames.dashboard,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: DashboardHqScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const DashboardHqScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.inbox,
             name: AppRouteNames.inbox,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CareerInboxView(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const CareerInboxView(),
             ),
           ),
           GoRoute(
             path: AppRoutes.calendar,
             name: AppRouteNames.calendar,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: CalendarAndRacePlannerScreen(showAppBar: false),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const CalendarAndRacePlannerScreen(showAppBar: false),
             ),
           ),
           GoRoute(
             path: AppRoutes.roster,
             name: AppRouteNames.roster,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SquadRosterScreen(showAppBar: false),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const SquadRosterScreen(showAppBar: false),
             ),
           ),
           GoRoute(
@@ -213,7 +222,9 @@ GoRouter createAppRouter({
               final riderId = state.pathParameters['riderId'] ?? '';
               final extra = state.extra;
               final initialRider = extra is Rider ? extra : null;
-              return MaterialPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
+                axis: SharedAxisDirection.vertical,
                 child: RiderDetailScreen(
                   riderId: riderId,
                   initialRider: initialRider,
@@ -224,8 +235,10 @@ GoRouter createAppRouter({
           GoRoute(
             path: AppRoutes.teamBuilder,
             name: AppRouteNames.teamBuilder,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TeamBuilderHierarchyScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const TeamBuilderHierarchyScreen(),
             ),
           ),
           GoRoute(
@@ -233,7 +246,8 @@ GoRouter createAppRouter({
             name: AppRouteNames.training,
             pageBuilder: (context, state) {
               final riderId = state.uri.queryParameters['riderId'];
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: TrainingAndCampsScreen(
                   showAppBar: false,
                   initialRiderId: riderId,
@@ -246,7 +260,8 @@ GoRouter createAppRouter({
             name: AppRouteNames.physiologyLab,
             pageBuilder: (context, state) {
               final riderId = state.uri.queryParameters['riderId'];
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: PhysiologyLabScreen(
                   showAppBar: false,
                   initialRiderId: riderId,
@@ -259,7 +274,8 @@ GoRouter createAppRouter({
             name: AppRouteNames.medical,
             pageBuilder: (context, state) {
               final riderId = state.uri.queryParameters['riderId'];
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: MedicalAndRecoveryCenterScreen(
                   showAppBar: false,
                   initialRiderId: riderId,
@@ -272,7 +288,8 @@ GoRouter createAppRouter({
             name: AppRouteNames.academy,
             pageBuilder: (context, state) {
               final riderId = state.uri.queryParameters['riderId'];
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: DevelopmentAcademyScreen(
                   showAppBar: false,
                   initialRiderId: riderId,
@@ -283,8 +300,10 @@ GoRouter createAppRouter({
           GoRoute(
             path: AppRoutes.staff,
             name: AppRouteNames.staff,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: StaffManagementScreen(showAppBar: false),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const StaffManagementScreen(showAppBar: false),
             ),
           ),
           GoRoute(
@@ -293,7 +312,8 @@ GoRouter createAppRouter({
             pageBuilder: (context, state) {
               final extra = state.extra;
               final initialBike = extra is CompleteBike ? extra : null;
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: BikeGarageRndScreen(initialBike: initialBike),
               );
             },
@@ -303,7 +323,8 @@ GoRouter createAppRouter({
             name: AppRouteNames.windTunnel,
             pageBuilder: (context, state) {
               final riderId = state.uri.queryParameters['riderId'];
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: WindTunnelAndBikeFitScreen(
                   showAppBar: false,
                   initialRiderId: riderId,
@@ -314,57 +335,74 @@ GoRouter createAppRouter({
           GoRoute(
             path: AppRoutes.sponsors,
             name: AppRouteNames.sponsors,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SponsorsAndFinanceScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const SponsorsAndFinanceScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.transfers,
             name: AppRouteNames.transfers,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: TransferMarketScoutingScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const TransferMarketScoutingScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.liveryStudio,
             name: AppRouteNames.liveryStudio,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: JerseyAndBikeLiveryStudioScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const JerseyAndBikeLiveryStudioScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.uciRankings,
             name: AppRouteNames.uciRankings,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: UciRankingsAndLicenseView(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const UciRankingsAndLicenseView(),
             ),
           ),
           GoRoute(
             path: AppRoutes.hallOfFame,
             name: AppRouteNames.hallOfFame,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HallOfFameAndRecordsScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const HallOfFameAndRecordsScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.managerProfile,
             name: AppRouteNames.managerProfile,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: ManagerProfileAndAchievementsScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const ManagerProfileAndAchievementsScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.stageEditor,
             name: AppRouteNames.stageEditor,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: StageEditorCreatorScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              child: const StageEditorCreatorScreen(),
             ),
           ),
           GoRoute(
             path: AppRoutes.preSeasonPresentation,
             name: AppRouteNames.preSeasonPresentation,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: PreSeasonTeamPresentationScreen(),
+            pageBuilder: (context, state) =>
+                AnimatedScreenTransitionRouter.buildManagerPage(
+              state: state,
+              axis: SharedAxisDirection.scaled,
+              child: const PreSeasonTeamPresentationScreen(),
             ),
           ),
           GoRoute(
@@ -373,7 +411,8 @@ GoRouter createAppRouter({
             pageBuilder: (context, state) {
               final tabStr = state.uri.queryParameters['tab'];
               final tabIdx = tabStr != null ? int.tryParse(tabStr) ?? 0 : 0;
-              return NoTransitionPage(
+              return AnimatedScreenTransitionRouter.buildManagerPage(
+                state: state,
                 child: SettingsAndModScreen(initialTabIndex: tabIdx),
               );
             },
@@ -404,31 +443,41 @@ GoRouter createAppRouter({
       GoRoute(
         path: AppRoutes.raceLive,
         name: AppRouteNames.raceLive,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final initialCameraMode =
               extra?['initialCameraMode'] as RaceCameraMode? ??
                   RaceCameraMode.profile2D;
-          return RaceSimulationScreen(initialCameraMode: initialCameraMode);
+          final stageLabel = extra?['stageLabel'] as String?;
+          final subtitle = extra?['subtitle'] as String?;
+          return AnimatedScreenTransitionRouter.buildRaceDivePage(
+            state: state,
+            stageLabel: stageLabel,
+            subtitle: subtitle,
+            child: RaceSimulationScreen(initialCameraMode: initialCameraMode),
+          );
         },
       ),
       GoRoute(
         path: AppRoutes.racePodium,
         name: AppRouteNames.racePodium,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final report = extra?['report'] as StageSummaryReport?;
           final simState = extra?['simState'] as StageSimulationState?;
-          return PostStagePodiumScreen(
-            stageReport: report,
-            simulationState: simState,
-            onContinue: () {
-              if (context.canPop()) {
-                context.pop();
-              } else {
-                context.go(AppRoutes.dashboard);
-              }
-            },
+          return AnimatedScreenTransitionRouter.buildPodiumRevealPage(
+            state: state,
+            child: PostStagePodiumScreen(
+              stageReport: report,
+              simulationState: simState,
+              onContinue: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
           );
         },
       ),
