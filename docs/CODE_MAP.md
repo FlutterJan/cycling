@@ -274,6 +274,7 @@
 - `lib/ui/screens/team_bus_locker_room_screen.dart` — Wnętrze Autobusu Drużyny przed startem (`TeamBusLockerRoomScreen`, `TeamBusInteriorPainter`, `DirectorSpeechOption`, `TeamBusRiderSlot`, `TeamBusBriefingResult`).
 - `lib/ui/screens/training_and_camps_screen.dart` — Obozy treningowe i plany obciążeń.
 - `lib/ui/screens/transfer_market_scouting_screen.dart` — Rynek transferowy i negocjacje.
+- `lib/ui/screens/velo_dor_gala_ceremony_screen.dart` — Uroczysty ekran gali kończącej sezon Vélo d'Or w czerni `#0F1115` i złocie `#D4AF37` (`VeloDorGalaCeremonyScreen`, `VeloDorPlayerSeasonSummary`, `VeloDorTeamRiderSummary`) ze zwycięzcami, statystykami roku i osiągnięciami drużyny gracza.
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
 
 ### `lib/ui/widgets/`
@@ -363,3 +364,4 @@
 - `test/ui/stage_favorites_bookmakers_odds_card_test.dart` — Testy jednostkowe i widgetowe `StageFavoritesBookmakersCalculator` oraz `StageFavoritesBookmakersOddsCard` (profil trasy, TSB, skład pociągu, stany interakcji i responsywność 390x844 / 1024x768 / 1600x900).
 - `test/ui/post_race_watts_per_kg_leaderboard_card_test.dart` — Testy jednostkowe i widgetowe `PostRaceWattsPerKgLeaderboardCard` oraz `PostRaceWattsPerKgLeaderboardData` (5s/1m/5m/20m, porównanie z rekordem trasy, filtr drużyny, stan pusty i responsywność 390x844 / 1024x768 / 1600x900).
 - `test/services/season_awards_velo_dor_ceremony_test.dart` — Testy jednostkowe i widgetowe `SeasonAwardsVeloDorCeremony` oraz `VeloDorCeremonyGalaWidget` (okno październikowe, 5 kategorii, U23, JSON, wręczanie statuetek i responsywność 390x844 / 1024x768 / 1600x900).
+- `test/ui/velo_dor_gala_ceremony_screen_test.dart` — Testy widgetowe i responsywności `VeloDorGalaCeremonyScreen` (390x844 / 1024x768 / 1600x900, przełączanie kategorii, wręczanie statuetek i stan pusty).
