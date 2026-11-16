@@ -116,6 +116,7 @@
 - `lib/engine/physics/altitude_acclimatization_and_heat_engine.dart` — Silnik aklimatyzacji wysokościowej (>1500m, COL/ECU, obozy) i stresu cieplnego (`AltitudeAcclimatizationAndHeatEngine`, `RiderThermalState`, `AltitudePerformanceResult`, `HeatStrainStepResult`, `AltitudeAndHeatCombinedResult`, Ice Socks).
 - `lib/engine/physics/bike_fit_and_wind_tunnel_engine.dart` — Symulacja tunelu aero i bike fittingu.
 - `lib/engine/physics/day_condition_and_biorhythm_engine.dart` — Silnik dyspozycji dnia -5..+5 (`DayConditionAndBiorhythmEngine`, `DayConditionDrawInputs`, `DayConditionModifiers`, `RiderDayConditionState`): losowanie ważone (TSB, sen, pogoda, morale, lojalność), wpływ na FTP/W'/VO2max/regenerację oraz odkrywanie `?` powyżej LT1 na podjeździe.
+- `lib/engine/physics/grand_tour_third_week_fatigue_decay.dart` — Model kumulacji zmęczenia 3. tygodnia Grand Touru na etapach 14–21 (`GrandTourThirdWeekFatigueDecay`, `GrandTourThirdWeekFatigueResult`, `GrandTourFatigueResilienceTier`): spadek FTP (2–3% specjaliści GT, 9–14% kolarze 1-dniowi), VO2max i glikogenu wątrobowego zależny od `recoveryRate`.
 - `lib/engine/physics/gravity_and_rolling_calculator.dart` — Siła grawitacji i opory toczenia CRR.
 - `lib/engine/physics/heart_rate_simulator.dart` — Kinetyka tętna BPM w zależności od wysiłku.
 - `lib/engine/physics/nutrition_and_glycogen_engine.dart` — Spalanie glikogenu, węglowodany i "odcięcie prądu".
