@@ -243,6 +243,7 @@
 - `lib/services/database/preset_real_names_template_generator.dart` — Generator szablonu paczek modów (`PresetRealNamesTemplateGenerator`, `CommunityRealismPatchStructure`, `ModSchemaValidator`, `applyLivePatchToActiveCareer`).
 - `lib/services/database/save_game_manager.dart` — Zarządzanie slotami zapisów na dysku.
 - `lib/services/database/save_service.dart` — Serializacja/deserializacja zapisu gry.
+- `lib/services/export/gpx_and_tcx_telemetry_exporter.dart` — Eksporter telemetrii ukończonego etapu do standardów `.tcx` (Garmin TCX v2) i `.gpx` (GPX 1.1 + TrackPointExtension) sekunda po sekundzie (`GpxAndTcxTelemetryExporter`, `GpsTrackProjector`, `TelemetryExportSession`, `TelemetryExportSample`, `TelemetryExportResult`, `TelemetryXmlValidationReport`, `GpxAndTcxTelemetryExporterPanel`).
 - `lib/services/generators/fictional_brands_catalog.dart` — Katalog fikcyjnych marek rowerowych i sponsorów.
 - `lib/services/generators/initial_game_seeder.dart` — Generator nowego świata gry (drużyny, kolarze, kalendarz).
 - `lib/services/generators/rider_procedural_generator.dart` — Proceduralny generator kolarzy z profilami fizjologicznymi.
@@ -398,3 +399,4 @@
 - `test/engine/tire_deformation_and_spoke_glint_fx_test.dart` — Testy jednostkowe i responsywne widgetowe `TireDeformationAndSpokeGlintFx` oraz `TireDeformationAndSpokeGlintPanel` (spłaszczenie styku 3.8 bar vs 6.5 bar, błyski szprych/tarcz, tryb dysku TT, 390x844 / 1024x768 / 1600x900).
 - `test/engine/cold_breath_vapor_and_sweat_sheen_test.dart` — Testy jednostkowe i responsywne widgetowe `ColdBreathVaporAndSweatSheen` oraz `ColdBreathAndSweatControlPanel` (para wodna <10°C w rytmie oddechu, połysk potu >28°C na ramionach i nogach, 390x844 / 1024x768 / 1600x900).
 - `test/ui/gearing_ratio_speed_cadence_chart_test.dart` — Testy jednostkowe i widgetowe `GearingRatioChartCalculator` oraz `GearingRatioSpeedCadenceChart` (24/12 biegów, podjazd 15% @ 70 RPM, stan disabled i responsywność 390x844 / 1024x768 / 1600x900).
+- `test/services/gpx_and_tcx_telemetry_exporter_test.dart` — Testy jednostkowe i widgetowe `GpxAndTcxTelemetryExporter` oraz `GpxAndTcxTelemetryExporterPanel` (TCX v2, GPX 1.1, resampling 1 Hz, projekcja WGS84, zapis na dysk, responsywność 390x844 / 1024x768 / 1600x900).
