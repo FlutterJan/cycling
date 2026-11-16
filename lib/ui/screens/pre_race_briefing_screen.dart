@@ -22,6 +22,7 @@ import '../../state/career_controller.dart';
 import '../../state/race_simulation_notifier.dart';
 import '../widgets/bike_preview_painter.dart';
 import '../widgets/elevation_profile_chart.dart';
+import '../widgets/interactive_pre_stage_tactical_board.dart';
 import '../widgets/mechanic_workshop_panel.dart';
 import '../widgets/rider_avatar_painter.dart';
 import 'race_simulation_screen.dart';
@@ -220,6 +221,7 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
 
   // Przypisanie ról taktycznych: riderId -> StageTacticalRole
   final Map<String, StageTacticalRole> _assignedRoles = {};
+  List<TacticalStageAssignment>? _tacticalBoardAssignments;
 
   // Konfiguracja sprzętu drużynowego
   int _teamRimDepthMm = 45;
@@ -2684,10 +2686,32 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
 
     final rolesWidget = _buildRolesAssignmentSection(stage, isCompact: isCompact);
 
+    final tacticalBoardRiders = <TacticalBoardRiderEntry>[
+      for (int i = 0; i < _stageLineup.length; i++)
+        TacticalBoardRiderEntry.fromRider(
+          _stageLineup[i],
+          jerseyNumber: i + 1,
+          roleLabel: (_assignedRoles[_stageLineup[i].id] ?? StageTacticalRole.freeAgent).shortLabel,
+          accentColor: (_assignedRoles[_stageLineup[i].id] ?? StageTacticalRole.freeAgent).badgeColor,
+        ),
+    ];
+
+    final tacticalBoard = InteractivePreStageTacticalBoard(
+      stage: stage,
+      riders: tacticalBoardRiders,
+      initialAssignments: _tacticalBoardAssignments,
+      onAssignmentsChanged: (assignments) {
+        _tacticalBoardAssignments = assignments;
+      },
+    );
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(isCompact ? 12 : 16),
-      child: isWideDesktop
-          ? Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (isWideDesktop)
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(flex: 6, child: busWidget),
@@ -2695,14 +2719,15 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
                 Expanded(flex: 5, child: rolesWidget),
               ],
             )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                busWidget,
-                const SizedBox(height: 16),
-                rolesWidget,
-              ],
-            ),
+          else ...[
+            busWidget,
+            const SizedBox(height: 16),
+            rolesWidget,
+          ],
+          const SizedBox(height: 16),
+          tacticalBoard,
+        ],
+      ),
     );
   }
 
