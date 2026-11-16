@@ -162,6 +162,7 @@
 - `lib/engine/rendering3d/wet_asphalt_reflections_painter.dart` — Painter mokrego asfaltu (`WetAsphaltReflectionsPainter`, `WetAsphaltSurfaceState`, `WetAsphaltPuddle`, `PelotonTireRutTracker`, `WetAsphaltReflectionsControlPanel`): ciemniejsza nawierzchnia, kałuże z falami, lustrzane odbicia sylwetek/koszulek kolarzy i suche koleiny peletonu.
 - `lib/engine/rendering3d/wheel_and_drivetrain_rotator.dart` — Animacja mechaniczna kół z motion blur (>40 km/h), tarczy korby wg RPM oraz wózka tylnej przerzutki wg przełożenia (`WheelAndDrivetrainRotator`, `DrivetrainConfig`, `DrivetrainGearSelection`, `WheelMotionBlurProfile`, `RearDerailleurKinematics`, `WheelAndDrivetrainFrameState`).
 - `lib/engine/rendering3d/wind_streamlines_visualizer.dart` — Linie strug wiatru w trybie taktycznym/tunelu.
+- `lib/engine/simulation/deterministic_rng_seed_manager.dart` — Deterministyczny menedżer RNG oparty na `stageSeed` (`DeterministicRngSeedManager`, `DeterministicPrngStream`, `RngDomain`, `WindGustSample`, `AiBehaviorRoll`, `StageDeterminismManifest`) zapewniający identyczne podmuchy wiatru i zachowania AI co do milisekundy oraz spójność powtórek `StageReplayRecorder`.
 - `lib/engine/simulation/isolate_simulation_worker.dart` — Wątek Isolate wykonujący ticki fizyki w tle.
 - `lib/engine/simulation/key_moments_detector.dart` — Wykrywanie kluczowych momentów (ataki, kraksy, premie).
 - `lib/engine/simulation/post_stage_recovery_processor.dart` — Przeliczanie zmęczenia i formy po etapie.
