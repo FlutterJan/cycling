@@ -110,6 +110,7 @@
 - `lib/engine/peloton/sprint_train_ai_controller.dart` — AI pociągów sprinterskich i rozprowadzania.
 - `lib/engine/peloton/tactical_orders_processor.dart` — Przetwarzanie rozkazów taktycznych gracza.
 - `lib/engine/physics/aero_calculator.dart` — Obliczenia oporu aerodynamicznego CdA i wiatru.
+- `lib/engine/physics/alpine_climb_benchmark_calibrator.dart` — Kalibrator solvera fizyki wspinaczki na realnych podjazdach HC (`AlpineClimbBenchmarkCalibrator`, `AlpineClimbBenchmarkProfile`, `ClimbCalibrationParameters`, `ClimbSimulationBenchmarkResult`, `ClimbCalibrationReport`: Alpe d'Huez 38:30–39:45 / VAM ~1750 m/h, Ventoux, Tourmalet, Stelvio, Angliru).
 - `lib/engine/physics/altitude_acclimatization_and_heat_engine.dart` — Silnik aklimatyzacji wysokościowej (>1500m, COL/ECU, obozy) i stresu cieplnego (`AltitudeAcclimatizationAndHeatEngine`, `RiderThermalState`, `AltitudePerformanceResult`, `HeatStrainStepResult`, `AltitudeAndHeatCombinedResult`, Ice Socks).
 - `lib/engine/physics/bike_fit_and_wind_tunnel_engine.dart` — Symulacja tunelu aero i bike fittingu.
 - `lib/engine/physics/day_condition_and_biorhythm_engine.dart` — Silnik dyspozycji dnia -5..+5 (`DayConditionAndBiorhythmEngine`, `DayConditionDrawInputs`, `DayConditionModifiers`, `RiderDayConditionState`): losowanie ważone (TSB, sen, pogoda, morale, lojalność), wpływ na FTP/W'/VO2max/regenerację oraz odkrywanie `?` powyżej LT1 na podjeździe.
