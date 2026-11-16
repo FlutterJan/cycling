@@ -292,6 +292,7 @@
 - `lib/ui/screens/staff_management_screen.dart` — Zatrudnianie i zarządzanie personelem.
 - `lib/ui/screens/stage_editor_creator_screen.dart` — Kreator własnych etapów i profili.
 - `lib/ui/screens/strava_style_stage_analysis_screen.dart` — Analiza telemetryczna po etapie w stylu Strava.
+- `lib/ui/screens/tactical_challenges_hub_screen.dart` — Ekran Wyzwań Taktycznych (`TacticalChallengesHubScreen`, `TacticalChallengeMedalTargets`, `ChallengePlayerRecord`, `ChallengeBestTimeRunEntry`, `TacticalChallengesFormatter`, `TacticalChallengeFilter`) z 10 scenariuszami, medalami Brązowy/Srebrny/Złoty `#D4AF37`, warunkami zwycięstwa i tablicą najlepszych czasów gracza.
 - `lib/ui/screens/team_builder_hierarchy_screen.dart` — Hierarchia liderów i pociągi sprinterskie.
 - `lib/ui/screens/team_bus_locker_room_screen.dart` — Wnętrze Autobusu Drużyny przed startem (`TeamBusLockerRoomScreen`, `TeamBusInteriorPainter`, `DirectorSpeechOption`, `TeamBusRiderSlot`, `TeamBusBriefingResult`).
 - `lib/ui/screens/training_and_camps_screen.dart` — Obozy treningowe i plany obciążeń.
@@ -408,3 +409,4 @@
 - `test/services/legendary_historic_scenarios_seeder_test.dart` — Testy jednostkowe i responsywne widgetowe `LegendaryHistoricScenariosSeeder` oraz `LegendaryHistoricScenariosPanel` (10 scenariuszy, JSON, ewaluacja medali, 390x844 / 1024x768 / 1600x900).
 - `test/ui/photo_mode_3d_camera_studio_overlay_test.dart` — Testy jednostkowe i widgetowe `PhotoMode3dCameraStudioOverlay` (optyka 24–200 mm, Bokeh, filtry kolorystyczne, Free Fly Cam, zapis do galerii oraz responsywność 390x844 / 1024x768 / 1600x900).
 - `test/ui/in_game_cycling_encyclopedia_screen_test.dart` — Testy jednostkowe `EncyclopediaPhysicsCalculator` oraz responsywności i przełączania 9 haseł `InGameCyclingEncyclopediaScreen` (390x844 / 1024x768 / 1600x900).
+- `test/ui/tactical_challenges_hub_screen_test.dart` — Testy jednostkowe i responsywne widgetowe `TacticalChallengesHubScreen` (10 scenariuszy, medale, tablica czasów, stan pusty i responsywność 390x844 / 1024x768 / 1600x900).
