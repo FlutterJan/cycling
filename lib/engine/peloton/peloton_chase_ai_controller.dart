@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import '../../models/race/race_stage.dart';
 import '../../models/rider/rider.dart';
 import '../../models/team/cycling_team.dart';
+import 'breakaway_vs_peloton_equilibrium_solver.dart';
 
 /// Poziom pilności i intensywności pościgu peletonu za ucieczką.
 enum ChaseUrgency {
@@ -441,23 +442,19 @@ class PelotonChaseAiController {
 
     final double projectedCatchKm = currentKm + kmNeededToCatch;
 
-    // 6. Szacowanie prawdopodobieństwa dojechania ucieczki do mety:
-    double survivalProbability;
-    if (projectedCatchKm >= stageLengthKm + 3.0) {
-      // Ucieczka skasowałaby się dopiero za metą – wysoka szansa sukcesu
-      survivalProbability = 0.85;
-    } else if (projectedCatchKm >= stageLengthKm) {
-      // Bardzo blisko mety (na ostatnich metrach) – szansa 50-65%
-      survivalProbability = 0.58;
-    } else {
-      final double bufferBeforeFinishKm = stageLengthKm - projectedCatchKm;
-      if (bufferBeforeFinishKm > 15.0) {
-        survivalProbability = 0.04; // Peleton skasuje ich bez problemu
-      } else {
-        // Skasowanie 2-10 km przed metą – ucieczka ma wciąż 12-25% szans
-        survivalProbability = ((15.0 - bufferBeforeFinishKm) / 15.0) * 0.28;
-      }
-    }
+    // 6. Szacowanie prawdopodobieństwa dojechania ucieczki do mety przez zbalansowany solver równowagi:
+    final BreakawayEquilibriumResult equilibrium =
+        BreakawayVsPelotonEquilibriumSolver.solveForStage(
+      stage: stage,
+      currentKm: currentKm,
+      currentGapSeconds: breakawayGapSeconds,
+      breakawayRiderCount: breakawayRiderCount,
+      breakawayCooperationScore: breakawayCooperationScore,
+      sprintTeamsInterestedCount: sprintTeams.length,
+      committedChaseDomestiques: totalDomestiques,
+      isBreakawayDangerousInGc: isBreakawayDangerousInGc,
+    );
+    final double survivalProbability = equilibrium.survivalProbability;
 
     // Komunikat radiowy
     String radioReport;
