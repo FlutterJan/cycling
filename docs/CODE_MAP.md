@@ -195,6 +195,7 @@
 - `lib/services/career/scouting_and_youth_academy_service.dart` — Skauting talentów na świecie i akademia.
 - `lib/services/career/season_transition_service.dart` — Przejście między sezonami, emerytury i nowi juniorzy.
 - `lib/services/career/social_media_and_cycling_news_service.dart` — Serwis mediów kolarskich i social kolarzy (`SocialMediaAndCyclingNewsService`, `CyclingNewsItem`, `BikeComputerRideSnapshot`, `CyclingNewsStarPick`: zapowiedzi 5★, ucieczki, kraksy, plotki, W/kg i VAM).
+- `lib/services/career/sponsor_bonus_negotiation_events.dart` — System nadzwyczajnych premii sponsorskich po wielkich sukcesach (`SponsorBonusNegotiationEvents`, `SponsorCeoBonusOffer`, `SponsorBonusTriggerContext`, `SponsorBonusNegotiationOutcome`, `SpectacularSuccessTrigger`, `BonusAllocationPurpose`, `SponsorBonusCallDialogWidget`: telefon CEO z ofertą 250k–1M EUR na transfery lub tunel aero).
 - `lib/services/career/sponsor_negotiation_service.dart` — Negocjacje ze sponsorami tytularnymi.
 - `lib/services/career/sponsor_objectives_evaluator.dart` — Ewaluacja celów sponsorskich po wyścigu i wypłata bonusów.
 - `lib/services/career/team_chemistry_and_builder_service.dart` — Chemia drużyny i hierarchia liderów.
