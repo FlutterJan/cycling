@@ -278,6 +278,7 @@
 
 ### `lib/ui/screens/`
 - `lib/ui/screens/be_a_pro_character_creator_screen.dart` — Kreator własnego kolarza w trybie „Zostań Legendą” (`BeAProCharacterCreatorScreen`, `BeAProGeneticArchetype`, `BeAProPhysicsCalculator`, `BeAProCharacterDraft`, `BeAPro3dRiderPreviewPainter`, `BeAProU23TeamOffer`): tożsamość, wzrost 160–198 cm / waga 52–86 kg z fizyką $CdA$ i predyspozycjami, 5 archetypów, podgląd 3D na żywo (twarz, fryzura, okulary, kolor butów) oraz wybór drużyny U23/Continental.
+- `lib/ui/screens/be_a_pro_dashboard_and_apartment_screen.dart` — Główny ekran trybu Be a Pro (`BeAProDashboardAndApartmentScreen`, `BeAProDashboardSection`, `BeAProSkillNode`, `BeAProSmsThread`, `BeAProContractOffer`, `BeAProTrophyCabinetItem`, `BeAProResidencePreset`): widok apartamentu i bazy treningowej, drzewo rozwoju XP, wiadomości SMS od DS i agenta, oferty kontraktowe WorldTour oraz gablota koszulek i pucharów.
 - `lib/ui/screens/bike_garage_rnd_screen.dart` — Garaż rowerowy, R&D i konfiguracja sprzętu.
 - `lib/ui/screens/calendar_and_race_planner_screen.dart` — Kalendarz sezonu i planowanie szczytów formy.
 - `lib/ui/screens/career_dashboard_screen.dart` — Widok pulpitu kariery.
@@ -456,3 +457,4 @@
 - `docs/RELEASE_CHECKLIST_AND_MANUAL.md` — Kompletna instrukcja gracza i dokumentacja wydania: skróty klawiszowe, taktyka wyścigowa, fizjologia treningu/żywienia/termoregulacji, lista kontrolna wydania oraz komendy kompilacji na Windows, macOS, Android i iOS.
 - `test/ui/be_a_pro_character_creator_screen_test.dart` — Testy jednostkowe fizyki $CdA$/W·kg i archetypów (`BeAProPhysicsCalculator`, `BeAProCharacterDraft`) oraz responsywności i przepływu 4 kroków `BeAProCharacterCreatorScreen` (`390x844` / `1024x768` / `1600x900`).
 - `test/services/career/ds_team_orders_mission_generator_test.dart` — Testy jednostkowe i responsywne widgetowe `DsTeamOrdersMissionGenerator` oraz `DsTeamOrdersRadioMissionPanel` (Arenberg Top 15, pociąg 380 W, ucieczka 5 pkt KOM, odblokowanie Wolnego Elektrona i Lidera Drużyny, JSON, `390x844` / `1024x768` / `1600x900`).
+- `test/ui/be_a_pro_dashboard_and_apartment_screen_test.dart` — Testy widgetowe i responsywne `BeAProDashboardAndApartmentScreen` (`390x844` / `1024x768` / `1600x900`, trening XP, drzewo umiejętności SP, szybkie odpowiedzi SMS, podpisywanie ofert WorldTour i filtrowanie gabloty).
