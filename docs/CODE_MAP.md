@@ -271,6 +271,7 @@
 - `lib/ui/screens/bike_garage_rnd_screen.dart` — Garaż rowerowy, R&D i konfiguracja sprzętu.
 - `lib/ui/screens/calendar_and_race_planner_screen.dart` — Kalendarz sezonu i planowanie szczytów formy.
 - `lib/ui/screens/career_dashboard_screen.dart` — Widok pulpitu kariery.
+- `lib/ui/screens/credits_and_architecture_showcase_screen.dart` — Ekran informacji o silniku gry (`CreditsAndArchitectureShowcaseScreen`, `ArchitectureShowcaseCalculator`, `ArchitectureShowcaseCatalog`, `ArchitectureShowcaseCategory`, `ArchitectureModelId`, `ArchitectureModelSpec`, `BlenderPipelineStage`, `ShowcaseCreditEntry`) prezentujący modele Skiba $W'$, równania Martina, algorytm Boids, 5-etapowy pipeline Blender `.glb` oraz podziękowania.
 - `lib/ui/screens/dashboard_hq_screen.dart` — Centrum dowodzenia HQ (`DashboardHqScreen`, `CarbonFiberCard` #190, `CyclingNewsFeedWidget` #197, `ProCyclingStatsTableWidget` #198, Transfer Ticker, Najbliższy Wyścig ze składem/odprawą, Stan Liderów TSB/Morale/Szczyt, Sponsor Tytularny 3 cele, Szybkie Akcje HQ).
 - `lib/ui/screens/development_academy_screen.dart` — Ekran drużyny rozwojowej U23 i skautingu.
 - `lib/ui/screens/game_start_screen.dart` — Ekran powitalny i ładowanie zapisów.
@@ -433,3 +434,4 @@
 - `scripts/build_windows_release.ps1` — Produkcyjny skrypt PowerShell budowania i pakowania wydania Windows (`flutter test`, weryfikacja `.glb` w `assets/3d/`, `flutter build windows --release`, archiwum `.zip` z `.exe`, `.dll`, `BUILD_MANIFEST.txt` i `.sha256`).
 - `scripts/build_macos_and_ios_release.sh` — Produkcyjny skrypt powłoki `bash` dla macOS budujący natywną aplikację `flutter build macos --release` (`.app.zip` / `.dmg` z `hdiutil`/`ditto`) oraz uniwersalny pakiet `flutter build ipa --release` (`.ipa` na iPhone'a i iPada) z weryfikacją `.glb`, `BUILD_MANIFEST.txt` i `.sha256`.
 - `scripts/build_android_apk_aab.ps1` — Produkcyjny skrypt PowerShell budowania wydania Android (`flutter build apk --release --split-per-abi` dla telefonów i tabletów oraz `flutter build appbundle --release` `.aab` z włączonym `isMinifyEnabled`/`isShrinkResources` w `android/app/build.gradle.kts`, weryfikacją `.glb`, `BUILD_MANIFEST.txt` i `.sha256`).
+- `test/ui/credits_and_architecture_showcase_screen_test.dart` — Testy jednostkowe i responsywne widgetowe `ArchitectureShowcaseCalculator` oraz `CreditsAndArchitectureShowcaseScreen` (Skiba $W'$, Martin, Boids, pipeline Blender `.glb`, filtry, tryb kompaktowy oraz `390x844` / `1024x768` / `1600x900`).
