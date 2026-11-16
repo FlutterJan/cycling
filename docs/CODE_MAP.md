@@ -85,6 +85,7 @@
 - `lib/models/equipment/groupset_model.dart` — Model osprzętu / grupy napędowej.
 - `lib/models/equipment/tire_model.dart` — Model opon (CRR, szerokość, odporność na przebicia).
 - `lib/models/equipment/wheelset_model.dart` — Model kół (stożek, aero, waga).
+- `lib/models/race/cyclocross_course_and_mud_model.dart` — Model zimowego Kolarstwa Przełajowego CX na rundach 2.5–3.2 km (`CyclocrossCourseAndMudModel`, `CyclocrossCourseSegment`, `DoublePitLaneConfig`, `CyclocrossWeatherAndMudState`, `CyclocrossMonth`, `CyclocrossTerrainType`, `CyclocrossMudCondition`, `CyclocrossPitLaneSide`).
 - `lib/models/race/race_stage.dart` — Model etapu lub wyścigu jednodniowego.
 - `lib/models/race/stage_segment.dart` — Segment trasy (długość, nachylenie, nawierzchnia, wiatr).
 - `lib/models/race/tour_race.dart` — Model wyścigu wieloetapowego i klasyfikacji (GC, Punkty, Góry, Młodzież).
