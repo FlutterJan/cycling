@@ -13,6 +13,7 @@ import '../../models/race/race_stage.dart';
 import '../../models/race/stage_segment.dart';
 import '../../models/race/tour_race.dart';
 import '../../state/career_controller.dart';
+import '../widgets/custom_race_route_elevation_brush.dart';
 
 /// Punkt kontrolny wysokości i nawierzchni na trasie edytowanego etapu.
 class StageEditorPoint {
@@ -447,11 +448,6 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
 
   double get _totalDistanceKm => _points.isNotEmpty ? _points.last.distanceKm : 0.0;
 
-  double get _minElevationM {
-    if (_points.isEmpty) return 0.0;
-    return _points.map((p) => p.elevationMeters).reduce(math.min);
-  }
-
   double get _maxElevationM {
     if (_points.isEmpty) return 0.0;
     return _points.map((p) => p.elevationMeters).reduce(math.max);
@@ -852,19 +848,30 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
               // 1. GÓRNY PASEK ZBIORCZY STATYSTYK
               _buildStatsHeaderBanner(),
 
-              // 2. INTERAKTYWNY WYKRES PROFILU WYSOKOŚCIOWEGO
+              // 2. INTERAKTYWNY WYKRES PROFILU WYSOKOŚCIOWEGO Z PĘDZLEM TERENU
               Expanded(
                 flex: isWide ? 5 : 4,
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardDark,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.cardBorder),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: _buildInteractiveElevationChart(),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  child: CustomRaceRouteElevationBrush(
+                    points: _points,
+                    selectedPointIndex: _selectedPointIndex,
+                    onPointsChanged: (updatedPoints) {
+                      setState(() {
+                        _points = updatedPoints;
+                        if (_points.isEmpty) {
+                          _selectedPointIndex = 0;
+                        } else if (_selectedPointIndex >= _points.length) {
+                          _selectedPointIndex = _points.length - 1;
+                        }
+                      });
+                    },
+                    onPointSelected: (index) {
+                      setState(() {
+                        _selectedPointIndex = index;
+                        _activeTab = 0;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -999,69 +1006,6 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
           ),
         ),
       ),
-    );
-  }
-
-  // ===========================================================================
-  // INTERAKTYWNY WYKRES PROFILU WYSOKOŚCIOWEGO
-  // ===========================================================================
-
-  Widget _buildInteractiveElevationChart() {
-    return Stack(
-      children: [
-        // Rysownik profilu
-        GestureDetector(
-          onTapUp: (details) {
-            // Zaznaczenie najbliższego punktu po kliknięciu na wykresie
-            final box = context.findRenderObject() as RenderBox?;
-            if (box == null) return;
-            // Szacunkowa pozycja x
-            final width = box.size.width - 32.0;
-            final double tappedRatio = (details.localPosition.dx / width).clamp(0.0, 1.0);
-            final double tappedKm = tappedRatio * _totalDistanceKm;
-
-            int bestIdx = 0;
-            double bestDiff = double.infinity;
-            for (int i = 0; i < _points.length; i++) {
-              final diff = (_points[i].distanceKm - tappedKm).abs();
-              if (diff < bestDiff) {
-                bestDiff = diff;
-                bestIdx = i;
-              }
-            }
-            setState(() {
-              _selectedPointIndex = bestIdx;
-              _activeTab = 0;
-            });
-          },
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: _ElevationProfileChartPainter(
-              points: _points,
-              selectedIndex: _selectedPointIndex,
-              maxAlt: math.max(600.0, _maxElevationM + 150.0),
-              minAlt: math.max(0.0, _minElevationM - 50.0),
-            ),
-          ),
-        ),
-
-        // Etykieta z instrukcją
-        Positioned(
-          top: 10,
-          left: 14,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black.withAlpha(160),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Text(
-              'Kliknij na węzeł, aby edytować punkt wysokościowy',
-              style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -1543,207 +1487,5 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
         ),
       ],
     );
-  }
-}
-
-// =============================================================================
-// WŁASNY RYSOWNIK PROFILU WYSOKOŚCIOWEGO (CUSTOM PAINTER)
-// =============================================================================
-
-class _ElevationProfileChartPainter extends CustomPainter {
-  final List<StageEditorPoint> points;
-  final int selectedIndex;
-  final double maxAlt;
-  final double minAlt;
-
-  _ElevationProfileChartPainter({
-    required this.points,
-    required this.selectedIndex,
-    required this.maxAlt,
-    required this.minAlt,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (points.isEmpty) return;
-
-    const double padL = 36.0;
-    const double padR = 24.0;
-    const double padT = 28.0;
-    const double padB = 32.0;
-
-    final double chartW = size.width - padL - padR;
-    final double chartH = size.height - padT - padB;
-
-    final double totalKm = points.last.distanceKm > 0 ? points.last.distanceKm : 1.0;
-    final double altSpan = maxAlt > minAlt ? maxAlt - minAlt : 1.0;
-
-    // 1. Rysowanie poziomych linii siatki wysokości
-    final gridPaint = Paint()
-      ..color = AppColors.cardBorder.withAlpha(120)
-      ..strokeWidth = 1.0;
-
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
-
-    const int gridSteps = 4;
-    for (int i = 0; i <= gridSteps; i++) {
-      final double altVal = minAlt + (altSpan * (i / gridSteps));
-      final double y = padT + chartH - (chartH * (i / gridSteps));
-
-      canvas.drawLine(Offset(padL, y), Offset(padL + chartW, y), gridPaint);
-
-      textPainter.text = TextSpan(
-        text: '${altVal.round()}m',
-        style: const TextStyle(fontSize: 9, color: AppColors.textSecondary),
-      );
-      textPainter.layout();
-      textPainter.paint(canvas, Offset(2, y - 6));
-    }
-
-    // 2. Mapowanie punktów trasy do współrzędnych Canvas
-    final List<Offset> chartOffsets = [];
-    for (final p in points) {
-      final double x = padL + (chartW * (p.distanceKm / totalKm));
-      final double y = padT + chartH - (chartH * ((p.elevationMeters - minAlt) / altSpan));
-      chartOffsets.add(Offset(x, y));
-    }
-
-    // 3. Wypełnienie wielokąta profilu gradientem terenu
-    if (chartOffsets.length >= 2) {
-      final fillPath = Path()..moveTo(chartOffsets.first.dx, padT + chartH);
-
-      for (final off in chartOffsets) {
-        fillPath.lineTo(off.dx, off.dy);
-      }
-      fillPath.lineTo(chartOffsets.last.dx, padT + chartH);
-      fillPath.close();
-
-      final fillGradient = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          AppColors.primaryAccent.withAlpha(180),
-          AppColors.surfaceLight.withAlpha(100),
-        ],
-      );
-
-      final fillPaint = Paint()
-        ..shader = fillGradient.createShader(Rect.fromLTWH(padL, padT, chartW, chartH))
-        ..style = PaintingStyle.fill;
-
-      canvas.drawPath(fillPath, fillPaint);
-
-      // Krawędź profilu (szczytowa linia terenu)
-      final linePaint = Paint()
-        ..color = AppColors.goldAccent
-        ..strokeWidth = 2.5
-        ..style = PaintingStyle.stroke;
-
-      final strokePath = Path()..moveTo(chartOffsets.first.dx, chartOffsets.first.dy);
-      for (int i = 1; i < chartOffsets.length; i++) {
-        strokePath.lineTo(chartOffsets[i].dx, chartOffsets[i].dy);
-      }
-      canvas.drawPath(strokePath, linePaint);
-    }
-
-    // 4. Dolny pasek nawierzchni
-    final barY = padT + chartH + 8.0;
-    const barH = 8.0;
-    for (int i = 0; i < points.length - 1; i++) {
-      final off1 = chartOffsets[i];
-      final off2 = chartOffsets[i + 1];
-      final surface = points[i + 1].surfaceType;
-
-      Color surfColor = AppColors.surfaceLight;
-      if (surface == SegmentSurfaceType.gravelStrade) {
-        surfColor = const Color(0xFFD4AF37); // Toskański szuter
-      } else if (surface.name.contains('cobble')) {
-        surfColor = const Color(0xFF8B5A2B); // Bruk
-      } else if (surface == SegmentSurfaceType.smoothAsphalt) {
-        surfColor = const Color(0xFF4A5568);
-      }
-
-      final surfPaint = Paint()..color = surfColor;
-      canvas.drawRect(Rect.fromLTRB(off1.dx, barY, off2.dx, barY + barH), surfPaint);
-    }
-
-    // 5. Rysowanie węzłów i oznaczeń premii
-    for (int i = 0; i < chartOffsets.length; i++) {
-      final off = chartOffsets[i];
-      final pt = points[i];
-      final isSelected = i == selectedIndex;
-
-      // Kropka węzła
-      final nodePaint = Paint()
-        ..color = isSelected ? AppColors.goldAccent : Colors.white
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(off, isSelected ? 6.5 : 4.0, nodePaint);
-
-      final strokeNodePaint = Paint()
-        ..color = Colors.black
-        ..strokeWidth = 1.5
-        ..style = PaintingStyle.stroke;
-      canvas.drawCircle(off, isSelected ? 6.5 : 4.0, strokeNodePaint);
-
-      // Flaga premii górskiej lub sprinterskiej nad punktem
-      if (pt.classification != SegmentClassification.none) {
-        String badge = '';
-        Color badgeColor = Colors.white;
-
-        switch (pt.classification) {
-          case SegmentClassification.horsCategorie:
-            badge = 'HC';
-            badgeColor = Colors.purple;
-            break;
-          case SegmentClassification.cat1:
-            badge = '1';
-            badgeColor = AppColors.crimsonAlert;
-            break;
-          case SegmentClassification.cat2:
-            badge = '2';
-            badgeColor = Colors.orange;
-            break;
-          case SegmentClassification.cat3:
-            badge = '3';
-            badgeColor = Colors.amber;
-            break;
-          case SegmentClassification.cat4:
-            badge = '4';
-            badgeColor = Colors.blue;
-            break;
-          case SegmentClassification.intermediateSprint:
-            badge = 'S';
-            badgeColor = AppColors.statusSuccess;
-            break;
-          case SegmentClassification.finishLine:
-            badge = 'META';
-            badgeColor = Colors.white;
-            break;
-          case SegmentClassification.none:
-            break;
-        }
-
-        if (badge.isNotEmpty) {
-          final flagBg = Paint()..color = badgeColor;
-          final r = Rect.fromCenter(center: Offset(off.dx, off.dy - 16), width: 20, height: 14);
-          canvas.drawRRect(RRect.fromRectAndRadius(r, const Radius.circular(3)), flagBg);
-
-          textPainter.text = TextSpan(
-            text: badge,
-            style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.black),
-          );
-          textPainter.layout();
-          textPainter.paint(canvas, Offset(off.dx - (textPainter.width / 2), off.dy - 22));
-        }
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ElevationProfileChartPainter oldDelegate) {
-    return oldDelegate.points != points ||
-        oldDelegate.selectedIndex != selectedIndex ||
-        oldDelegate.maxAlt != maxAlt ||
-        oldDelegate.minAlt != minAlt;
   }
 }

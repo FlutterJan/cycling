@@ -256,6 +256,7 @@
 - `lib/ui/widgets/custom_carbon_and_glass_containers.dart` — Luksusowe kontenery UI (`CustomCarbonAndGlassContainers`, `CarbonFiberCard` 3K 45°, `GlassmorphicHudPanel` blur 14px + szum, `AnimatedStatBadge` z `TweenAnimationBuilder`).
 - `lib/ui/widgets/cycling_news_feed_widget.dart` — Strumień mediów kolarskich i wpisów kolarzy z licznikami (`CyclingNewsFeedWidget`, `CyclingNewsFilter`, filtry kategorii/ekipy, typy 5★, telemetria NP/W/kg/VAM).
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).
+- `lib/ui/widgets/custom_race_route_elevation_brush.dart` — Pędzel rzeźbienia terenu w Kreatorze Etapów (`CustomRaceRouteElevationBrush`, `ClimbCategoryCalculator`, `ElevationBrushMode`, `DetectedClimbSummary`) z rysowaniem profilu wysokościowego myszą/palcem oraz automatycznym wyliczaniem kategorii podjazdów (Cat 4–HC) i nachylenia %.
 - `lib/ui/widgets/custom_ jersey_painter.dart` — Duplikat historyczny (nie modyfikować bez potrzeby).
 - `lib/ui/widgets/elevation_profile_chart.dart` — Interaktywny profil wysokościowy etapu.
 - `lib/ui/widgets/global_search_spotlight_modal.dart` — Globalna wyszukiwarka Spotlight `Ctrl+K` (`GlobalSearchSpotlightModal`, `SpotlightSearchIndex`, `SpotlightSearchCategory`, `SpotlightSearchItem`, `SpotlightClimbEntry`) dla 800+ kolarzy, 53 drużyn, wyścigów i podjazdów z podglądem i przejściem do profilu.
