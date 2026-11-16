@@ -332,7 +332,7 @@ Zasady działania pętli:
 - [x] **Zadanie #259** (`test/transfer_market_and_clauses_test.dart`): Napisz test `transfer_market_and_clauses_test.dart` sprawdzający licytacje drużyn AI, działanie klauzul kontraktowych, budżet płacowy i brak ujemnych sald w klubach AI.
 - [x] **Zadanie #260** (`test/rendering_3d_culling_and_boids_test.dart`): Napisz test wydajnościowy `rendering_3d_culling_and_boids_test.dart` mierzący czas wykonania 1000 kroków `BoidsPelotonFlockingSolver` i `Scene3dMathProjection` dla 176 kolarzy, wymagając średniego czasu poniżej $2.0\text{ ms}$ na klatkę.
 - [x] **Zadanie #261** (`lib/core/diagnostics/code_map_auto_synchronizer.dart`): Zbuduj narzędzie diagnostyczne sprawdzające, czy wszystkie pliki `.dart` w katalogu `lib/` są poprawnie zarejestrowane w architekturze aplikacji i nie zawierają nieużywanych importów.
-- [ ] **Zadanie #262** (`lib/core/diagnostics/sniper_package_2_audit_runner.dart`): Stwórz skrypt audytowy weryfikujący kompletną integrację Paczki #2 (#213–#262) z resztą gry oraz zero ostrzeżeń w `flutter analyze`.
+- [x] **Zadanie #262** (`lib/core/diagnostics/sniper_package_2_audit_runner.dart`): Stwórz skrypt audytowy weryfikujący kompletną integrację Paczki #2 (#213–#262) z resztą gry oraz zero ostrzeżeń w `flutter analyze`.
 
 ---
 
