@@ -16,6 +16,7 @@ Te reguły obowiązują bezwzględnie przy każdym zadaniu wykonywanym z kolejki
   - czyste typowanie Dart bez zbędnego `dynamic`.
 - **Responsywność i brak przepełnień**: używaj `LayoutBuilder`, `Expanded`/`Flexible`, `SingleChildScrollView` tak, aby uniknąć `RenderFlex overflowed` w rozdzielczościach `390x844` (mobile), `1024x768` (tablet) i `1600x900` (desktop).
 - **Spójność wizualna**: stosuj wyłącznie paletę `AppColors` (`#0F1115`, `#181B22`, `#222630`, `#8E4A49`, `#D4AF37`, `#2A2F3D`), czcionkę `Inter` oraz karty `BorderRadius.circular(16)` z obramowaniem `1px`.
+- **Żelazna zasada testów UI (`testWidgets`)**: W testach widgetów NIGDY nie używaj `pumpAndSettle()` dla widżetów z nieskończonymi animacjami, pulsującymi wskaźnikami lub cyklicznym `Timer`em — używaj `await tester.pump(const Duration(milliseconds: 300))`, zamykaj kontrolery/strumienie w `tester.runAsync` po odmontowaniu widgetu oraz uruchamiaj testy z flagą `flutter test --timeout 30s`.
 
 ## 3. Transakcyjność (Odporność na Limit)
 Po ukończeniu **każdego pojedynczego zadania** z `docs/QUEUE.md` wykonaj obowiązkowo wszystkie 4 kroki w tej kolejności:

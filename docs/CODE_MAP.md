@@ -52,6 +52,7 @@
 ### `lib/` & `lib/core/`
 - `lib/main.dart` — Punkt wejścia aplikacji, `ProviderScope` i konfiguracja motywu/routera.
 - `lib/core/constants/physics_constants.dart` — Stałe fizyczne (grawitacja, gęstość powietrza, opory toczenia).
+- `lib/core/diagnostics/memory_and_stream_leak_guard.dart` — Strażnik pamięci (`MemoryAndStreamLeakGuard`, `LeakAuditReport`, `LeakGuardSnapshot`, `MemoryAndStreamLeakGuardPanel`) monitorujący i czyszczący `Isolate`, `AnimationController` i `StreamSubscription` przy wyjściu z wyścigu 3D do menedżera.
 - `lib/core/localization/app_localizations_pl_en.dart` — Słownik i system lokalizacji PL/EN (`AppLocalizationsPlEn`, `AppLanguage`, `CyclingGlossaryEntry`, `AppLocalizationsScope`, `AppLocalizationsContext`) z pełnym żargonem kolarskim i natychmiastowym przełączaniem przez `appLocalizationsProvider`.
 - `lib/core/router/app_router.dart` — Konfiguracja `GoRouter` i stałych `AppRoutes`.
 - `lib/core/theme/app_colors.dart` — Paleta kolorów gry i stref mocy Z1–Z7.
@@ -312,3 +313,4 @@
 - `test/peloton_drafting_and_echelons_test.dart` — Testy redukcji oporu powietrza w środku peletonu ($35–48\%$) oraz pękania grupy na rantach przy wietrze bocznym $>35\text{ km/h}$ (`DraftingGridSystem`, `EchelonCrosswindEngine`, `AeroCalculator`).
 - `test/career_simulation_full_year_test.dart` — Test integracyjny pełnych 365 dni kariery (`advanceDay()` x 365): brak wyjątków `null`, 12 miesięcznych wypłat pensji (`FinanceAndBudgetService`), okno transferowe i rynek AI (`AiTeamTransferSimulationService`) oraz przejście do nowego sezonu (`SeasonTransitionService`, `CareerStateNotifier`).
 - `test/ui_responsive_layout_overflow_test.dart` — Automatyczny test widgetów weryfikujący brak błędów `RenderFlex overflowed` dla 30 głównych ekranów aplikacji w rozdzielczościach `390x844` (iPhone), `1024x768` (iPad) oraz `1600x900` (Desktop).
+- `test/core/memory_and_stream_leak_guard_test.dart` — Testy jednostkowe i widgetowe `MemoryAndStreamLeakGuard` oraz `MemoryAndStreamLeakGuardPanel` (czyste wyjście 3D, wykrywanie i czyszczenie wycieków `Isolate`/`AnimationController`/`StreamSubscription`, responsywność 390x844 / 1024x768 / 1600x900).
