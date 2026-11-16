@@ -286,6 +286,7 @@
 - `lib/ui/screens/race_hud_overlay.dart` — Warstwa HUD 3D w stylu ASO Broadcast / Zwift (`RaceHudOverlay`, 8 kart kolarzy, Flamme Rouge, `GroupGapsChalkboardWidget`, `OnBikeComputerHudWidget`, `TacticalMinimap2dWidget`, `RiderEffortSliderControl`, `TeamTacticalPresetsBar`, Aero Vision Mode).
 - `lib/ui/screens/race_simulation_screen.dart` — Ekran wyścigu łączący 3D viewport, HUD i kontrolki.
 - `lib/ui/screens/rider_detail_screen.dart` — Szczegółowy profil kolarza i statystyki.
+- `lib/ui/screens/service_course_hq_facility_screen.dart` — Ekran zarządzania infrastrukturą klubu (`ServiceCourseHqFacilityScreen`) z interaktywnym planem 5 działów Service Course, poziomami rozbudowy (Poziom 1–5), kosztami utrzymania i harmonogramem inwestycji.
 - `lib/ui/screens/settings_and_mod_screen.dart` — Ustawienia gry i import modów.
 - `lib/ui/screens/sponsor_pitch_deck_negotiation_modal.dart` — Interaktywne okno negocjacji ze sponsorem tytularnym (`SponsorPitchDeckNegotiationModal`, `TeamBibShortsPainter`, `PitchDeckMediaForecast`, `PitchNegotiationStatus`) z podglądem stroju, Media Value Index, 3 rundami suwaków/celów i wskaźnikiem cierpliwości.
 - `lib/ui/screens/sponsors_and_finance_screen.dart` — Zarządzanie sponsorami i budżetem.
@@ -412,3 +413,4 @@
 - `test/ui/in_game_cycling_encyclopedia_screen_test.dart` — Testy jednostkowe `EncyclopediaPhysicsCalculator` oraz responsywności i przełączania 9 haseł `InGameCyclingEncyclopediaScreen` (390x844 / 1024x768 / 1600x900).
 - `test/ui/tactical_challenges_hub_screen_test.dart` — Testy jednostkowe i responsywne widgetowe `TacticalChallengesHubScreen` (10 scenariuszy, medale, tablica czasów, stan pusty i responsywność 390x844 / 1024x768 / 1600x900).
 - `test/services/team_service_course_hq_upgrades_test.dart` — Testy jednostkowe i responsywne widgetowe `TeamServiceCourseHqUpgrades` oraz `TeamServiceCourseHqPanel` (5 modułów × 5 poziomów, budżet, postęp dni, anulowanie ze zwrotem 50%, JSON, Riverpod i responsywność 390x844 / 1024x768 / 1600x900).
+- `test/ui/service_course_hq_facility_screen_test.dart` — Testy widgetowe i responsywności `ServiceCourseHqFacilityScreen` (5 działów, Poziom 1–5, rozbudowa/anulowanie/symulacja dni, walidacja budżetu oraz 390x844 / 1024x768 / 1600x900).
