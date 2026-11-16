@@ -277,7 +277,7 @@ Zasady działania pętli:
 - [x] **Zadanie #209** (`test/career_simulation_full_year_test.dart`): Napisz test integracyjny `career_simulation_full_year_test.dart` symulujący w tle pełne 365 dni sezonu (`advanceDay()` x 365) i sprawdzający brak wyjątków `null`, poprawność wypłat pensji, transferów AI i przejścia do nowego sezonu.
 - [x] **Zadanie #210** (`test/ui_responsive_layout_overflow_test.dart`): Napisz automatyczny test widgetów `ui_responsive_layout_overflow_test.dart` renderujący wszystkie główne ekrany aplikacji w rozdzielczościach `390x844` (iPhone), `1024x768` (iPad) oraz `1600x900` (Desktop) i weryfikujący zero błędów `RenderFlex overflowed`.
 - [x] **Zadanie #211** (`lib/core/diagnostics/memory_and_stream_leak_guard.dart`): Zbuduj strażnika pamięci `MemoryAndStreamLeakGuard` monitorującego poprawne zamykanie `Isolate`, `AnimationController` i `StreamSubscription` przy wyjściu z wyścigu 3D do widoku menedżera.
-- [ ] **Zadanie #212** (`lib/core/diagnostics/sniper_package_1_audit_runner.dart`): Stwórz skrypt diagnostyczny weryfikujący spójność wszystkich klas z Paczki #1 (#163–#212), czystość `flutter analyze` i kompletność wpisów w `docs/CODE_MAP.md`.
+- [x] **Zadanie #212** (`lib/core/diagnostics/sniper_package_1_audit_runner.dart`): Stwórz skrypt diagnostyczny weryfikujący spójność wszystkich klas z Paczki #1 (#163–#212), czystość `flutter analyze` i kompletność wpisów w `docs/CODE_MAP.md`.
 
 ---
 
