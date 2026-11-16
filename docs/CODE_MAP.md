@@ -72,6 +72,7 @@
 - `lib/models/career/staff_member.dart` — Model personelu (dyrektorzy, mechanicy, lekarze, skauci).
 - `lib/models/equipment/bike_fit_configuration.dart` — Pozycja kolarza na rowerze i wpływ na CdA.
 - `lib/models/equipment/complete_bike.dart` — Złożony rower drużynowy (rama, koła, opony, grupa).
+- `lib/models/equipment/drivetrain_gearing_configuration.dart` — Konfiguracja przełożeń napędu (`DrivetrainGearingConfiguration`, `CranksetChainringOption`, `Cassette12SpeedOption`, `GearCombination`: tarcze 50/34T–58T 1x oraz kasety 12s 11-28T–10-36T).
 - `lib/models/equipment/equipment_wear_and_maintenance.dart` — Zużycie sprzętu i stan wosku/łańcucha.
 - `lib/models/equipment/frame_model.dart` — Model ramy (aero, climbing, TT) i waga/sztywność.
 - `lib/models/equipment/groupset_model.dart` — Model osprzętu / grupy napędowej.
