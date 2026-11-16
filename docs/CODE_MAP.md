@@ -268,6 +268,7 @@
 - `lib/ui/screens/game_start_screen.dart` — Ekran powitalny i ładowanie zapisów.
 - `lib/ui/screens/grand_tour_rest_day_screen.dart` — Dzień przerwy w Wielkim Tourze (Coffee Ride, prasa, fizjo).
 - `lib/ui/screens/hall_of_fame_and_records_screen.dart` — Galeria sław i historyczne rekordy.
+- `lib/ui/screens/in_game_cycling_encyclopedia_screen.dart` — Wbudowana Encyklopedia Taktyki i Fizjologii Kolarskiej (`InGameCyclingEncyclopediaScreen`, `EncyclopediaPhysicsCalculator`, `EncyclopediaEntry`, `EncyclopediaCategory`, `EncyclopediaTopicId`, `ThreeKmRuleScenario`) z interaktywnymi wykresami dla $CdA$, $Crr$, Skiba $W'$, $VLaMax$, $LT_1/LT_2$, VAM, wachlarzy, pociągów sprinterskich i zasady 3 km.
 - `lib/ui/screens/jersey_and_bike_livery_studio_screen.dart` — Studio projektowania koszulek i malowania ram.
 - `lib/ui/screens/main_shell_screen.dart` — Główna nawigacja powłoki kariery (`MainShellScreen`, `MainNavigationSection`, `MainNavigationTab` 4 sekcje / 20 ekranów, TopBar, `CareerInboxView`, `UciRankingsAndLicenseView`, `ManagerProfileAndAchievementsView`).
 - `lib/ui/screens/main_title_menu_screen.dart` — Ekran tytułowy AAA (`MainTitleMenuScreen`, `AnimatedPelotonBackdropPainter`) z animowanym tłem alpejskim 60/120 FPS i szklanym panelem nawigacyjnym.
@@ -404,3 +405,4 @@
 - `test/services/career_almanac_html_report_exporter_test.dart` — Testy jednostkowe i widgetowe `CareerAlmanacHtmlReportExporter` oraz `CareerAlmanacExporterPanel` (eksport `.html`/`.md`, escapowanie, walidacja, zapis na dysk, responsywność 390x844 / 1024x768 / 1600x900).
 - `test/services/gpx_and_tcx_telemetry_exporter_test.dart` — Testy jednostkowe i widgetowe `GpxAndTcxTelemetryExporter` oraz `GpxAndTcxTelemetryExporterPanel` (TCX v2, GPX 1.1, resampling 1 Hz, projekcja WGS84, zapis na dysk, responsywność 390x844 / 1024x768 / 1600x900).
 - `test/ui/photo_mode_3d_camera_studio_overlay_test.dart` — Testy jednostkowe i widgetowe `PhotoMode3dCameraStudioOverlay` (optyka 24–200 mm, Bokeh, filtry kolorystyczne, Free Fly Cam, zapis do galerii oraz responsywność 390x844 / 1024x768 / 1600x900).
+- `test/ui/in_game_cycling_encyclopedia_screen_test.dart` — Testy jednostkowe `EncyclopediaPhysicsCalculator` oraz responsywności i przełączania 9 haseł `InGameCyclingEncyclopediaScreen` (390x844 / 1024x768 / 1600x900).
