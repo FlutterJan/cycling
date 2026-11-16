@@ -102,6 +102,7 @@
 - `lib/engine/peloton/boids_steering_collision_avoidance.dart` — Silnik fizyki ruchu ciągłego 60 FPS bez kolizji (`BoidsSteeringCollisionAvoidance`, `BoidRiderState`, `BoidSteeringVectors`, `BoidsFrameResult`, `OvertakeLaneDirection`: separacja 1.85x0.65m, draft/wachlarz, wyprzedzanie 15m, efekt akordeonu).
 - `lib/engine/peloton/breakaway_ai_controller.dart` — AI ucieczki i współpracy w odjeździe.
 - `lib/engine/peloton/breakaway_vs_peloton_equilibrium_solver.dart` — Solver równowagi ucieczek vs peletonu (`BreakawayVsPelotonEquilibriumSolver`, `BreakawayEquilibriumInput`, `BreakawayEquilibriumResult`, `FinalClimbProfile`, `EquilibriumTerrainProfile`: 8–12% płaskie ze sprinterami, 45–55% pagórkowate, >=1 min/3 km u podnóża finałowego podjazdu w górach).
+- `lib/engine/peloton/domestique_road_blocking_mechanics.dart` — Mechanika blokowania pogoni przez drużynę lidera na wąskich drogach <4.5 m przy 65% FTP (`DomestiqueRoadBlockingMechanics`, `RoadBlockingInput`, `RoadBlockingEvaluationResult`, `RoadBlockingStatus`, `BlockingRiderLateralSlot`).
 - `lib/engine/peloton/drafting_grid_system.dart` — Siatka aerodynamiczna peletonu i oszczędność W.
 - `lib/engine/peloton/echelon_crosswind_engine.dart` — Silnik wiatru bocznego i formowania wachlarzy.
 - `lib/engine/peloton/feeding_and_rain_jacket_mechanics.dart` — Mechanika bidonów, żeli i peleryn przeciwdeszczowych.
