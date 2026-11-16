@@ -176,6 +176,7 @@
 - `lib/services/career/anti_doping_and_whereabouts_service.dart` — Kontrole antydopingowe i paszport biologiczny.
 - `lib/services/career/autosave_and_crash_recovery_guard.dart` — Atomowy zapis transakcyjny (`.tmp` + suma kontrolna `fnv1a64+crc32` + `.bak`) i punkty kontrolne `PreStageCheckpoint` (`AutosaveAndCrashRecoveryGuard`, `AutosaveGuardNotifier`, `SaveRecoveryResult`, `TransactionalSaveReceipt`, `autosaveGuardStateProvider`).
 - `lib/services/career/bike_manufacturer_negotiation_service.dart` — Negocjacje kontraktów z producentami rowerów.
+- `lib/services/career/broken_promises_locker_room_revolt.dart` — System konsekwencji złamanych obietnic lidera na Tour de France (`BrokenPromisesLockerRoomRevolt`, `LockerRoomRevoltEvaluationResult`, `BrokenPromiseConsequenceRecord`, `TransferDemandOrder`, `ExplosivePressInterview`, `BrokenPromisesLockerRoomRevoltPanel`: żądanie transferu, wywiad w prasie, spadek chemii o 30 pkt).
 - `lib/services/career/development_team_u23_service.dart` — Zarządzanie drużyną młodzieżową U23.
 - `lib/services/career/email_inbox_generator_service.dart` — Generator wiadomości w skrzynce menedżera.
 - `lib/services/career/equipment_sponsorship_bidding_engine.dart` — Przetargi i oferty sponsorów sprzętowych.
