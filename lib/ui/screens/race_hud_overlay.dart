@@ -17,6 +17,7 @@ import '../widgets/rider_avatar_painter.dart';
 import '../widgets/rider_effort_slider_control.dart';
 import '../widgets/tactical_minimap_2d_widget.dart';
 import '../widgets/team_tactical_presets_bar.dart';
+import '../widgets/thermoregulation_and_hydration_hud_gauge.dart';
 import 'race_3d_viewport_widget.dart';
 
 /// Profesjonalny interfejs nakładkowy (HUD) łączący oficjalną oprawę telewizyjną
@@ -66,6 +67,26 @@ class _RaceHudOverlayState extends ConsumerState<RaceHudOverlay>
   _BottomConsoleTab _activeConsoleTab = _BottomConsoleTab.ordersAndEffort;
   final Map<String, double> _riderEffortOverrides = {};
   final Map<String, RiderAeroPosition> _riderAeroOverrides = {};
+  final Set<String> _iceSockActiveRiders = {};
+  final Map<String, int> _iceSocksRemainingByRider = {};
+  final Set<String> _jerseyUnzippedRiders = {};
+
+  double _estimateCoreTemperatureCelsius(
+    RiderPositionSnapshot rider, {
+    required double ambientTemperatureCelsius,
+    required bool isIceSockActive,
+    required bool isJerseyUnzipped,
+  }) {
+    final double effortLoad = (rider.wattsPerKg / 6.5).clamp(0.0, 1.35);
+    final double ambientDelta =
+        ((ambientTemperatureCelsius - 18.0) * 0.045).clamp(-0.4, 1.2);
+    final double dehydrationDelta =
+        ((100.0 - rider.hydrationPercent) * 0.012).clamp(0.0, 0.8);
+    final double coolingDelta =
+        (isIceSockActive ? -0.40 : 0.0) + (isJerseyUnzipped ? -0.25 : 0.0);
+    return (37.2 + effortLoad * 1.45 + ambientDelta + dehydrationDelta + coolingDelta)
+        .clamp(36.8, 40.4);
+  }
 
   late final AnimationController _flammePulseController;
 
@@ -1402,6 +1423,61 @@ class _RaceHudOverlayState extends ConsumerState<RaceHudOverlay>
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 6),
+
+          // Wiersz 5: Termoregulacja i nawodnienie (temperatura °C, kropla %, Lód na kark, Rozepnij koszulkę)
+          Builder(
+            builder: (context) {
+              final bool isIceSockActive =
+                  _iceSockActiveRiders.contains(rider.riderId);
+              final int iceSocksRemaining =
+                  _iceSocksRemainingByRider[rider.riderId] ?? 2;
+              final bool isJerseyUnzipped =
+                  _jerseyUnzippedRiders.contains(rider.riderId);
+              final double ambientTemp = ref
+                      .read(raceSimulationProvider)
+                      .simulationState
+                      ?.stage
+                      .baseTemperatureCelsius ??
+                  21.0;
+              final double coreTemp = _estimateCoreTemperatureCelsius(
+                rider,
+                ambientTemperatureCelsius: ambientTemp,
+                isIceSockActive: isIceSockActive,
+                isJerseyUnzipped: isJerseyUnzipped,
+              );
+
+              return ThermoregulationAndHydrationHudGauge(
+                coreTemperatureCelsius: coreTemp,
+                hydrationPercent: rider.hydrationPercent,
+                isIceSockActive: isIceSockActive,
+                iceSocksRemaining: iceSocksRemaining,
+                isJerseyUnzipped: isJerseyUnzipped,
+                isDisabled: rider.isDnf,
+                compact: true,
+                onIceSockPressed: () {
+                  setState(() {
+                    if (isIceSockActive) {
+                      _iceSockActiveRiders.remove(rider.riderId);
+                    } else if (iceSocksRemaining > 0) {
+                      _iceSockActiveRiders.add(rider.riderId);
+                      _iceSocksRemainingByRider[rider.riderId] =
+                          iceSocksRemaining - 1;
+                    }
+                  });
+                },
+                onToggleJerseyZipper: () {
+                  setState(() {
+                    if (isJerseyUnzipped) {
+                      _jerseyUnzippedRiders.remove(rider.riderId);
+                    } else {
+                      _jerseyUnzippedRiders.add(rider.riderId);
+                    }
+                  });
+                },
+              );
+            },
           ),
         ],
       ),
