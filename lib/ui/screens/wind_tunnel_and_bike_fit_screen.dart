@@ -409,84 +409,106 @@ class _WindTunnelAndBikeFitScreenState
         color: AppColors.surface,
         border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Expanded(
-            child: Row(
-              children: [
-                Icon(Icons.air_rounded, color: AppColors.cyanAccent, size: 22),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'STUDIO BIKE FITTINGU & TUNEL AERODYNAMICZNY',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimary,
-                          letterSpacing: 0.8,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 600;
+          const titleRow = Row(
+            children: [
+              Icon(Icons.air_rounded, color: AppColors.cyanAccent, size: 22),
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'STUDIO BIKE FITTINGU & TUNEL AERODYNAMICZNY',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                        letterSpacing: 0.8,
                       ),
-                      Text(
-                        'Cyfrowy tunel aerodynamiczny WorldTour i analiza kinematyki stawów',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.textSecondary),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      'Cyfrowy tunel aerodynamiczny WorldTour i analiza kinematyki stawów',
+                      style: TextStyle(
+                          fontSize: 11, color: AppColors.textSecondary),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
+              ),
+            ],
+          );
+
+          if (isCompact) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                titleRow,
+                const SizedBox(height: 10),
+                _buildRiderSelector(),
               ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          _buildRiderSelector(),
-        ],
+            );
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Expanded(child: titleRow),
+              const SizedBox(width: 12),
+              _buildRiderSelector(),
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildRiderSelector() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppTheme.borderColor),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedRider.id,
-          dropdownColor: AppColors.surface,
-          icon: const Icon(Icons.arrow_drop_down, color: AppColors.cyanAccent),
-          items: _squadRiders.map((rider) {
-            return DropdownMenuItem<String>(
-              value: rider.id,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RiderAvatarWidget(
-                    appearance: rider.appearance,
-                    size: 26,
-                    showHelmet: true,
-                    showGlasses: false,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    rider.fullName,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 340),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceLight,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppTheme.borderColor),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: _selectedRider.id,
+            dropdownColor: AppColors.surface,
+            icon: const Icon(Icons.arrow_drop_down, color: AppColors.cyanAccent),
+            items: _squadRiders.map((rider) {
+              return DropdownMenuItem<String>(
+                value: rider.id,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RiderAvatarWidget(
+                      appearance: rider.appearance,
+                      size: 26,
+                      showHelmet: true,
+                      showGlasses: false,
                     ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        rider.fullName,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
                     '(${rider.specialization.displayName})',
                     style: const TextStyle(
                       color: AppColors.textSecondary,
@@ -512,6 +534,7 @@ class _WindTunnelAndBikeFitScreenState
           },
         ),
       ),
+    ),
     );
   }
 
@@ -640,13 +663,15 @@ class _WindTunnelAndBikeFitScreenState
                   children: [
                     const Icon(Icons.tune_rounded, color: AppColors.cyanAccent, size: 18),
                     const SizedBox(width: 8),
-                    const Text(
-                      'KOMORA TESTOWA TUNELU AERODYNAMICZNEGO',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.textPrimary,
-                        letterSpacing: 0.8,
+                    const Flexible(
+                      child: Text(
+                        'KOMORA TESTOWA TUNELU AERODYNAMICZNEGO',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.textPrimary,
+                          letterSpacing: 0.8,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -1098,13 +1123,15 @@ class _WindTunnelAndBikeFitScreenState
                   Icon(Icons.health_and_safety_rounded,
                       color: AppColors.emeraldGreen, size: 18),
                   SizedBox(width: 8),
-                  Text(
-                    'KOMFORT, ZDROWIE STAWÓW I SPADEK MOCY W GÓRACH',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textPrimary,
-                      letterSpacing: 0.6,
+                  Flexible(
+                    child: Text(
+                      'KOMFORT, ZDROWIE STAWÓW I SPADEK MOCY W GÓRACH',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                        letterSpacing: 0.6,
+                      ),
                     ),
                   ),
                 ],
@@ -1262,18 +1289,18 @@ class _WindTunnelAndBikeFitScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 4,
+          runSpacing: 2,
           children: [
-            Flexible(
-              child: Text(
-                label,
-                style: const TextStyle(
-                    fontSize: 10, color: AppColors.textSecondary),
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              label,
+              style: const TextStyle(
+                  fontSize: 10, color: AppColors.textSecondary),
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(width: 4),
             Text(
               statusText,
               style: TextStyle(
@@ -1305,17 +1332,17 @@ class _WindTunnelAndBikeFitScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 4,
+          runSpacing: 2,
           children: [
-            const Flexible(
-              child: Text(
-                'Kara Mocy w Górach:',
-                style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
-                overflow: TextOverflow.ellipsis,
-              ),
+            const Text(
+              'Kara Mocy w Górach:',
+              style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(width: 4),
             Text(
               hasPenalty
                   ? '-${bio.climbingPowerPenaltyPercent.toStringAsFixed(1)}%'
@@ -1371,13 +1398,15 @@ class _WindTunnelAndBikeFitScreenState
                   Icon(Icons.show_chart_rounded,
                       color: AppColors.cyanAccent, size: 18),
                   SizedBox(width: 8),
-                  Text(
-                    'POLARNA KRZYWA OPORU W TUNELU (CdA vs KĄT YAW)',
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textPrimary,
-                      letterSpacing: 0.6,
+                  Flexible(
+                    child: Text(
+                      'POLARNA KRZYWA OPORU W TUNELU (CdA vs KĄT YAW)',
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                        letterSpacing: 0.6,
+                      ),
                     ),
                   ),
                 ],

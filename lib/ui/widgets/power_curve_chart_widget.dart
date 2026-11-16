@@ -152,8 +152,11 @@ class _PowerCurveChartWidgetState extends State<PowerCurveChartWidget> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         border: Border(bottom: BorderSide(color: Color(0xFF222634))),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8,
+        runSpacing: 8,
         children: [
           // Kolarz A (Główny)
           _buildRiderBadge(
@@ -232,20 +235,25 @@ class _PowerCurveChartWidgetState extends State<PowerCurveChartWidget> {
           ),
         ),
         const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Text(
-                  rider.fullName,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      rider.fullName,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
                   ),
-                ),
                 const SizedBox(width: 6),
                 Text(
                   rider.nationalityIso.toUpperCase(),
@@ -266,6 +274,7 @@ class _PowerCurveChartWidgetState extends State<PowerCurveChartWidget> {
             ),
           ],
         ),
+        ),
       ],
     );
   }
@@ -277,47 +286,49 @@ class _PowerCurveChartWidgetState extends State<PowerCurveChartWidget> {
         color: Color(0xFF161A24),
         border: Border(bottom: BorderSide(color: Color(0xFF222634))),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8,
+        runSpacing: 8,
         children: [
           // Przełącznik widoków (Krzywa / Radar / Tabela)
           if (widget.showTabs)
-            Row(
-              mainAxisSize: MainAxisSize.min,
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
               children: AnalyticsViewMode.values.map((mode) {
                 final isSelected = mode == _viewMode;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: InkWell(
-                    onTap: () => setState(() => _viewMode = mode),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primaryAccent : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: isSelected ? Colors.transparent : Colors.white12,
+                return InkWell(
+                  onTap: () => setState(() => _viewMode = mode),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: isSelected ? AppColors.primaryAccent : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: isSelected ? Colors.transparent : Colors.white12,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          mode.icon,
+                          size: 13,
+                          color: isSelected ? Colors.white : AppColors.textSecondary,
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            mode.icon,
-                            size: 13,
+                        const SizedBox(width: 5),
+                        Text(
+                          mode.label,
+                          style: TextStyle(
                             color: isSelected ? Colors.white : AppColors.textSecondary,
+                            fontSize: 11,
+                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
                           ),
-                          const SizedBox(width: 5),
-                          Text(
-                            mode.label,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : AppColors.textSecondary,
-                              fontSize: 11,
-                              fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 );

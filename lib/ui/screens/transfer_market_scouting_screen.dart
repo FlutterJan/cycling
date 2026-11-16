@@ -176,7 +176,10 @@ class _TransferMarketScoutingScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     const Text(
                       'Rynek Transferowy & Skauting Młodzieżowy',
@@ -187,7 +190,6 @@ class _TransferMarketScoutingScreenState
                         letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
@@ -572,17 +574,20 @@ class _TransferMarketScoutingScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       rider.fullName,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       decoration: BoxDecoration(
@@ -598,8 +603,7 @@ class _TransferMarketScoutingScreenState
                         ),
                       ),
                     ),
-                    if (isPlayerRider) ...[
-                      const SizedBox(width: 6),
+                    if (isPlayerRider)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                         decoration: BoxDecoration(
@@ -615,7 +619,6 @@ class _TransferMarketScoutingScreenState
                           ),
                         ),
                       ),
-                    ],
                   ],
                 ),
                 const SizedBox(height: 3),
@@ -624,14 +627,13 @@ class _TransferMarketScoutingScreenState
                   style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                 ),
                 const SizedBox(height: 6),
-                Row(
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
                   children: [
                     _buildMiniParamPill('W/kg', wKg.toStringAsFixed(2), AppColors.powerZone5),
-                    const SizedBox(width: 6),
                     _buildMiniParamPill('FTP', '${rider.physiology.ftpWatts}W', AppColors.accentBlue),
-                    const SizedBox(width: 6),
                     _buildMiniParamPill('Sprint', '${rider.scoreSprint.round()}', AppColors.powerZone6),
-                    const SizedBox(width: 6),
                     _buildMiniParamPill('Góry', '${rider.scoreClimb.round()}', AppColors.primaryGold),
                   ],
                 ),

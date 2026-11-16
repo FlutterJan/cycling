@@ -922,8 +922,10 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: AppColors.surfaceLight,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Wrap(
+        alignment: WrapAlignment.spaceAround,
+        spacing: 14,
+        runSpacing: 8,
         children: [
           _buildStatPill(Icons.straighten, 'Dystans', '${_totalDistanceKm.toStringAsFixed(1)} km'),
           _buildStatPill(Icons.trending_up, 'Przewyższenie', '+${_totalElevationGainM.round()} m'),
@@ -1039,9 +1041,12 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
                   ? () => setState(() => _selectedPointIndex--)
                   : null,
             ),
-            Text(
-              'Punkt ${_selectedPointIndex + 1} z ${_points.length}: ${point.note.isNotEmpty ? point.note : "Odcinek"}',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            Expanded(
+              child: Text(
+                'Punkt ${_selectedPointIndex + 1} z ${_points.length}: ${point.note.isNotEmpty ? point.note : "Odcinek"}',
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
             ),
             IconButton(
               icon: const Icon(Icons.chevron_right),
@@ -1049,7 +1054,6 @@ class _StageEditorCreatorScreenState extends ConsumerState<StageEditorCreatorScr
                   ? () => setState(() => _selectedPointIndex++)
                   : null,
             ),
-            const Spacer(),
             TextButton.icon(
               icon: const Icon(Icons.add_circle, color: AppColors.goldAccent, size: 18),
               label: const Text('Wstaw po tym', style: TextStyle(color: AppColors.goldAccent, fontSize: 12)),

@@ -132,12 +132,15 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
               ),
             ),
             const SizedBox(width: 8),
-            Text(
-              'Profil Kolarza: ${rider.fullName}',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
+            Expanded(
+              child: Text(
+                'Profil Kolarza: ${rider.fullName}',
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ],
@@ -248,78 +251,85 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
         color: Color(0xFF131722),
         border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Wektorowy awatar kolarza w wysokiej rozdzielczości
-          RiderAvatarWidget(
-            appearance: rider.appearance,
-            team: playerTeam,
-            size: 72,
-            showBorder: true,
-            borderColor: AppColors.goldAccent,
-          ),
-          const SizedBox(width: 16),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth >= 1060;
+          final profileInfo = Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Wektorowy awatar kolarza w wysokiej rozdzielczości
+              RiderAvatarWidget(
+                appearance: rider.appearance,
+                team: playerTeam,
+                size: 72,
+                showBorder: true,
+                borderColor: AppColors.goldAccent,
+              ),
+              const SizedBox(width: 16),
 
-          // Dane personalne i taktyczne
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+              // Dane personalne i taktyczne
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      rider.fullName,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.white12),
-                      ),
-                      child: Text(
-                        rider.countryIso,
-                        style: const TextStyle(
-                          color: AppColors.cyanAccent,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w900,
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          rider.fullName,
+                          style: const TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        _getSpecializationLabel(rider.specialization).toUpperCase(),
-                        style: const TextStyle(
-                          color: AppColors.goldAccent,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w900,
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: Colors.white12),
+                          ),
+                          child: Text(
+                            rider.countryIso,
+                            style: const TextStyle(
+                              color: AppColors.cyanAccent,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            _getSpecializationLabel(rider.specialization).toUpperCase(),
+                            style: const TextStyle(
+                              color: AppColors.goldAccent,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      '${rider.age} lat • Urodzony: ${_formatBirthDate(rider.birthDate)} • Drużyna: ${playerTeam.name}',
-                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
-                    ),
-                    const SizedBox(width: 10),
-                    InkWell(
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          '${rider.age} lat • Urodzony: ${_formatBirthDate(rider.birthDate)} • Drużyna: ${playerTeam.name}',
+                          style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                        ),
+                        InkWell(
                       onTap: () => _showRoleDialog(context, rider, careerController),
                       borderRadius: BorderRadius.circular(4),
                       child: Container(
@@ -347,17 +357,17 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
               ],
             ),
           ),
+        ],
+      );
 
           // Pigułki kluczowych metryk (FTP, W/kg, TSB, Zdrowie)
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          final pills = Wrap(
+            spacing: 10,
+            runSpacing: 8,
             children: [
               _buildHeaderPill('FTP', '${rider.physiology.ftpWatts} W', AppColors.cyanAccent),
-              const SizedBox(width: 10),
               _buildHeaderPill('W/KG', '${wKg.toStringAsFixed(2)} W/kg', AppColors.powerZone3),
-              const SizedBox(width: 10),
               _buildHeaderPill('ŚWIEŻOŚĆ', '${tsb > 0 ? "+" : ""}${tsb.round()} TSB', tsbColor, subtitle: tsbLabel),
-              const SizedBox(width: 10),
               _buildHeaderPill(
                 'ZDROWIE',
                 isInjured ? 'KONTUZJA' : '100% OK',
@@ -365,8 +375,28 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
                 subtitle: isInjured ? '${rider.health.currentInjury!.daysRemaining} dni' : 'Gotowy',
               ),
             ],
-          ),
-        ],
+          );
+
+          if (isWide) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: profileInfo),
+                const SizedBox(width: 16),
+                pills,
+              ],
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              profileInfo,
+              const SizedBox(height: 14),
+              pills,
+            ],
+          );
+        },
       ),
     );
   }
@@ -504,50 +534,55 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
                 color: AppColors.cyanAccent.withValues(alpha: 0.35),
               ),
             ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.cyanAccent.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: AppColors.cyanAccent.withValues(alpha: 0.4),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isCompact = constraints.maxWidth < 520;
+                final headerRow = Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.cyanAccent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.cyanAccent.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.biotech_rounded,
+                        color: AppColors.cyanAccent,
+                        size: 26,
+                      ),
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.biotech_rounded,
-                    color: AppColors.cyanAccent,
-                    size: 26,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'LABORATORIUM WYDOLNOŚCIOWE & ERGOSPIROMETRIA',
-                        style: TextStyle(
-                          color: AppColors.cyanAccent,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.8,
-                        ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'LABORATORIUM WYDOLNOŚCIOWE & ERGOSPIROMETRIA',
+                            style: TextStyle(
+                              color: AppColors.cyanAccent,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            'Krzywa mleczanowa [La], wentylacja płuc VE, progi LT₁ i LT₂ oraz badanie fenotypu metabolicznego (${lab.metabolicPhenotype.displayName}).',
+                            style: const TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'Krzywa mleczanowa [La], wentylacja płuc VE, progi LT₁ i LT₂ oraz badanie fenotypu metabolicznego (${lab.metabolicPhenotype.displayName}).',
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton.icon(
+                    ),
+                  ],
+                );
+                final actionButton = ElevatedButton.icon(
                   onPressed: () => context.goToPhysiologyLab(riderId: rider.id),
                   icon: const Icon(Icons.show_chart_rounded, size: 16),
                   label: const Text('Otwórz Laboratorium'),
@@ -566,8 +601,25 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-              ],
+                );
+                if (isCompact) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      headerRow,
+                      const SizedBox(height: 12),
+                      actionButton,
+                    ],
+                  );
+                }
+                return Row(
+                  children: [
+                    Expanded(child: headerRow),
+                    const SizedBox(width: 16),
+                    actionButton,
+                  ],
+                );
+              },
             ),
           ),
           const SizedBox(height: 20),

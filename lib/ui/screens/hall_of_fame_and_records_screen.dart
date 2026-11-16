@@ -182,19 +182,22 @@ class _HallOfFameAndRecordsScreenState extends State<HallOfFameAndRecordsScreen>
             ),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Gablota Trofeów & Palmarès',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Gablota Trofeów & Palmarès',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
-              ),
               Text(
                 'Historia kolarstwa, rekordy przełęczy i Panteon Legend',
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,
                   color: AppColors.textSecondary.withValues(alpha: 0.8),
@@ -202,6 +205,7 @@ class _HallOfFameAndRecordsScreenState extends State<HallOfFameAndRecordsScreen>
               ),
             ],
           ),
+        ),
         ],
       ),
       bottom: TabBar(
@@ -317,20 +321,26 @@ class _HallOfFameAndRecordsScreenState extends State<HallOfFameAndRecordsScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
               const Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.workspace_premium, color: AppColors.goldAccent, size: 28),
                   SizedBox(width: 8),
-                  Text(
-                    'ZŁOTA SALA SŁAWY (TROPHY ROOM)',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.2,
-                      color: AppColors.goldAccent,
+                  Flexible(
+                    child: Text(
+                      'ZŁOTA SALA SŁAWY (TROPHY ROOM)',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.2,
+                        color: AppColors.goldAccent,
+                      ),
                     ),
                   ),
                 ],

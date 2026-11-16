@@ -978,12 +978,15 @@ class _MedicalAndRecoveryCenterScreenState
               fontSize: 11.5,
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              color: color,
-              fontWeight: FontWeight.w700,
-              fontSize: 12,
+          Flexible(
+            child: Text(
+              value,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.w700,
+                fontSize: 12,
+              ),
             ),
           ),
         ],
@@ -1244,53 +1247,63 @@ class _MedicalAndRecoveryCenterScreenState
                 ),
                 // Injury or Fit-to-Race badge
                 if (isInjured)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: AppColors.crimsonAlert.withValues(alpha: 0.18),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.crimsonAlert),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.warning_amber_rounded,
-                            size: 14, color: AppColors.crimsonAlert),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${injury.name} (${injury.daysRemaining}d)',
-                          style: const TextStyle(
-                            color: AppColors.crimsonAlert,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11,
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: AppColors.crimsonAlert.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.crimsonAlert),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.warning_amber_rounded,
+                              size: 14, color: AppColors.crimsonAlert),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              '${injury.name} (${injury.daysRemaining}d)',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: AppColors.crimsonAlert,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 11,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 else
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: AppColors.statusSuccess.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.statusSuccess.withValues(alpha: 0.5)),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.check_circle_outline,
-                            size: 14, color: AppColors.statusSuccess),
-                        SizedBox(width: 6),
-                        Text(
-                          'Zdolny do rywalizacji',
-                          style: TextStyle(
-                            color: AppColors.statusSuccess,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11,
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: AppColors.statusSuccess.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.statusSuccess.withValues(alpha: 0.5)),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.check_circle_outline,
+                              size: 14, color: AppColors.statusSuccess),
+                          SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              'Zdolny do rywalizacji',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppColors.statusSuccess,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 11,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
               ],
@@ -1383,8 +1396,10 @@ class _MedicalAndRecoveryCenterScreenState
             const SizedBox(height: 14),
 
             // Bottom Actions Bar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 10,
+              runSpacing: 8,
               children: [
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
@@ -1396,7 +1411,6 @@ class _MedicalAndRecoveryCenterScreenState
                   label: const Text('Badanie Krwi', style: TextStyle(fontSize: 12)),
                   onPressed: () => _conductBloodTestForRider(profile),
                 ),
-                const SizedBox(width: 10),
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textPrimary,

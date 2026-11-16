@@ -153,17 +153,24 @@ class BikePreviewWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppTheme.borderColor),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 8,
+        runSpacing: 4,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                frame.name,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  frame.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -185,6 +192,7 @@ class BikePreviewWidget extends StatelessWidget {
             ],
           ),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 '${bike.totalWeightKg.toStringAsFixed(2)} kg',

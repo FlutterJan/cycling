@@ -255,68 +255,75 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
         color: AppColors.surface,
         border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(9),
-            decoration: BoxDecoration(
-              color: AppColors.goldAccent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.goldAccent.withValues(alpha: 0.3)),
-            ),
-            child: const Icon(Icons.fitness_center_rounded, color: AppColors.goldAccent, size: 22),
-          ),
-          const SizedBox(width: 12),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 860;
+          final titleRow = Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(9),
+                decoration: BoxDecoration(
+                  color: AppColors.goldAccent.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.goldAccent.withValues(alpha: 0.3)),
+                ),
+                child: const Icon(Icons.fitness_center_rounded, color: AppColors.goldAccent, size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      playerTeam.name.toUpperCase(),
-                      style: const TextStyle(
-                        color: AppColors.goldAccent,
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text(
-                        'PERIODYZACJA & PMC',
-                        style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          playerTeam.name.toUpperCase(),
+                          style: const TextStyle(
+                            color: AppColors.goldAccent,
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.0,
+                          ),
                         ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceLight,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            'PERIODYZACJA & PMC',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Centrum Przygotowania Fizycznego & Bazy Hipoksyjne',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
-                const Text(
-                  'Centrum Przygotowania Fizycznego & Bazy Hipoksyjne',
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            ],
+          );
 
-          // Pigułki statystyk
-          Wrap(
+          final pills = Wrap(
             spacing: 10,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               _buildHeaderMetricPill(
                 icon: Icons.sports_rounded,
@@ -361,8 +368,27 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
                 ),
               ),
             ],
-          ),
-        ],
+          );
+
+          if (isCompact) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleRow,
+                const SizedBox(height: 10),
+                pills,
+              ],
+            );
+          }
+
+          return Row(
+            children: [
+              Expanded(child: titleRow),
+              const SizedBox(width: 12),
+              pills,
+            ],
+          );
+        },
       ),
     );
   }
@@ -423,26 +449,29 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
         color: Color(0xFF141722),
         border: Border(bottom: BorderSide(color: AppTheme.borderColor)),
       ),
-      child: Row(
-        children: [
-          _buildNavPill(
-            index: 0,
-            icon: Icons.show_chart_rounded,
-            title: 'Wykres PMC (TrainingPeaks)',
-          ),
-          const SizedBox(width: 8),
-          _buildNavPill(
-            index: 1,
-            icon: Icons.terrain_rounded,
-            title: 'Planer Obozów Wysokogórskich',
-          ),
-          const SizedBox(width: 8),
-          _buildNavPill(
-            index: 2,
-            icon: Icons.track_changes_rounded,
-            title: 'Periodyzacja & Cel Sezonu (Szczyt TSB)',
-          ),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildNavPill(
+              index: 0,
+              icon: Icons.show_chart_rounded,
+              title: 'Wykres PMC (TrainingPeaks)',
+            ),
+            const SizedBox(width: 8),
+            _buildNavPill(
+              index: 1,
+              icon: Icons.terrain_rounded,
+              title: 'Planer Obozów Wysokogórskich',
+            ),
+            const SizedBox(width: 8),
+            _buildNavPill(
+              index: 2,
+              icon: Icons.track_changes_rounded,
+              title: 'Periodyzacja & Cel Sezonu (Szczyt TSB)',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -556,8 +585,11 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Nagłówek wykresu i legenda TrainingPeaks
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 12,
+                  runSpacing: 8,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -580,7 +612,9 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
                     ),
 
                     // Przełączniki widoku krzywych
-                    Row(
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
                       children: [
                         _buildPmcFilterChip('Wszystkie', 'all'),
                         const SizedBox(width: 4),
@@ -671,13 +705,16 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
           children: [
             Icon(Icons.groups_rounded, size: 14, color: AppColors.goldAccent),
             SizedBox(width: 6),
-            Text(
-              'WYBIERZ KOLARZA DO ANALIZY PMC',
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0.8,
+            Flexible(
+              child: Text(
+                'WYBIERZ KOLARZA DO ANALIZY PMC',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.8,
+                ),
               ),
             ),
           ],
@@ -820,7 +857,10 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       selectedRider.fullName,
@@ -830,7 +870,6 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
@@ -857,7 +896,9 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
                 const SizedBox(height: 8),
 
                 // 4 klocki telemetryczne
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     _buildPmcMetricTile(
                       label: 'CTL (Baza / Fitness)',
@@ -865,21 +906,18 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
                       color: _ctlColor,
                       subtext: 'Wykładnicza 42 dni',
                     ),
-                    const SizedBox(width: 8),
                     _buildPmcMetricTile(
                       label: 'ATL (Zmęczenie)',
                       value: currentAtl.toStringAsFixed(1),
                       color: _atlColor,
                       subtext: 'Wykładnicza 7 dni',
                     ),
-                    const SizedBox(width: 8),
                     _buildPmcMetricTile(
                       label: 'TSB (Świeżość / Forma)',
                       value: '${currentTsb >= 0 ? "+" : ""}${currentTsb.toStringAsFixed(1)}',
                       color: _tsbColor,
                       subtext: 'CTL minus ATL',
                     ),
-                    const SizedBox(width: 8),
                     _buildPmcMetricTile(
                       label: 'Współczynnik mocy',
                       value: '${(supercompFactor * 100).toStringAsFixed(1)}%',
@@ -929,32 +967,30 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
     required Color color,
     required String subtext,
   }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceLight,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.white10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: const TextStyle(color: AppColors.textSecondary, fontSize: 9.5, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 1),
-            Text(
-              value,
-              style: TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w900),
-            ),
-            Text(
-              subtext,
-              style: const TextStyle(color: AppColors.textSecondary, fontSize: 8.5),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 9.5, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 1),
+          Text(
+            value,
+            style: TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w900),
+          ),
+          Text(
+            subtext,
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 8.5),
+          ),
+        ],
       ),
     );
   }
@@ -999,9 +1035,12 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
           ),
         ),
         const SizedBox(width: 6),
-        Text(
-          label,
-          style: const TextStyle(color: AppColors.textSecondary, fontSize: 10.5, fontWeight: FontWeight.w600),
+        Flexible(
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 10.5, fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );
@@ -1318,13 +1357,15 @@ class _TrainingAndCampsScreenState extends ConsumerState<TrainingAndCampsScreen>
             children: [
               Icon(Icons.psychology_alt_rounded, size: 16, color: AppColors.goldAccent),
               SizedBox(width: 8),
-              Text(
-                'DIAGNOZA FIZJOLOGICZNA DS & PRAWO SUPERKOMPENSACJI',
-                style: TextStyle(
-                  color: AppColors.goldAccent,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0.8,
+              Expanded(
+                child: Text(
+                  'DIAGNOZA FIZJOLOGICZNA DS & PRAWO SUPERKOMPENSACJI',
+                  style: TextStyle(
+                    color: AppColors.goldAccent,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.8,
+                  ),
                 ),
               ),
             ],

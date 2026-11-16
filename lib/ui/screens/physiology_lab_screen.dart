@@ -544,9 +544,10 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
+            Wrap(
+              spacing: 6,
+              runSpacing: 2,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   value,
@@ -556,9 +557,9 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(width: 6),
                 Text(
                   subValue,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: accentColor,
                     fontSize: 12,
@@ -599,13 +600,18 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Pasek narzędziowy wykresu (nagłówek, przełączniki serii, jednostki W vs W/kg)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 10,
+            runSpacing: 8,
             children: [
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 6,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   const Icon(Icons.show_chart_rounded, color: AppColors.goldAccent, size: 20),
-                  const SizedBox(width: 8),
                   const Text(
                     'Krzywa Kinetyki Kwasu Mlekowego & Tętna',
                     style: TextStyle(
@@ -614,15 +620,16 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 12),
                   // Pigułka LT1
                   _buildLegendPill('LT₁ ~1.8 mmol/l', AppColors.powerZone2),
-                  const SizedBox(width: 6),
                   // Pigułka LT2 / OBLA
                   _buildLegendPill('LT₂ / OBLA 4.0 mmol/l', AppColors.powerZone4),
                 ],
               ),
-              Row(
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   // Przełącznik W vs W/kg
                   Container(
@@ -639,7 +646,6 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
                   // Przełącznik nałożenia poprzedniego badania
                   FilterChip(
                     label: const Text('Porównanie z bazą'),
@@ -660,17 +666,16 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
           const SizedBox(height: 12),
 
           // Pasek wyboru aktywnych serii (Mleczan, Tętno, Wentylacja, VO2)
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
               _buildSeriesFilterChip('Mleczan [La] (mmol/l)', AppColors.goldAccent, _showLactateSeries,
                   (val) => setState(() => _showLactateSeries = val)),
-              const SizedBox(width: 8),
               _buildSeriesFilterChip('Tętno HR (bpm)', AppColors.crimsonAlert, _showHeartRateSeries,
                   (val) => setState(() => _showHeartRateSeries = val)),
-              const SizedBox(width: 8),
               _buildSeriesFilterChip('Wentylacja VE (l/min)', AppColors.cyanAccent, _showVentilationSeries,
                   (val) => setState(() => _showVentilationSeries = val)),
-              const SizedBox(width: 8),
               _buildSeriesFilterChip('Pobór VO₂ (ml/kg/min)', AppColors.emeraldGreen, _showVo2Series,
                   (val) => setState(() => _showVo2Series = val)),
             ],
@@ -871,25 +876,35 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Wybór okresu historycznego do porównania
-        Row(
+        Wrap(
+          spacing: 10,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            const Icon(Icons.history_rounded, color: AppColors.cyanAccent, size: 18),
-            const SizedBox(width: 8),
-            const Text(
-              'Okres Odniesienia:',
-              style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+            const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.history_rounded, color: AppColors.cyanAccent, size: 18),
+                SizedBox(width: 8),
+                Text(
+                  'Okres Odniesienia:',
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.borderColor),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _selectedComparisonPeriod,
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 320),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.borderColor),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _selectedComparisonPeriod,
                   dropdownColor: AppColors.surface,
                   style: const TextStyle(color: AppColors.cyanAccent, fontSize: 12, fontWeight: FontWeight.w600),
                   items: const [
@@ -913,6 +928,7 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                   },
                 ),
               ),
+            ),
             ),
           ],
         ),
@@ -947,14 +963,17 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                     size: 22,
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    trend.verdict.displayName,
-                    style: TextStyle(
-                      color: trend.isTrainingGoingInRightDirection
-                          ? AppColors.emeraldGreen
-                          : AppColors.crimsonAlert,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      trend.verdict.displayName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: trend.isTrainingGoingInRightDirection
+                            ? AppColors.emeraldGreen
+                            : AppColors.crimsonAlert,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -1048,12 +1067,14 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                 children: [
                   Icon(Icons.assignment_turned_in_rounded, color: AppColors.goldAccent, size: 18),
                   SizedBox(width: 8),
-                  Text(
-                    'Zalecenia Sztabu Szkoleniowego i Fizjologii',
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      'Zalecenia Sztabu Szkoleniowego i Fizjologii',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -1121,7 +1142,11 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
               ),
             ),
             const SizedBox(height: 4),
-            Row(
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
+              runSpacing: 2,
               children: [
                 Text(
                   'Baza: $prevVal',
@@ -1130,7 +1155,6 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
                     fontSize: 10,
                   ),
                 ),
-                const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                   decoration: BoxDecoration(

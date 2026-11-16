@@ -382,69 +382,76 @@ class _BikeGarageRndScreenState extends ConsumerState<BikeGarageRndScreen>
         color: AppColors.cardDark,
         border: Border(bottom: BorderSide(color: AppColors.cardBorder, width: 1)),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.accentBlue.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.accentBlue.withValues(alpha: 0.3)),
-            ),
-            child: const Icon(
-              Icons.precision_manufacturing_rounded,
-              color: AppColors.accentBlue,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 600;
+          final titleRow = Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.accentBlue.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.accentBlue.withValues(alpha: 0.3)),
+                ),
+                child: const Icon(
+                  Icons.precision_manufacturing_rounded,
+                  color: AppColors.accentBlue,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Garaż, Warsztat Sprzętowy & R&D',
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryGold.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: AppColors.primaryGold.withValues(alpha: 0.4)),
-                      ),
-                      child: Text(
-                        manufacturerName,
-                        style: const TextStyle(
-                          color: AppColors.primaryGold,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        const Text(
+                          'Garaż, Warsztat Sprzętowy & R&D',
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.3,
+                          ),
                         ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryGold.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: AppColors.primaryGold.withValues(alpha: 0.4)),
+                          ),
+                          child: Text(
+                            manufacturerName,
+                            style: const TextStyle(
+                              color: AppColors.primaryGold,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      '$teamName • Budżet operacyjny: €${_formatCurrency(budgetEur)}',
+                      style: const TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 12,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 3),
-                Text(
-                  '$teamName • Budżet operacyjny: €${_formatCurrency(budgetEur)}',
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          ElevatedButton.icon(
+              ),
+            ],
+          );
+
+          final actionButton = ElevatedButton.icon(
             onPressed: () => _openMechanicWorkshopModal(context),
             icon: const Icon(Icons.home_repair_service_rounded, size: 16),
             label: const Text('SERWIS & CIŚNIENIE'),
@@ -455,8 +462,27 @@ class _BikeGarageRndScreenState extends ConsumerState<BikeGarageRndScreen>
               textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-          ),
-        ],
+          );
+
+          if (isCompact) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                titleRow,
+                const SizedBox(height: 10),
+                actionButton,
+              ],
+            );
+          }
+
+          return Row(
+            children: [
+              Expanded(child: titleRow),
+              const SizedBox(width: 12),
+              actionButton,
+            ],
+          );
+        },
       ),
     );
   }
@@ -491,6 +517,8 @@ class _BikeGarageRndScreenState extends ConsumerState<BikeGarageRndScreen>
       color: AppColors.cardSurface,
       child: TabBar(
         controller: _mainTabController,
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
         indicatorColor: AppColors.accentBlue,
         indicatorWeight: 3,
         labelColor: AppColors.accentBlue,

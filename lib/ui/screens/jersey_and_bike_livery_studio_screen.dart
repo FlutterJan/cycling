@@ -611,6 +611,7 @@ class _JerseyAndBikeLiveryStudioScreenState
         const Text('Paski Mistrza Świata / Kraju:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
         const SizedBox(height: 8),
         DropdownButtonFormField<ChampionBandsType>(
+          isExpanded: true,
           initialValue: _config.championBands,
           decoration: const InputDecoration(border: OutlineInputBorder(), isDense: true),
           items: ChampionBandsType.values.map((b) {

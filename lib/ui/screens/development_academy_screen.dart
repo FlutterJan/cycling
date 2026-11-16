@@ -853,12 +853,15 @@ class _DevelopmentAcademyScreenState
                     children: [
                       Row(
                         children: [
-                          Text(
-                            r.fullName,
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
-                              fontSize: 13.5,
-                              fontWeight: FontWeight.w800,
+                          Flexible(
+                            child: Text(
+                              r.fullName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: AppColors.textPrimary,
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -898,17 +901,17 @@ class _DevelopmentAcademyScreenState
             ),
             const SizedBox(height: 10),
             // Wskaźniki parametrów fizjologicznych i wypalenia
-            Row(
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 _buildMetricMiniPill('VO₂max', '${r.physiology.vo2Max.toStringAsFixed(1)} ml'),
-                const SizedBox(width: 6),
                 _buildMetricMiniPill(
                   'VLaMax',
                   (r.physiology.labProfile?.vlaMaxMmolLPerSec ?? 0.50).toStringAsFixed(2),
                 ),
-                const SizedBox(width: 6),
                 _buildMetricMiniPill('Dni ścig.', '${profile.raceDaysThisSeason} d.'),
-                const Spacer(),
                 // Wskaźnik burnoutu
                 Row(
                   mainAxisSize: MainAxisSize.min,

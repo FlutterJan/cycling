@@ -285,14 +285,16 @@ class _SquadRosterScreenState extends ConsumerState<SquadRosterScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Górny wiersz paska: Wyszukiwarka, Dropdown Sortowania i Przełącznik Widoku
-          Row(
+          Wrap(
+            spacing: 10,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               // Pole wyszukiwania
-              Expanded(
-                flex: isDesktop ? 4 : 5,
-                child: SizedBox(
-                  height: 38,
-                  child: TextField(
+              SizedBox(
+                width: isDesktop ? 320 : 240,
+                height: 38,
+                child: TextField(
                     style: const TextStyle(fontSize: 12, color: AppColors.textPrimary),
                     decoration: InputDecoration(
                       hintText: 'Szukaj kolarza po nazwisku, kraju lub roli...',
@@ -319,27 +321,29 @@ class _SquadRosterScreenState extends ConsumerState<SquadRosterScreen> {
                     onChanged: (val) => setState(() => _searchQuery = val),
                   ),
                 ),
-              ),
-              const SizedBox(width: 12),
 
               // Dropdown sortowania
-              Container(
-                height: 38,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppTheme.borderColor),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.sort_rounded, size: 15, color: AppColors.goldAccent),
-                    const SizedBox(width: 6),
-                    const Text('Sortuj: ', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton<RosterSortCriteria>(
-                        value: _sortCriteria,
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 340),
+                child: Container(
+                  height: 38,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceLight,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppTheme.borderColor),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.sort_rounded, size: 15, color: AppColors.goldAccent),
+                      const SizedBox(width: 6),
+                      const Text('Sortuj: ', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                      Flexible(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<RosterSortCriteria>(
+                            isExpanded: true,
+                            value: _sortCriteria,
                         dropdownColor: AppColors.surfaceLight,
                         icon: const Icon(Icons.arrow_drop_down, color: AppColors.goldAccent, size: 18),
                         style: const TextStyle(
@@ -367,8 +371,10 @@ class _SquadRosterScreenState extends ConsumerState<SquadRosterScreen> {
                         },
                       ),
                     ),
+                    ),
                   ],
                 ),
+              ),
               ),
               const SizedBox(width: 8),
 
@@ -846,16 +852,22 @@ class _SquadRosterScreenState extends ConsumerState<SquadRosterScreen> {
           const SizedBox(height: 10),
 
           // Stan zdrowia i kontrakt
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               if (isInjured)
-                Text(
-                  '⚠️ ${rider.health.currentInjury!.name} (${rider.health.recoveryDaysRemaining} dni)',
-                  style: const TextStyle(color: AppColors.powerZone6, fontSize: 10.5, fontWeight: FontWeight.w800),
+                Flexible(
+                  child: Text(
+                    '⚠️ ${rider.health.currentInjury!.name} (${rider.health.recoveryDaysRemaining} dni)',
+                    style: const TextStyle(color: AppColors.powerZone6, fontSize: 10.5, fontWeight: FontWeight.w800),
+                  ),
                 )
               else
                 const Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.check_circle_outline, size: 12, color: AppColors.powerZone3),
                     SizedBox(width: 4),

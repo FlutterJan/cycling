@@ -444,10 +444,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
               const Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.groups_rounded,
@@ -455,12 +459,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen>
                     size: 20,
                   ),
                   SizedBox(width: 8),
-                  Text(
-                    'Podsumowanie Kadr Sztabu',
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                  Flexible(
+                    child: Text(
+                      'Podsumowanie Kadr Sztabu',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ],
@@ -858,8 +864,10 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen>
                 ],
                 const SizedBox(height: 14),
                 // Przyciski akcji (Przedłuż kontrakt / Zwolnij)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Wrap(
+                  alignment: WrapAlignment.end,
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
@@ -874,7 +882,6 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen>
                       icon: const Icon(Icons.person_remove_rounded, size: 16),
                       label: const Text('Zwolnij', style: TextStyle(fontSize: 12)),
                     ),
-                    const SizedBox(width: 8),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.cyanAccent,

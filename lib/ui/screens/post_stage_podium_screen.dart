@@ -171,7 +171,10 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 2,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -189,9 +192,9 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
               Text(
                 'Etap #${report.stageNumber}',
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 12,
@@ -731,7 +734,10 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 2,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       result.riderName,
@@ -743,8 +749,7 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (isPlayerRider) ...[
-                      const SizedBox(width: 6),
+                    if (isPlayerRider)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                         decoration: BoxDecoration(
@@ -756,9 +761,7 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
                           style: TextStyle(color: Colors.black, fontSize: 8, fontWeight: FontWeight.w900),
                         ),
                       ),
-                    ],
-                    if (result.isThreeKmRuleApplied) ...[
-                      const SizedBox(width: 4),
+                    if (result.isThreeKmRuleApplied)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                         decoration: BoxDecoration(
@@ -770,7 +773,6 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
                           style: TextStyle(color: AppColors.cyanAccent, fontSize: 8, fontWeight: FontWeight.w800),
                         ),
                       ),
-                    ],
                   ],
                 ),
                 Text(

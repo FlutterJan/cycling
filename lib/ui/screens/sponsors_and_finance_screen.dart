@@ -143,7 +143,10 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       team.name,
@@ -154,7 +157,6 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
                         letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
@@ -328,8 +330,11 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
           // Pasek tytułowy koszulki
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 4,
               children: [
                 const Text(
                   'OFICJALNA KOSZULKA ZESPOŁU',
@@ -453,14 +458,18 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Zaufanie Zarządów Sponsorów',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
+              const Expanded(
+                child: Text(
+                  'Zaufanie Zarządów Sponsorów',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
               Text(
                 '${avgSatisfaction.toStringAsFixed(1)}%',
                 style: TextStyle(
@@ -562,20 +571,20 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Flexible(
-                          child: Text(
-                            sponsor.companyName,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                            ),
+                        Text(
+                          sponsor.companyName,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
@@ -623,21 +632,29 @@ class _SponsorsAndFinanceScreenState extends ConsumerState<SponsorsAndFinanceScr
           const SizedBox(height: 14),
 
           // Pasek zadowolenia
-          Row(
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
-              const Text(
-                'Zadowolenie zarządu: ',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Zadowolenie zarządu: ',
+                    style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                  ),
+                  Text(
+                    '${sponsor.sponsorSatisfaction.toStringAsFixed(1)}%',
+                    style: TextStyle(
+                      color: satisfactionColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                '${sponsor.sponsorSatisfaction.toStringAsFixed(1)}%',
-                style: TextStyle(
-                  color: satisfactionColor,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 11,
-                ),
-              ),
-              const Spacer(),
               Text(
                 'Cele: ${sponsor.completedObjectivesCount}/${sponsor.totalObjectivesCount} zaliczonych',
                 style: const TextStyle(color: AppColors.textMuted, fontSize: 11),

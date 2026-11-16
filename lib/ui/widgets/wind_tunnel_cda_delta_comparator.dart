@@ -868,14 +868,17 @@ class _WindTunnelCdaDeltaComparatorState
                   color: AppColors.textSecondary,
                 ),
                 const SizedBox(width: 6),
-                const Text(
-                  'ROZBICIE ZMIAN NA KOMPONENTY',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textSecondary,
-                    letterSpacing: 0.5,
+                const Expanded(
+                  child: Text(
+                    'ROZBICIE ZMIAN NA KOMPONENTY',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textSecondary,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ],

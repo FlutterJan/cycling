@@ -330,13 +330,16 @@ class _CalendarAndRacePlannerScreenState
               color: selected ? AppColors.goldAccent : AppColors.textSecondary,
             ),
             const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                color: selected ? AppColors.goldAccent : AppColors.textPrimary,
-                fontSize: 12.5,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  color: selected ? AppColors.goldAccent : AppColors.textPrimary,
+                  fontSize: 12.5,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -410,7 +413,10 @@ class _CalendarAndRacePlannerScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           '$divisionTitle • OFICJALNY KALENDARZ UCI',
@@ -421,7 +427,6 @@ class _CalendarAndRacePlannerScreenState
                             letterSpacing: 1.2,
                           ),
                         ),
-                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
@@ -598,20 +603,26 @@ class _CalendarAndRacePlannerScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 8,
+          runSpacing: 6,
           children: [
             const Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(Icons.calendar_today_rounded, size: 14, color: AppColors.goldAccent),
                 SizedBox(width: 6),
-                Text(
-                  'MIESIĄCE SEZONU SZOSOWEGO',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.8,
+                Flexible(
+                  child: Text(
+                    'MIESIĄCE SEZONU SZOSOWEGO',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                    ),
                   ),
                 ),
               ],
@@ -945,7 +956,10 @@ class _CalendarAndRacePlannerScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Kategoria i organizator
-                      Row(
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -954,13 +968,15 @@ class _CalendarAndRacePlannerScreenState
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(color: categoryColor.withValues(alpha: 0.3)),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                            child: Wrap(
+                              spacing: 4,
+                              runSpacing: 2,
+                              crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
                                 Icon(categoryMeta.icon, size: 10, color: categoryColor),
-                                const SizedBox(width: 4),
                                 Text(
                                   categoryMeta.title.toUpperCase(),
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: categoryColor,
                                     fontSize: 9,
@@ -1058,28 +1074,30 @@ class _CalendarAndRacePlannerScreenState
               ),
               border: Border(top: BorderSide(color: AppTheme.borderColor)),
             ),
-            child: Row(
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10,
+              runSpacing: 8,
               children: [
                 // Podgląd składu (jeśli drużyna zarejestrowana)
-                Expanded(
-                  child: isPlayerRegistered
-                      ? _buildSquadPreviewPill(
-                          race: race,
-                          save: save,
-                          hasPlannedSquad: hasPlannedSquad,
-                          plannedSquad: plannedSquad,
-                        )
-                      : Text(
-                          status == WildcardStatus.eligibleToApply
-                              ? 'Wymaga zaproszenia od organizatora (${organizer.name})'
-                              : 'Brak zgłoszenia drużyny',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                          ),
+                isPlayerRegistered
+                    ? _buildSquadPreviewPill(
+                        race: race,
+                        save: save,
+                        hasPlannedSquad: hasPlannedSquad,
+                        plannedSquad: plannedSquad,
+                      )
+                    : Text(
+                        status == WildcardStatus.eligibleToApply
+                            ? 'Wymaga zaproszenia od organizatora (${organizer.name})'
+                            : 'Brak zgłoszenia drużyny',
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
                         ),
-                ),
+                      ),
 
                 // Przyciski akcji
                 _buildRaceCardActions(
@@ -1292,7 +1310,10 @@ class _CalendarAndRacePlannerScreenState
     final requiredCount = race.ridersPerTeam;
 
     if (!hasPlannedSquad || plannedSquad.allRiderIds.isEmpty) {
-      return Row(
+      return Wrap(
+        spacing: 6,
+        runSpacing: 4,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
@@ -1317,7 +1338,6 @@ class _CalendarAndRacePlannerScreenState
               ],
             ),
           ),
-          const SizedBox(width: 6),
           Text(
             '(wymagane $requiredCount kolarzy)',
             style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
@@ -1333,7 +1353,10 @@ class _CalendarAndRacePlannerScreenState
       orElse: () => save.playerRoster.first,
     );
 
-    return Row(
+    return Wrap(
+      spacing: 6,
+      runSpacing: 4,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         // Plakietka z liczbą kolarzy
         Container(
@@ -1383,8 +1406,10 @@ class _CalendarAndRacePlannerScreenState
     required int plannedCount,
     required bool isExpanded,
   }) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         // 1. Przycisk Planera Składu (jeśli drużyna zarejestrowana lub ma pewny start)
         if (isPlayerRegistered || status.hasGuaranteedEntry)

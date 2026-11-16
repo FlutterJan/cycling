@@ -604,12 +604,15 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
           children: [
             Icon(Icons.sports_score, color: AppColors.goldAccent),
             SizedBox(width: 10),
-            Text(
-              'KREATOR NOWEJ KARIERY 2026',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                letterSpacing: 0.8,
+            Expanded(
+              child: Text(
+                'KREATOR NOWEJ KARIERY 2026',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  letterSpacing: 0.8,
+                ),
               ),
             ),
           ],
@@ -694,12 +697,15 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
               color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
             ),
             const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                fontSize: 13,
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: isSelected ? AppColors.goldAccent : AppColors.textSecondary,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  fontSize: 13,
+                ),
               ),
             ),
           ],
@@ -740,20 +746,19 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           color: AppColors.surface,
-          child: Row(
+          child: Wrap(
+            spacing: 6,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               // Filtry dywizji
               _buildDivisionFilterChip('Wszystkie (${_existingTeams.length})', null),
-              const SizedBox(width: 6),
               _buildDivisionFilterChip('WorldTour (18)', TeamDivision.worldTour),
-              const SizedBox(width: 6),
               _buildDivisionFilterChip('ProTeam (17)', TeamDivision.proTeam),
-              const SizedBox(width: 6),
               _buildDivisionFilterChip('Continental (18)', TeamDivision.continental),
-              const Spacer(),
               // Wyszukiwarka
               SizedBox(
-                width: 240,
+                width: 220,
                 height: 36,
                 child: TextField(
                   onChanged: (val) => setState(() => _teamSearchQuery = val),
@@ -778,37 +783,47 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
 
         // Główny układ: Lista drużyn (po lewej) + Szczegółowe dossier wybranego zespołu (po prawej)
         Expanded(
-          child: Row(
-            children: [
-              // Lista drużyn
-              Expanded(
-                flex: 5,
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: filteredTeams.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final team = filteredTeams[index];
-                    final isSelected = team.id == _selectedExistingTeamId;
-                    return _buildExistingTeamCard(team, isSelected);
-                  },
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isCompact = constraints.maxWidth < 760;
+              final teamList = ListView.separated(
+                padding: const EdgeInsets.all(12),
+                itemCount: filteredTeams.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final team = filteredTeams[index];
+                  final isSelected = team.id == _selectedExistingTeamId;
+                  return _buildExistingTeamCard(team, isSelected);
+                },
+              );
+              final teamDossier = Container(
+                margin: isCompact
+                    ? const EdgeInsets.fromLTRB(12, 0, 12, 12)
+                    : const EdgeInsets.only(top: 12, right: 12, bottom: 12),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppTheme.borderColor),
                 ),
-              ),
+                child: _buildTeamDossier(selectedTeam),
+              );
 
-              // Dossier i podgląd składu wybranego zespołu
-              Expanded(
-                flex: 6,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 12, right: 12, bottom: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.borderColor),
-                  ),
-                  child: _buildTeamDossier(selectedTeam),
-                ),
-              ),
-            ],
+              if (isCompact) {
+                return Column(
+                  children: [
+                    Expanded(flex: 4, child: teamList),
+                    Expanded(flex: 5, child: teamDossier),
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  Expanded(flex: 5, child: teamList),
+                  Expanded(flex: 6, child: teamDossier),
+                ],
+              );
+            },
           ),
         ),
       ],
@@ -892,7 +907,10 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
                     ),
                   ),
                   const SizedBox(height: 3),
-                  Row(
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 3,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
@@ -960,11 +978,10 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
         ? (teamRiders.map((r) => r.overallRating).reduce((a, b) => a + b) / teamRiders.length).round()
         : 70;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Nagłówek dossier
-        Container(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isShort = constraints.maxHeight < 420;
+        final headerWidget = Container(
           padding: const EdgeInsets.all(16),
           decoration: const BoxDecoration(
             color: AppColors.surfaceLight,
@@ -1016,13 +1033,15 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Row(
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           '${team.division.label}  •  ${team.countryIso}',
                           style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
                         ),
-                        const SizedBox(width: 10),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
@@ -1055,13 +1074,15 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
               ),
             ],
           ),
-        ),
+        );
 
         // Lista gwiazd i składu
-        Padding(
+        final listHeader = Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               Text(
                 'SKŁAD DRUŻYNY (${teamRiders.length} KOLARZY)',
@@ -1078,10 +1099,9 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
               ),
             ],
           ),
-        ),
+        );
 
-        Expanded(
-          child: ListView.separated(
+        final ridersList = ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             itemCount: teamRiders.length,
             separatorBuilder: (context, index) => const Divider(height: 1, color: AppTheme.borderColor),
@@ -1137,11 +1157,10 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
                 ),
               );
             },
-          ),
-        ),
+          );
 
         // Przycisk wyboru i rozpoczęcia kariery
-        Container(
+        final footerButton = Container(
           padding: const EdgeInsets.all(16),
           decoration: const BoxDecoration(
             color: AppColors.surfaceLight,
@@ -1170,8 +1189,32 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
           ),
-        ),
-      ],
+        );
+
+        if (isShort) {
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                headerWidget,
+                listHeader,
+                SizedBox(height: 180, child: ridersList),
+                footerButton,
+              ],
+            ),
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            headerWidget,
+            listHeader,
+            Expanded(child: ridersList),
+            footerButton,
+          ],
+        );
+      },
     );
   }
 
@@ -1185,9 +1228,12 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
           '$label: ',
           style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
         ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color),
+        Flexible(
+          child: Text(
+            value,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color),
+          ),
         ),
       ],
     );
@@ -1263,6 +1309,7 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
           Expanded(
             flex: 3,
             child: DropdownButtonFormField<CareerDifficulty>(
+              isExpanded: true,
               initialValue: _selectedDifficulty,
               onChanged: (val) {
                 if (val != null) setState(() => _selectedDifficulty = val);
@@ -1292,6 +1339,7 @@ class _NewCareerSetupScreenState extends ConsumerState<NewCareerSetupScreen> {
           Expanded(
             flex: 2,
             child: DropdownButtonFormField<int>(
+              isExpanded: true,
               initialValue: _selectedSlot,
               onChanged: (val) {
                 if (val != null) setState(() => _selectedSlot = val);

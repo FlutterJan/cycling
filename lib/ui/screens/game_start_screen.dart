@@ -483,19 +483,23 @@ class _GameStartScreenState extends ConsumerState<GameStartScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.save_rounded, color: AppColors.goldAccent, size: 20),
-                  SizedBox(width: 10),
-                  Text(
-                    'Menedżer Zapisów Gry (Sloty 1-5 & Auto-Save)',
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+              const Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.save_rounded, color: AppColors.goldAccent, size: 20),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Menedżer Zapisów Gry (Sloty 1-5 & Auto-Save)',
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               IconButton(
                 onPressed: _refreshSlots,

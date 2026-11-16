@@ -114,29 +114,37 @@ class _TeamBuilderHierarchyScreenState
           children: [
             Icon(Icons.hub_rounded, color: AppColors.goldAccent, size: 20),
             SizedBox(width: 10),
-            Text(
-              'Budowa Zespołu & Hierarchia (Team Builder)',
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
+            Expanded(
+              child: Text(
+                'Budowa Zespołu & Hierarchia (Team Builder)',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ],
         ),
         actions: [
-          ElevatedButton.icon(
-            onPressed: () => _applyAndSaveHierarchy(context, save, careerController),
-            icon: const Icon(Icons.check_rounded, size: 16),
-            label: const Text('Zastosuj Hierarchię'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.goldAccent,
-              foregroundColor: Colors.black,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ElevatedButton.icon(
+              onPressed: () => _applyAndSaveHierarchy(context, save, careerController),
+              icon: const Icon(Icons.check_rounded, size: 16),
+              label: Text(
+                MediaQuery.sizeOf(context).width < 520 ? 'Zastosuj' : 'Zastosuj Hierarchię',
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.goldAccent,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               textStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
             ),
+            ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 8),
         ],
       ),
       body: LayoutBuilder(
@@ -259,8 +267,11 @@ class _TeamBuilderHierarchyScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  runSpacing: 4,
                   children: [
                     Text(
                       audit.hasConflicts ? '⚠️ Wykryto potencjalne konflikty hierarchii' : '✅ Optymalny podział ról w drużynie',
@@ -319,19 +330,25 @@ class _TeamBuilderHierarchyScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               const Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.military_tech_rounded, color: AppColors.goldAccent, size: 20),
                   SizedBox(width: 8),
-                  Text(
-                    'Główni Liderzy Drużyny (Franchise Riders)',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textPrimary,
+                  Flexible(
+                    child: Text(
+                      'Główni Liderzy Drużyny (Franchise Riders)',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ],
@@ -345,30 +362,49 @@ class _TeamBuilderHierarchyScreenState
           const SizedBox(height: 14),
 
           // 3 sloty liderów
-          Row(
-            children: leaderSlots.map((slot) {
-              final assignedLeader = _leaders.firstWhere(
-                (l) => l.focus == slot.focus,
-                orElse: () => const FranchiseRider(riderId: '', riderName: '', focus: FranchiseRoleFocus.allRounder, priorityRank: 0),
-              );
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isCompact = constraints.maxWidth < 650;
+              final slotWidgets = leaderSlots.map((slot) {
+                final assignedLeader = _leaders.firstWhere(
+                  (l) => l.focus == slot.focus,
+                  orElse: () => const FranchiseRider(riderId: '', riderName: '', focus: FranchiseRoleFocus.allRounder, priorityRank: 0),
+                );
 
-              final Rider? rider = assignedLeader.riderId.isNotEmpty
-                  ? allRoster.firstWhere((r) => r.id == assignedLeader.riderId, orElse: () => allRoster.first)
-                  : null;
+                final Rider? rider = assignedLeader.riderId.isNotEmpty
+                    ? allRoster.firstWhere((r) => r.id == assignedLeader.riderId, orElse: () => allRoster.first)
+                    : null;
 
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: _buildLeaderDropTargetSlot(
-                    context: context,
-                    slot: slot,
-                    rider: rider,
-                    allRoster: allRoster,
-                    save: save,
+                final slotCard = _buildLeaderDropTargetSlot(
+                  context: context,
+                  slot: slot,
+                  rider: rider,
+                  allRoster: allRoster,
+                  save: save,
+                );
+
+                if (isCompact) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: slotCard,
+                  );
+                }
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: slotCard,
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList();
+
+              if (isCompact) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: slotWidgets,
+                );
+              }
+              return Row(children: slotWidgets);
+            },
           ),
         ],
       ),
@@ -391,7 +427,7 @@ class _TeamBuilderHierarchyScreenState
         final bool isHovered = candidateData.isNotEmpty;
 
         return Container(
-          height: 140,
+          constraints: const BoxConstraints(minHeight: 140),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: isHovered ? const Color(0xFF222B3D) : AppColors.surfaceLight,
@@ -596,10 +632,14 @@ class _TeamBuilderHierarchyScreenState
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Nagłówek pociągu ze wskaźnikami synergii
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                runSpacing: 6,
                 children: [
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         isMountainSquad ? Icons.terrain_rounded : (isSprintSquad ? Icons.bolt_rounded : Icons.handyman_rounded),
@@ -607,9 +647,12 @@ class _TeamBuilderHierarchyScreenState
                         size: 20,
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        squad.name,
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                      Flexible(
+                        child: Text(
+                          squad.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                        ),
                       ),
                     ],
                   ),
@@ -637,8 +680,10 @@ class _TeamBuilderHierarchyScreenState
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.white10),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceAround,
+                  spacing: 12,
+                  runSpacing: 8,
                   children: [
                     _buildSquadMetricPill('LIDER', leader.fullName, AppColors.textPrimary),
                     _buildSquadMetricPill('LICZBA KOLARZY', '${squad.memberCount} kolarzy', AppColors.cyanAccent),
