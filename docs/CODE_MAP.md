@@ -252,6 +252,7 @@
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/bike_preview_painter.dart` — Wektorowy podgląd roweru drużynowego.
 - `lib/ui/widgets/career_onboarding_interactive_tour.dart` — Nieinwazyjny 5-krokowy samouczek nowego gracza (`CareerOnboardingInteractiveTour`, `CareerOnboardingTourNotifier`, `careerOnboardingTourProvider`, `OnboardingTourStep`, `OnboardingHighlightTarget`) podświetlający biuro menedżera, budowanie pociągu, ciśnienie opon i sterowanie 3D z opcją zwinięcia i pominięcia.
+- `lib/ui/widgets/contract_negotiation_chat_simulator.dart` — Interaktywny symulator negocjacji kontraktowych na żywo z agentem kolarza (`ContractNegotiationChatSimulator`, `ContractOfferTerms`, `NegotiationChatMessage`, `BargainingChipType`, `ContractNegotiationOutcome`, `ContractNegotiationStatus`): pasek cierpliwości agenta, kontroferty w czasie rzeczywistym i karty przetargowe (Tour de France, pociąg sprinterski, premia za zwycięstwo).
 - `lib/ui/widgets/custom_carbon_and_glass_containers.dart` — Luksusowe kontenery UI (`CustomCarbonAndGlassContainers`, `CarbonFiberCard` 3K 45°, `GlassmorphicHudPanel` blur 14px + szum, `AnimatedStatBadge` z `TweenAnimationBuilder`).
 - `lib/ui/widgets/cycling_news_feed_widget.dart` — Strumień mediów kolarskich i wpisów kolarzy z licznikami (`CyclingNewsFeedWidget`, `CyclingNewsFilter`, filtry kategorii/ekipy, typy 5★, telemetria NP/W/kg/VAM).
 - `lib/ui/widgets/custom_jersey_painter.dart` — Rysowanie wzoru koszulki i spodenek (`CustomPainter`).
