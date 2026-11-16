@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/career/career_save.dart';
 import '../../models/equipment/complete_bike.dart';
+import '../../models/equipment/drivetrain_gearing_configuration.dart';
 import '../../models/equipment/frame_model.dart';
 import '../../models/equipment/groupset_model.dart';
 import '../../models/equipment/tire_model.dart';
@@ -12,6 +13,7 @@ import '../../services/career/bike_manufacturer_negotiation_service.dart';
 import '../../services/generators/fictional_brands_catalog.dart';
 import '../../state/career_controller.dart';
 import '../widgets/bike_preview_painter.dart';
+import '../widgets/gearing_ratio_speed_cadence_chart.dart';
 import '../widgets/mechanic_workshop_panel.dart';
 
 /// Typ etapu dla gotowych presetów konfiguracji roweru.
@@ -123,6 +125,8 @@ class _BikeGarageRndScreenState extends ConsumerState<BikeGarageRndScreen>
   late WheelsetModel _selectedWheelset;
   late GroupsetModel _selectedGroupset;
   late TireModel _selectedTire;
+  DrivetrainGearingConfiguration _gearingConfiguration =
+      DrivetrainGearingConfiguration.allRounder();
 
   // Parametry bike fittingu i technologii
   int _cockpitWidthMm = 400;
@@ -1147,6 +1151,15 @@ class _BikeGarageRndScreenState extends ConsumerState<BikeGarageRndScreen>
             ],
           );
         }),
+        const SizedBox(height: 16),
+        GearingRatioSpeedCadenceChart(
+          initialConfiguration: _gearingConfiguration.copyWith(
+            waxedChain: _isHotMeltWax,
+          ),
+          onConfigurationChanged: (updated) {
+            setState(() => _gearingConfiguration = updated);
+          },
+        ),
       ],
     );
   }
