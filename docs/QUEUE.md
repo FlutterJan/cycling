@@ -539,7 +539,7 @@ Zasady działania pętli:
 - [x] **Zadanie #516** (`lib/ui/screens/race_organizer_hq_dashboard_screen.dart`): Główny ekran trybu Organizatora Wyścigów z mapą przetargów miast i transmisją 3D własnego wyścigu.
 - [x] **Zadanie #517** (`lib/ui/widgets/host_city_bidding_auction_modal.dart`): Okno przetargów miast gospodarzy ubiegających się o *Grand Départ* lub metę górską.
 - [x] **Zadanie #518** (`lib/models/race/ultra_endurance_bikepacking_race_model.dart`): Model wyścigów **Ultra-Endurance Bikepacking (4000 km non-stop)** z punktami kontrolnymi, torbami bikepackingowymi i piastą z dynamem.
-- [ ] **Zadanie #519** (`lib/engine/physics/ultra_sleep_deprivation_and_circadian_solver.dart`): Solver fizjologii braku snu (`Sleep Debt`), rytmu dobowego oraz drzemek w śpiworze Bivy vs hotele.
+- [x] **Zadanie #519** (`lib/engine/physics/ultra_sleep_deprivation_and_circadian_solver.dart`): Solver fizjologii braku snu (`Sleep Debt`), rytmu dobowego oraz drzemek w śpiworze Bivy vs hotele.
 - [ ] **Zadanie #520** (`lib/engine/rendering3d/night_riding_headlight_and_stars_3d_renderer.dart`): Renderer jazdy nocnej 3D ze stożkiem przedniej lampki LED, gwiazdami i czerwonym światłem tylnym.
 - [ ] **Zadanie #521** (`lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart`): Ekran wyścigów Ultra-Endurance z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych.
 - [ ] **Zadanie #522** (`lib/engine/physics/real_time_cfd_vortex_and_drag_solver.dart`): Solver strefowej aerodynamiki CFD (kask, przedramiona, tekstylia, koła i wiry Kármána).
