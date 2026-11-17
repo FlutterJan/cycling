@@ -497,7 +497,7 @@ Zasady działania pętli:
 - [x] **Zadanie #409** (`lib/core/diagnostics/full_state_serialization_fuzz_tester.dart`): Fuzzer serializacji stanu kariery JSON.
 - [x] **Zadanie #410** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczki #5 w `AppRouter`.
 - [x] **Zadanie #411** (`docs/CODE_MAP.md`): Pełna aktualizacja `docs/CODE_MAP.md` dla zadań #001–#412.
-- [ ] **Zadanie #412** (`lib/core/diagnostics/gold_master_412_certification_suite.dart`): Pakiet certyfikacji **GOLD MASTER v1.0** (#001–#412).
+- [x] **Zadanie #412** (`lib/core/diagnostics/gold_master_412_certification_suite.dart`): Pakiet certyfikacji **GOLD MASTER v1.0** (#001–#412).
 
 ---
 
