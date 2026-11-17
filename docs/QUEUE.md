@@ -489,7 +489,7 @@ Zasady działania pętli:
 - [x] **Zadanie #401** (`test/gravel_sealant_and_tire_inserts_test.dart`): Test jednostkowy fizyki szutru, mleczka Tubeless i wkładek piankowych.
 - [x] **Zadanie #402** (`test/in_race_diplomacy_and_grudge_test.dart`): Test dyplomacji na szosie i pamięci urazów AI.
 - [x] **Zadanie #403** (`test/warmup_protocol_and_ttt_drop_test.dart`): Test protokołu rozgrzewki i taktyki TTT.
-- [ ] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
+- [x] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
 - [ ] **Zadanie #405** (`test/olympic_games_and_split_squad_test.dart`): Test Igrzysk Olimpijskich i równoległych wyścigów.
 - [ ] **Zadanie #406** (`test/localization_and_accessibility_test.dart`): Test słowników PL/EN i kontrastu palet.
 - [ ] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.

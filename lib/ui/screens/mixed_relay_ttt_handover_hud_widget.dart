@@ -425,12 +425,15 @@ class _MixedRelayTttHandoverHudWidgetState
                       ),
                     ),
                     const SizedBox(width: 6),
-                    Text(
-                      team.phase.label,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: phaseColor,
+                    Flexible(
+                      child: Text(
+                        team.phase.label,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: phaseColor,
+                        ),
                       ),
                     ),
                   ],
