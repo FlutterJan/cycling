@@ -1487,59 +1487,61 @@ class _SprintVarOverheadReplayInspectorState
             final isCompact = constraints.maxWidth < 720;
             final isWideDesktop = constraints.maxWidth >= 1120;
 
-            return Padding(
-              padding: EdgeInsets.all(isCompact ? 12 : 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildHeader(isCompact),
-                  const SizedBox(height: 12),
-                  if (!hasTracks)
-                    _buildEmptyState()
-                  else if (isWideDesktop)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _buildOverheadViewport(height: 320),
-                              const SizedBox(height: 12),
-                              _buildPlaybackControls(isCompact: false),
-                            ],
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(isCompact ? 12 : 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildHeader(isCompact),
+                    const SizedBox(height: 12),
+                    if (!hasTracks)
+                      _buildEmptyState()
+                    else if (isWideDesktop)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                _buildOverheadViewport(height: 320),
+                                const SizedBox(height: 12),
+                                _buildPlaybackControls(isCompact: false),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _buildRiderSelectorAndTelemetry(isCompact: false),
-                              const SizedBox(height: 12),
-                              _buildVerdictPanel(isCompact: false),
-                            ],
+                          const SizedBox(width: 16),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                _buildRiderSelectorAndTelemetry(isCompact: false),
+                                const SizedBox(height: 12),
+                                _buildVerdictPanel(isCompact: false),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  else
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildOverheadViewport(height: isCompact ? 230 : 280),
-                        const SizedBox(height: 12),
-                        _buildPlaybackControls(isCompact: isCompact),
-                        const SizedBox(height: 12),
-                        _buildRiderSelectorAndTelemetry(isCompact: isCompact),
-                        const SizedBox(height: 12),
-                        _buildVerdictPanel(isCompact: isCompact),
-                      ],
-                    ),
-                ],
+                        ],
+                      )
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildOverheadViewport(height: isCompact ? 230 : 280),
+                          const SizedBox(height: 12),
+                          _buildPlaybackControls(isCompact: isCompact),
+                          const SizedBox(height: 12),
+                          _buildRiderSelectorAndTelemetry(isCompact: isCompact),
+                          const SizedBox(height: 12),
+                          _buildVerdictPanel(isCompact: isCompact),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             );
           },

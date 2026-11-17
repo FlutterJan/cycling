@@ -527,7 +527,7 @@ Zasady działania pętli:
 - [x] **Zadanie #467** (`lib/ui/screens/track_omnium_madison_championship_screen.dart`): Ekran Mistrzostw Torowych (Keirin, Madison, Omnium, Wyścig Punktowy).
 - [x] **Zadanie #468** (`lib/services/career/transfer_rumor_mill_and_journalists_service.dart`): System dziennikarzy kolarskich, przecieków transferowych (`Transfer Rumor Mill`), budowania zasłony dymnej na rynku i wpływu plotek na morale obecnych zawodników.
 - [x] **Zadanie #469** (`lib/ui/widgets/cycling_media_social_feed_panel.dart`): Panel mediów kolarskich i przecieków transferowych w biurze menedżera z możliwością zdementowania lub potwierdzenia plotki.
-- [ ] **Zadanie #470** (`test/package_7a_commissaire_madison_rumors_test.dart`): Pakiet testów jednostkowych i integracyjnych dla przepisów VAR UCI, fizyki rzutu Madison oraz systemu przecieków transferowych (#463–#512).
+- [x] **Zadanie #470** (`test/package_7a_commissaire_madison_rumors_test.dart`): Pakiet testów jednostkowych i integracyjnych dla przepisów VAR UCI, fizyki rzutu Madison oraz systemu przecieków transferowych (#463–#512).
 
 ---
 
