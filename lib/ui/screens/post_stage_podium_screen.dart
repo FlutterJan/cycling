@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../engine/simulation/post_stage_recovery_processor.dart';
+import '../../engine/simulation/stage_photo_album_auto_capturer.dart';
 import '../../engine/simulation/stage_results_calculator.dart';
 import '../../engine/simulation/stage_simulation_loop.dart';
 import '../../models/career/career_save.dart';
@@ -13,6 +14,7 @@ import '../../models/race/tour_race.dart';
 import '../../state/career_controller.dart';
 import '../../state/race_simulation_notifier.dart';
 import '../widgets/post_race_watts_per_kg_leaderboard_card.dart';
+import '../widgets/post_stage_highlight_reel_carousel.dart';
 import '../widgets/rider_avatar_painter.dart';
 
 // Stałe kolorystyczne klasyfikacji UCI (Tour de France / Giro d'Italia / Vuelta a España)
@@ -295,6 +297,15 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
       return true;
     }).toList();
 
+    final albumState = ref.watch(stagePhotoAlbumProvider);
+    final activeAlbum = albumState.activeAlbum;
+    final reelItems = (activeAlbum != null && activeAlbum.photos.isNotEmpty)
+        ? PostStageHighlightReelBuilder.fromStagePhotoAlbum(activeAlbum)
+        : PostStageHighlightReelBuilder.buildDefaultSampleReel(
+            stageNumber: report.stageNumber,
+            stageName: report.stageName,
+          );
+
     return CustomScrollView(
       slivers: [
         // 1. Animowana sekcja podium dla 3 najlepszych kolarzy
@@ -302,6 +313,18 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
             child: _buildPodiumStageWidget(top3, playerTeamId, save),
+          ),
+        ),
+
+        // 1b. Karuzela skrótów wideo i zdjęć z etapu
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+            child: PostStageHighlightReelCarousel(
+              items: reelItems,
+              stageTitle: report.stageName,
+              stageNumber: report.stageNumber,
+            ),
           ),
         ),
 
