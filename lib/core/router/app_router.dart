@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart';
 import '../../engine/simulation/stage_replay_recorder.dart';
 import '../../engine/simulation/stage_results_calculator.dart';
 import '../../engine/simulation/stage_simulation_loop.dart';
@@ -10,15 +11,23 @@ import '../../models/equipment/complete_bike.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
 import '../../models/rider/rider.dart';
+import '../../models/team/cycling_team.dart';
+import '../../models/team/team_bus_and_warmup_protocol_model.dart';
+import '../../services/career/olympic_games_quadrennial_cycle_service.dart';
+import '../../services/network/dual_screen_telemetry_wall_server.dart';
+import '../../ui/screens/achievements_and_platinum_trophy_screen.dart';
 import '../../ui/screens/be_a_pro_character_creator_screen.dart';
 import '../../ui/screens/be_a_pro_dashboard_and_apartment_screen.dart';
 import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
+import '../../ui/screens/companion_car_dashboard_screen.dart';
 import '../../ui/screens/cyclocross_winter_series_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
 import '../../ui/screens/development_academy_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
+import '../../ui/screens/gravel_world_series_hub_screen.dart';
 import '../../ui/screens/hall_of_fame_and_records_screen.dart';
+import '../../ui/screens/in_game_database_roster_editor_screen.dart';
 import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
 import '../../ui/screens/legends_card_album_and_packs_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
@@ -26,10 +35,12 @@ import '../../ui/screens/main_title_menu_screen.dart';
 import '../../ui/screens/manager_profile_and_achievements_screen.dart';
 import '../../ui/screens/medical_and_recovery_center_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
+import '../../ui/screens/olympic_games_hub_and_medal_table_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
 import '../../ui/screens/post_stage_podium_screen.dart';
 import '../../ui/screens/pre_race_briefing_screen.dart';
 import '../../ui/screens/pre_season_team_presentation_screen.dart';
+import '../../ui/screens/pre_stage_paddock_and_warmup_screen.dart';
 import '../../ui/screens/quick_race_sandbox_screen.dart';
 import '../../ui/screens/race_replay_director_theater_screen.dart';
 import '../../ui/screens/race_simulation_screen.dart';
@@ -80,6 +91,10 @@ abstract class AppRoutes {
   static const String stageEditor = '/career/stage-editor';
   static const String preSeasonPresentation = '/career/pre-season-gala';
   static const String cyclocross = '/career/cyclocross';
+  static const String gravelWorldSeries = '/career/gravel';
+  static const String olympicGames = '/career/olympics';
+  static const String databaseEditor = '/career/database-editor';
+  static const String achievements = '/career/achievements';
   static const String legendsAlbum = '/career/legends-album';
   static const String settings = '/career/settings';
 
@@ -90,6 +105,8 @@ abstract class AppRoutes {
   /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
   static const String raceBriefing = '/race/briefing';
+  static const String preStagePaddock = '/race/paddock';
+  static const String companionCar = '/race/companion-car';
   static const String raceLive = '/race/live';
   static const String racePodium = '/race/podium';
   static const String replayTheater = '/race/replay-theater';
@@ -128,6 +145,10 @@ abstract class AppRouteNames {
   static const String stageEditor = 'stageEditor';
   static const String preSeasonPresentation = 'preSeasonPresentation';
   static const String cyclocross = 'cyclocross';
+  static const String gravelWorldSeries = 'gravelWorldSeries';
+  static const String olympicGames = 'olympicGames';
+  static const String databaseEditor = 'databaseEditor';
+  static const String achievements = 'achievements';
   static const String legendsAlbum = 'legendsAlbum';
   static const String settings = 'settings';
 
@@ -136,6 +157,8 @@ abstract class AppRouteNames {
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
+  static const String preStagePaddock = 'preStagePaddock';
+  static const String companionCar = 'companionCar';
   static const String raceLive = 'raceLive';
   static const String racePodium = 'racePodium';
   static const String replayTheater = 'replayTheater';
@@ -472,6 +495,138 @@ GoRouter createAppRouter({
         },
       ),
       GoRoute(
+        path: AppRoutes.gravelWorldSeries,
+        name: AppRouteNames.gravelWorldSeries,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialRaceId = state.uri.queryParameters['raceId'] ??
+              extraMap?['raceId'] as String?;
+          final tireMmQuery =
+              double.tryParse(state.uri.queryParameters['tireMm'] ?? '');
+          final initialTireWidthMm = (tireMmQuery ??
+                  (extraMap?['tireWidthMm'] as num?)?.toDouble() ??
+                  42.0)
+              .clamp(40.0, 50.0);
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: GravelWorldSeriesHubScreen(
+              initialRaceId: initialRaceId,
+              initialTireWidthMm: initialTireWidthMm,
+              isReadOnly: isReadOnly,
+              onLaunchRace: (race, setup, oasisPlan) => context.go(
+                AppRoutes.raceLive,
+                extra: {
+                  'stageLabel': race.raceModel.name,
+                  'subtitle':
+                      '${race.locationLabel} • ${race.raceModel.totalDistanceKm.toStringAsFixed(0)} km Gravel',
+                },
+              ),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.olympicGames,
+        name: AppRouteNames.olympicGames,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialState = extra is OlympicGamesQuadrennialCycleState
+              ? extra
+              : extraMap?['initialState'] as OlympicGamesQuadrennialCycleState?;
+          final initialReports =
+              extraMap?['initialReports'] as List<OlympicRaceSimulationReport>?;
+          final nationParam = state.uri.queryParameters['nation'];
+          final playerNationalityIso = (nationParam != null &&
+                  nationParam.trim().isNotEmpty)
+              ? nationParam.trim().toUpperCase()
+              : (extraMap?['playerNationalityIso'] as String? ?? 'POL');
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: OlympicGamesHubAndMedalTableScreen(
+              initialState: initialState,
+              initialReports: initialReports,
+              playerNationalityIso: playerNationalityIso,
+              isReadOnly: isReadOnly,
+              onLaunchRace3d: (edition) => context.go(
+                AppRoutes.raceLive,
+                extra: {
+                  'stageLabel': 'Igrzyska Olimpijskie ${edition.year}',
+                  'subtitle': edition.hostCity,
+                },
+              ),
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.databaseEditor,
+        name: AppRouteNames.databaseEditor,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialTeams = extraMap?['teams'] as List<CyclingTeam>?;
+          final initialRiders = extraMap?['riders'] as List<Rider>?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: InGameDatabaseRosterEditorScreen(
+              initialTeams: initialTeams,
+              initialRiders: initialRiders,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.settings);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.achievements,
+        name: AppRouteNames.achievements,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final readOnly = extraMap?['readOnly'] as bool? ?? false;
+          final sectionParam = state.uri.queryParameters['section'];
+          final initialSection = extraMap?['initialSection']
+                  as AchievementsScreenSection? ??
+              switch (sectionParam) {
+                'platinum' => AchievementsScreenSection.platinumShowcase,
+                'history' => AchievementsScreenSection.unlockHistory,
+                _ => AchievementsScreenSection.allAchievements,
+              };
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: AchievementsAndPlatinumTrophyScreen(
+              readOnly: readOnly,
+              initialSection: initialSection,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.managerProfile);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
         path: AppRoutes.legendsAlbum,
         name: AppRouteNames.legendsAlbum,
         pageBuilder: (context, state) {
@@ -565,6 +720,76 @@ GoRouter createAppRouter({
             stage: stage,
             race: race,
             isStandalone: true,
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.preStagePaddock,
+        name: AppRouteNames.preStagePaddock,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialModel = extra is TeamBusAndWarmupProtocolModel
+              ? extra
+              : extraMap?['model'] as TeamBusAndWarmupProtocolModel?;
+          final initialWeatherPreset = extraMap?['weatherPreset']
+                  as PaddockWeatherPreset? ??
+              PaddockWeatherPreset.hotGrandTour;
+          final teamName =
+              extraMap?['teamName'] as String? ?? 'Veloce Pro Cycling';
+          final teamShortCode =
+              extraMap?['teamShortCode'] as String? ?? 'VPC';
+          final primaryTeamColor =
+              extraMap?['primaryTeamColor'] as Color? ?? AppColors.primaryAccent;
+          final autoPlay3d = extraMap?['autoPlay3d'] as bool? ?? true;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: PreStagePaddockAndWarmupScreen(
+              initialModel: initialModel,
+              initialWeatherPreset: initialWeatherPreset,
+              teamName: teamName,
+              teamShortCode: teamShortCode,
+              primaryTeamColor: primaryTeamColor,
+              autoPlay3d: autoPlay3d,
+              isReadOnly: isReadOnly,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.raceBriefing);
+                }
+              },
+              onProceedToStart: (_) => context.go(AppRoutes.raceLive),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.companionCar,
+        name: AppRouteNames.companionCar,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialFrame = extra is TelemetryWallFrame
+              ? extra
+              : extraMap?['initialFrame'] as TelemetryWallFrame?;
+          final enableLiveTicker =
+              extraMap?['enableLiveTicker'] as bool? ?? true;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: CompanionCarDashboardScreen(
+              initialFrame: initialFrame,
+              enableLiveTicker: enableLiveTicker,
+              onBackPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
           );
         },
       ),
@@ -823,6 +1048,103 @@ extension AppRouterNavigationExtensions on BuildContext {
   /// Nawigacja do Zimowego Pucharu Przełajowego CX
   void goToCyclocross({List<Rider>? initialRoster}) =>
       go(AppRoutes.cyclocross, extra: initialRoster);
+
+  /// Nawigacja do centrum UCI Gravel World Series & Ultra-Gravel
+  void goToGravelWorldSeries({
+    String? raceId,
+    double tireWidthMm = 42.0,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        raceId != null
+            ? '${AppRoutes.gravelWorldSeries}?raceId=$raceId&tireMm=${tireWidthMm.toStringAsFixed(1)}'
+            : AppRoutes.gravelWorldSeries,
+        extra: {
+          'raceId': raceId,
+          'tireWidthMm': tireWidthMm,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do centrum Igrzysk Olimpijskich i tabeli medalowej
+  void goToOlympicGames({
+    OlympicGamesQuadrennialCycleState? initialState,
+    List<OlympicRaceSimulationReport>? initialReports,
+    String playerNationalityIso = 'POL',
+    bool isReadOnly = false,
+  }) =>
+      go(
+        '${AppRoutes.olympicGames}?nation=$playerNationalityIso',
+        extra: {
+          'initialState': initialState,
+          'initialReports': initialReports,
+          'playerNationalityIso': playerNationalityIso,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do wbudowanego Edytora Bazy Danych i Składów
+  void goToDatabaseEditor({
+    List<CyclingTeam>? teams,
+    List<Rider>? riders,
+  }) =>
+      go(
+        AppRoutes.databaseEditor,
+        extra: {
+          'teams': teams,
+          'riders': riders,
+        },
+      );
+
+  /// Nawigacja do ekranu 60 Osiągnięć i Platynowego Trofeum
+  void goToAchievements({
+    AchievementsScreenSection initialSection =
+        AchievementsScreenSection.allAchievements,
+    bool readOnly = false,
+  }) =>
+      go(
+        AppRoutes.achievements,
+        extra: {
+          'initialSection': initialSection,
+          'readOnly': readOnly,
+        },
+      );
+
+  /// Nawigacja do Paddocku Przedstartowego i Rozgrzewki 3D
+  void goToPreStagePaddock({
+    TeamBusAndWarmupProtocolModel? model,
+    PaddockWeatherPreset weatherPreset = PaddockWeatherPreset.hotGrandTour,
+    String teamName = 'Veloce Pro Cycling',
+    String teamShortCode = 'VPC',
+    Color primaryTeamColor = AppColors.primaryAccent,
+    bool autoPlay3d = true,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        AppRoutes.preStagePaddock,
+        extra: {
+          'model': model,
+          'weatherPreset': weatherPreset,
+          'teamName': teamName,
+          'teamShortCode': teamShortCode,
+          'primaryTeamColor': primaryTeamColor,
+          'autoPlay3d': autoPlay3d,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do Konsoli Wozu Technicznego (Dual-Screen Telemetry Wall)
+  void goToCompanionCar({
+    TelemetryWallFrame? initialFrame,
+    bool enableLiveTicker = true,
+  }) =>
+      go(
+        AppRoutes.companionCar,
+        extra: {
+          'initialFrame': initialFrame,
+          'enableLiveTicker': enableLiveTicker,
+        },
+      );
 
   /// Nawigacja do Welodromu (Próba Rekordu Godzinnego UCI)
   void goToVelodromeHourRecord({Rider? rider, String? velodromeId}) => go(
