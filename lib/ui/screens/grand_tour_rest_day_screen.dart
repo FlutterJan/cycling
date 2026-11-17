@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/rider/rider.dart';
 import '../../state/career_controller.dart';
+import '../widgets/team_chef_daily_menu_planner_card.dart';
 
 /// Rodzaj 3-tygodniowego Wielkiego Touru (Grand Tour).
 enum GrandTourType {
@@ -1460,6 +1461,8 @@ class _GrandTourRestDayScreenState extends ConsumerState<GrandTourRestDayScreen>
             ),
           );
         }),
+        const SizedBox(height: 16),
+        const TeamChefDailyMenuPlannerCard(),
       ],
     );
   }
