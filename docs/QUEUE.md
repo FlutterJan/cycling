@@ -567,7 +567,7 @@ Zasady działania pętli:
 - [x] **Zadanie #544** (`lib/ui/screens/manager_profile_and_reputation_screen.dart`): Ekran Profilu Menedżera, statystyk życiowych i reputacji.
 - [x] **Zadanie #545** (`lib/services/career/manager_skill_tree_perks_service.dart`): Drzewko umiejętności i pasywnych perków menedżera.
 - [x] **Zadanie #546** (`test/race_organizer_mode_and_bids_test.dart`): Testy trybu Organizatora Wyścigów i przetargów miast.
-- [ ] **Zadanie #547** (`test/ultra_bikepacking_sleep_and_dynamo_test.dart`): Testy fizjologii braku snu i toreb bikepackingowych.
+- [x] **Zadanie #547** (`test/ultra_bikepacking_sleep_and_dynamo_test.dart`): Testy fizjologii braku snu i toreb bikepackingowych.
 - [ ] **Zadanie #548** (`test/real_time_cfd_and_cobble_deflection_test.dart`): Testy aerodynamiki strefowej CFD i wibracji na bruku.
 - [ ] **Zadanie #549** (`test/sprint_counter_surfing_and_macros_test.dart`): Testy surfowania sprinterskiego i makr taktycznych.
 - [ ] **Zadanie #550** (`test/manager_perks_and_satellite_academies_test.dart`): Testy akademii satelickich i perków menedżera.
