@@ -476,7 +476,7 @@ Zasady działania pętli:
 - [x] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
 - [x] **Zadanie #389** (`lib/ui/screens/in_game_database_roster_editor_screen.dart`): Stwórz wbudowany Edytor Bazy Danych i Składów wewnątrz gry.
 - [x] **Zadanie #390** (`lib/engine/simulation/multi_race_parallel_day_simulator.dart`): Zbuduj symulator równoległych wyścigów w tym samym dniu kalendarzowym (podział 28-osobowej kadry na dwa fronty).
-- [ ] **Zadanie #391** (`lib/ui/widgets/split_squad_calendar_assignment_modal.dart`): Stwórz okno przydziału kolarzy i rowerów na dwa równoległe wyścigi.
+- [x] **Zadanie #391** (`lib/ui/widgets/split_squad_calendar_assignment_modal.dart`): Stwórz okno przydziału kolarzy i rowerów na dwa równoległe wyścigi.
 - [ ] **Zadanie #392** (`lib/engine/peloton/team_time_trial_rider_drop_strategy.dart`): Dopracuj taktykę `Kamikaze Pull & Drop` w Drużynowej Jeździe na Czas (TTT).
 - [ ] **Zadanie #393** (`lib/ui/widgets/ttt_formation_paceline_control_hud.dart`): Stwórz panel HUD sterowania zmianami i czasem 5. kolarza w TTT.
 - [ ] **Zadanie #394** (`lib/engine/events/weather_radar_live_forecast_shift.dart`): Zbuduj dynamiczny radar przesuwających się frontów burzowych w trakcie wyścigu.
