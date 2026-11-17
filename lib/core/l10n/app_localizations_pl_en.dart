@@ -26,13 +26,13 @@ enum AppL10nDomain {
     Icons.build_circle_outlined,
   ),
   disciplines(
-    'Szosa, CX, Gravel, Tor i Kobiety',
-    'Road, CX, Gravel, Track & Women\'s',
+    'Szosa, CX, Gravel, MTB, Tor i Ultra',
+    'Road, CX, Gravel, MTB, Track & Ultra',
     Icons.directions_bike,
   ),
   careerManagement(
-    'Kariera, Sponsorzy i Transfery',
-    'Career, Sponsors & Transfers',
+    'Kariera, Organizator, Ligi i Transfery',
+    'Career, Organizer, Leagues & Transfers',
     Icons.emoji_events_outlined,
   ),
   juryEtiquette(
@@ -256,6 +256,159 @@ class BilingualCyclingDictionary {
     'l10n_stats_ui_keys': (pl: 'Klucze UI', en: 'UI Keys'),
     'l10n_stats_jargon': (pl: 'Hasła żargonu', en: 'Jargon Terms'),
     'l10n_stats_filtered': (pl: 'Widoczne', en: 'Visible'),
+
+    // --- Ligi Online, ELO i Wyzwania Duchów (Paczka #6/#7) ---
+    'multi_online_leagues': (
+      pl: 'Ligi Online i Ranking ELO',
+      en: 'Online Leagues & ELO Ranking',
+    ),
+    'multi_elo_rating': (pl: 'Ranking ELO', en: 'ELO Rating'),
+    'multi_elo_division': (pl: 'Dywizja ELO', en: 'ELO Division'),
+    'multi_ghost_challenge': (
+      pl: 'Wyzwanie Ducha (Ghost)',
+      en: 'Ghost Challenge',
+    ),
+    'multi_league_draft': (pl: 'Draft Ligi', en: 'League Draft'),
+    'multi_ppmleague_export': (
+      pl: 'Eksport paczki .ppmleague',
+      en: 'Export .ppmleague Package',
+    ),
+    'multi_live_telemetry_ghost': (
+      pl: 'Telemetria Ducha na żywo',
+      en: 'Live Ghost Telemetry',
+    ),
+
+    // --- MTB XCO, Tor i Ultra-Bikepacking ---
+    'disc_mtb_xco': (
+      pl: 'MTB Cross-Country (XCO)',
+      en: 'MTB Cross-Country (XCO)',
+    ),
+    'mtb_rock_garden': (pl: 'Ogród Skalny (Rock Garden)', en: 'Rock Garden'),
+    'mtb_dropper_post': (
+      pl: 'Sztyca Regulowana (Dropper)',
+      en: 'Dropper Seatpost',
+    ),
+    'mtb_suspension_lockout': (
+      pl: 'Blokada Zawieszenia',
+      en: 'Suspension Lockout',
+    ),
+    'mtb_line_choice': (
+      pl: 'Wybór Linii (A/B Line)',
+      en: 'Line Choice (A/B Line)',
+    ),
+    'mtb_tire_24_pressure': (
+      pl: 'Ciśnienie Opon 2.4" MTB',
+      en: 'MTB 2.4" Tire Pressure',
+    ),
+    'disc_ultra_bikepacking': (
+      pl: 'Ultra-Bikepacking 4000 km',
+      en: 'Ultra-Bikepacking 4000 km',
+    ),
+    'ultra_dynamo_hub': (pl: 'Piasta z Dynamem', en: 'Dynamo Hub'),
+    'ultra_sleep_deficit': (
+      pl: 'Deficyt Snu i Mikrosen',
+      en: 'Sleep Deficit & Microsleep',
+    ),
+    'ultra_self_supported': (
+      pl: 'Reguła Samowystarczalności',
+      en: 'Self-Supported Rule',
+    ),
+    'ultra_checkpoint': (pl: 'Punkt Kontrolny (CP)', en: 'Checkpoint (CP)'),
+    'track_keirin': (pl: 'Keirin (Za Derny)', en: 'Keirin (Derny Paced)'),
+    'track_madison': (
+      pl: 'Madison (Wyścig Parami)',
+      en: 'Madison (Hand-Sling)',
+    ),
+    'track_omnium': (
+      pl: 'Omnium (Wielobój Torowy)',
+      en: 'Omnium (Multi-Race)',
+    ),
+
+    // --- Własna Marka R&D, Organizator ASO/RCS i Przepisy UCI VAR ---
+    'brand_inhouse_factory': (
+      pl: 'Fabryka Własnej Marki',
+      en: 'In-House Brand Factory',
+    ),
+    'brand_carbon_layup': (
+      pl: 'Układ Włókien Karbonowych',
+      en: 'Carbon Layup Grade',
+    ),
+    'brand_rd_project': (pl: 'Projekt R&D Ramy', en: 'Frame R&D Project'),
+    'brand_external_license': (
+      pl: 'Licencja dla Zespołów Zewnętrznych',
+      en: 'External Team License',
+    ),
+    'brand_wind_tunnel_gain': (
+      pl: 'Zysk Aero z Tunelu',
+      en: 'Wind Tunnel Gain',
+    ),
+    'org_hq_title': (
+      pl: 'Centrum Organizatora Wyścigów',
+      en: 'Race Organizer HQ',
+    ),
+    'org_host_city_bid': (
+      pl: 'Przetarg Miasta Gospodarza',
+      en: 'Host City Bid',
+    ),
+    'org_tv_rights': (
+      pl: 'Kontrakt Praw Telewizyjnych',
+      en: 'TV Broadcast Rights',
+    ),
+    'org_uci_prestige': (
+      pl: 'Prestiż Wyścigu UCI (2.UWT)',
+      en: 'UCI Race Prestige (2.UWT)',
+    ),
+    'org_syndicate_ledger': (
+      pl: 'Bilans Budżetowy Organizatora',
+      en: 'Organizer Budget Ledger',
+    ),
+    'jury_sprint_var': (
+      pl: 'Analiza Wideo Sprint VAR',
+      en: 'Sprint Deviation VAR',
+    ),
+    'jury_yellow_card': (pl: 'Żółta Kartka UCI', en: 'UCI Yellow Card'),
+    'jury_rulebook_edition': (
+      pl: 'Regulamin UCI (Edycja Sezonowa)',
+      en: 'UCI Rulebook Edition',
+    ),
+    'jury_equipment_compliance': (
+      pl: 'Kontrola Zgodności Sprzętu UCI',
+      en: 'UCI Equipment Compliance',
+    ),
+    'jury_rule_amendment': (
+      pl: 'Nowelizacja Przepisów UCI',
+      en: 'UCI Rule Amendment',
+    ),
+
+    // --- Akademie, Perki Menedżera, Plotki i System ---
+    'career_satellite_academy': (
+      pl: 'Akademia Satelicka',
+      en: 'Satellite Academy',
+    ),
+    'career_manager_perks': (
+      pl: 'Perki i Reputacja Menedżera',
+      en: 'Manager Perks & Reputation',
+    ),
+    'career_transfer_rumors': (
+      pl: 'Plotki Transferowe i Przecieki',
+      en: 'Transfer Rumors & Leaks',
+    ),
+    'career_team_bus_warmup': (
+      pl: 'Rozgrzewka w Autobusie (VO2 Priming)',
+      en: 'Team Bus Warmup (VO2 Priming)',
+    ),
+    'ui_accessibility_colorblind': (
+      pl: 'Tryb Daltonizmu (WCAG)',
+      en: 'Colorblind Accessibility Mode',
+    ),
+    'ui_gamepad_mapper': (
+      pl: 'Mapowanie Kontrolera / Gamepada',
+      en: 'Controller / Gamepad Mapping',
+    ),
+    'ui_graphics_profiler': (
+      pl: 'Profiler Graficzny 120 FPS',
+      en: '120 FPS Graphics Profiler',
+    ),
   };
 
   /// Autentyczny dwujęzyczny słownik żargonu kolarskiego (PL <-> EN).
@@ -791,7 +944,197 @@ class BilingualCyclingDictionary {
       examplePl: 'Masowa kraksa na 40 km przed metą — wyścig zneutralizowany.',
       exampleEn: 'Mass pile-up with 40 km to go — race has been neutralized.',
     ),
+    // --- Paczka #6 & #7: MTB XCO, Tor, Ultra-Bikepacking, R&D, UCI VAR, Organizator i Ligi ---
+    BilingualTermEntry(
+      key: 'ghost_pacemaker',
+      domain: AppL10nDomain.raceHud,
+      pl: 'Duch Wyścigu (Ghost Pacemaker)',
+      en: 'Ghost Pacemaker',
+      slangOrOrigin: 'Online Telemetry',
+      definitionPl:
+          'Półprzezroczysty awatar rywala lub własnego rekordu z ligi online ELO, wyświetlany na trasie 3D wraz z różnicą watów i sekund na żywo.',
+      definitionEn:
+          'Translucent avatar of an online ELO rival or personal best rendered on the 3D course with live time and wattage delta.',
+      examplePl: 'Duch lidera ELO ma +4 s przewagi na podjeździe — dołóż 20 W!',
+      exampleEn: 'ELO leader ghost is +4 s ahead on the climb — add 20 W!',
+    ),
+    BilingualTermEntry(
+      key: 'kamikaze_pull',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Zmiana Kamikaze (TTT)',
+      en: 'Kamikaze Pull (TTT)',
+      slangOrOrigin: 'Team Time Trial',
+      definitionPl:
+          'Maksymalna, ostatnia zmiana pomocnika w Drużynowej Jeździe na Czas na pełnym W\' tuż przed planowanym odpuszczeniem pociągu.',
+      definitionEn:
+          'All-out final pull by a domestique in a Team Time Trial burning remaining W\' before dropping off the pace line.',
+      examplePl: 'Wykonaj zmianę Kamikaze przez 400 m i zejdź z koła!',
+      exampleEn: 'Execute a 400 m Kamikaze pull and swing off the front!',
+    ),
+    BilingualTermEntry(
+      key: 'supertuck_descent',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Pozycja Supertuck na zjeździe',
+      en: 'Supertuck Descent',
+      slangOrOrigin: 'Aero Tuck',
+      definitionPl:
+          'Ekstremalnie aerodynamiczna sylwetka na górnej rurze ramy redukująca CdA na szybkich zjazdach alpejskich (regulowana przepisami UCI).',
+      definitionEn:
+          'Ultra-low aerodynamic tuck over the top tube reducing CdA on fast alpine descents (subject to UCI rulebook editions).',
+      examplePl: 'Zjazd techniczny 11% — wejdź w pozycję aero i odjedź grupie!',
+      exampleEn: 'Technical 11% descent — tuck into aero and gap the group!',
+    ),
+    BilingualTermEntry(
+      key: 'vo2_priming',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Pobudzenie VO2 przed ITT',
+      en: 'VO2 Priming',
+      slangOrOrigin: 'Warmup Protocol',
+      definitionPl:
+          'Precyzyjna rozgrzewka na trenażerze w autobusie drużyny z krótkimi zrywami powyżej FTP, dająca +4.5% mocy od pierwszej sekundy czasówki.',
+      definitionEn:
+          'Targeted team bus smart-trainer warmup with brief supra-threshold surges, unlocking +4.5% opening power in an ITT.',
+      examplePl: 'Protokół VO2 Priming zakończony — lider gotowy na rampę startową.',
+      exampleEn: 'VO2 Priming protocol complete — leader ready for the start ramp.',
+    ),
+    BilingualTermEntry(
+      key: 'sleep_monster_ultra',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Kryzys Senny / Mikrosen (Ultra)',
+      en: 'Sleep Monster / Microsleep',
+      slangOrOrigin: 'Ultra-Bikepacking',
+      definitionPl:
+          'Kumulacja deficytu snu w wyścigach 4000 km non-stop, obniżająca moc progową i wymagająca strategicznego bivouacu na punktach kontrolnych.',
+      definitionEn:
+          'Accumulated sleep deprivation in 4000 km non-stop races, degrading threshold power until a tactical checkpoint bivouac.',
+      examplePl: 'Deficyt snu przekroczył 22 h — zarządzaj drzemkę 90 min na CP3.',
+      exampleEn: 'Sleep deficit exceeded 22 h — schedule a 90-min nap at CP3.',
+    ),
+    BilingualTermEntry(
+      key: 'dropper_post',
+      domain: AppL10nDomain.equipmentMechanics,
+      pl: 'Sztyca regulowana (Dropper Post)',
+      en: 'Dropper Post',
+      slangOrOrigin: 'MTB XCO Tech',
+      definitionPl:
+          'Teleskopowa sztyca podsiodłowa obniżająca środek ciężkości na stromych dropach i w ogrodach skalnych MTB XCO oraz Gravelu.',
+      definitionEn:
+          'Hydraulic seatpost lowering the rider\'s center of gravity for steep drops and rock gardens in MTB XCO and Gravel.',
+      examplePl: 'Opuść Dropper Post przed dropem i wybierz szybszą linię A!',
+      exampleEn: 'Drop the dropper post before the chute and take the faster A-line!',
+    ),
+    BilingualTermEntry(
+      key: 'carbon_layup',
+      domain: AppL10nDomain.equipmentMechanics,
+      pl: 'Układ warstw karbonu (R&D)',
+      en: 'Carbon Layup (R&D)',
+      slangOrOrigin: 'In-House Brand',
+      definitionPl:
+          'Projektowanie orientacji włókien węglowych we własnej fabryce R&D klubu w celu zbalansowania sztywności suportu, masy i tłumienia drgań.',
+      definitionEn:
+          'Engineering carbon fiber ply orientation in the club\'s in-house R&D factory to balance BB stiffness, weight, and compliance.',
+      examplePl: 'Nowy layup High-Modulus obniżył masę ramy o 85 g bez straty sztywności.',
+      exampleEn: 'New High-Modulus layup shaved 85 g off the frame without losing stiffness.',
+    ),
+    BilingualTermEntry(
+      key: 'rock_garden_a_line',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Linia A / Ogród Skalny (MTB XCO)',
+      en: 'A-Line / Rock Garden (MTB XCO)',
+      slangOrOrigin: 'MTB XCO',
+      definitionPl:
+          'Krótsza, lecz technicznie ryzykowna ścieżka przez ostre głazy na rundzie XCO; szybsza o kilka sekund niż bezpieczna linia B.',
+      definitionEn:
+          'Shorter, high-risk line through jagged boulders on an XCO lap; seconds faster than the safer B-line bypass.',
+      examplePl: 'Atakuj linię A w ogrodzie skalnym z pełną blokadą otwartą!',
+      exampleEn: 'Hit the A-line through the rock garden with suspension wide open!',
+    ),
+    BilingualTermEntry(
+      key: 'madison_hand_sling',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Zmiana za rękę (Madison)',
+      en: 'Madison Hand-Sling',
+      slangOrOrigin: 'Track Cycling',
+      definitionPl:
+          'Dynamiczne przekazanie pędu partnerowi na welodromie poprzez chwycenie dłoni i wyrzucenie go z wirażu w wyścigu Madison.',
+      definitionEn:
+          'High-speed momentum transfer on the velodrome by clasping hands and slinging your teammate off the banking.',
+      examplePl: 'Perfekcyjny hand-sling na wirażu — łapiemy okrążenie przewagi!',
+      exampleEn: 'Clean hand-sling off the banking — we are taking a lap!',
+    ),
+    BilingualTermEntry(
+      key: 'derny_pacer',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Motocykl Derny (Keirin)',
+      en: 'Derny Pacer (Keirin)',
+      slangOrOrigin: 'Track Keirin',
+      definitionPl:
+          'Lekki motocykl nadający rosnące tempo do 50 km/h przed zjazdem z toru na 2.5 okrążenia przed metą w sprincie Keirin.',
+      definitionEn:
+          'Motorized pacer ramping speed up to 50 km/h before pulling off with 2.5 laps to go in a Keirin sprint.',
+      examplePl: 'Derny zjeżdża z toru — zaczynamy finałowy sprint na 62T!',
+      exampleEn: 'Derny pulls off — launch the final sprint on the 62T ring!',
+    ),
+    BilingualTermEntry(
+      key: 'dot_watching',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Śledzenie Kropek (Dot-Watching)',
+      en: 'Dot-Watching',
+      slangOrOrigin: 'Ultra-Bikepacking',
+      definitionPl:
+          'Obserwowanie nadajników GPS kolarzy na mapie podczas wielodniowych wyścigów Ultra-Bikepacking 4000 km bez wsparcia wozów.',
+      definitionEn:
+          'Tracking riders\' live GPS beacons across 4000 km self-supported ultra-endurance bikepacking races.',
+      examplePl: 'Kropka lidera nie rusza się od 3 godzin — regeneracja w schronisku.',
+      exampleEn: 'The leader\'s dot has been stationary for 3 hours — resting at a shelter.',
+    ),
+    BilingualTermEntry(
+      key: 'grand_depart',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Grand Départ (Start Honorowy)',
+      en: 'Grand Départ',
+      slangOrOrigin: 'Race Organizer HQ',
+      definitionPl:
+          'Uroczyste otwarcie Wielkiego Touru przyznawane w przetargu miastom gospodarzom przez organizatora (ASO/RCS) za wielomilionowe wpisowe.',
+      definitionEn:
+          'Prestigious Grand Tour opening stages awarded by the race organizer (ASO/RCS) via host-city bidding.',
+      examplePl: 'Miasto gospodarz wygrało przetarg na Grand Départ — +4.5M € do budżetu.',
+      exampleEn: 'Host city won the Grand Départ bid — +€4.5M into organizer ledger.',
+    ),
+    BilingualTermEntry(
+      key: 'sprint_deviation_var',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Analiza VAR Toru Sprintu',
+      en: 'Sprint Deviation VAR',
+      slangOrOrigin: 'UCI Video Jury',
+      definitionPl:
+          'Powtórka wideo z kamery czołowej i helikoptera oceniająca, czy sprinter bezprawnie zjechał z linii jazdy w ostatnich 200 m.',
+      definitionEn:
+          'Overhead and head-on video review verifying whether a sprinter illegally deviated from their line in the final 200 m.',
+      examplePl: 'Sędziowie analizują Sprint VAR — możliwa relegacja i żółta kartka!',
+      exampleEn: 'Commissaires reviewing Sprint VAR — relegation and yellow card possible!',
+    ),
+    BilingualTermEntry(
+      key: 'uci_yellow_card',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Żółta kartka UCI',
+      en: 'UCI Yellow Card',
+      slangOrOrigin: 'UCI Rulebook',
+      definitionPl:
+          'Oficjalne ostrzeżenie dyscyplinarne dla kolarza lub dyrektora sportowego; dwie żółte kartki w wyścigu skutkują dyskwalifikacją.',
+      definitionEn:
+          'Official disciplinary caution for a rider or sports director; two yellow cards in one race result in disqualification.',
+      examplePl: 'Otrzymałeś żółtą kartkę UCI — kolejne wykroczenie oznacza DSQ.',
+      exampleEn: 'Issued a UCI Yellow Card — another infraction means immediate DSQ.',
+    ),
   ];
+
+  /// Sprawdza, czy klucz istnieje w słowniku UI lub w bazowym [AppLocalizationsPlEn].
+  static bool hasKey(String key) {
+    if (uiStrings.containsKey(key)) return true;
+    final fallback = AppLocalizationsPlEn.ofLanguage(AppLanguage.pl).t(key);
+    return fallback != key;
+  }
 
   /// Tłumaczy klucz UI z obsługą fallbacku do [AppLocalizationsPlEn] oraz parametrów `{name}`.
   static String translate(

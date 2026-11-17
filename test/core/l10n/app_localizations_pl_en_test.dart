@@ -105,6 +105,30 @@ void main() {
       expect(plL10n.isPolish, isTrue);
       expect(enL10n.isEnglish, isTrue);
     });
+
+    test('covers Package 6 & 7 UI keys, jargon entries, and hasKey helper', () {
+      expect(BilingualCyclingDictionary.hasKey('multi_online_leagues'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('disc_mtb_xco'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('brand_inhouse_factory'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('jury_sprint_var'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('org_hq_title'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('disc_ultra_bikepacking'), isTrue);
+      expect(BilingualCyclingDictionary.hasKey('nonexistent_key_xyz'), isFalse);
+
+      expect(
+        BilingualCyclingDictionary.translate('jury_sprint_var', AppLanguage.pl),
+        'Analiza Wideo Sprint VAR',
+      );
+      expect(
+        BilingualCyclingDictionary.translate('jury_sprint_var', AppLanguage.en),
+        'Sprint Deviation VAR',
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('rock garden')
+            .any((e) => e.key == 'rock_garden_a_line'),
+        isTrue,
+      );
+    });
   });
 
   group('CyclingJargonDictionaryPanel responsive UI', () {

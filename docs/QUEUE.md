@@ -574,7 +574,7 @@ Zasady działania pętli:
 - [x] **Zadanie #551** (`test/all_screens_golden_smoke_render_test.dart`): Testy renderowania UI na 3 rozdzielczościach (`390x844`, `1024x768`, `1600x900`).
 - [x] **Zadanie #552** (`lib/core/diagnostics/save_compatibility_v7_migrator.dart`): Migrator zapisów gry dla struktur Paczek #6 i #7.
 - [x] **Zadanie #553** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczek #6 i #7 w `AppRouter`.
-- [ ] **Zadanie #554** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN.
+- [x] **Zadanie #554** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN.
 - [ ] **Zadanie #555** (`lib/core/diagnostics/unused_code_and_dependency_pruner.dart`): Czyszczenie martwego kodu i weryfikacja dokumentacji klas.
 - [ ] **Zadanie #556** (`lib/core/diagnostics/performance_120fps_frame_budget_auditor.dart`): Audyt budżetu klatki 3D (< $4.5\text{ ms}$ dla stałych 120 FPS).
 - [ ] **Zadanie #557** (`docs/CODE_MAP.md`): Aktualizacja indeksacji pliku `docs/CODE_MAP.md`.
