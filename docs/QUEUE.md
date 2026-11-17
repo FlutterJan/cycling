@@ -521,7 +521,7 @@ Zasady działania pętli:
 ## CZĘŚĆ VIII: PACZKA #7A (#463 – #512) — SYMULATOR KOMISARZA UCI, KEIRIN & MADISON NA TORZE ORAZ PRZECIEKI TRANSFEROWE
 
 - [x] **Zadanie #463** (`lib/models/race/uci_commissaire_rulebook_and_var_model.dart`): Model przepisów sędziowskich UCI, analizy wideo VAR sprintów (`Sprint Deviation VAR`) oraz dynamicznej ewolucji regulaminów (np. zmiany limitu wagi roweru z $6.8\text{ kg}$ na $6.5\text{ kg}$ lub zakazów pozycji aero w kolejnych latach kariery).
-- [ ] **Zadanie #464** (`lib/ui/widgets/sprint_var_overhead_replay_inspector.dart`): Narzędzie powtórki wideo z lotu ptaka (`VAR Sprint Deviation Inspector`) z narysowanymi liniami toru jazdy sprinterów na ostatnich $200\text{ m}$ pozwalające ocenić zajechanie drogi.
+- [x] **Zadanie #464** (`lib/ui/widgets/sprint_var_overhead_replay_inspector.dart`): Narzędzie powtórki wideo z lotu ptaka (`VAR Sprint Deviation Inspector`) z narysowanymi liniami toru jazdy sprinterów na ostatnich $200\text{ m}$ pozwalające ocenić zajechanie drogi.
 - [ ] **Zadanie #465** (`lib/engine/physics/velodrome_keirin_and_madison_sling_solver.dart`): Solver fizyki wyścigów torowych **Keirin** (jazda za motocyklem Derny rozpędzającym stawkę do $50\text{ km/h}$) oraz **Madison (Wyścig Amerykański)** z fizyką **rzutu za rękę (`Hand Sling`)** przekazującego pęd partnerowi z pary!
 - [ ] **Zadanie #466** (`lib/engine/rendering3d/velodrome_madison_hand_sling_3d_renderer.dart`): Renderer 3D wyścigu Madison i Keirin na welodromie z motocyklem Derny, zmianami par w locie i elektroniczną tablicą punktów sprinterskich co 10 okrążeń.
 - [ ] **Zadanie #467** (`lib/ui/screens/track_omnium_madison_championship_screen.dart`): Ekran Mistrzostw Torowych (Keirin, Madison, Omnium, Wyścig Punktowy).
