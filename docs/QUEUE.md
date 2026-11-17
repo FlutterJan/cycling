@@ -466,7 +466,7 @@ Zasady działania pętli:
 - [x] **Zadanie #378** (`lib/ui/screens/olympic_games_hub_and_medal_table_screen.dart`): Stwórz ekran Igrzysk Olimpijskich i tabeli medalowej państw `OlympicGamesHubAndMedalTableScreen`.
 - [x] **Zadanie #379** (`lib/services/network/dual_screen_telemetry_wall_server.dart`): Zbuduj lokalny serwer WebSocket `DualScreenTelemetryWallServer` umożliwiający obsługę panelu wozu technicznego z telefonu/tabletu podczas gry na PC/Mac.
 - [x] **Zadanie #380** (`lib/ui/screens/companion_car_dashboard_screen.dart`): Stwórz ekran Konsoli Wozu Technicznego z 3 wirtualnymi monitorami telemetrii.
-- [ ] **Zadanie #381** (`lib/engine/peloton/nature_break_and_peloton_etiquette_engine.dart`): Dodaj mechanikę niepisanych zasad peletonu (`Nature Break` i zawieszenie ataków po kraksie lidera).
+- [x] **Zadanie #381** (`lib/engine/peloton/nature_break_and_peloton_etiquette_engine.dart`): Dodaj mechanikę niepisanych zasad peletonu (`Nature Break` i zawieszenie ataków po kraksie lidera).
 - [ ] **Zadanie #382** (`lib/engine/physics/crosswind_wheel_stability_and_gust_solver.dart`): Zbuduj fizykę podmuchów bocznych na wysokich stożkach karbonowych $65–80\text{ mm}$.
 - [ ] **Zadanie #383** (`lib/engine/rendering3d/coastal_bridges_and_cobble_trenches_3d.dart`): Rozbuduj scenerię 3D o morskie mosty (Wielki Bełt), przekopy leśne Arenberg, kredowe wzgórza Toskanii i księżycowy szczyt Mont Ventoux.
 - [ ] **Zadanie #384** (`lib/services/career/historic_legend_hall_of_fame_compare.dart`): Zbuduj moduł punktacji wieloletniej `All-Time Goat Score`.
