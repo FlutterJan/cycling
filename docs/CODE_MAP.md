@@ -89,6 +89,7 @@
 - `lib/models/race/race_stage.dart` — Model etapu lub wyścigu jednodniowego.
 - `lib/models/race/stage_segment.dart` — Segment trasy (długość, nachylenie, nawierzchnia, wiatr).
 - `lib/models/race/tour_race.dart` — Model wyścigu wieloetapowego i klasyfikacji (GC, Punkty, Góry, Młodzież).
+- `lib/models/race/velodrome_track_and_hour_record_model.dart` — Model Kolarstwa Torowego na Welodromie 250 m (wiraże 42°–45°, Grenchen/Aguascalientes), roweru ostrokołowego (58T–64T x 13T–15T) i Rekordu Godzinnego UCI (`VelodromeTrackAndHourRecordModel`, `VelodromeFacilitySpec`, `FixedGearTrackBike`, `UciHourRecordEntry`, `HourRecordAttemptSimulation`, `UciHourRecordCategory`, `VelodromeWoodSurface`, `VelodromeAltitudeTier`).
 - `lib/models/rider/lactate_and_lab_profile.dart` — Profil mleczanowy LT1, LT2, VLaMax, VO2max.
 - `lib/models/rider/rider.dart` — Główny model kolarza łączący atrybuty, zdrowie i kontrakt.
 - `lib/models/rider/rider_appearance.dart` — Wygląd twarzy, kasku, okularów i sylwetki.
