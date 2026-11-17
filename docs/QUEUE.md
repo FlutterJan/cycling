@@ -514,7 +514,7 @@ Zasady działania pętli:
 - [x] **Zadanie #421** (`lib/ui/screens/in_house_bike_brand_factory_screen.dart`): Ekran Fabryki i Działu R&D własnej marki rowerowej z projektowaniem geometrii i analizą sprzedaży detalicznej.
 - [x] **Zadanie #422** (`lib/services/career/tv_broadcast_rights_revenue_sharing.dart`): System podziału przychodów z praw telewizyjnych w cyklu WorldTour zależny od oglądalności i wyników drużyny.
 - [x] **Zadanie #423** (`lib/engine/audio/spatial_3d_peloton_audio_panner.dart`): Przestrzenne panoramowanie stereo dźwięku peletonu, wozów technicznych i kibiców zależnie od pozycji kamery 3D.
-- [ ] **Zadanie #424** (`test/package_6_multiplayer_mtb_brand_test.dart`): Pakiet testów jednostkowych i integracyjnych dla lig multiplayer, fizyki MTB XCO oraz fabryki własnej marki rowerowej (#413–#462).
+- [x] **Zadanie #424** (`test/package_6_multiplayer_mtb_brand_test.dart`): Pakiet testów jednostkowych i integracyjnych dla lig multiplayer, fizyki MTB XCO oraz fabryki własnej marki rowerowej (#413–#462).
 
 ---
 
