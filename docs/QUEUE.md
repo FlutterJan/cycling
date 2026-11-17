@@ -484,7 +484,7 @@ Zasady działania pętli:
 - [x] **Zadanie #396** (`lib/services/career/bike_sponsor_custom_prototype_lab.dart`): Zbuduj tajne laboratorium prototypów `Skunkworks Lab` na kluczowe wyścigi.
 - [x] **Zadanie #397** (`lib/ui/widgets/skunkworks_prototype_blueprint_painter.dart`): Stwórz techniczny rysunek inżynieryjny Blueprint CAD testowanego prototypu.
 - [x] **Zadanie #398** (`lib/services/career/career_achievements_and_trophies_engine.dart`): Zbuduj system 60 Osiągnięć Menedżerskich i Kolarskich z Platynowym Trofeum.
-- [ ] **Zadanie #399** (`lib/ui/screens/achievements_and_platinum_trophy_screen.dart`): Stwórz ekran Osiągnięć i wyskakujących powiadomień `AchievementUnlockedToast`.
+- [x] **Zadanie #399** (`lib/ui/screens/achievements_and_platinum_trophy_screen.dart`): Stwórz ekran Osiągnięć i wyskakujących powiadomień `AchievementUnlockedToast`.
 - [ ] **Zadanie #400** (`lib/ui/widgets/post_season_interactive_year_in_review_story.dart`): Zbuduj interaktywne podsumowanie roku „Season Wrapped / Year in Review”.
 - [ ] **Zadanie #401** (`test/gravel_sealant_and_tire_inserts_test.dart`): Test jednostkowy fizyki szutru, mleczka Tubeless i wkładek piankowych.
 - [ ] **Zadanie #402** (`test/in_race_diplomacy_and_grudge_test.dart`): Test dyplomacji na szosie i pamięci urazów AI.
