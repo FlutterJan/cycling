@@ -533,7 +533,7 @@ Zasady działania pętli:
 
 ## CZĘŚĆ IX: PACZKA #7B (#513 – #562) — TRYB ORGANIZATORA WIELKICH TOURÓW (ASO/RCS), ULTRA-ENDURANCE BIKEPACKING 4000 KM, REAL-TIME CFD WIND TUNNEL & DIAMOND MASTER QA
 
-- [ ] **Zadanie #513** (`lib/models/organizer/race_organizer_empire_model.dart`): Model dla trybu **Promotor i Organizator Wyścigów (ASO/RCS)**: budżet, przetargi miast gospodarzy (`Host City Bids`), prawa TV i prestiż wyścigu UCI (`2.UWT`).
+- [x] **Zadanie #513** (`lib/models/organizer/race_organizer_empire_model.dart`): Model dla trybu **Promotor i Organizator Wyścigów (ASO/RCS)**: budżet, przetargi miast gospodarzy (`Host City Bids`), prawa TV i prestiż wyścigu UCI (`2.UWT`).
 - [ ] **Zadanie #514** (`lib/services/organizer/star_rider_appearance_fee_negotiator.dart`): System negocjacji opłat startowych (`Appearance Fees`) z gwiazdami peletonu i projektowania tras przyciągających liderów GC i sprinterów.
 - [ ] **Zadanie #515** (`lib/services/organizer/course_safety_barriers_and_marshals_planner.dart`): System planowania barier ochronnych (`Boplan Air-Cushion Barriers`), siatek i marshali na trasie.
 - [ ] **Zadanie #516** (`lib/ui/screens/race_organizer_hq_dashboard_screen.dart`): Główny ekran trybu Organizatora Wyścigów z mapą przetargów miast i transmisją 3D własnego wyścigu.
