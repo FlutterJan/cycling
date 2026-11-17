@@ -457,7 +457,7 @@ Zasady działania pętli:
 - [x] **Zadanie #369** (`lib/ui/widgets/in_race_diplomacy_radio_modal.dart`): Stwórz interfejs negocjacji na szosie `InRaceDiplomacyRadioModal` pozwalający zawierać lub odrzucać układy z rywalami podczas etapu.
 - [x] **Zadanie #370** (`lib/services/career/ai_rivalry_grudge_memory_service.dart`): Zbuduj system długoterminowej pamięci urazów i przyjaźni w peletonie `AiRivalryGrudgeMemoryService`.
 - [x] **Zadanie #371** (`lib/models/team/team_bus_and_warmup_protocol_model.dart`): Stwórz model Autobusu Drużyny i Protokołu Rozgrzewki na trenażerze (`VO2 Priming` $+4.5\%$ mocy na starcie ITT).
-- [ ] **Zadanie #372** (`lib/engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart`): Zbuduj interaktywną scenę 3D Paddocku i Autobusu Drużyny przed startem etapu z kolarzami rozgrzewającymi się na trenażerach.
+- [x] **Zadanie #372** (`lib/engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart`): Zbuduj interaktywną scenę 3D Paddocku i Autobusu Drużyny przed startem etapu z kolarzami rozgrzewającymi się na trenażerach.
 - [ ] **Zadanie #373** (`lib/ui/screens/pre_stage_paddock_and_warmup_screen.dart`): Stwórz ekran Paddocku Przedstartowego `PreStagePaddockAndWarmupScreen` z konfiguracją rozgrzewki i kamizelek chłodzących `Pre-Cooling Ice Vest`.
 - [ ] **Zadanie #374** (`lib/models/career/womens_worldtour_and_mixed_relay_model.dart`): Stwórz model danych dla **Kobiecego WorldTouru (UCI Women's WorldTour)** oraz **Drużynowej Sztafety Mieszanej (Mixed Relay TTT)**.
 - [ ] **Zadanie #375** (`lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart`): Zbuduj generator 24 drużyn kobiecych i 360 zawodniczek z pełną fizjologią i rynkiem transferowym.
