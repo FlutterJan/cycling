@@ -302,6 +302,7 @@
 - `lib/services/generators/uci_calendar_generator.dart` — Generator pełnego kalendarza UCI na sezon.
 - `lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart` — Generator 24 drużyn kobiecych (15 WWT, 6 Pro, 3 Conti) i 360 zawodniczek z fizjologią i rynkiem transferowym (`WomensWorldtourTeamsAndRidersSeeder`, `WomensWorldTourSeedResult`, `WomensSeededRider`).
 - `lib/services/generators/world_teams_generator.dart` — Generator drużyn WorldTour, ProTeam i Continental.
+- `lib/services/network/dual_screen_telemetry_wall_server.dart` — Lokalny serwer HTTP/WebSocket i klient wozu technicznego (`DualScreenTelemetryWallServer`, `DualScreenTelemetryWallClient`, `TelemetryWallFrame`, `CompanionRiderTelemetry`, `CompanionGroupGap`, `CompanionRadioEvent`, `CompanionServiceStatus`, `CompanionCarCommand`, `ConnectedCompanionDevice`, `DualScreenTelemetryWallState`, `DualScreenTelemetryWallNotifier`, `dualScreenTelemetryWallProvider`, `DualScreenTelemetryWallPanel`).
 
 ### `lib/state/`
 - `lib/state/career_controller.dart` — Kontroler akcji kariery i logiki postępu dni.
@@ -538,3 +539,4 @@
 - `test/ui/mixed_relay_ttt_handover_hud_widget_test.dart` — Testy jednostkowe i responsywne widgetowe `MixedRelayTttHandoverHudWidget` oraz `MixedRelayHandoverHudCalculator` (bramka przekazania, falstart +15s, stany interakcji i `390x844` / `1024x768` / `1600x900`).
 - `test/services/olympic_games_quadrennial_cycle_service_test.dart` — Testy jednostkowe i responsywne widgetowe `OlympicGamesQuadrennialCycleService` oraz `OlympicGamesQuadrennialCyclePanel` (cykl 4-letni, brak radia wyścigowego, małe kadry narodowe, złoty kask i rama, JSON oraz `390x844` / `1024x768` / `1600x900`).
 - `test/ui/olympic_games_hub_and_medal_table_screen_test.dart` — Testy jednostkowe `OlympicMedalTableAggregator` oraz responsywne widgetowe `OlympicGamesHubAndMedalTableScreen` (`390x844` / `1024x768` / `1600x900`, symulacja wyścigu olimpijskiego i stan `isReadOnly`).
+- `test/services/dual_screen_telemetry_wall_server_test.dart` — Testy jednostkowe, sieciowe WebSocket/HTTP, Riverpod oraz responsywne widgetowe `DualScreenTelemetryWallServer`, `DualScreenTelemetryWallClient` i `DualScreenTelemetryWallPanel` (`390x844` / `1024x768` / `1600x900`).
