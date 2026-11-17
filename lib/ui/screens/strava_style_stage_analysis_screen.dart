@@ -288,28 +288,33 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
       ),
       title: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFC4C02).withValues(alpha: 0.15), // Strava Orange
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: const Color(0xFFFC4C02).withValues(alpha: 0.4)),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.insights_rounded, color: Color(0xFFFC4C02), size: 16),
-                SizedBox(width: 6),
-                Text(
-                  'STRAVA / GARMIN FIT',
-                  style: TextStyle(
-                    color: Color(0xFFFC4C02),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.8,
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFC4C02).withValues(alpha: 0.15), // Strava Orange
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: const Color(0xFFFC4C02).withValues(alpha: 0.4)),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.insights_rounded, color: Color(0xFFFC4C02), size: 16),
+                  SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      'STRAVA / GARMIN FIT',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Color(0xFFFC4C02),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const SizedBox(width: 12),
@@ -562,9 +567,12 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
           '$label: ',
           style: TextStyle(color: color.withValues(alpha: 0.8), fontSize: 11, fontWeight: FontWeight.w600),
         ),
-        Text(
-          value,
-          style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w800),
+        Flexible(
+          child: Text(
+            value,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w800),
+          ),
         ),
       ],
     );
@@ -683,20 +691,26 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Nagłówek wykresu i przełączniki serii
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               const Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.timeline_rounded, color: AppColors.cyanAccent, size: 20),
                   SizedBox(width: 8),
-                  Text(
-                    'TELEMETRIA Z CAŁEGO ETAPU',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
+                  Flexible(
+                    child: Text(
+                      'TELEMETRIA Z CAŁEGO ETAPU',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                 ],
@@ -758,22 +772,40 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('0.0 km', style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.w600)),
-              Text(
-                '${(log.points.last.distanceKm * 0.25).toStringAsFixed(1)} km',
-                style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+              const Flexible(
+                child: Text(
+                  '0.0 km',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.w600),
+                ),
               ),
-              Text(
-                '${(log.points.last.distanceKm * 0.50).toStringAsFixed(1)} km',
-                style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+              Flexible(
+                child: Text(
+                  '${(log.points.last.distanceKm * 0.25).toStringAsFixed(1)} km',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+                ),
               ),
-              Text(
-                '${(log.points.last.distanceKm * 0.75).toStringAsFixed(1)} km',
-                style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+              Flexible(
+                child: Text(
+                  '${(log.points.last.distanceKm * 0.50).toStringAsFixed(1)} km',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+                ),
               ),
-              Text(
-                'META: ${log.points.last.distanceKm.toStringAsFixed(1)} km',
-                style: const TextStyle(color: AppColors.goldAccent, fontSize: 10, fontWeight: FontWeight.w700),
+              Flexible(
+                child: Text(
+                  '${(log.points.last.distanceKm * 0.75).toStringAsFixed(1)} km',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: AppColors.textMuted, fontSize: 10),
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  'META: ${log.points.last.distanceKm.toStringAsFixed(1)} km',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: AppColors.goldAccent, fontSize: 10, fontWeight: FontWeight.w700),
+                ),
               ),
             ],
           ),
@@ -869,21 +901,27 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.bar_chart_rounded, color: AppColors.goldAccent, size: 20),
-                  SizedBox(width: 8),
-                  Text(
-                    'STREFY MOCY COGGANA (Z1-Z7)',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
+              const Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.bar_chart_rounded, color: AppColors.goldAccent, size: 20),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'STREFY MOCY COGGANA (Z1-Z7)',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Text(
                 'FTP: ${zones.ftpWatts} W',
                 style: const TextStyle(color: AppColors.goldAccent, fontSize: 12, fontWeight: FontWeight.w700),
@@ -923,30 +961,37 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 22,
-                  height: 18,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: color.withValues(alpha: 0.8)),
+            Expanded(
+              child: Row(
+                children: [
+                  Container(
+                    width: 22,
+                    height: 18,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: color.withValues(alpha: 0.8)),
+                    ),
+                    child: Text(
+                      'Z$zone',
+                      style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w900),
+                    ),
                   ),
-                  child: Text(
-                    'Z$zone',
-                    style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w900),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      name,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
-                ),
-              ],
+                ],
+              ),
             ),
+            const SizedBox(width: 8),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   range,
@@ -1005,13 +1050,15 @@ class _StravaStyleStageAnalysisScreenState extends State<StravaStyleStageAnalysi
             children: [
               Icon(Icons.show_chart_rounded, color: AppColors.powerZone7, size: 20),
               SizedBox(width: 8),
-              Text(
-                'KRZYWA SZCZYTOWEJ MOCY (MMP)',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  'KRZYWA SZCZYTOWEJ MOCY (MMP)',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
             ],

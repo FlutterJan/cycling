@@ -962,28 +962,35 @@ class _PostStageHighlightReelCarouselState
                     children: [
                       _MediaTypeBadge(mediaType: item.mediaType),
                       const SizedBox(width: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.background.withValues(alpha: 0.78),
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: AppTheme.borderColor),
-                        ),
-                        child: Text(
-                          item.momentKind.badgeLabel,
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            color: AppColors.textPrimary,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.background.withValues(alpha: 0.78),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: AppTheme.borderColor),
+                            ),
+                            child: Text(
+                              item.momentKind.badgeLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                color: AppColors.textPrimary,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(width: 6),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -1152,9 +1159,17 @@ class _PostStageHighlightReelCarouselState
                   children: [
                     Row(
                       children: [
-                        playButton,
-                        const Spacer(),
-                        timeText,
+                        Flexible(child: playButton),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: timeText,
+                            ),
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         speedButton,
                       ],
