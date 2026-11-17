@@ -325,6 +325,7 @@
 - `lib/ui/screens/team_bus_locker_room_screen.dart` — Wnętrze Autobusu Drużyny przed startem (`TeamBusLockerRoomScreen`, `TeamBusInteriorPainter`, `DirectorSpeechOption`, `TeamBusRiderSlot`, `TeamBusBriefingResult`).
 - `lib/ui/screens/training_and_camps_screen.dart` — Obozy treningowe i plany obciążeń.
 - `lib/ui/screens/transfer_market_scouting_screen.dart` — Rynek transferowy i negocjacje.
+- `lib/ui/screens/uci_hour_record_attempt_screen.dart` — Ekran oficjalnej Próby Bicia Rekordu Godzinnego UCI (`UciHourRecordAttemptScreen`, `HourRecordPacingStrategy`, `HourRecordAttemptPhase`, `HourRecordCandidateProfile`, `HourRecordLiveLapSplit`, `HourRecordFinalProtocol`) z wyborem welodromu (nizinny vs Meksyk), przełożeniem ostrego koła (`58T–64T` x `13T–15T`), strategią tempa (`Równe Tempo` vs `Negative Split`), widokiem 3D z metronomem okrążeń oraz certyfikatem Nowego Rekordu Świata po `60:00.00`.
 - `lib/ui/screens/velo_dor_gala_ceremony_screen.dart` — Uroczysty ekran gali kończącej sezon Vélo d'Or w czerni `#0F1115` i złocie `#D4AF37` (`VeloDorGalaCeremonyScreen`, `VeloDorPlayerSeasonSummary`, `VeloDorTeamRiderSummary`) ze zwycięzcami, statystykami roku i osiągnięciami drużyny gracza.
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
 
