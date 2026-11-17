@@ -330,6 +330,7 @@
 - `lib/ui/screens/main_title_menu_screen.dart` — Ekran tytułowy AAA (`MainTitleMenuScreen`, `AnimatedPelotonBackdropPainter`) z animowanym tłem alpejskim 60/120 FPS i szklanym panelem nawigacyjnym.
 - `lib/ui/screens/manager_profile_and_achievements_screen.dart` — Profil Menedżera (`ManagerProfileAndAchievementsScreen`): holograficzna licencja UCI VIP, wykresy zwycięstw wg terenu (`fl_chart`) i siatka 45 osiągnięć z filtrami rangi i paskami postępu.
 - `lib/ui/screens/medical_and_recovery_center_screen.dart` — Centrum medyczne, kontuzje i paszport biologiczny.
+- `lib/ui/screens/mixed_relay_ttt_handover_hud_widget.dart` — Dzielony interfejs przekazania zmiany w Sztafecie Mieszanej TTT (`MixedRelayTttHandoverHudWidget`, `MixedRelayHandoverHudCalculator`, `MixedRelayHandoverGatePainter`, `MixedRelayTrioPaceMode`).
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).
 - `lib/ui/screens/post_stage_podium_screen.dart` — Ceremonia podium i klasyfikacje po etapie.
@@ -532,3 +533,4 @@
 - `test/ui/gravel_world_series_hub_screen_test.dart` — Testy jednostkowe (`GravelWorldSeriesCalendarCatalog`, `GravelOasisPlannerCalculator`) oraz responsywne widgetowe `GravelWorldSeriesHubScreen` (390x844 / 1024x768 / 1600x900, konfiguracja opon 40–50 mm, strefy `Oasis` i stan `isReadOnly`).
 - `test/ui/in_race_diplomacy_radio_modal_test.dart` — Testy serializacji `IncomingRivalPactOffer` oraz interakcji i responsywności `InRaceDiplomacyRadioModal` (akceptacja/odrzucenie ofert, propozycje paktów, zdrada, stan disabled, dialog oraz `390x844` / `1024x768` / `1600x900`).
 - `test/ui/pre_stage_paddock_and_warmup_screen_test.dart` — Testy widgetowe i responsywne `PreStagePaddockAndWarmupScreen` (`390x844` / `1024x768` / `1600x900`, protokoły `VO2 Priming ITT`, `Pre-Cooling Ice Vest`, walidacja zamrażarki autokaru, `Auto-Optymalizuj` oraz stany `isReadOnly` i pusty).
+- `test/ui/mixed_relay_ttt_handover_hud_widget_test.dart` — Testy jednostkowe i responsywne widgetowe `MixedRelayTttHandoverHudWidget` oraz `MixedRelayHandoverHudCalculator` (bramka przekazania, falstart +15s, stany interakcji i `390x844` / `1024x768` / `1600x900`).
