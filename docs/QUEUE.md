@@ -563,7 +563,7 @@ Zasady działania pętli:
 - [x] **Zadanie #540** (`lib/services/career/uci_worldtour_calendar_expansion_engine.dart`): Dynamiczna rozbudowa kalendarza WorldTour w kolejnych latach kariery.
 - [x] **Zadanie #541** (`lib/core/config/controller_gamepad_input_mapper.dart`): Pełna obsługa kontrolerów Xbox / PlayStation DualSense / Steam Deck.
 - [x] **Zadanie #542** (`lib/ui/widgets/quick_tactical_macro_recorder_widget.dart`): Nagrywarka makr taktycznych dla całej drużyny jednym przyciskiem.
-- [ ] **Zadanie #543** (`lib/engine/physics/altitude_descent_air_density_transition.dart`): Ciągła interpolacja gęstości powietrza $\rho(h, T)$ podczas zjazdów alpejskich.
+- [x] **Zadanie #543** (`lib/engine/physics/altitude_descent_air_density_transition.dart`): Ciągła interpolacja gęstości powietrza $\rho(h, T)$ podczas zjazdów alpejskich.
 - [ ] **Zadanie #544** (`lib/ui/screens/manager_profile_and_reputation_screen.dart`): Ekran Profilu Menedżera, statystyk życiowych i reputacji.
 - [ ] **Zadanie #545** (`lib/services/career/manager_skill_tree_perks_service.dart`): Drzewko umiejętności i pasywnych perków menedżera.
 - [ ] **Zadanie #546** (`test/race_organizer_mode_and_bids_test.dart`): Testy trybu Organizatora Wyścigów i przetargów miast.
