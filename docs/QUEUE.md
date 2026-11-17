@@ -472,7 +472,7 @@ Zasady działania pętli:
 - [x] **Zadanie #384** (`lib/services/career/historic_legend_hall_of_fame_compare.dart`): Zbuduj moduł punktacji wieloletniej `All-Time Goat Score`.
 - [x] **Zadanie #385** (`lib/ui/widgets/all_time_goat_pyramid_widget.dart`): Stwórz wizualną 5-piętrową Piramidę Legend Wszech Czasów w Hall of Fame.
 - [x] **Zadanie #386** (`lib/core/l10n/app_localizations_pl_en.dart`): Zbuduj kompletny dwujęzyczny słownik lokalizacyjny `PL` i `EN` z żargonem kolarskim.
-- [ ] **Zadanie #387** (`lib/core/theme/colorblind_accessibility_palettes.dart`): Stwórz 4 palety dostępności wizualnej dla daltonistów z podwójnym kodowaniem kształtami.
+- [x] **Zadanie #387** (`lib/core/theme/colorblind_accessibility_palettes.dart`): Stwórz 4 palety dostępności wizualnej dla daltonistów z podwójnym kodowaniem kształtami.
 - [ ] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
 - [ ] **Zadanie #389** (`lib/ui/screens/in_game_database_roster_editor_screen.dart`): Stwórz wbudowany Edytor Bazy Danych i Składów wewnątrz gry.
 - [ ] **Zadanie #390** (`lib/engine/simulation/multi_race_parallel_day_simulator.dart`): Zbuduj symulator równoległych wyścigów w tym samym dniu kalendarzowym (podział 28-osobowej kadry na dwa fronty).
