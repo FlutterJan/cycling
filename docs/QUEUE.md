@@ -565,7 +565,7 @@ Zasady działania pętli:
 - [x] **Zadanie #542** (`lib/ui/widgets/quick_tactical_macro_recorder_widget.dart`): Nagrywarka makr taktycznych dla całej drużyny jednym przyciskiem.
 - [x] **Zadanie #543** (`lib/engine/physics/altitude_descent_air_density_transition.dart`): Ciągła interpolacja gęstości powietrza $\rho(h, T)$ podczas zjazdów alpejskich.
 - [x] **Zadanie #544** (`lib/ui/screens/manager_profile_and_reputation_screen.dart`): Ekran Profilu Menedżera, statystyk życiowych i reputacji.
-- [ ] **Zadanie #545** (`lib/services/career/manager_skill_tree_perks_service.dart`): Drzewko umiejętności i pasywnych perków menedżera.
+- [x] **Zadanie #545** (`lib/services/career/manager_skill_tree_perks_service.dart`): Drzewko umiejętności i pasywnych perków menedżera.
 - [ ] **Zadanie #546** (`test/race_organizer_mode_and_bids_test.dart`): Testy trybu Organizatora Wyścigów i przetargów miast.
 - [ ] **Zadanie #547** (`test/ultra_bikepacking_sleep_and_dynamo_test.dart`): Testy fizjologii braku snu i toreb bikepackingowych.
 - [ ] **Zadanie #548** (`test/real_time_cfd_and_cobble_deflection_test.dart`): Testy aerodynamiki strefowej CFD i wibracji na bruku.
