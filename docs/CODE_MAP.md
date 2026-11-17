@@ -106,6 +106,7 @@
 - `lib/models/team/bike_manufacturer_deal.dart` — Kontrakt sprzętowy z producentem rowerów.
 - `lib/models/team/cycling_team.dart` — Model drużyny kolarskiej, budżetu, dywizji i malowania.
 - `lib/models/team/sponsor_contract.dart` — Umowa sponsorska i cele sezonowe (`SponsorObjective`).
+- `lib/models/team/team_bus_and_warmup_protocol_model.dart` — Model Autobusu Drużyny i Protokołu Rozgrzewki na trenażerze (`TeamBusAndWarmupProtocolModel`, `TeamBusSpecification`, `WarmupProtocolPreset`, `WarmupIntervalStep`, `RiderWarmupAssignment`, `WarmupPhysiologicalOutcome`, `TeamBusTier`, `SmartTrainerType`, `WarmupProtocolType`, `CoolingStrategyType`, `WarmupCompletionStatus`: `VO2 Priming` +4.5% mocy na starcie ITT).
 
 ### `lib/engine/`
 - `lib/engine/engine_integration_bridge.dart` — Centralny most integracyjny łączący BikeFit, ciśnienie opon, wosk łańcucha, wysokość/ciepło, dyspozycję dnia, LT1/LT2/VLaMax, AI i Boids z `StageSimulationLoop` i `IsolateSimulationWorker` (`EngineIntegrationBridge`, `EngineIntegrationRiderContext`, `EngineIntegrationStepOutput`, `RiderTirePressureSetup`).
