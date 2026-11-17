@@ -462,7 +462,7 @@ Zasady działania pętli:
 - [x] **Zadanie #374** (`lib/models/career/womens_worldtour_and_mixed_relay_model.dart`): Stwórz model danych dla **Kobiecego WorldTouru (UCI Women's WorldTour)** oraz **Drużynowej Sztafety Mieszanej (Mixed Relay TTT)**.
 - [x] **Zadanie #375** (`lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart`): Zbuduj generator 24 drużyn kobiecych i 360 zawodniczek z pełną fizjologią i rynkiem transferowym.
 - [x] **Zadanie #376** (`lib/ui/screens/mixed_relay_ttt_handover_hud_widget.dart`): Stwórz dzielony interfejs przekazania zmiany między trójką męską a kobiecą w Sztafecie Mieszanej.
-- [ ] **Zadanie #377** (`lib/services/career/olympic_games_quadrennial_cycle_service.dart`): Zbuduj serwis **4-letniego Cyklu Igrzysk Olimpijskich** (wyścig bez radia wyścigowego, małe reprezentacje narodowe, złoty kask i rama mistrza olimpijskiego).
+- [x] **Zadanie #377** (`lib/services/career/olympic_games_quadrennial_cycle_service.dart`): Zbuduj serwis **4-letniego Cyklu Igrzysk Olimpijskich** (wyścig bez radia wyścigowego, małe reprezentacje narodowe, złoty kask i rama mistrza olimpijskiego).
 - [ ] **Zadanie #378** (`lib/ui/screens/olympic_games_hub_and_medal_table_screen.dart`): Stwórz ekran Igrzysk Olimpijskich i tabeli medalowej państw `OlympicGamesHubAndMedalTableScreen`.
 - [ ] **Zadanie #379** (`lib/services/network/dual_screen_telemetry_wall_server.dart`): Zbuduj lokalny serwer WebSocket `DualScreenTelemetryWallServer` umożliwiający obsługę panelu wozu technicznego z telefonu/tabletu podczas gry na PC/Mac.
 - [ ] **Zadanie #380** (`lib/ui/screens/companion_car_dashboard_screen.dart`): Stwórz ekran Konsoli Wozu Technicznego z 3 wirtualnymi monitorami telemetrii.
