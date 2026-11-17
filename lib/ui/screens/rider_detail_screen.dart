@@ -11,6 +11,7 @@ import '../../models/rider/rider_contract.dart';
 import '../../models/team/cycling_team.dart';
 import '../../state/career_controller.dart';
 import '../widgets/bike_preview_painter.dart';
+import '../widgets/polar_pedal_force_diagram_painter.dart';
 import '../widgets/power_curve_chart_widget.dart';
 import '../widgets/rider_avatar_painter.dart';
 
@@ -631,6 +632,13 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
             height: 480,
             showHeader: true,
             showTabs: true,
+          ),
+          const SizedBox(height: 20),
+
+          // Interaktywny wykres kołowy biomechaniki pedałowania 360° (Peanut Diagram)
+          PolarPedalForceDiagramWidget(
+            rider: rider,
+            initialMode: PolarPedalingTechniqueMode.activeRider,
           ),
         ],
       ),

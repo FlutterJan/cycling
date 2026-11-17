@@ -12,6 +12,7 @@ import '../../services/career/physiology_lab_testing_service.dart';
 import '../../services/career/training_and_camps_service.dart';
 import '../../services/generators/rider_procedural_generator.dart';
 import '../../state/career_controller.dart';
+import '../widgets/polar_pedal_force_diagram_painter.dart';
 import '../widgets/rider_avatar_painter.dart';
 
 /// Ekran Laboratorium Wydolnościowego i Diagnostyki Fizjologicznej.
@@ -69,7 +70,7 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _initializeData();
   }
 
@@ -841,6 +842,10 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
             icon: Icon(Icons.speed_rounded, size: 18),
             text: 'Strefy Treningowe Z1-Z7',
           ),
+          Tab(
+            icon: Icon(Icons.radar_rounded, size: 18),
+            text: 'Biomechanika 360° (Polar View)',
+          ),
         ],
       ),
     );
@@ -857,6 +862,8 @@ class _PhysiologyLabScreenState extends ConsumerState<PhysiologyLabScreen>
             return _buildProtocolStepsTable(report);
           case 2:
             return _buildTrainingZonesTab(report);
+          case 3:
+            return PolarPedalForceDiagramWidget(rider: _selectedRider);
           default:
             return const SizedBox.shrink();
         }
