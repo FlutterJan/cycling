@@ -486,7 +486,7 @@ Zasady działania pętli:
 - [x] **Zadanie #398** (`lib/services/career/career_achievements_and_trophies_engine.dart`): Zbuduj system 60 Osiągnięć Menedżerskich i Kolarskich z Platynowym Trofeum.
 - [x] **Zadanie #399** (`lib/ui/screens/achievements_and_platinum_trophy_screen.dart`): Stwórz ekran Osiągnięć i wyskakujących powiadomień `AchievementUnlockedToast`.
 - [x] **Zadanie #400** (`lib/ui/widgets/post_season_interactive_year_in_review_story.dart`): Zbuduj interaktywne podsumowanie roku „Season Wrapped / Year in Review”.
-- [ ] **Zadanie #401** (`test/gravel_sealant_and_tire_inserts_test.dart`): Test jednostkowy fizyki szutru, mleczka Tubeless i wkładek piankowych.
+- [x] **Zadanie #401** (`test/gravel_sealant_and_tire_inserts_test.dart`): Test jednostkowy fizyki szutru, mleczka Tubeless i wkładek piankowych.
 - [ ] **Zadanie #402** (`test/in_race_diplomacy_and_grudge_test.dart`): Test dyplomacji na szosie i pamięci urazów AI.
 - [ ] **Zadanie #403** (`test/warmup_protocol_and_ttt_drop_test.dart`): Test protokołu rozgrzewki i taktyki TTT.
 - [ ] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
