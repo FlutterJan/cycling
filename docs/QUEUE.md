@@ -480,7 +480,7 @@ Zasady działania pętli:
 - [x] **Zadanie #392** (`lib/engine/peloton/team_time_trial_rider_drop_strategy.dart`): Dopracuj taktykę `Kamikaze Pull & Drop` w Drużynowej Jeździe na Czas (TTT).
 - [x] **Zadanie #393** (`lib/ui/widgets/ttt_formation_paceline_control_hud.dart`): Stwórz panel HUD sterowania zmianami i czasem 5. kolarza w TTT.
 - [x] **Zadanie #394** (`lib/engine/events/weather_radar_live_forecast_shift.dart`): Zbuduj dynamiczny radar przesuwających się frontów burzowych w trakcie wyścigu.
-- [ ] **Zadanie #395** (`lib/ui/widgets/live_weather_doppler_radar_minimap.dart`): Stwórz nakładkę radaru opadów Dopplera na mapie trasy.
+- [x] **Zadanie #395** (`lib/ui/widgets/live_weather_doppler_radar_minimap.dart`): Stwórz nakładkę radaru opadów Dopplera na mapie trasy.
 - [ ] **Zadanie #396** (`lib/services/career/bike_sponsor_custom_prototype_lab.dart`): Zbuduj tajne laboratorium prototypów `Skunkworks Lab` na kluczowe wyścigi.
 - [ ] **Zadanie #397** (`lib/ui/widgets/skunkworks_prototype_blueprint_painter.dart`): Stwórz techniczny rysunek inżynieryjny Blueprint CAD testowanego prototypu.
 - [ ] **Zadanie #398** (`lib/services/career/career_achievements_and_trophies_engine.dart`): Zbuduj system 60 Osiągnięć Menedżerskich i Kolarskich z Platynowym Trofeum.
