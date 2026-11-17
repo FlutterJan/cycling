@@ -10,6 +10,7 @@ import '../../services/career/scouting_and_youth_academy_service.dart';
 import '../../services/career/transfer_market_service.dart';
 import '../../state/career_controller.dart';
 import '../widgets/rider_avatar_painter.dart';
+import '../widgets/rider_career_trajectory_forecast_chart.dart';
 
 /// Zakładki główne ekranu rynku transferowego i skautingu.
 enum TransferScoutingTab {
@@ -88,6 +89,7 @@ class _TransferMarketScoutingScreenState
 
   // Filtr adeptów skautingu
   ScoutingDiscoveryStage? _prospectStageFilter;
+  final Set<String> _expandedForecastProspectIds = <String>{};
 
   @override
   void initState() {
@@ -1478,8 +1480,38 @@ class _TransferMarketScoutingScreenState
           const SizedBox(height: 12),
 
           // Przyciski akcji
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              OutlinedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    if (_expandedForecastProspectIds.contains(prospect.id)) {
+                      _expandedForecastProspectIds.remove(prospect.id);
+                    } else {
+                      _expandedForecastProspectIds.add(prospect.id);
+                    }
+                  });
+                },
+                icon: Icon(
+                  _expandedForecastProspectIds.contains(prospect.id)
+                      ? Icons.expand_less_rounded
+                      : Icons.auto_graph_rounded,
+                  size: 16,
+                ),
+                label: Text(
+                  _expandedForecastProspectIds.contains(prospect.id)
+                      ? 'Ukryj prognozę 5L'
+                      : 'Prognoza 5L',
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primaryGold,
+                  side: const BorderSide(color: AppColors.primaryGold),
+                ),
+              ),
               if (!isLabTested)
                 OutlinedButton.icon(
                   onPressed: () => _testProspectInLab(prospect),
@@ -1490,7 +1522,6 @@ class _TransferMarketScoutingScreenState
                     side: const BorderSide(color: AppColors.accentBlue),
                   ),
                 ),
-              const SizedBox(width: 8),
               if (!prospect.isEnrolledInAcademy)
                 ElevatedButton.icon(
                   onPressed: () {
@@ -1509,7 +1540,6 @@ class _TransferMarketScoutingScreenState
                     foregroundColor: AppColors.textPrimary,
                   ),
                 ),
-              const Spacer(),
               ElevatedButton.icon(
                 onPressed: () {
                   ref.read(careerProvider.notifier).promoteProspectToProTeam(prospect.id);
@@ -1529,6 +1559,14 @@ class _TransferMarketScoutingScreenState
               ),
             ],
           ),
+          if (_expandedForecastProspectIds.contains(prospect.id)) ...[
+            const SizedBox(height: 12),
+            RiderCareerTrajectoryForecastChart(
+              prospect: prospect,
+              startSeasonYear: save.currentDate.year,
+              compact: true,
+            ),
+          ],
         ],
       ),
     );

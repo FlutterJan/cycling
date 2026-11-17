@@ -14,6 +14,7 @@ import '../widgets/bike_preview_painter.dart';
 import '../widgets/polar_pedal_force_diagram_painter.dart';
 import '../widgets/power_curve_chart_widget.dart';
 import '../widgets/rider_avatar_painter.dart';
+import '../widgets/rider_career_trajectory_forecast_chart.dart';
 
 /// Szczegółowy ekran profilu pojedynczego kolarza podzielony na 4 główne zakładki:
 /// 1. Fizjologia i Krzywa Mocy (PowerCurveChartWidget, VO2max, W', tętno, waga, CdA).
@@ -639,6 +640,14 @@ class _RiderDetailScreenState extends ConsumerState<RiderDetailScreen>
           PolarPedalForceDiagramWidget(
             rider: rider,
             initialMode: PolarPedalingTechniqueMode.activeRider,
+          ),
+          const SizedBox(height: 20),
+
+          // Wykres 5-letniej prognozy rozwoju OVR i FTP z przedziałem ufności
+          RiderCareerTrajectoryForecastChart(
+            rider: rider,
+            startSeasonYear: ref.read(careerProvider).save?.currentDate.year ?? 2026,
+            scoutAccuracy: 0.94,
           ),
         ],
       ),
