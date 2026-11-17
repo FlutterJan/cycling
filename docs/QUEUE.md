@@ -577,7 +577,7 @@ Zasady działania pętli:
 - [x] **Zadanie #554** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN.
 - [x] **Zadanie #555** (`lib/core/diagnostics/unused_code_and_dependency_pruner.dart`): Czyszczenie martwego kodu i weryfikacja dokumentacji klas.
 - [x] **Zadanie #556** (`lib/core/diagnostics/performance_120fps_frame_budget_auditor.dart`): Audyt budżetu klatki 3D (< $4.5\text{ ms}$ dla stałych 120 FPS).
-- [ ] **Zadanie #557** (`docs/CODE_MAP.md`): Aktualizacja indeksacji pliku `docs/CODE_MAP.md`.
+- [x] **Zadanie #557** (`docs/CODE_MAP.md`): Aktualizacja indeksacji pliku `docs/CODE_MAP.md`.
 - [ ] **Zadanie #558** (`docs/GAME_DESIGN_AND_PHYSICS_BIBLE.md`): Dokumentacja naukowa i fizyczna gry.
 - [ ] **Zadanie #559** (`scripts/verify_all_platforms_build.ps1`): Aktualizacja skryptów kompilacji produkcyjnej.
 - [ ] **Zadanie #560** (`test/full_560_tasks_end_to_end_career_test.dart`): Test End-to-End wszystkich trybów rozgrywki.
