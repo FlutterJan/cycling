@@ -551,7 +551,7 @@ Zasady działania pętli:
 - [x] **Zadanie #528** (`lib/engine/physics/cobble_tire_pressure_real_time_deflection.dart`): Fizyka ugięcia opon i strat wibracyjnych na bruku 5-gwiazdkowym.
 - [x] **Zadanie #529** (`lib/services/career/historic_legend_guest_mentors_service.dart`): System zatrudniania byłych Legend Kolarstwa jako doradców na obozy i Wielkie Toury.
 - [x] **Zadanie #530** (`lib/ui/widgets/grand_tour_jersey_standings_podium_strip.dart`): Pasek 4 koszulek klasyfikacji Grand Touru na żywo w wyścigu i na podium.
-- [ ] **Zadanie #531** (`lib/engine/rendering3d/finish_line_confetti_and_photographers_3d.dart`): Fotoreporterzy, konfetti i strefa opiekunów za linią mety w 3D.
+- [x] **Zadanie #531** (`lib/engine/rendering3d/finish_line_confetti_and_photographers_3d.dart`): Fotoreporterzy, konfetti i strefa opiekunów za linią mety w 3D.
 - [ ] **Zadanie #532** (`lib/services/career/team_bus_chef_and_microbiome_nutrition.dart`): Szef Kuchni Drużyny (`Team Chef`), bilans kaloryczny i regeneracja glikogenu.
 - [ ] **Zadanie #533** (`lib/ui/widgets/team_chef_daily_menu_planner_card.dart`): Karta planowania posiłków i bilansu energetycznego w ekranie Dnia Przerwy.
 - [ ] **Zadanie #534** (`lib/engine/peloton/sprinter_train_counter_surfing_ai.dart`): Taktyka surfowania sprintera po kołach pociągów rywali (`Surf Rival Lead-out`).
