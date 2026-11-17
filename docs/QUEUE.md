@@ -544,7 +544,7 @@ Zasady działania pętli:
 - [x] **Zadanie #521** (`lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart`): Ekran wyścigów Ultra-Endurance z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych.
 - [x] **Zadanie #522** (`lib/engine/physics/real_time_cfd_vortex_and_drag_solver.dart`): Solver strefowej aerodynamiki CFD (kask, przedramiona, tekstylia, koła i wiry Kármána).
 - [x] **Zadanie #523** (`lib/ui/widgets/cfd_wind_tunnel_heatmap_3d_painter.dart`): Wizualizator mapy ciśnień CFD 120 FPS na sylwetce kolarza w tunelu aerodynamicznym.
-- [ ] **Zadanie #524** (`lib/services/career/global_satellite_training_centers_service.dart`): System Globalnych Akademii Satelickich (Kolumbia, Afryka Wschodnia, Flandria, Sierra Nevada).
+- [x] **Zadanie #524** (`lib/services/career/global_satellite_training_centers_service.dart`): System Globalnych Akademii Satelickich (Kolumbia, Afryka Wschodnia, Flandria, Sierra Nevada).
 - [ ] **Zadanie #525** (`lib/ui/screens/global_academy_network_map_screen.dart`): Ekran mapy świata i zarządzania globalną siecią akademii treningowych.
 - [ ] **Zadanie #526** (`lib/engine/peloton/team_radio_voice_synthesis_and_chatter.dart`): Generator kontekstowych dialogów i inicjatyw kolarzy w Radiu Wyścigowym.
 - [ ] **Zadanie #527** (`lib/ui/widgets/interactive_radio_call_bubble_hud.dart`): Szklany dymek połączenia radiowego z falą głosową i przyciskami szybkiej decyzji.
