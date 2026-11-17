@@ -84,6 +84,7 @@
 - `lib/models/equipment/drivetrain_gearing_configuration.dart` — Konfiguracja przełożeń napędu (`DrivetrainGearingConfiguration`, `CranksetChainringOption`, `Cassette12SpeedOption`, `GearCombination`: tarcze 50/34T–58T 1x oraz kasety 12s 11-28T–10-36T).
 - `lib/models/equipment/equipment_wear_and_maintenance.dart` — Zużycie sprzętu i stan wosku/łańcucha.
 - `lib/models/equipment/frame_model.dart` — Model ramy (aero, climbing, TT) i waga/sztywność.
+- `lib/models/equipment/gravel_bike_and_tire_inserts_model.dart` — Model sprzętu szutrowego: opony 38–50 mm, wkładki antyprzebiciowe `Foam Tire Inserts`, mleczko `Tubeless Sealant` i plecak bukłakowy `Aero Hydration Pack` (`GravelBikeAndTireInsertsModel`, `GravelBikeFrameSpec`, `GravelTireSpec`, `FoamTireInsertSpec`, `TubelessSealantSpec`, `AeroHydrationPackSpec`, `GravelEquipmentRaceReadinessReport`, `SealantPunctureOutcome`).
 - `lib/models/equipment/groupset_model.dart` — Model osprzętu / grupy napędowej.
 - `lib/models/equipment/tire_model.dart` — Model opon (CRR, szerokość, odporność na przebicia).
 - `lib/models/equipment/wheelset_model.dart` — Model kół (stożek, aero, waga).
