@@ -557,7 +557,7 @@ Zasady działania pętli:
 - [x] **Zadanie #534** (`lib/engine/peloton/sprinter_train_counter_surfing_ai.dart`): Taktyka surfowania sprintera po kołach pociągów rywali (`Surf Rival Lead-out`).
 - [x] **Zadanie #535** (`lib/ui/widgets/sprint_final_3km_tactical_map_overlay.dart`): Mapa taktyczna z lotu ptaka na ostatnich $3\text{ km}$ sprintu.
 - [x] **Zadanie #536** (`lib/services/career/sponsor_custom_color_rebrand_events.dart`): Limitowane edycje koszulek i rowerów na Wielkie Toury (`Special Edition Livery`).
-- [ ] **Zadanie #537** (`lib/ui/widgets/special_edition_livery_preview_modal.dart`): Modal prezentacji okazjonalnego malowania zespołu.
+- [x] **Zadanie #537** (`lib/ui/widgets/special_edition_livery_preview_modal.dart`): Modal prezentacji okazjonalnego malowania zespołu.
 - [ ] **Zadanie #538** (`lib/engine/simulation/stage_photo_album_auto_capturer.dart`): Automatyczny album zdjęć z 4 kluczowych momentów każdego etapu.
 - [ ] **Zadanie #539** (`lib/ui/widgets/post_stage_highlight_reel_carousel.dart`): Karuzela skrótów wideo i zdjęć z etapu na ekranie podium.
 - [ ] **Zadanie #540** (`lib/services/career/uci_worldtour_calendar_expansion_engine.dart`): Dynamiczna rozbudowa kalendarza WorldTour w kolejnych latach kariery.
