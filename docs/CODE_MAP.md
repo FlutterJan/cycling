@@ -353,6 +353,7 @@
 - `lib/ui/screens/manager_profile_and_achievements_screen.dart` — Profil Menedżera (`ManagerProfileAndAchievementsScreen`): holograficzna licencja UCI VIP, wykresy zwycięstw wg terenu (`fl_chart`) i siatka 45 osiągnięć z filtrami rangi i paskami postępu.
 - `lib/ui/screens/medical_and_recovery_center_screen.dart` — Centrum medyczne, kontuzje i paszport biologiczny.
 - `lib/ui/screens/mixed_relay_ttt_handover_hud_widget.dart` — Dzielony interfejs przekazania zmiany w Sztafecie Mieszanej TTT (`MixedRelayTttHandoverHudWidget`, `MixedRelayHandoverHudCalculator`, `MixedRelayHandoverGatePainter`, `MixedRelayTrioPaceMode`).
+- `lib/ui/screens/multiplayer_leagues_and_challenges_screen.dart` — Ekran Centrum Lig Online, tabel ligowych ze znajomymi i wyzwań tygodnia (`MultiplayerLeaguesAndChallengesScreen`, `MultiplayerHubTab`, `MultiplayerLeagueFilter`, `MultiplayerLeaguesDemoCatalog`) z obsługą ELO, wyzwań duchów, draftu i paczek `.ppmleague`.
 - `lib/ui/screens/new_career_setup_screen.dart` — Kreator nowej kariery i wybór drużyny.
 - `lib/ui/screens/olympic_games_hub_and_medal_table_screen.dart` — Ekran Igrzysk Olimpijskich i tabeli medalowej państw (`OlympicGamesHubAndMedalTableScreen`, `OlympicHubTab`, `OlympicMedalTableSortColumn`, `OlympicCountryMedalRow`, `OlympicMedalTableAggregator`, `OlympicHubWorldRosterCatalog`) z 4-letnim cyklem, zasadą No Race Radio, małymi reprezentacjami, Złotym Kaskiem/Ramą i symulacją wyścigu.
 - `lib/ui/screens/physiology_lab_screen.dart` — Laboratorium wydolnościowe (mleczan, VO2max, krzywa mocy).

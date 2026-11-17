@@ -505,7 +505,7 @@ Zasady działania pętli:
 
 - [x] **Zadanie #413** (`lib/models/multiplayer/online_league_and_ghost_challenge_model.dart`): Model lig wieloosobowych Online (`OnlineLeagueModel`), rankingów ELO i asynchronicznych wyzwań duchów na identycznych warunkach pogodowych.
 - [x] **Zadanie #414** (`lib/services/network/async_multiplayer_league_sync_service.dart`): Serwis synchronizacji wyników etapów ligowych, draftu kolarzy i wymiany plików wyzwań `.ppmleague`.
-- [ ] **Zadanie #415** (`lib/ui/screens/multiplayer_leagues_and_challenges_screen.dart`): Ekran Centrum Lig Online, tabel ligowych ze znajomymi i wyzwań tygodnia.
+- [x] **Zadanie #415** (`lib/ui/screens/multiplayer_leagues_and_challenges_screen.dart`): Ekran Centrum Lig Online, tabel ligowych ze znajomymi i wyzwań tygodnia.
 - [ ] **Zadanie #416** (`lib/models/race/mtb_xco_course_and_suspension_model.dart`): Model danych dla **Kolarstwa Górskiego MTB Cross-Country Olympic (XCO)** (rundy $4.2\text{ km}$, rock gardeny, dropy, korzenie, zawieszenie Full-Suspension $100–120\text{ mm}$ i sztyca regulowana Dropper Post).
 - [ ] **Zadanie #417** (`lib/engine/physics/mtb_suspension_damping_and_line_choice_solver.dart`): Solver fizyki MTB XCO obliczający tłumienie nierówności przez zawieszenie, wybór linii przejazdu (`A-Line` ryzykowna i szybka vs `B-Line` bezpieczna) i przyczepność opon $2.4"$.
 - [ ] **Zadanie #418** (`lib/engine/rendering3d/mtb_forest_rock_garden_3d_renderer.dart`): Renderer 3D leśnej trasy MTB XCO z głazami (Rock Garden), drewnianymi mostkami, skoczniami i kurzem w promieniach słońca przebijających przez korony drzew.
