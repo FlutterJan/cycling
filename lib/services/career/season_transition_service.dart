@@ -7,6 +7,7 @@ import '../../models/rider/rider_contract.dart';
 import '../../models/team/cycling_team.dart';
 import '../generators/rider_procedural_generator.dart';
 import '../generators/uci_calendar_generator.dart';
+import 'multi_season_rider_aging_and_decline_curve.dart';
 import 'scouting_and_youth_academy_service.dart';
 
 /// Laureat nagrody indywidualnej UCI na koniec sezonu.
@@ -988,109 +989,15 @@ class SeasonTransitionService {
       final int oldOvr = rider.overallRating;
       final int oldFtp = rider.physiology.ftpWatts;
 
-      Rider upgradedRider;
+      final Rider upgradedRider =
+          MultiSeasonRiderAgingAndDeclineCurve.applyAnnualEvolution(
+        rider: rider,
+        newSeasonYear: newSeasonYear,
+        randomSeed: random.nextInt(1 << 30),
+      );
 
-      if (age <= 24) {
-        // --- 1. MŁODY TALENT (U19 - U24): SILNY ROZWÓJ PROGRESYWNY ---
-        final int potentialGap = math.max(0, rider.potential - oldOvr);
-        final double growthFactor = (potentialGap / 25.0).clamp(0.25, 1.4);
-
-        // Przyrost mocy progowej FTP (+6W do +18W)
-        final int ftpBoost = (5 + (growthFactor * 9) + random.nextInt(4)).round();
-        final int newFtp = oldFtp + ftpBoost;
-
-        // Skalowanie profilu mocy (watts20m, watts5m, watts1m) proporcjonalnie do FTP
-        final double ftpRatio = newFtp / oldFtp;
-        final newPowerProfile = rider.powerProfile.copyWith(
-          watts60m: newFtp,
-          watts20m: (rider.powerProfile.watts20m * ftpRatio).round(),
-          watts5m: (rider.powerProfile.watts5m * ftpRatio).round(),
-          watts1m: (rider.powerProfile.watts1m * (1.0 + (ftpRatio - 1.0) * 0.7)).round(),
-        );
-
-        // Poprawa VO2max i W'
-        final double vo2Boost = (0.4 + (growthFactor * 0.9)).clamp(0.1, 2.5);
-        final double newVo2 = math.min(88.0, rider.physiology.vo2Max + vo2Boost);
-        final int wBoost = (250 + (growthFactor * 600)).round();
-
-        final newPhysiology = rider.physiology.copyWith(
-          ftpWatts: newFtp,
-          vo2Max: newVo2,
-          wPrimeJoules: rider.physiology.wPrimeJoules + wBoost,
-        );
-
-        // Rozwój umiejętności wyścigowych z wiekiem (Race IQ, Aero, Drafting)
-        final newSkills = rider.skills.copyWith(
-          timeTrialPositioning: math.min(99, rider.skills.timeTrialPositioning + 2),
-          aeroPositioning: math.min(99, rider.skills.aeroPositioning + 2),
-          draftingEfficiency: math.min(99, rider.skills.draftingEfficiency + 3),
-          raceIq: math.min(99, rider.skills.raceIq + 3),
-          bikeHandling: math.min(99, rider.skills.bikeHandling + 1),
-        );
-
-        upgradedRider = rider.copyWith(
-          physiology: newPhysiology,
-          powerProfile: newPowerProfile,
-          skills: newSkills,
-        );
-
-        if (rider.contract.teamId.isNotEmpty) {
-          playerYouthCount++;
-        }
-      } else if (age >= 25 && age <= 31) {
-        // --- 2. PEŁNIA FORMY / PRIME (25 - 31 LAT): STABILIZACJA I DOŚWIADCZENIE ---
-        // Doświadczenie taktyczne rośnie, drobne fluktuacje mocy
-        final int ftpFluc = random.nextInt(5) - 2; // -2W do +2W
-        final newFtp = math.max(250, oldFtp + ftpFluc);
-
-        final newSkills = rider.skills.copyWith(
-          raceIq: math.min(99, rider.skills.raceIq + 1),
-          bikeHandling: math.min(99, rider.skills.bikeHandling + 1),
-        );
-
-        upgradedRider = rider.copyWith(
-          physiology: rider.physiology.copyWith(ftpWatts: newFtp),
-          powerProfile: rider.powerProfile.copyWith(watts60m: newFtp),
-          skills: newSkills,
-        );
-      } else if (age >= 32 && age <= 34) {
-        // --- 3. POCZĄTEK REGRESJI FIZJOLOGICZNEJ (32 - 34 LATA) ---
-        // Delikatny spadek mocy zrywu sprinterskiego (watts5s), utrzymanie bazy tlenowej
-        final new5s = (rider.powerProfile.watts5s * 0.98).round();
-        final int ftpDrop = random.nextInt(4); // 0W do -3W
-        final newFtp = oldFtp - ftpDrop;
-
-        upgradedRider = rider.copyWith(
-          physiology: rider.physiology.copyWith(ftpWatts: newFtp),
-          powerProfile: rider.powerProfile.copyWith(
-            watts5s: new5s,
-            watts60m: newFtp,
-          ),
-          skills: rider.skills.copyWith(
-            raceIq: math.min(99, rider.skills.raceIq + 1),
-          ),
-        );
-      } else {
-        // --- 4. WETERAN (35+ LAT): WYRAŹNY SPADEK WYDOLNOŚCI TLENOWEJ ---
-        final int ftpDrop = (6 + random.nextInt(8)).round(); // -6W do -13W
-        final newFtp = math.max(220, oldFtp - ftpDrop);
-
-        final double vo2Drop = 0.8 + (random.nextDouble() * 1.0);
-        final double newVo2 = math.max(50.0, rider.physiology.vo2Max - vo2Drop);
-
-        final new5s = (rider.powerProfile.watts5s * 0.95).round();
-
-        upgradedRider = rider.copyWith(
-          physiology: rider.physiology.copyWith(
-            ftpWatts: newFtp,
-            vo2Max: newVo2,
-            wPrimeJoules: math.max(10000, rider.physiology.wPrimeJoules - 800),
-          ),
-          powerProfile: rider.powerProfile.copyWith(
-            watts5s: new5s,
-            watts60m: newFtp,
-          ),
-        );
+      if (age <= 24 && rider.contract.teamId.isNotEmpty) {
+        playerYouthCount++;
       }
 
       updatedList.add(upgradedRider);
