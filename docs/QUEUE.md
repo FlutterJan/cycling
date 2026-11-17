@@ -473,7 +473,7 @@ Zasady działania pętli:
 - [x] **Zadanie #385** (`lib/ui/widgets/all_time_goat_pyramid_widget.dart`): Stwórz wizualną 5-piętrową Piramidę Legend Wszech Czasów w Hall of Fame.
 - [x] **Zadanie #386** (`lib/core/l10n/app_localizations_pl_en.dart`): Zbuduj kompletny dwujęzyczny słownik lokalizacyjny `PL` i `EN` z żargonem kolarskim.
 - [x] **Zadanie #387** (`lib/core/theme/colorblind_accessibility_palettes.dart`): Stwórz 4 palety dostępności wizualnej dla daltonistów z podwójnym kodowaniem kształtami.
-- [ ] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
+- [x] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
 - [ ] **Zadanie #389** (`lib/ui/screens/in_game_database_roster_editor_screen.dart`): Stwórz wbudowany Edytor Bazy Danych i Składów wewnątrz gry.
 - [ ] **Zadanie #390** (`lib/engine/simulation/multi_race_parallel_day_simulator.dart`): Zbuduj symulator równoległych wyścigów w tym samym dniu kalendarzowym (podział 28-osobowej kadry na dwa fronty).
 - [ ] **Zadanie #391** (`lib/ui/widgets/split_squad_calendar_assignment_modal.dart`): Stwórz okno przydziału kolarzy i rowerów na dwa równoległe wyścigi.
