@@ -11,6 +11,7 @@ import 'package:vector_math/vector_math_64.dart' hide Colors;
 import '../../core/theme/app_colors.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/stage_segment.dart';
+import '../../services/career/custom_jersey_sponsor_patch_placer.dart';
 import '../../state/race_simulation_notifier.dart';
 import '../peloton/boids_steering_collision_avoidance.dart';
 import '../peloton/rider_race_state.dart';
@@ -189,6 +190,7 @@ class Peloton3dRiderRenderData {
   final bool isStanding;
   final bool isCrashed;
   final bool isDnf;
+  final Race3dJerseyPatchDescriptor? patchDescriptor;
 
   const Peloton3dRiderRenderData({
     required this.riderId,
@@ -213,6 +215,7 @@ class Peloton3dRiderRenderData {
     this.isStanding = false,
     this.isCrashed = false,
     this.isDnf = false,
+    this.patchDescriptor,
   });
 
   /// Buduje deskryptor 3D ze snapshotu symulacji i ciągłego stanu Boids (#184).
@@ -223,6 +226,7 @@ class Peloton3dRiderRenderData {
     required double crankPhaseRad,
     LeaderJerseyType leaderJersey = LeaderJerseyType.none,
     WheelProfileType? wheelProfile,
+    Race3dJerseyPatchDescriptor? patchDescriptor,
   }) {
     final Color teamColor = _parseHexColor(snapshot.teamJerseyHexColor);
     final bool sprinting = snapshot.powerWatts >= 780 ||
@@ -260,6 +264,7 @@ class Peloton3dRiderRenderData {
       isStanding: standing,
       isCrashed: snapshot.isCrashed || boid.isCrashed,
       isDnf: snapshot.isDnf || boid.isDnf,
+      patchDescriptor: patchDescriptor,
     );
   }
 
@@ -793,6 +798,7 @@ class Peloton3dCanvasEngine {
     double windSpeedKmh = 0.0,
     Map<String, LeaderJerseyType>? leaderJerseys,
     Map<String, WheelProfileType>? wheelProfiles,
+    Race3dJerseyPatchDescriptor? playerTeamPatchDescriptor,
   }) {
     final Stopwatch sw = Stopwatch()..start();
     final double safeDt = dtSeconds.clamp(0.001, 0.05);
@@ -871,6 +877,7 @@ class Peloton3dCanvasEngine {
         crankPhaseRad: nextCrank,
         leaderJersey: leaderJerseys?[snap.riderId] ?? LeaderJerseyType.none,
         wheelProfile: wheelProfiles?[snap.riderId],
+        patchDescriptor: snap.isPlayerRider ? playerTeamPatchDescriptor : null,
       );
       _activeRiders.add(renderData);
 
@@ -2254,6 +2261,44 @@ class Peloton3dCanvasEngine {
             width: bandW,
             height: bandH,
           ),
+          _fillPaint,
+        );
+      }
+    } else if (rider.patchDescriptor != null && rider.patchDescriptor!.hasVisiblePatches) {
+      final patch = rider.patchDescriptor!;
+      if (patch.showChestPatch || patch.showBackPatch) {
+        _fillPaint.color = patch.chestCrestColor;
+        final double crestW = (9.0 * scale * patch.chestScale).clamp(3.0, 22.0);
+        final double crestH = (5.0 * scale * patch.chestScale).clamp(1.8, 12.0);
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: Offset(midX, midY), width: crestW, height: crestH),
+            Radius.circular((1.5 * scale).clamp(0.5, 4.0)),
+          ),
+          _fillPaint,
+        );
+      }
+      if (patch.showCollarFlag && patch.collarFlagColors.isNotEmpty) {
+        final double flagW = (4.2 * scale).clamp(1.6, 10.0);
+        final double flagH = (2.4 * scale).clamp(1.0, 6.0);
+        final double collarY = (pSL.screenY + pSR.screenY) * 0.5 - 1.0 * scale;
+        final double collarX = (pSL.screenX + pSR.screenX) * 0.5 + 2.5 * scale;
+        final double stripeH = flagH / patch.collarFlagColors.length;
+        for (int i = 0; i < patch.collarFlagColors.length; i++) {
+          _fillPaint.color = patch.collarFlagColors[i];
+          canvas.drawRect(
+            Rect.fromLTWH(collarX, collarY + i * stripeH, flagW, stripeH),
+            _fillPaint,
+          );
+        }
+      }
+      if (patch.showCollarBikeLogo) {
+        _fillPaint.color = patch.collarBikeColor;
+        final double bikeBadgeW = (3.4 * scale).clamp(1.4, 8.0);
+        final double collarY = (pSL.screenY + pSR.screenY) * 0.5 - 1.0 * scale;
+        final double collarX = (pSL.screenX + pSR.screenX) * 0.5 - 4.5 * scale;
+        canvas.drawRect(
+          Rect.fromLTWH(collarX, collarY, bikeBadgeW, (2.2 * scale).clamp(1.0, 5.0)),
           _fillPaint,
         );
       }

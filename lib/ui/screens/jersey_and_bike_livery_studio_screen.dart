@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../services/career/custom_jersey_sponsor_patch_placer.dart';
 import '../../state/career_controller.dart';
 import '../widgets/custom_jersey_painter.dart';
 
@@ -251,7 +252,7 @@ class _JerseyAndBikeLiveryStudioScreenState
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
 
     if (widget.initialConfig != null) {
       _config = widget.initialConfig!;
@@ -287,6 +288,13 @@ class _JerseyAndBikeLiveryStudioScreenState
         _sponsorMainCtrl.text = sponsor;
         _bikeBrandCtrl.text = team.bikeDeal.manufacturerName;
       });
+      ref.read(customJerseySponsorPatchProvider.notifier).syncTeamMetadata(
+            teamId: team.id,
+            primarySponsor: sponsor,
+            secondarySponsor: _config.sponsorSecondaryText,
+            bikeBrand: team.bikeDeal.manufacturerName,
+            countryIso: team.countryIso,
+          );
     }
   }
 
@@ -345,6 +353,13 @@ class _JerseyAndBikeLiveryStudioScreenState
       _sponsorSecondaryCtrl.text = sponsorSec;
       _bikeBrandCtrl.text = brand;
     });
+    ref.read(customJerseySponsorPatchProvider.notifier).syncTeamMetadata(
+          teamId: ref.read(careerControllerProvider).save?.playerTeam.id ?? 'player_team',
+          primarySponsor: sponsor,
+          secondarySponsor: sponsorSec,
+          bikeBrand: brand,
+          countryIso: ref.read(careerControllerProvider).save?.playerTeam.countryIso ?? 'POL',
+        );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -485,8 +500,10 @@ class _JerseyAndBikeLiveryStudioScreenState
           indicatorColor: AppColors.goldAccent,
           labelColor: AppColors.goldAccent,
           unselectedLabelColor: AppColors.textSecondary,
+          isScrollable: true,
           tabs: const [
             Tab(icon: Icon(Icons.checkroom), text: 'Strój & Spodenki'),
+            Tab(icon: Icon(Icons.layers), text: 'Rozmieszczacz Logo'),
             Tab(icon: Icon(Icons.pedal_bike), text: 'Lakierowanie Ramy'),
             Tab(icon: Icon(Icons.collections), text: 'Presety Pro Pelotonu'),
           ],
@@ -517,10 +534,18 @@ class _JerseyAndBikeLiveryStudioScreenState
               // ZAKŁADKA 1: KOSZULKA I SPODENKI
               _buildKitDesignerTab(isWide),
 
-              // ZAKŁADKA 2: MALOWANIE RAMY
+              // ZAKŁADKA 2: ROZMIESZCZACZ LOGOTYPÓW SPONSORÓW
+              CustomJerseySponsorPatchPlacerPanel(
+                primaryColor: CustomJerseySponsorPatchPlacer.parseHexColor(_config.primaryColorHex),
+                secondaryColor: CustomJerseySponsorPatchPlacer.parseHexColor(_config.secondaryColorHex),
+                accentColor: CustomJerseySponsorPatchPlacer.parseHexColor(_config.accentColorHex),
+                bibColor: CustomJerseySponsorPatchPlacer.parseHexColor(_config.bibShortsColorHex),
+              ),
+
+              // ZAKŁADKA 3: MALOWANIE RAMY
               _buildBikePaintTab(isWide),
 
-              // ZAKŁADKA 3: PRESETY PRO
+              // ZAKŁADKA 4: PRESETY PRO
               _buildProPresetsTab(),
             ],
           );
