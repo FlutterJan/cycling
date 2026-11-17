@@ -494,7 +494,7 @@ Zasady działania pętli:
 - [x] **Zadanie #406** (`test/localization_and_accessibility_test.dart`): Test słowników PL/EN i kontrastu palet.
 - [x] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.
 - [x] **Zadanie #408** (`lib/core/diagnostics/ui_golden_contrast_and_font_auditor.dart`): Audytor kontrastu WCAG AA i użycia `FontFeature.tabularFigures()`.
-- [ ] **Zadanie #409** (`lib/core/diagnostics/full_state_serialization_fuzz_tester.dart`): Fuzzer serializacji stanu kariery JSON.
+- [x] **Zadanie #409** (`lib/core/diagnostics/full_state_serialization_fuzz_tester.dart`): Fuzzer serializacji stanu kariery JSON.
 - [ ] **Zadanie #410** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczki #5 w `AppRouter`.
 - [ ] **Zadanie #411** (`docs/CODE_MAP.md`): Pełna aktualizacja `docs/CODE_MAP.md` dla zadań #001–#412.
 - [ ] **Zadanie #412** (`lib/core/diagnostics/gold_master_412_certification_suite.dart`): Pakiet certyfikacji **GOLD MASTER v1.0** (#001–#412).
