@@ -250,6 +250,7 @@
 - `lib/engine/simulation/key_moments_detector.dart` — Wykrywanie kluczowych momentów (ataki, kraksy, premie).
 - `lib/engine/simulation/multi_race_parallel_day_simulator.dart` — Symulator równoległych wyścigów w tym samym dniu kalendarzowym (`MultiRaceParallelDaySimulator`, `ParallelRaceEventSpec`, `ParallelRosterRiderSnapshot`, `ParallelStaffSplitConfig`, `ParallelDayRosterValidation`, `ParallelRaceDayReport`, `MultiRaceParallelDaySimulatorNotifier`, `multiRaceParallelDaySimulatorProvider`, `MultiRaceParallelDaySimulatorPanel`): podział 28-osobowej kadry na Front A, Front B i Rezerwę z walidacją, auto-podziałem i symulacją obu frontów.
 - `lib/engine/simulation/post_stage_recovery_processor.dart` — Przeliczanie zmęczenia i formy po etapie.
+- `lib/engine/simulation/stage_photo_album_auto_capturer.dart` — Automatyczny album zdjęć z 4 kluczowych momentów każdego etapu (`StagePhotoAlbumAutoCapturer`, `StagePhotoAlbum`, `StagePhotoSnapshot`, `StagePhotoRiderSubject`, `StagePhotoCameraSpec`, `StagePhotoEnvironmentContext`, `StagePhotoSlotCategory`, `StagePhotoMomentKind`, `StagePhotoCameraPreset`, `StagePhotoLightingMood`, `StagePhotoAlbumState`, `StagePhotoAlbumNotifier`, `stagePhotoAlbumProvider`, `StagePhotoAlbumGalleryPanel`, `StagePhotoSceneThumbnailPainter`).
 - `lib/engine/simulation/stage_replay_recorder.dart` — Zapis powtórki etapu i osi czasu.
 - `lib/engine/simulation/stage_results_calculator.dart` — Klasyfikacja etapu, GC, górska, punktowa i młodzieżowa.
 - `lib/engine/simulation/stage_simulation_loop.dart` — Główna pętla symulacji etapu.
