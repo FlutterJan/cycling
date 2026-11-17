@@ -492,7 +492,7 @@ Zasady działania pętli:
 - [x] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
 - [x] **Zadanie #405** (`test/olympic_games_and_split_squad_test.dart`): Test Igrzysk Olimpijskich i równoległych wyścigów.
 - [x] **Zadanie #406** (`test/localization_and_accessibility_test.dart`): Test słowników PL/EN i kontrastu palet.
-- [ ] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.
+- [x] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.
 - [ ] **Zadanie #408** (`lib/core/diagnostics/ui_golden_contrast_and_font_auditor.dart`): Audytor kontrastu WCAG AA i użycia `FontFeature.tabularFigures()`.
 - [ ] **Zadanie #409** (`lib/core/diagnostics/full_state_serialization_fuzz_tester.dart`): Fuzzer serializacji stanu kariery JSON.
 - [ ] **Zadanie #410** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczki #5 w `AppRouter`.
