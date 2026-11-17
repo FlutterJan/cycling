@@ -503,7 +503,7 @@ Zasady działania pętli:
 
 ## CZĘŚĆ VII: PACZKA #6 (#413 – #462) — MULTIPLAYER LIGI ONLINE, KOLARSTWO GÓRSKIE MTB XCO I WŁASNA MARKA ROWEROWA
 
-- [ ] **Zadanie #413** (`lib/models/multiplayer/online_league_and_ghost_challenge_model.dart`): Model lig wieloosobowych Online (`OnlineLeagueModel`), rankingów ELO i asynchronicznych wyzwań duchów na identycznych warunkach pogodowych.
+- [x] **Zadanie #413** (`lib/models/multiplayer/online_league_and_ghost_challenge_model.dart`): Model lig wieloosobowych Online (`OnlineLeagueModel`), rankingów ELO i asynchronicznych wyzwań duchów na identycznych warunkach pogodowych.
 - [ ] **Zadanie #414** (`lib/services/network/async_multiplayer_league_sync_service.dart`): Serwis synchronizacji wyników etapów ligowych, draftu kolarzy i wymiany plików wyzwań `.ppmleague`.
 - [ ] **Zadanie #415** (`lib/ui/screens/multiplayer_leagues_and_challenges_screen.dart`): Ekran Centrum Lig Online, tabel ligowych ze znajomymi i wyzwań tygodnia.
 - [ ] **Zadanie #416** (`lib/models/race/mtb_xco_course_and_suspension_model.dart`): Model danych dla **Kolarstwa Górskiego MTB Cross-Country Olympic (XCO)** (rundy $4.2\text{ km}$, rock gardeny, dropy, korzenie, zawieszenie Full-Suspension $100–120\text{ mm}$ i sztyca regulowana Dropper Post).
