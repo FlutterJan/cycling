@@ -6,10 +6,14 @@ import '../../engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart';
 import '../../engine/simulation/stage_replay_recorder.dart';
 import '../../engine/simulation/stage_results_calculator.dart';
 import '../../engine/simulation/stage_simulation_loop.dart';
+import '../../models/career/career_save.dart';
 import '../../models/career/pro_cyclist_career_state.dart';
 import '../../models/equipment/complete_bike.dart';
+import '../../models/multiplayer/online_league_and_ghost_challenge_model.dart';
+import '../../models/organizer/race_organizer_empire_model.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
+import '../../models/race/ultra_endurance_bikepacking_race_model.dart';
 import '../../models/rider/rider.dart';
 import '../../models/team/cycling_team.dart';
 import '../../models/team/team_bus_and_warmup_protocol_model.dart';
@@ -25,15 +29,20 @@ import '../../ui/screens/cyclocross_winter_series_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
 import '../../ui/screens/development_academy_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
+import '../../ui/screens/global_academy_network_map_screen.dart';
 import '../../ui/screens/gravel_world_series_hub_screen.dart';
 import '../../ui/screens/hall_of_fame_and_records_screen.dart';
 import '../../ui/screens/in_game_database_roster_editor_screen.dart';
+import '../../ui/screens/in_house_bike_brand_factory_screen.dart';
 import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
 import '../../ui/screens/legends_card_album_and_packs_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
 import '../../ui/screens/main_title_menu_screen.dart';
 import '../../ui/screens/manager_profile_and_achievements_screen.dart';
+import '../../ui/screens/manager_profile_and_reputation_screen.dart';
 import '../../ui/screens/medical_and_recovery_center_screen.dart';
+import '../../ui/screens/mtb_xco_world_cup_screen.dart';
+import '../../ui/screens/multiplayer_leagues_and_challenges_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/olympic_games_hub_and_medal_table_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
@@ -42,6 +51,7 @@ import '../../ui/screens/pre_race_briefing_screen.dart';
 import '../../ui/screens/pre_season_team_presentation_screen.dart';
 import '../../ui/screens/pre_stage_paddock_and_warmup_screen.dart';
 import '../../ui/screens/quick_race_sandbox_screen.dart';
+import '../../ui/screens/race_organizer_hq_dashboard_screen.dart';
 import '../../ui/screens/race_replay_director_theater_screen.dart';
 import '../../ui/screens/race_simulation_screen.dart';
 import '../../ui/screens/rider_detail_screen.dart';
@@ -51,9 +61,11 @@ import '../../ui/screens/squad_roster_screen.dart';
 import '../../ui/screens/staff_management_screen.dart';
 import '../../ui/screens/stage_editor_creator_screen.dart';
 import '../../ui/screens/team_builder_hierarchy_screen.dart';
+import '../../ui/screens/track_omnium_madison_championship_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
 import '../../ui/screens/uci_hour_record_attempt_screen.dart';
+import '../../ui/screens/ultra_bikepacking_transcontinental_screen.dart';
 import '../../ui/screens/wind_tunnel_and_bike_fit_screen.dart';
 import '../../ui/widgets/animated_screen_transition_router.dart';
 import '../theme/app_colors.dart';
@@ -96,11 +108,19 @@ abstract class AppRoutes {
   static const String databaseEditor = '/career/database-editor';
   static const String achievements = '/career/achievements';
   static const String legendsAlbum = '/career/legends-album';
+  static const String bikeBrandFactory = '/career/bike-brand-factory';
+  static const String globalAcademies = '/career/global-academies';
+  static const String managerReputation = '/career/manager-reputation';
+  static const String mtbXcoWorldCup = '/career/mtb-xco';
   static const String settings = '/career/settings';
 
   /// Tryb Be a Pro ("Zostań Legendą")
   static const String beAProCreator = '/be-a-pro/creator';
   static const String beAProDashboard = '/be-a-pro/dashboard';
+
+  /// Tryby Multiplayer & Organizator Wyścigów (Paczki #6 i #7)
+  static const String multiplayerLeagues = '/multiplayer/leagues';
+  static const String raceOrganizerHq = '/organizer/hq';
 
   /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
@@ -110,7 +130,9 @@ abstract class AppRoutes {
   static const String raceLive = '/race/live';
   static const String racePodium = '/race/podium';
   static const String replayTheater = '/race/replay-theater';
+  static const String ultraBikepacking = '/race/ultra-bikepacking';
   static const String velodromeHourRecord = '/velodrome/hour-record';
+  static const String velodromeTrackChampionship = '/velodrome/track-championship';
 
   /// Metoda pomocnicza do tworzenia ścieżki szczegółów kolarza
   static String riderDetailPath(String riderId) => '/career/rider/$riderId';
@@ -150,10 +172,17 @@ abstract class AppRouteNames {
   static const String databaseEditor = 'databaseEditor';
   static const String achievements = 'achievements';
   static const String legendsAlbum = 'legendsAlbum';
+  static const String bikeBrandFactory = 'bikeBrandFactory';
+  static const String globalAcademies = 'globalAcademies';
+  static const String managerReputation = 'managerReputation';
+  static const String mtbXcoWorldCup = 'mtbXcoWorldCup';
   static const String settings = 'settings';
 
   static const String beAProCreator = 'beAProCreator';
   static const String beAProDashboard = 'beAProDashboard';
+
+  static const String multiplayerLeagues = 'multiplayerLeagues';
+  static const String raceOrganizerHq = 'raceOrganizerHq';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
@@ -162,7 +191,9 @@ abstract class AppRouteNames {
   static const String raceLive = 'raceLive';
   static const String racePodium = 'racePodium';
   static const String replayTheater = 'replayTheater';
+  static const String ultraBikepacking = 'ultraBikepacking';
   static const String velodromeHourRecord = 'velodromeHourRecord';
+  static const String velodromeTrackChampionship = 'velodromeTrackChampionship';
 }
 
 /// Klucze globalne nawigatorów dla powłoki ShellRoute oraz nawigatora głównego
@@ -904,6 +935,243 @@ GoRouter createAppRouter({
           );
         },
       ),
+
+      // 6. Trasy Paczek #6 i #7 (Multiplayer, MTB XCO, Własna Marka, Tor, Organizator, Ultra, Akademie, Reputacja)
+      GoRoute(
+        path: AppRoutes.multiplayerLeagues,
+        name: AppRouteNames.multiplayerLeagues,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final tabParam = state.uri.queryParameters['tab'];
+          final initialTab = extraMap?['initialTab'] as MultiplayerHubTab? ??
+              switch (tabParam) {
+                'challenges' => MultiplayerHubTab.weeklyChallenges,
+                'draft' => MultiplayerHubTab.syncAndDraft,
+                'elo' => MultiplayerHubTab.eloRanking,
+                _ => MultiplayerHubTab.leagues,
+              };
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: MultiplayerLeaguesAndChallengesScreen(
+              initialLeagues:
+                  extraMap?['initialLeagues'] as List<OnlineLeagueModel>?,
+              initialChallenges:
+                  extraMap?['initialChallenges'] as List<GhostChallengeModel>?,
+              initialPlayerProfile:
+                  extraMap?['initialPlayerProfile'] as EloRatingProfile?,
+              initialTab: initialTab,
+              isReadOnly: isReadOnly,
+              onLaunchGhostRace: (challenge) => context.go(
+                AppRoutes.raceLive,
+                extra: {
+                  'stageLabel': challenge.title,
+                  'subtitle':
+                      '${challenge.stageName} • ${challenge.distanceKm.toStringAsFixed(1)} km Ghost',
+                },
+              ),
+              onLaunchLeagueStage: (league) => context.go(
+                AppRoutes.raceLive,
+                extra: {
+                  'stageLabel': league.name,
+                  'subtitle': 'Liga Online • ${league.format.name}',
+                },
+              ),
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.mtbXcoWorldCup,
+        name: AppRouteNames.mtbXcoWorldCup,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final show3dPreview = extraMap?['show3dPreview'] as bool? ?? true;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: MtbXcoWorldCupScreen(
+              isReadOnly: isReadOnly,
+              show3dPreview: show3dPreview,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.bikeBrandFactory,
+        name: AppRouteNames.bikeBrandFactory,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialState = extra is InHouseBikeBrandFactoryState
+              ? extra
+              : extraMap?['initialState'] as InHouseBikeBrandFactoryState?;
+          final showAppBar = extraMap?['showAppBar'] as bool? ?? true;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: InHouseBikeBrandFactoryScreen(
+              initialState: initialState,
+              showAppBar: showAppBar,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.velodromeTrackChampionship,
+        name: AppRouteNames.velodromeTrackChampionship,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final discParam = state.uri.queryParameters['discipline'];
+          final initialDiscipline =
+              extraMap?['discipline'] as TrackChampionshipDiscipline? ??
+                  switch (discParam) {
+                    'madison' => TrackChampionshipDiscipline.madison,
+                    'omnium' => TrackChampionshipDiscipline.omnium,
+                    'points' => TrackChampionshipDiscipline.pointsRace,
+                    _ => TrackChampionshipDiscipline.keirin,
+                  };
+          final velParam = state.uri.queryParameters['velodromeId'];
+          final initialVelodromeId = (velParam != null && velParam.isNotEmpty)
+              ? velParam
+              : (extraMap?['velodromeId'] as String? ?? 'grenchen_tissot');
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: TrackOmniumMadisonChampionshipScreen(
+              initialDiscipline: initialDiscipline,
+              initialVelodromeId: initialVelodromeId,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.raceOrganizerHq,
+        name: AppRouteNames.raceOrganizerHq,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialEmpire = extra is RaceOrganizerEmpireModel
+              ? extra
+              : extraMap?['initialEmpire'] as RaceOrganizerEmpireModel?;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: RaceOrganizerHqDashboardScreen(
+              initialEmpire: initialEmpire,
+              isReadOnly: isReadOnly,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.ultraBikepacking,
+        name: AppRouteNames.ultraBikepacking,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialRace = extra is UltraEnduranceBikepackingRaceModel
+              ? extra
+              : extraMap?['initialRace'] as UltraEnduranceBikepackingRaceModel?;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: UltraBikepackingTranscontinentalScreen(
+              initialRace: initialRace,
+              isReadOnly: isReadOnly,
+              onBackPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.globalAcademies,
+        name: AppRouteNames.globalAcademies,
+        pageBuilder: (context, state) {
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: GlobalAcademyNetworkMapScreen(
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.academy);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.managerReputation,
+        name: AppRouteNames.managerReputation,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final careerSave = extra is CareerSave
+              ? extra
+              : extraMap?['careerSave'] as CareerSave?;
+          final initialSnapshot = extra is ManagerProfileSnapshot
+              ? extra
+              : extraMap?['initialSnapshot'] as ManagerProfileSnapshot?;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: ManagerProfileAndReputationScreen(
+              careerSave: careerSave,
+              initialSnapshot: initialSnapshot,
+              isReadOnly: isReadOnly,
+              onBackPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.managerProfile);
+                }
+              },
+            ),
+          );
+        },
+      ),
     ],
     errorBuilder: (context, state) => _buildErrorScreen(context, state),
   );
@@ -1174,6 +1442,108 @@ extension AppRouterNavigationExtensions on BuildContext {
   /// Nawigacja do Albumu Kart Kolekcjonerskich i Paczek Gwiazd
   void goToLegendsAlbum({LegendsCardAlbumState? initialState}) =>
       go(AppRoutes.legendsAlbum, extra: initialState);
+
+  /// Nawigacja do Centrum Lig Online, ELO i Wyzwań Tygodnia
+  void goToMultiplayerLeagues({
+    MultiplayerHubTab initialTab = MultiplayerHubTab.leagues,
+    List<OnlineLeagueModel>? initialLeagues,
+    List<GhostChallengeModel>? initialChallenges,
+    EloRatingProfile? initialPlayerProfile,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        AppRoutes.multiplayerLeagues,
+        extra: {
+          'initialTab': initialTab,
+          'initialLeagues': initialLeagues,
+          'initialChallenges': initialChallenges,
+          'initialPlayerProfile': initialPlayerProfile,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do Pucharu Świata MTB XCO
+  void goToMtbXcoWorldCup({
+    bool isReadOnly = false,
+    bool show3dPreview = true,
+  }) =>
+      go(
+        AppRoutes.mtbXcoWorldCup,
+        extra: {
+          'isReadOnly': isReadOnly,
+          'show3dPreview': show3dPreview,
+        },
+      );
+
+  /// Nawigacja do Fabryki i Działu R&D Własnej Marki Rowerowej
+  void goToBikeBrandFactory({
+    InHouseBikeBrandFactoryState? initialState,
+    bool showAppBar = true,
+  }) =>
+      go(
+        AppRoutes.bikeBrandFactory,
+        extra: {
+          'initialState': initialState,
+          'showAppBar': showAppBar,
+        },
+      );
+
+  /// Nawigacja do Mistrzostw Torowych UCI (Keirin, Madison, Omnium, Wyścig Punktowy)
+  void goToVelodromeTrackChampionship({
+    TrackChampionshipDiscipline discipline = TrackChampionshipDiscipline.keirin,
+    String velodromeId = 'grenchen_tissot',
+  }) =>
+      go(
+        '${AppRoutes.velodromeTrackChampionship}?velodromeId=$velodromeId',
+        extra: {
+          'discipline': discipline,
+          'velodromeId': velodromeId,
+        },
+      );
+
+  /// Nawigacja do trybu Organizatora Wyścigów ASO/RCS
+  void goToRaceOrganizerHq({
+    RaceOrganizerEmpireModel? initialEmpire,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        AppRoutes.raceOrganizerHq,
+        extra: {
+          'initialEmpire': initialEmpire,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do wyścigów Ultra-Endurance Bikepacking (Dotwatching Live Tracker)
+  void goToUltraBikepacking({
+    UltraEnduranceBikepackingRaceModel? initialRace,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        AppRoutes.ultraBikepacking,
+        extra: {
+          'initialRace': initialRace,
+          'isReadOnly': isReadOnly,
+        },
+      );
+
+  /// Nawigacja do Globalnej Sieci Akademii Satelickich
+  void goToGlobalAcademies() => go(AppRoutes.globalAcademies);
+
+  /// Nawigacja do Profilu Menedżera, Statystyk Życiowych i Reputacji
+  void goToManagerReputation({
+    CareerSave? careerSave,
+    ManagerProfileSnapshot? initialSnapshot,
+    bool isReadOnly = false,
+  }) =>
+      go(
+        AppRoutes.managerReputation,
+        extra: {
+          'careerSave': careerSave,
+          'initialSnapshot': initialSnapshot,
+          'isReadOnly': isReadOnly,
+        },
+      );
 }
 
 /// Ekran obsługi błędu nieznalezienia trasy (404)
