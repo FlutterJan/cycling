@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../engine/simulation/stage_replay_recorder.dart';
 import '../../engine/simulation/stage_results_calculator.dart';
 import '../../engine/simulation/stage_simulation_loop.dart';
+import '../../models/career/pro_cyclist_career_state.dart';
 import '../../models/equipment/complete_bike.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
 import '../../models/rider/rider.dart';
+import '../../ui/screens/be_a_pro_character_creator_screen.dart';
+import '../../ui/screens/be_a_pro_dashboard_and_apartment_screen.dart';
 import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
+import '../../ui/screens/cyclocross_winter_series_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
 import '../../ui/screens/development_academy_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
 import '../../ui/screens/hall_of_fame_and_records_screen.dart';
 import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
+import '../../ui/screens/legends_card_album_and_packs_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
 import '../../ui/screens/main_title_menu_screen.dart';
 import '../../ui/screens/manager_profile_and_achievements_screen.dart';
@@ -25,6 +31,7 @@ import '../../ui/screens/post_stage_podium_screen.dart';
 import '../../ui/screens/pre_race_briefing_screen.dart';
 import '../../ui/screens/pre_season_team_presentation_screen.dart';
 import '../../ui/screens/quick_race_sandbox_screen.dart';
+import '../../ui/screens/race_replay_director_theater_screen.dart';
 import '../../ui/screens/race_simulation_screen.dart';
 import '../../ui/screens/rider_detail_screen.dart';
 import '../../ui/screens/settings_and_mod_screen.dart';
@@ -35,6 +42,7 @@ import '../../ui/screens/stage_editor_creator_screen.dart';
 import '../../ui/screens/team_builder_hierarchy_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
+import '../../ui/screens/uci_hour_record_attempt_screen.dart';
 import '../../ui/screens/wind_tunnel_and_bike_fit_screen.dart';
 import '../../ui/widgets/animated_screen_transition_router.dart';
 import '../theme/app_colors.dart';
@@ -71,13 +79,21 @@ abstract class AppRoutes {
   static const String managerProfile = '/career/manager-profile';
   static const String stageEditor = '/career/stage-editor';
   static const String preSeasonPresentation = '/career/pre-season-gala';
+  static const String cyclocross = '/career/cyclocross';
+  static const String legendsAlbum = '/career/legends-album';
   static const String settings = '/career/settings';
 
-  /// Ścieżki wyścigowe (Race Routes)
+  /// Tryb Be a Pro ("Zostań Legendą")
+  static const String beAProCreator = '/be-a-pro/creator';
+  static const String beAProDashboard = '/be-a-pro/dashboard';
+
+  /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
   static const String raceBriefing = '/race/briefing';
   static const String raceLive = '/race/live';
   static const String racePodium = '/race/podium';
+  static const String replayTheater = '/race/replay-theater';
+  static const String velodromeHourRecord = '/velodrome/hour-record';
 
   /// Metoda pomocnicza do tworzenia ścieżki szczegółów kolarza
   static String riderDetailPath(String riderId) => '/career/rider/$riderId';
@@ -111,12 +127,19 @@ abstract class AppRouteNames {
   static const String managerProfile = 'managerProfile';
   static const String stageEditor = 'stageEditor';
   static const String preSeasonPresentation = 'preSeasonPresentation';
+  static const String cyclocross = 'cyclocross';
+  static const String legendsAlbum = 'legendsAlbum';
   static const String settings = 'settings';
+
+  static const String beAProCreator = 'beAProCreator';
+  static const String beAProDashboard = 'beAProDashboard';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
   static const String raceLive = 'raceLive';
   static const String racePodium = 'racePodium';
+  static const String replayTheater = 'replayTheater';
+  static const String velodromeHourRecord = 'velodromeHourRecord';
 }
 
 /// Klucze globalne nawigatorów dla powłoki ShellRoute oraz nawigatora głównego
@@ -420,7 +443,112 @@ GoRouter createAppRouter({
         ],
       ),
 
-      // 4. Ścieżki wyścigowe (pełnoekranowe poza powłoką menedżera)
+      // 4. Tryb Be a Pro ("Zostań Legendą") oraz tryby specjalne (CX, Album Kart)
+      GoRoute(
+        path: AppRoutes.cyclocross,
+        name: AppRouteNames.cyclocross,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          List<Rider>? initialRoster;
+          if (extra is List<Rider>) {
+            initialRoster = extra;
+          } else if (extra is Map<String, dynamic>) {
+            initialRoster = extra['initialRoster'] as List<Rider>?;
+          }
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: CyclocrossWinterSeriesScreen(
+              initialRoster: initialRoster,
+              onLaunch3dCourse: (_) => context.go(AppRoutes.raceLive),
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.legendsAlbum,
+        name: AppRouteNames.legendsAlbum,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          LegendsCardAlbumState? initialState;
+          if (extra is LegendsCardAlbumState) {
+            initialState = extra;
+          } else if (extra is Map<String, dynamic>) {
+            initialState = extra['initialState'] as LegendsCardAlbumState?;
+          }
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: LegendsCardAlbumAndPacksScreen(
+              initialState: initialState,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.beAProCreator,
+        name: AppRouteNames.beAProCreator,
+        pageBuilder: (context, state) =>
+            AnimatedScreenTransitionRouter.buildManagerPage(
+          state: state,
+          axis: SharedAxisDirection.scaled,
+          child: BeAProCharacterCreatorScreen(
+            onCareerCreated: (result) => context.go(
+              AppRoutes.beAProDashboard,
+              extra: result.careerState,
+            ),
+            onBack: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go(AppRoutes.start);
+              }
+            },
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.beAProDashboard,
+        name: AppRouteNames.beAProDashboard,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          ProCyclistCareerState? initialState;
+          if (extra is ProCyclistCareerState) {
+            initialState = extra;
+          } else if (extra is Map<String, dynamic>) {
+            initialState = extra['careerState'] as ProCyclistCareerState?;
+          }
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: BeAProDashboardAndApartmentScreen(
+              initialState: initialState,
+              onOpenRaceCalendar: () => context.go(AppRoutes.calendar),
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.start);
+                }
+              },
+            ),
+          );
+        },
+      ),
+
+      // 5. Ścieżki wyścigowe, Welodrom i Kino Powtórek (pełnoekranowe poza powłoką menedżera)
       GoRoute(
         path: AppRoutes.quickRaceSandbox,
         name: AppRouteNames.quickRaceSandbox,
@@ -471,6 +599,76 @@ GoRouter createAppRouter({
               stageReport: report,
               simulationState: simState,
               onContinue: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.replayTheater,
+        name: AppRouteNames.replayTheater,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          StageReplayRecorder? recorder;
+          ReplayClip? initialClip;
+          String? initialFocusedRiderId = state.uri.queryParameters['riderId'];
+          if (extra is StageReplayRecorder) {
+            recorder = extra;
+          } else if (extra is ReplayClip) {
+            initialClip = extra;
+          } else if (extra is Map<String, dynamic>) {
+            recorder = extra['recorder'] as StageReplayRecorder?;
+            initialClip = extra['initialClip'] as ReplayClip?;
+            initialFocusedRiderId ??= extra['focusedRiderId'] as String?;
+          }
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: RaceReplayDirectorTheaterScreen(
+              recorder: recorder,
+              initialClip: initialClip,
+              initialFocusedRiderId: initialFocusedRiderId,
+              onClose: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.velodromeHourRecord,
+        name: AppRouteNames.velodromeHourRecord,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          Rider? initialRider;
+          String initialVelodromeId =
+              state.uri.queryParameters['velodromeId'] ??
+                  'aguascalientes_bicentenario';
+          if (extra is Rider) {
+            initialRider = extra;
+          } else if (extra is Map<String, dynamic>) {
+            initialRider = extra['rider'] as Rider?;
+            final velId = extra['velodromeId'] as String?;
+            if (velId != null && velId.isNotEmpty) {
+              initialVelodromeId = velId;
+            }
+          }
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: UciHourRecordAttemptScreen(
+              initialRider: initialRider,
+              initialVelodromeId: initialVelodromeId,
+              onBack: () {
                 if (context.canPop()) {
                   context.pop();
                 } else {
@@ -614,6 +812,46 @@ extension AppRouterNavigationExtensions on BuildContext {
         AppRoutes.racePodium,
         extra: {'report': report, 'simState': simState},
       );
+
+  /// Nawigacja do kreatora postaci w trybie Be a Pro ("Zostań Legendą")
+  void goToBeAProCreator() => go(AppRoutes.beAProCreator);
+
+  /// Nawigacja do apartamentu i pulpitu kariery Be a Pro
+  void goToBeAProDashboard({ProCyclistCareerState? careerState}) =>
+      go(AppRoutes.beAProDashboard, extra: careerState);
+
+  /// Nawigacja do Zimowego Pucharu Przełajowego CX
+  void goToCyclocross({List<Rider>? initialRoster}) =>
+      go(AppRoutes.cyclocross, extra: initialRoster);
+
+  /// Nawigacja do Welodromu (Próba Rekordu Godzinnego UCI)
+  void goToVelodromeHourRecord({Rider? rider, String? velodromeId}) => go(
+        velodromeId != null
+            ? '${AppRoutes.velodromeHourRecord}?velodromeId=$velodromeId'
+            : AppRoutes.velodromeHourRecord,
+        extra: rider,
+      );
+
+  /// Nawigacja do Kina Powtórek Wyścigowych
+  void goToReplayTheater({
+    StageReplayRecorder? recorder,
+    ReplayClip? initialClip,
+    String? focusedRiderId,
+  }) =>
+      go(
+        focusedRiderId != null
+            ? '${AppRoutes.replayTheater}?riderId=$focusedRiderId'
+            : AppRoutes.replayTheater,
+        extra: {
+          'recorder': recorder,
+          'initialClip': initialClip,
+          'focusedRiderId': focusedRiderId,
+        },
+      );
+
+  /// Nawigacja do Albumu Kart Kolekcjonerskich i Paczek Gwiazd
+  void goToLegendsAlbum({LegendsCardAlbumState? initialState}) =>
+      go(AppRoutes.legendsAlbum, extra: initialState);
 }
 
 /// Ekran obsługi błędu nieznalezienia trasy (404)
