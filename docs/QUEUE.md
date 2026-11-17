@@ -455,7 +455,7 @@ Zasady działania pętli:
 - [x] **Zadanie #367** (`lib/ui/screens/gravel_world_series_hub_screen.dart`): Stwórz ekran centrum wyścigów szutrowych `GravelWorldSeriesHubScreen` z kalendarzem i konfiguratorem opon 40–50 mm oraz stref `Oasis`.
 - [x] **Zadanie #368** (`lib/engine/peloton/in_race_peloton_diplomacy_engine.dart`): Zbuduj system **Dyplomacji i Sojuszy na Szosie (`InRacePelotonDiplomacyEngine`)**: pakty `Stage for GC Deal`, `Anti-Leader Coalition`, `Neutralization Truce` i konsekwencje zdrady (`Betrayal!`).
 - [x] **Zadanie #369** (`lib/ui/widgets/in_race_diplomacy_radio_modal.dart`): Stwórz interfejs negocjacji na szosie `InRaceDiplomacyRadioModal` pozwalający zawierać lub odrzucać układy z rywalami podczas etapu.
-- [ ] **Zadanie #370** (`lib/services/career/ai_rivalry_grudge_memory_service.dart`): Zbuduj system długoterminowej pamięci urazów i przyjaźni w peletonie `AiRivalryGrudgeMemoryService`.
+- [x] **Zadanie #370** (`lib/services/career/ai_rivalry_grudge_memory_service.dart`): Zbuduj system długoterminowej pamięci urazów i przyjaźni w peletonie `AiRivalryGrudgeMemoryService`.
 - [ ] **Zadanie #371** (`lib/models/team/team_bus_and_warmup_protocol_model.dart`): Stwórz model Autobusu Drużyny i Protokołu Rozgrzewki na trenażerze (`VO2 Priming` $+4.5\%$ mocy na starcie ITT).
 - [ ] **Zadanie #372** (`lib/engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart`): Zbuduj interaktywną scenę 3D Paddocku i Autobusu Drużyny przed startem etapu z kolarzami rozgrzewającymi się na trenażerach.
 - [ ] **Zadanie #373** (`lib/ui/screens/pre_stage_paddock_and_warmup_screen.dart`): Stwórz ekran Paddocku Przedstartowego `PreStagePaddockAndWarmupScreen` z konfiguracją rozgrzewki i kamizelek chłodzących `Pre-Cooling Ice Vest`.
