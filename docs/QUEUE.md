@@ -581,7 +581,7 @@ Zasady działania pętli:
 - [x] **Zadanie #558** (`docs/GAME_DESIGN_AND_PHYSICS_BIBLE.md`): Dokumentacja naukowa i fizyczna gry.
 - [x] **Zadanie #559** (`scripts/verify_all_platforms_build.ps1`): Aktualizacja skryptów kompilacji produkcyjnej.
 - [x] **Zadanie #560** (`test/full_560_tasks_end_to_end_career_test.dart`): Test End-to-End wszystkich trybów rozgrywki.
-- [ ] **Zadanie #561** (`lib/core/diagnostics/final_lint_and_zero_warnings_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
+- [x] **Zadanie #561** (`lib/core/diagnostics/final_lint_and_zero_warnings_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
 - [ ] **Zadanie #562** (`lib/core/diagnostics/diamond_master_562_certification_suite.dart`): Pakiet certyfikacji **DIAMOND MASTER v2.0** (#001–#562).
 
 ---
