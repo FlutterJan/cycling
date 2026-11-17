@@ -511,7 +511,7 @@ Zasady działania pętli:
 - [x] **Zadanie #418** (`lib/engine/rendering3d/mtb_forest_rock_garden_3d_renderer.dart`): Renderer 3D leśnej trasy MTB XCO z głazami (Rock Garden), drewnianymi mostkami, skoczniami i kurzem w promieniach słońca przebijających przez korony drzew.
 - [x] **Zadanie #419** (`lib/ui/screens/mtb_xco_world_cup_screen.dart`): Ekran Pucharu Świata MTB XCO i konfiguratora ciśnienia widelca/dampera oraz opon $2.4"$.
 - [x] **Zadanie #420** (`lib/models/team/in_house_bike_brand_manufacturing_model.dart`): Model **Własnej Marki Rowerowej Klubu (`InHouseBikeBrandModel`)** pozwalający przekształcić zespół w producenta sprzętu R&D sprzedającego licencje i ramy innym ekipom.
-- [ ] **Zadanie #421** (`lib/ui/screens/in_house_bike_brand_factory_screen.dart`): Ekran Fabryki i Działu R&D własnej marki rowerowej z projektowaniem geometrii i analizą sprzedaży detalicznej.
+- [x] **Zadanie #421** (`lib/ui/screens/in_house_bike_brand_factory_screen.dart`): Ekran Fabryki i Działu R&D własnej marki rowerowej z projektowaniem geometrii i analizą sprzedaży detalicznej.
 - [ ] **Zadanie #422** (`lib/services/career/tv_broadcast_rights_revenue_sharing.dart`): System podziału przychodów z praw telewizyjnych w cyklu WorldTour zależny od oglądalności i wyników drużyny.
 - [ ] **Zadanie #423** (`lib/engine/audio/spatial_3d_peloton_audio_panner.dart`): Przestrzenne panoramowanie stereo dźwięku peletonu, wozów technicznych i kibiców zależnie od pozycji kamery 3D.
 - [ ] **Zadanie #424** (`test/package_6_multiplayer_mtb_brand_test.dart`): Pakiet testów jednostkowych i integracyjnych dla lig multiplayer, fizyki MTB XCO oraz fabryki własnej marki rowerowej (#413–#462).
