@@ -299,6 +299,7 @@
 - `lib/services/generators/rider_procedural_generator.dart` — Proceduralny generator kolarzy z profilami fizjologicznymi.
 - `lib/services/generators/stage_profile_builder.dart` — Builder profili wysokościowych i segmentów.
 - `lib/services/generators/uci_calendar_generator.dart` — Generator pełnego kalendarza UCI na sezon.
+- `lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart` — Generator 24 drużyn kobiecych (15 WWT, 6 Pro, 3 Conti) i 360 zawodniczek z fizjologią i rynkiem transferowym (`WomensWorldtourTeamsAndRidersSeeder`, `WomensWorldTourSeedResult`, `WomensSeededRider`).
 - `lib/services/generators/world_teams_generator.dart` — Generator drużyn WorldTour, ProTeam i Continental.
 
 ### `lib/state/`

@@ -460,7 +460,7 @@ Zasady działania pętli:
 - [x] **Zadanie #372** (`lib/engine/rendering3d/team_bus_paddock_3d_scene_renderer.dart`): Zbuduj interaktywną scenę 3D Paddocku i Autobusu Drużyny przed startem etapu z kolarzami rozgrzewającymi się na trenażerach.
 - [x] **Zadanie #373** (`lib/ui/screens/pre_stage_paddock_and_warmup_screen.dart`): Stwórz ekran Paddocku Przedstartowego `PreStagePaddockAndWarmupScreen` z konfiguracją rozgrzewki i kamizelek chłodzących `Pre-Cooling Ice Vest`.
 - [x] **Zadanie #374** (`lib/models/career/womens_worldtour_and_mixed_relay_model.dart`): Stwórz model danych dla **Kobiecego WorldTouru (UCI Women's WorldTour)** oraz **Drużynowej Sztafety Mieszanej (Mixed Relay TTT)**.
-- [ ] **Zadanie #375** (`lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart`): Zbuduj generator 24 drużyn kobiecych i 360 zawodniczek z pełną fizjologią i rynkiem transferowym.
+- [x] **Zadanie #375** (`lib/services/generators/womens_worldtour_teams_and_riders_seeder.dart`): Zbuduj generator 24 drużyn kobiecych i 360 zawodniczek z pełną fizjologią i rynkiem transferowym.
 - [ ] **Zadanie #376** (`lib/ui/screens/mixed_relay_ttt_handover_hud_widget.dart`): Stwórz dzielony interfejs przekazania zmiany między trójką męską a kobiecą w Sztafecie Mieszanej.
 - [ ] **Zadanie #377** (`lib/services/career/olympic_games_quadrennial_cycle_service.dart`): Zbuduj serwis **4-letniego Cyklu Igrzysk Olimpijskich** (wyścig bez radia wyścigowego, małe reprezentacje narodowe, złoty kask i rama mistrza olimpijskiego).
 - [ ] **Zadanie #378** (`lib/ui/screens/olympic_games_hub_and_medal_table_screen.dart`): Stwórz ekran Igrzysk Olimpijskich i tabeli medalowej państw `OlympicGamesHubAndMedalTableScreen`.
