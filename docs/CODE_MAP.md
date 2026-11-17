@@ -1,6 +1,6 @@
 # Pro Peloton Manager — Mapa Projektu (`CODE_MAP.md`)
 
-> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#557`, Paczki #1–#8 + Gold Master QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
+> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#558`, Paczki #1–#8 + Gold Master QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
 
 ---
 
@@ -672,3 +672,4 @@
 - `test/manager_perks_and_satellite_academies_test.dart` — Testy jednostkowe, integracyjne Riverpod i responsywne widgetowe drzewka perków menedżera (`ManagerSkillTreeCatalog`, `ManagerSkillTreePerksService`, `ManagerSkillTreeNotifier`, `ManagerSkillTreePerksPanel`) oraz systemu Globalnych Akademii Satelickich (`GlobalSatelliteTrainingCentersService`, `GlobalSatelliteTrainingCentersNotifier`, `GlobalSatelliteTrainingCentersPanel`: XP/SP, respec, JSON, obozy Pro, skauting/awans juniorów oraz `390x844` / `1024x768` / `1600x900`).
 - `test/all_screens_golden_smoke_render_test.dart` — Zbiorcze testy renderowania UI (`_ScreenSmokeSpec`, `_SmokeTestCareerController`) weryfikujące 59 ekranów i widoków aplikacji bez błędów `RenderFlex overflowed` i wyjątków na rozdzielczościach `390x844`, `1024x768` i `1600x900`.
 - `test/core/app_router_package_6_7_routes_test.dart` — Testy nawigacji `AppRouter` dla wszystkich 8 tras Paczek #6 i #7 (`MultiplayerLeaguesAndChallengesScreen`, `MtbXcoWorldCupScreen`, `InHouseBikeBrandFactoryScreen`, `TrackOmniumMadisonChampionshipScreen`, `RaceOrganizerHqDashboardScreen`, `UltraBikepackingTranscontinentalScreen`, `GlobalAcademyNetworkMapScreen`, `ManagerProfileAndReputationScreen`) na rozdzielczościach `390x844` / `1024x768` / `1600x900`.
+- `docs/GAME_DESIGN_AND_PHYSICS_BIBLE.md` — Kompletna dokumentacja naukowa, fizyczna, fizjologiczna i projektowa gry (`PhysicsConstants`, `SpeedSolver`, `GravityAndRollingCalculator`, `AeroCalculator`, `WPrimeBalanceEngine`, `HighAltitudeHypoxiaCalculator`, `CoreBodyTemperatureThermoregulation`, `BoidsSteeringCollisionAvoidance`, potok 3D Zero-GC 120 FPS i tryby kariery).
