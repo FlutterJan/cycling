@@ -113,6 +113,7 @@
 - `lib/models/settings/game_settings.dart` — Ustawienia gry (grafika, audio, jednostki, język).
 - `lib/models/team/bike_manufacturer_deal.dart` — Kontrakt sprzętowy z producentem rowerów.
 - `lib/models/team/cycling_team.dart` — Model drużyny kolarskiej, budżetu, dywizji i malowania.
+- `lib/models/team/in_house_bike_brand_manufacturing_model.dart` — Model Własnej Marki Rowerowej Klubu (`InHouseBikeBrandModel`, `InHouseFrameBlueprint`, `BrandRdResearchProject`, `ExternalTeamLicenseContract`, `BrandManufacturingQuarterlyReport`, `BrandOperationResult`, `ManufacturingFacilityTier`, `CarbonLayupGrade`, `RdProjectFocus`, `RdProjectStatus`, `BrandLicenseDealStatus`, `TeamFrameTargetDivision`) przekształcający zespół w producenta sprzętu R&D sprzedającego licencje i ramy innym ekipom.
 - `lib/models/team/sponsor_contract.dart` — Umowa sponsorska i cele sezonowe (`SponsorObjective`).
 - `lib/models/team/team_bus_and_warmup_protocol_model.dart` — Model Autobusu Drużyny i Protokołu Rozgrzewki na trenażerze (`TeamBusAndWarmupProtocolModel`, `TeamBusSpecification`, `WarmupProtocolPreset`, `WarmupIntervalStep`, `RiderWarmupAssignment`, `WarmupPhysiologicalOutcome`, `TeamBusTier`, `SmartTrainerType`, `WarmupProtocolType`, `CoolingStrategyType`, `WarmupCompletionStatus`: `VO2 Priming` +4.5% mocy na starcie ITT).
 
