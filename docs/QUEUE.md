@@ -575,7 +575,7 @@ Zasady działania pętli:
 - [x] **Zadanie #552** (`lib/core/diagnostics/save_compatibility_v7_migrator.dart`): Migrator zapisów gry dla struktur Paczek #6 i #7.
 - [x] **Zadanie #553** (`lib/core/router/app_router.dart`): Integracja wszystkich tras z Paczek #6 i #7 w `AppRouter`.
 - [x] **Zadanie #554** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN.
-- [ ] **Zadanie #555** (`lib/core/diagnostics/unused_code_and_dependency_pruner.dart`): Czyszczenie martwego kodu i weryfikacja dokumentacji klas.
+- [x] **Zadanie #555** (`lib/core/diagnostics/unused_code_and_dependency_pruner.dart`): Czyszczenie martwego kodu i weryfikacja dokumentacji klas.
 - [ ] **Zadanie #556** (`lib/core/diagnostics/performance_120fps_frame_budget_auditor.dart`): Audyt budżetu klatki 3D (< $4.5\text{ ms}$ dla stałych 120 FPS).
 - [ ] **Zadanie #557** (`docs/CODE_MAP.md`): Aktualizacja indeksacji pliku `docs/CODE_MAP.md`.
 - [ ] **Zadanie #558** (`docs/GAME_DESIGN_AND_PHYSICS_BIBLE.md`): Dokumentacja naukowa i fizyczna gry.
