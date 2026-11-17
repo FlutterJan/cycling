@@ -554,7 +554,7 @@ Zasady działania pętli:
 - [x] **Zadanie #531** (`lib/engine/rendering3d/finish_line_confetti_and_photographers_3d.dart`): Fotoreporterzy, konfetti i strefa opiekunów za linią mety w 3D.
 - [x] **Zadanie #532** (`lib/services/career/team_bus_chef_and_microbiome_nutrition.dart`): Szef Kuchni Drużyny (`Team Chef`), bilans kaloryczny i regeneracja glikogenu.
 - [x] **Zadanie #533** (`lib/ui/widgets/team_chef_daily_menu_planner_card.dart`): Karta planowania posiłków i bilansu energetycznego w ekranie Dnia Przerwy.
-- [ ] **Zadanie #534** (`lib/engine/peloton/sprinter_train_counter_surfing_ai.dart`): Taktyka surfowania sprintera po kołach pociągów rywali (`Surf Rival Lead-out`).
+- [x] **Zadanie #534** (`lib/engine/peloton/sprinter_train_counter_surfing_ai.dart`): Taktyka surfowania sprintera po kołach pociągów rywali (`Surf Rival Lead-out`).
 - [ ] **Zadanie #535** (`lib/ui/widgets/sprint_final_3km_tactical_map_overlay.dart`): Mapa taktyczna z lotu ptaka na ostatnich $3\text{ km}$ sprintu.
 - [ ] **Zadanie #536** (`lib/services/career/sponsor_custom_color_rebrand_events.dart`): Limitowane edycje koszulek i rowerów na Wielkie Toury (`Special Edition Livery`).
 - [ ] **Zadanie #537** (`lib/ui/widgets/special_edition_livery_preview_modal.dart`): Modal prezentacji okazjonalnego malowania zespołu.
