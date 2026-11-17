@@ -560,7 +560,7 @@ Zasady działania pętli:
 - [x] **Zadanie #537** (`lib/ui/widgets/special_edition_livery_preview_modal.dart`): Modal prezentacji okazjonalnego malowania zespołu.
 - [x] **Zadanie #538** (`lib/engine/simulation/stage_photo_album_auto_capturer.dart`): Automatyczny album zdjęć z 4 kluczowych momentów każdego etapu.
 - [x] **Zadanie #539** (`lib/ui/widgets/post_stage_highlight_reel_carousel.dart`): Karuzela skrótów wideo i zdjęć z etapu na ekranie podium.
-- [ ] **Zadanie #540** (`lib/services/career/uci_worldtour_calendar_expansion_engine.dart`): Dynamiczna rozbudowa kalendarza WorldTour w kolejnych latach kariery.
+- [x] **Zadanie #540** (`lib/services/career/uci_worldtour_calendar_expansion_engine.dart`): Dynamiczna rozbudowa kalendarza WorldTour w kolejnych latach kariery.
 - [ ] **Zadanie #541** (`lib/core/config/controller_gamepad_input_mapper.dart`): Pełna obsługa kontrolerów Xbox / PlayStation DualSense / Steam Deck.
 - [ ] **Zadanie #542** (`lib/ui/widgets/quick_tactical_macro_recorder_widget.dart`): Nagrywarka makr taktycznych dla całej drużyny jednym przyciskiem.
 - [ ] **Zadanie #543** (`lib/engine/physics/altitude_descent_air_density_transition.dart`): Ciągła interpolacja gęstości powietrza $\rho(h, T)$ podczas zjazdów alpejskich.
