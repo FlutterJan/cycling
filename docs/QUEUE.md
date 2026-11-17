@@ -547,7 +547,7 @@ Zasady działania pętli:
 - [x] **Zadanie #524** (`lib/services/career/global_satellite_training_centers_service.dart`): System Globalnych Akademii Satelickich (Kolumbia, Afryka Wschodnia, Flandria, Sierra Nevada).
 - [x] **Zadanie #525** (`lib/ui/screens/global_academy_network_map_screen.dart`): Ekran mapy świata i zarządzania globalną siecią akademii treningowych.
 - [x] **Zadanie #526** (`lib/engine/peloton/team_radio_voice_synthesis_and_chatter.dart`): Generator kontekstowych dialogów i inicjatyw kolarzy w Radiu Wyścigowym.
-- [ ] **Zadanie #527** (`lib/ui/widgets/interactive_radio_call_bubble_hud.dart`): Szklany dymek połączenia radiowego z falą głosową i przyciskami szybkiej decyzji.
+- [x] **Zadanie #527** (`lib/ui/widgets/interactive_radio_call_bubble_hud.dart`): Szklany dymek połączenia radiowego z falą głosową i przyciskami szybkiej decyzji.
 - [ ] **Zadanie #528** (`lib/engine/physics/cobble_tire_pressure_real_time_deflection.dart`): Fizyka ugięcia opon i strat wibracyjnych na bruku 5-gwiazdkowym.
 - [ ] **Zadanie #529** (`lib/services/career/historic_legend_guest_mentors_service.dart`): System zatrudniania byłych Legend Kolarstwa jako doradców na obozy i Wielkie Toury.
 - [ ] **Zadanie #530** (`lib/ui/widgets/grand_tour_jersey_standings_podium_strip.dart`): Pasek 4 koszulek klasyfikacji Grand Touru na żywo w wyścigu i na podium.
