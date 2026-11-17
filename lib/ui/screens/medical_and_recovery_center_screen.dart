@@ -11,6 +11,7 @@ import '../../models/rider/rider.dart';
 import '../../models/rider/rider_health.dart';
 import '../../services/generators/rider_procedural_generator.dart';
 import '../../state/career_controller.dart';
+import '../widgets/nutrition_strategy_planner_panel.dart';
 import '../widgets/rider_avatar_painter.dart';
 
 /// Status laboratoryjny panelu morfologii i biomarkerów krwi kolarza.
@@ -1743,6 +1744,14 @@ class _MedicalAndRecoveryCenterScreenState
               );
             },
           ),
+          const SizedBox(height: 20),
+          NutritionStrategyplannerPanel(
+            initialRiders: [
+              for (final prof in _medicalProfiles)
+                RiderNutritionPlanEntry.fromRider(prof.rider),
+            ],
+            contextTitle: 'KLINICZNY PLAN ŻYWIENIA & TOLERANCJI ŻOŁĄDKOWEJ',
+          ),
         ],
       ),
     );
@@ -2137,6 +2146,14 @@ class _MedicalAndRecoveryCenterScreenState
                 }).toList(),
               );
             },
+          ),
+          const SizedBox(height: 20),
+          NutritionStrategyplannerPanel(
+            initialRiders: [
+              for (final prof in _medicalProfiles)
+                RiderNutritionPlanEntry.fromRider(prof.rider),
+            ],
+            contextTitle: 'KLINICZNY PLAN ŻYWIENIA & TOLERANCJI ŻOŁĄDKOWEJ',
           ),
         ],
       ),

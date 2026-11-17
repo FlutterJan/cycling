@@ -24,6 +24,7 @@ import '../widgets/bike_preview_painter.dart';
 import '../widgets/elevation_profile_chart.dart';
 import '../widgets/interactive_pre_stage_tactical_board.dart';
 import '../widgets/mechanic_workshop_panel.dart';
+import '../widgets/nutrition_strategy_planner_panel.dart';
 import '../widgets/rider_avatar_painter.dart';
 import 'race_simulation_screen.dart';
 import 'team_bus_locker_room_screen.dart';
@@ -239,6 +240,7 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
   TirePressureRecommendation? _workshopPressureRec;
   bool _isStageReconCompleted = false;
   TeamBusBriefingResult? _busBriefingResult;
+  List<RiderNutritionPlanEntry> _nutritionPlan = [];
 
   // Nadpisania sprzętu dla konkretnego kolarza
   String? _selectedRiderForBikePreview;
@@ -2705,6 +2707,35 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
       },
     );
 
+    final bool isTimeTrial = stage.stageType == StageType.individualTimeTrial ||
+        stage.stageType == StageType.teamTimeTrial;
+    final List<RiderNutritionPlanEntry> initialNutritionRiders =
+        _nutritionPlan.length == _stageLineup.length
+            ? _nutritionPlan
+            : [
+                for (final r in _stageLineup)
+                  RiderNutritionPlanEntry.fromRider(
+                    r,
+                    roleLabel: (_assignedRoles[r.id] ?? StageTacticalRole.freeAgent).shortLabel,
+                    isTimeTrialStage: isTimeTrial,
+                  ),
+              ];
+
+    final nutritionPlanner = NutritionStrategyplannerPanel(
+      initialRiders: initialNutritionRiders,
+      isTimeTrialStage: isTimeTrial,
+      raceTemperatureCelsius: stage.baseTemperatureCelsius,
+      contextTitle: 'ODPRAWA ŻYWIENIOWA & SUPLEMENTACJA ETAPU',
+      onPlanChanged: (updated) {
+        _nutritionPlan = updated;
+      },
+      onApplyTeamPlan: (updated) {
+        setState(() {
+          _nutritionPlan = updated;
+        });
+      },
+    );
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(isCompact ? 12 : 16),
       child: Column(
@@ -2726,6 +2757,8 @@ class _PreRaceBriefingScreenState extends ConsumerState<PreRaceBriefingScreen> {
           ],
           const SizedBox(height: 16),
           tacticalBoard,
+          const SizedBox(height: 16),
+          nutritionPlanner,
         ],
       ),
     );
