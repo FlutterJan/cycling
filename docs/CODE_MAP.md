@@ -370,6 +370,7 @@
 
 ### `lib/ui/widgets/`
 - `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
+- `lib/ui/widgets/all_time_goat_pyramid_widget.dart` — Wizualna 5-piętrowa Piramida Legend Wszech Czasów w Hall of Fame (`AllTimeGoatPyramidWidget`, `GoatPyramidOriginFilter`) z filtrami epok/pochodzenia, panelem rozkładu GOAT i responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/widgets/animated_screen_transition_router.dart` — Zestaw płynnych przejść `GoRouter` (`AnimatedScreenTransitionRouter`, `ScreenTransitionPreset`, `SharedAxisDirection`, `ScreenTransitionPreviewPanel`): najazd kamery z lotu ptaka na szosę 3D oraz `SharedAxisTransition` (300 ms, `Curves.easeOutExpo`).
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
 - `lib/ui/widgets/be_a_pro_ds_objective_hud_tracker.dart` — Dedykowany widget HUD trybu Be a Pro (`BeAProDsObjectiveHudTracker`, `BeAProDsObjectiveHudData`, `ProtectedLeaderBeaconData`, `BeAProDsObjectiveHudStatus`, `Leader3dDirectionalArrowPainter`) wyświetlający rozkaz DS na żywo, pasek postępu, odległość od lidera z zieloną strzałką kierunkową 3D oraz licznik punktów XP.
@@ -545,3 +546,4 @@
 - `test/services/olympic_games_quadrennial_cycle_service_test.dart` — Testy jednostkowe i responsywne widgetowe `OlympicGamesQuadrennialCycleService` oraz `OlympicGamesQuadrennialCyclePanel` (cykl 4-letni, brak radia wyścigowego, małe kadry narodowe, złoty kask i rama, JSON oraz `390x844` / `1024x768` / `1600x900`).
 - `test/ui/olympic_games_hub_and_medal_table_screen_test.dart` — Testy jednostkowe `OlympicMedalTableAggregator` oraz responsywne widgetowe `OlympicGamesHubAndMedalTableScreen` (`390x844` / `1024x768` / `1600x900`, symulacja wyścigu olimpijskiego i stan `isReadOnly`).
 - `test/services/dual_screen_telemetry_wall_server_test.dart` — Testy jednostkowe, sieciowe WebSocket/HTTP, Riverpod oraz responsywne widgetowe `DualScreenTelemetryWallServer`, `DualScreenTelemetryWallClient` i `DualScreenTelemetryWallPanel` (`390x844` / `1024x768` / `1600x900`).
+- `test/ui/all_time_goat_pyramid_widget_test.dart` — Testy widgetowe i responsywne `AllTimeGoatPyramidWidget` (5 pięter GOAT, interakcje hover/tap/filtry/disabled oraz `390x844` / `1024x768` / `1600x900`).

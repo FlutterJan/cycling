@@ -470,7 +470,7 @@ Zasady działania pętli:
 - [x] **Zadanie #382** (`lib/engine/physics/crosswind_wheel_stability_and_gust_solver.dart`): Zbuduj fizykę podmuchów bocznych na wysokich stożkach karbonowych $65–80\text{ mm}$.
 - [x] **Zadanie #383** (`lib/engine/rendering3d/coastal_bridges_and_cobble_trenches_3d.dart`): Rozbuduj scenerię 3D o morskie mosty (Wielki Bełt), przekopy leśne Arenberg, kredowe wzgórza Toskanii i księżycowy szczyt Mont Ventoux.
 - [x] **Zadanie #384** (`lib/services/career/historic_legend_hall_of_fame_compare.dart`): Zbuduj moduł punktacji wieloletniej `All-Time Goat Score`.
-- [ ] **Zadanie #385** (`lib/ui/widgets/all_time_goat_pyramid_widget.dart`): Stwórz wizualną 5-piętrową Piramidę Legend Wszech Czasów w Hall of Fame.
+- [x] **Zadanie #385** (`lib/ui/widgets/all_time_goat_pyramid_widget.dart`): Stwórz wizualną 5-piętrową Piramidę Legend Wszech Czasów w Hall of Fame.
 - [ ] **Zadanie #386** (`lib/core/l10n/app_localizations_pl_en.dart`): Zbuduj kompletny dwujęzyczny słownik lokalizacyjny `PL` i `EN` z żargonem kolarskim.
 - [ ] **Zadanie #387** (`lib/core/theme/colorblind_accessibility_palettes.dart`): Stwórz 4 palety dostępności wizualnej dla daltonistów z podwójnym kodowaniem kształtami.
 - [ ] **Zadanie #388** (`lib/services/database/mod_workshop_validator_and_packager.dart`): Zbuduj walidator i eksporter paczek modyfikacji `.ppmmod`.
