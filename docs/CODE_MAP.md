@@ -475,6 +475,7 @@
 - `lib/ui/widgets/power_curve_chart_widget.dart` — Wykres krzywej mocy W / W/kg.
 - `lib/ui/widgets/press_interview_modal.dart` — Modal wywiadu z dziennikarzami.
 - `lib/ui/widgets/pro_cycling_stats_table_widget.dart` — Tabela danych w stylu ProCyclingStats (`ProCyclingStatsTableWidget`, `PcsRiderRowData`, `PcsCountryFlagBadge`, `PcsTableMode`, `PcsSortColumn`, `PcsSpecializationCategory`) z wektorowymi flagami ISO, sortowaniem, filtrem na żywo i złotym paskiem drużyny gracza `#D4AF37`.
+- `lib/ui/widgets/quick_tactical_macro_recorder_widget.dart` — Nagrywarka i 1-klikowy odtwarzacz makr taktycznych dla całej drużyny (`QuickTacticalMacroRecorderWidget`, `QuickTacticalMacro`, `TacticalMacroStep`, `MacroTeamRiderSlot`, `MacroExecutionResult`, `QuickTacticalMacroManager`, `TacticalMacroCategory`, `MacroTriggerCondition`, `MacroRecorderPhase`) z nagrywaniem sekwencji rozkazów w czasie rzeczywistym, eksportem JSON i responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/widgets/race_radio_banner.dart` — Pasek komunikatów radia wyścigowego.
 - `lib/ui/widgets/race_top_hud_bar.dart` — Górny pasek HUD (km, prędkość, wiatr, pogoda).
 - `lib/ui/widgets/rainbow_and_national_jersey_badge.dart` — Oznaczenia Tęczowej Koszulki i Mistrzów Krajowych.
