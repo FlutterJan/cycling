@@ -490,7 +490,7 @@ Zasady działania pętli:
 - [x] **Zadanie #402** (`test/in_race_diplomacy_and_grudge_test.dart`): Test dyplomacji na szosie i pamięci urazów AI.
 - [x] **Zadanie #403** (`test/warmup_protocol_and_ttt_drop_test.dart`): Test protokołu rozgrzewki i taktyki TTT.
 - [x] **Zadanie #404** (`test/womens_worldtour_and_mixed_relay_test.dart`): Test kobiecego WorldTouru i Sztafety Mieszanej.
-- [ ] **Zadanie #405** (`test/olympic_games_and_split_squad_test.dart`): Test Igrzysk Olimpijskich i równoległych wyścigów.
+- [x] **Zadanie #405** (`test/olympic_games_and_split_squad_test.dart`): Test Igrzysk Olimpijskich i równoległych wyścigów.
 - [ ] **Zadanie #406** (`test/localization_and_accessibility_test.dart`): Test słowników PL/EN i kontrastu palet.
 - [ ] **Zadanie #407** (`test/mod_packager_and_in_game_editor_test.dart`): Test edytora bazy danych i paczek `.ppmmod`.
 - [ ] **Zadanie #408** (`lib/core/diagnostics/ui_golden_contrast_and_font_auditor.dart`): Audytor kontrastu WCAG AA i użycia `FontFeature.tabularFigures()`.
