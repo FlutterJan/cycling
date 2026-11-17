@@ -541,7 +541,7 @@ Zasady działania pętli:
 - [x] **Zadanie #518** (`lib/models/race/ultra_endurance_bikepacking_race_model.dart`): Model wyścigów **Ultra-Endurance Bikepacking (4000 km non-stop)** z punktami kontrolnymi, torbami bikepackingowymi i piastą z dynamem.
 - [x] **Zadanie #519** (`lib/engine/physics/ultra_sleep_deprivation_and_circadian_solver.dart`): Solver fizjologii braku snu (`Sleep Debt`), rytmu dobowego oraz drzemek w śpiworze Bivy vs hotele.
 - [x] **Zadanie #520** (`lib/engine/rendering3d/night_riding_headlight_and_stars_3d_renderer.dart`): Renderer jazdy nocnej 3D ze stożkiem przedniej lampki LED, gwiazdami i czerwonym światłem tylnym.
-- [ ] **Zadanie #521** (`lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart`): Ekran wyścigów Ultra-Endurance z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych.
+- [x] **Zadanie #521** (`lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart`): Ekran wyścigów Ultra-Endurance z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych.
 - [ ] **Zadanie #522** (`lib/engine/physics/real_time_cfd_vortex_and_drag_solver.dart`): Solver strefowej aerodynamiki CFD (kask, przedramiona, tekstylia, koła i wiry Kármána).
 - [ ] **Zadanie #523** (`lib/ui/widgets/cfd_wind_tunnel_heatmap_3d_painter.dart`): Wizualizator mapy ciśnień CFD 120 FPS na sylwetce kolarza w tunelu aerodynamicznym.
 - [ ] **Zadanie #524** (`lib/services/career/global_satellite_training_centers_service.dart`): System Globalnych Akademii Satelickich (Kolumbia, Afryka Wschodnia, Flandria, Sierra Nevada).
