@@ -409,6 +409,156 @@ class BilingualCyclingDictionary {
       pl: 'Profiler Graficzny 120 FPS',
       en: '120 FPS Graphics Profiler',
     ),
+
+    // --- Paczka #8: Złota Era, e-Sports, ESG, Reprezentacja, Caravan Drafting i NG+ ---
+    'retro_golden_era_title': (
+      pl: 'Złota Era Kolarstwa (1970–2015)',
+      en: 'Golden Era Cycling (1970–2015)',
+    ),
+    'retro_steel_columbus_frame': (
+      pl: 'Stalowa Rama Columbus SL (9.2 kg)',
+      en: 'Columbus SL Steel Frame (9.2 kg)',
+    ),
+    'retro_friction_shifters': (
+      pl: 'Manetki Cierne na Dolnej Rurze',
+      en: 'Friction Downtube Shifters',
+    ),
+    'retro_borg_rpe_scale': (
+      pl: 'Skala Wysiłku Borg RPE (6–20)',
+      en: 'Borg RPE Exertion Scale (6–20)',
+    ),
+    'retro_no_powermeter_radio': (
+      pl: 'Bez Miernika Mocy i Radia',
+      en: 'No Powermeter & No Race Radio',
+    ),
+    'retro_tv_film_filter': (
+      pl: 'Filtr TV 16mm / VHS / Sepia',
+      en: '16mm / VHS / Sepia TV Filter',
+    ),
+    'esports_uci_title': (
+      pl: 'UCI Cycling Esports',
+      en: 'UCI Cycling Esports',
+    ),
+    'esports_smart_trainer_erg': (
+      pl: 'Trenażer Smart (Tryb ERG)',
+      en: 'Smart Trainer (ERG Mode)',
+    ),
+    'esports_powerup_aero_helmet': (
+      pl: 'Power-Up: Kask Aero',
+      en: 'Power-Up: Aero Helmet',
+    ),
+    'esports_powerup_featherweight': (
+      pl: 'Power-Up: Piórko (-10% masy)',
+      en: 'Power-Up: Featherweight (-10% Weight)',
+    ),
+    'esports_powerup_burrito': (
+      pl: 'Power-Up: Burrito (Brak draftu)',
+      en: 'Power-Up: Burrito (No Draft)',
+    ),
+    'esports_elimination_60s': (
+      pl: 'Wyścig Eliminacyjny (Co 60 s)',
+      en: '60s Elimination Race',
+    ),
+    'esports_virtual_talent_academy': (
+      pl: 'Akademia Virtual Talent ID',
+      en: 'Virtual Talent ID Academy',
+    ),
+    'esg_green_fleet_title': (
+      pl: 'Ekonomia ESG i Zielona Flota',
+      en: 'ESG Sustainability & Green Fleet',
+    ),
+    'esg_ev_hydrogen_convoy': (
+      pl: 'Konwój EV / Wodorowy Drużyny',
+      en: 'EV / Hydrogen Team Convoy',
+    ),
+    'esg_carbon_footprint_co2': (
+      pl: 'Bilans Śladu Węglowego (CO2)',
+      en: 'Carbon Footprint Ledger (CO2)',
+    ),
+    'esg_green_sponsor_tier': (
+      pl: 'Zielony Sponsor ESG',
+      en: 'Green ESG Sponsor',
+    ),
+    'coach_ai_post_race_title': (
+      pl: 'Analityk Taktyczny AI po Wyścigu',
+      en: 'Post-Race AI Tactical Coach',
+    ),
+    'coach_ai_wasted_wind_watts': (
+      pl: 'Stracone Waty na Wietrze',
+      en: 'Wasted Wind Watts',
+    ),
+    'tactics_diagonal_echelon': (
+      pl: 'Diagonalna Formacja Wachlarza',
+      en: 'Diagonal Echelon Formation',
+    ),
+    'tactics_gutter_wind_trap': (
+      pl: 'Pułapka Krawężnika (In the Gutter)',
+      en: 'Gutter Wind Trap (In the Gutter)',
+    ),
+    'physics_braking_kinetic_loss': (
+      pl: 'Strata Kinetyczna na Dohamowaniach',
+      en: 'Braking Zone Kinetic Loss',
+    ),
+    'physics_caravan_drafting': (
+      pl: 'Drafting w Kolumnie Wozów i Motocykli',
+      en: 'Caravan & TV Moto Drafting',
+    ),
+    'physics_caravan_penalty_risk': (
+      pl: 'Ryzyko Kary za Jazdę za Wozem',
+      en: 'Caravan Drafting Penalty Risk',
+    ),
+    'career_personal_life_events': (
+      pl: 'Życie Osobiste i Wydarzenia Rodzinne',
+      en: 'Personal Life & Family Events',
+    ),
+    'career_national_team_hq': (
+      pl: 'Biuro Selekcjonera Reprezentacji',
+      en: 'National Team Selector HQ',
+    ),
+    'career_deadline_day_live': (
+      pl: 'Transfer Deadline Day (Na Żywo)',
+      en: 'Transfer Deadline Day Live',
+    ),
+    'career_club_fan_shop': (
+      pl: 'Sklep Klubowy i Gadżety Kibiców',
+      en: 'Club Merchandise & Fan Shop',
+    ),
+    'career_rider_nicknames': (
+      pl: 'Przydomki Kolarskie Mediów',
+      en: 'Media Rider Nicknames',
+    ),
+    'career_gt_route_reveal': (
+      pl: 'Ceremonia Prezentacji Trasy GT',
+      en: 'Grand Tour Route Reveal Ceremony',
+    ),
+    'career_legacy_book_ng_plus': (
+      pl: 'Księga Legendy (New Game+ / Dynastia)',
+      en: 'Manager Legacy Book (NG+ / Dynasty)',
+    ),
+    'jury_extreme_weather_protocol': (
+      pl: 'Protokół Ekstremalnej Pogody UCI',
+      en: 'UCI Extreme Weather Protocol',
+    ),
+    'jury_course_reroute': (
+      pl: 'Dynamiczna Zmiana Trasy Etapu',
+      en: 'Dynamic Stage Course Reroute',
+    ),
+    'ui_voice_quick_commands': (
+      pl: 'Szybkie Komendy Radia (Alt+Space)',
+      en: 'Race Radio Quick Commands (Alt+Space)',
+    ),
+    'ui_cross_save_gzip': (
+      pl: 'Transfer Zapisu Między Urządzeniami (.ppmsave.gz)',
+      en: 'Cross-Device Save Transfer (.ppmsave.gz)',
+    ),
+    'ui_realism_presets': (
+      pl: 'Presety Realizmu Rozgrywki',
+      en: 'Gameplay Realism Presets',
+    ),
+    'ui_save_v8_migrator': (
+      pl: 'Migrator Zapisów Paczki #8 (v8)',
+      en: 'Package #8 Save Migrator (v8)',
+    ),
   };
 
   /// Autentyczny dwujęzyczny słownik żargonu kolarskiego (PL <-> EN).
@@ -1126,6 +1276,112 @@ class BilingualCyclingDictionary {
           'Official disciplinary caution for a rider or sports director; two yellow cards in one race result in disqualification.',
       examplePl: 'Otrzymałeś żółtą kartkę UCI — kolejne wykroczenie oznacza DSQ.',
       exampleEn: 'Issued a UCI Yellow Card — another infraction means immediate DSQ.',
+    ),
+
+    // --- Paczka #8: Złota Era, e-Sports, ESG, Caravan Drafting, Reprezentacja & NG+ ---
+    BilingualTermEntry(
+      key: 'borg_rpe_scale',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Skala RPE Borga (6–20)',
+      en: 'Borg RPE Scale (6–20)',
+      slangOrOrigin: 'Golden Era 1970–2015',
+      definitionPl:
+          'Subiektywna ocena odczuwanego wysiłku (od 6 do 20) używana w trybie Złotej Ery zamiast nowoczesnych mierników mocy W i W\'bal.',
+      definitionEn:
+          'Rating of Perceived Exertion (6–20) used in the Golden Era mode instead of modern powermeters and live W\'bal telemetry.',
+      examplePl: 'Jedziemy bez watomierza — lider zgłasza RPE 17 na podjeździe!',
+      exampleEn: 'No powermeter today — leader reports Borg RPE 17 on the climb!',
+    ),
+    BilingualTermEntry(
+      key: 'friction_downtube_shifters',
+      domain: AppL10nDomain.equipmentMechanics,
+      pl: 'Manetki cierne na ramie',
+      en: 'Friction Downtube Shifters',
+      slangOrOrigin: 'Retro Steel Era',
+      definitionPl:
+          'Klasyczne dźwignie zmiany przełożeń na dolnej rurze stalowej ramy (np. Columbus SL), wprowadzające opóźnienie zmiany biegu i konieczność wyczucia łańcucha.',
+      definitionEn:
+          'Classic gear levers mounted on the downtube of steel frames (e.g. Columbus SL), adding shift latency and chain-trim skill checks.',
+      examplePl: 'Przed stromą ścianką sięgnij po manetkę na dolnej rurze z wyprzedzeniem.',
+      exampleEn: 'Reach down for the friction shifter well before the steep ramp.',
+    ),
+    BilingualTermEntry(
+      key: 'caravan_drafting',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Jazda w kolumnie wozów (Caravan Drafting)',
+      en: 'Caravan Drafting',
+      slangOrOrigin: 'Convoy Slipstream',
+      definitionPl:
+          'Wykorzystywanie głębokiego cienia aerodynamicznego za wozami technicznymi i motocyklami TV podczas powrotu do peletonu po defekcie, obarczone ryzykiem kary sędziowskiej.',
+      definitionEn:
+          'Using the deep slipstream behind team cars and TV motos to bridge back after a mechanical, balancing speed gain against UCI penalty risk.',
+      examplePl: 'Wskocz w kolumnę wozów po zmianie koła, ale uważaj na oko komisarza!',
+      exampleEn: 'Slip through the car caravan after the wheel change, but watch the commissaire!',
+    ),
+    BilingualTermEntry(
+      key: 'esports_burrito_powerup',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Power-Up Burrito (UCI e-Sports)',
+      en: 'Burrito Power-Up (UCI e-Sports)',
+      slangOrOrigin: 'Virtual Racing',
+      definitionPl:
+          'Taktyczny bonus w wirtualnych wyścigach na trenażerach Smart, który odcina rywalom jadącym z tyłu korzyść z draftu aerodynamicznego na kilkanaście sekund.',
+      definitionEn:
+          'Tactical power-up in virtual Smart-trainer races that temporarily disables aerodynamic drafting for rivals sitting behind your wheel.',
+      examplePl: 'Odpalaj Power-Up Burrito tuż przed eliminacją za 10 sekund!',
+      exampleEn: 'Trigger the Burrito power-up right before the 10-second elimination gate!',
+    ),
+    BilingualTermEntry(
+      key: 'cpa_extreme_weather_protocol',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Protokół ekstremalnej pogody UCI / CPA',
+      en: 'UCI / CPA Extreme Weather Protocol',
+      slangOrOrigin: 'Art. 2.2.029bis',
+      definitionPl:
+          'Procedura bezpieczeństwa uruchamiana wspólnie przez komisarzy UCI i stowarzyszenie kolarzy CPA przy wichurach, śnieżycach lub upałach, prowadząca do skrócenia lub zmiany trasy etapu.',
+      definitionEn:
+          'Safety procedure triggered by UCI commissaires and the CPA riders\' union during storms, snow, or extreme heat to shorten or reroute a stage.',
+      examplePl: 'Peleton przegłosował protest CPA — dyrektor wyścigu skraca przełęcz.',
+      exampleEn: 'Peloton voted for the CPA protocol — race director reroutes around the summit.',
+    ),
+    BilingualTermEntry(
+      key: 'esg_carbon_ledger',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Zielona Flota i Bilans CO2 (ESG)',
+      en: 'Green Fleet & CO2 Ledger (ESG)',
+      slangOrOrigin: 'Team Sustainability',
+      definitionPl:
+          'System zarządzania elektrycznymi i wodorowymi wozami konwoju drużyny oraz śladem węglowym logistyki, otwierający dostęp do lukratywnych zielonych sponsorów.',
+      definitionEn:
+          'Management of electric/hydrogen team convoy vehicles and travel emissions ledger, unlocking high-value sustainability sponsor contracts.',
+      examplePl: 'Przejście na flotę EV podniosło ocenę ESG i odblokowało nowego sponsora.',
+      exampleEn: 'Switching to an EV convoy boosted our ESG rating and unlocked a green sponsor.',
+    ),
+    BilingualTermEntry(
+      key: 'transfer_deadline_day',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Transfer Deadline Day',
+      en: 'Transfer Deadline Day',
+      slangOrOrigin: 'Mercato Finale',
+      definitionPl:
+          'Ostatnie 24 godziny okna transferowego z odliczaniem godzinowym na żywo i nagłymi ofertami agentów przed zamknięciem składów na nowy sezon.',
+      definitionEn:
+          'Final 24-hour countdown of the transfer window featuring live breaking-news tickers and last-minute agent contract offers.',
+      examplePl: 'Zostały 2 godziny Deadline Day — agent oferuje nam wolnego sprintera!',
+      exampleEn: '2 hours left on Deadline Day — an agent just pitched a free-agent sprinter!',
+    ),
+    BilingualTermEntry(
+      key: 'manager_dynasty_ng_plus',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Księga Legendy (New Game+ / Dynastia)',
+      en: 'Manager Legacy Book (NG+ / Dynasty)',
+      slangOrOrigin: 'Hall of Fame',
+      definitionPl:
+          'Podsumowanie wieloletniej kariery menedżera po przejściu na emeryturę, pozwalające rozpocząć nową dynastię z zachowaniem dziedzictwa i prestiżu.',
+      definitionEn:
+          'Permanent career chronicle unlocked upon retirement, allowing you to launch a New Game+ dynasty carrying forward prestige and legacy records.',
+      examplePl: 'Księga Legendy zapisana — rozpocznij nową dynastię jako mentor akademii!',
+      exampleEn: 'Legacy Book archived — start a New Game+ dynasty as academy mentor!',
     ),
   ];
 
