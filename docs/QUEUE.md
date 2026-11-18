@@ -604,7 +604,7 @@ Zasady działania pętli:
 - [x] **Zadanie #576** (`lib/ui/widgets/gutter_wind_protection_diagram_hud.dart`): Mini-diagram schodkowy ochrony przed wiatrem bocznym w HUD 3D.
 - [x] **Zadanie #577** (`lib/services/career/rider_personal_life_and_family_events.dart`): Wydarzenia z życia osobistego kolarzy (narodziny dziecka, urlop ojcowski, domowe wyścigi).
 - [x] **Zadanie #578** (`lib/engine/physics/braking_zone_kinetic_energy_loss_solver.dart`): Model strat energii kinetycznej na dohamowaniach w kryteriach miejskich i krętych czasówkach.
-- [ ] **Zadanie #579** (`lib/ui/widgets/criterium_cornering_efficiency_chart.dart`): Wykres zysku czasowego lekkich kół na trasach z licznymi zakrętami.
+- [x] **Zadanie #579** (`lib/ui/widgets/criterium_cornering_efficiency_chart.dart`): Wykres zysku czasowego lekkich kół na trasach z licznymi zakrętami.
 - [ ] **Zadanie #580** (`lib/services/career/national_federation_team_manager_mode.dart`): System **Selekcjonera Reprezentacji Narodowej** na Mistrzostwa Świata i Igrzyska Olimpijskie.
 - [ ] **Zadanie #581** (`lib/ui/screens/national_team_selection_hq_screen.dart`): Ekran Biura Selekcjonera Reprezentacji Narodowej i powołań kadry.
 - [ ] **Zadanie #582** (`lib/engine/rendering3d/national_team_custom_kits_3d_renderer.dart`): Renderer 3D oficjalnych koszulek reprezentacji narodowych.
