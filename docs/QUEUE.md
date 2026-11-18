@@ -615,7 +615,7 @@ Zasady działania pętli:
 - [x] **Zadanie #587** (`lib/services/career/team_merchandise_and_fan_club_revenue.dart`): System przychodów ze sklepu klubowego, replik koszulek i stref kibica (`Fan Zones`).
 - [x] **Zadanie #588** (`lib/ui/widgets/fan_base_and_merchandise_card.dart`): Karta bazy kibiców i sprzedaży gadżetów klubowych.
 - [x] **Zadanie #589** (`lib/engine/physics/drafting_behind_team_car_and_motos_solver.dart`): Fizyka cienia aerodynamicznego za motocyklami TV i w kolumnie wozów technicznych (`Caravan Drafting`).
-- [ ] **Zadanie #590** (`lib/ui/widgets/caravan_drafting_risk_meter_hud.dart`): Wskaźnik ryzyka kary sędziowskiej podczas powrotu za wozami technicznymi.
+- [x] **Zadanie #590** (`lib/ui/widgets/caravan_drafting_risk_meter_hud.dart`): Wskaźnik ryzyka kary sędziowskiej podczas powrotu za wozami technicznymi.
 - [ ] **Zadanie #591** (`lib/services/career/dynamic_rider_nickname_generator.dart`): Generator przydomków kolarskich nadawanych przez media i kibiców.
 - [ ] **Zadanie #592** (`lib/ui/screens/grand_tour_route_reveal_ceremony_screen.dart`): Ceremonia prezentacji oficjalnej trasy przyszłorocznych Wielkich Tourów.
 - [ ] **Zadanie #593** (`lib/engine/rendering3d/sunrise_sunset_dynamic_sky_dome_3d.dart`): Dynamiczny cykl nieba i słońca od porannego startu po złotą godzinę na mecie.
