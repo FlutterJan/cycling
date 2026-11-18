@@ -8,6 +8,7 @@ import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 import '../../core/utils/performance_profiler_overlay.dart';
 import '../../models/race/stage_segment.dart';
+import '../../services/career/cyclist_olympic_and_world_champion_custom_gear.dart';
 import '../../state/race_simulation_notifier.dart';
 import 'camera_rig_controller.dart';
 import 'cyclist_3d_pose_animator.dart';
@@ -103,6 +104,7 @@ class PelotonRenderItem {
   final bool isVisibleInFrustum;
   final AnimatedCyclistPose3D? animatedPose;
   final Color jerseyColor;
+  final ChampionGear3dVisualSpec? championGearSpec;
 
   const PelotonRenderItem({
     required this.snapshot,
@@ -117,6 +119,7 @@ class PelotonRenderItem {
     required this.isVisibleInFrustum,
     this.animatedPose,
     required this.jerseyColor,
+    this.championGearSpec,
   });
 }
 
@@ -262,6 +265,7 @@ class PelotonInstancedRenderer {
     required CameraRigController cameraController,
     List<StageSegment> segments = const [],
     double dtSeconds = 0.00833, // Domyślnie 1/120s
+    Map<String, ChampionGear3dVisualSpec>? championGearSpecs,
   }) {
     final stopwatch = Stopwatch()..start();
 
@@ -359,6 +363,7 @@ class PelotonInstancedRenderer {
         isVisibleInFrustum: true,
         animatedPose: pose,
         jerseyColor: jerseyColor,
+        championGearSpec: championGearSpecs?[rider.riderId],
       ));
     }
 
@@ -512,9 +517,13 @@ class PelotonInstancedRenderer {
     final bb = Offset(0.0, -wheelR + (2.0 * scale));
     final saddleCluster = Offset(-wheelBase * 0.16, -wheelR - (23.0 * scale));
     final headCluster = Offset(wheelBase * 0.28, -wheelR - (21.0 * scale));
+    final gear = item.championGearSpec;
 
+    final Color frameColor = gear != null && gear.hasCustomGear
+        ? _resolveJerseyColor(gear.framePrimaryHex)
+        : const Color(0xFF1E293B);
     final framePaint = Paint()
-      ..color = const Color(0xFF1E293B)
+      ..color = frameColor
       ..strokeWidth = 3.2 * scale
       ..style = PaintingStyle.stroke;
 
@@ -525,6 +534,43 @@ class PelotonInstancedRenderer {
     canvas.drawLine(saddleCluster, headCluster, framePaint);
     canvas.drawLine(headCluster, frontHub, framePaint);
 
+    // Tęczowe pasy UCI na rurze podsiodłowej dla Mistrza Świata
+    if (gear != null && gear.hasSeatTubeRainbowBands) {
+      const bands = ChampionGear3dVisualSpec.uciRainbowBandHexes;
+      for (int i = 0; i < bands.length; i++) {
+        final t0 = 0.35 + i * 0.06;
+        final t1 = t0 + 0.05;
+        final p0 = Offset.lerp(bb, saddleCluster, t0)!;
+        final p1 = Offset.lerp(bb, saddleCluster, t1)!;
+        canvas.drawLine(
+          p0,
+          p1,
+          Paint()
+            ..color = _resolveJerseyColor(bands[i])
+            ..strokeWidth = 3.6 * scale
+            ..style = PaintingStyle.stroke,
+        );
+      }
+    }
+
+    // Złote detale na ramie dla Mistrza Olimpijskiego
+    if (gear != null && gear.hasGoldFrameDetails) {
+      final goldDetailPaint = Paint()
+        ..color = _resolveJerseyColor(gear.frameAccentHex)
+        ..strokeWidth = 1.6 * scale
+        ..style = PaintingStyle.stroke;
+      canvas.drawLine(
+        Offset.lerp(saddleCluster, headCluster, 0.2)!,
+        Offset.lerp(saddleCluster, headCluster, 0.8)!,
+        goldDetailPaint,
+      );
+      canvas.drawLine(
+        Offset.lerp(headCluster, frontHub, 0.25)!,
+        Offset.lerp(headCluster, frontHub, 0.75)!,
+        goldDetailPaint,
+      );
+    }
+
     // 3. Bidon w koszyku na dolnej rurze (Water Bottle)
     final bidonCenter = bb + (headCluster - bb) * 0.45;
     final bidonRect = Rect.fromCenter(
@@ -534,10 +580,21 @@ class PelotonInstancedRenderer {
     );
     canvas.drawRRect(RRect.fromRectAndRadius(bidonRect, Radius.circular(2.0 * scale)), _bidonPaint);
 
-    // 4. Kierownica z klamkomanetkami (Handlebar Drops)
+    // 4. Kierownica z klamkomanetkami (Handlebar Drops) + owijka mistrzowska
     final barTop = headCluster + Offset(3.5 * scale, -5.5 * scale);
-    _aluBrakePaint.strokeWidth = 2.2 * scale;
-    canvas.drawLine(headCluster, barTop, _aluBrakePaint);
+    if (gear != null && gear.hasCustomGear) {
+      canvas.drawLine(
+        headCluster,
+        barTop,
+        Paint()
+          ..color = _resolveJerseyColor(gear.handlebarTapeHex)
+          ..strokeWidth = 2.6 * scale
+          ..strokeCap = StrokeCap.round,
+      );
+    } else {
+      _aluBrakePaint.strokeWidth = 2.2 * scale;
+      canvas.drawLine(headCluster, barTop, _aluBrakePaint);
+    }
 
     // 5. Pedały i obrót korby
     final double crankAngle = pose?.crankAngleRadians ?? 0.0;
@@ -585,10 +642,42 @@ class PelotonInstancedRenderer {
     // Ręce oparte na klamkomanetkach
     canvas.drawLine(chest, barTop, _skinPaint);
 
-    // 8. Głowa, kask i okulary aerodynamiczne
+    // 8. Głowa, kask i okulary aerodynamiczne (z uwzględnieniem sprzętu mistrzowskiego)
+    if (gear != null && gear.hasCustomGear) {
+      final shoePaint = Paint()
+        ..color = _resolveJerseyColor(gear.shoesHex)
+        ..style = PaintingStyle.fill;
+      canvas.drawOval(
+        Rect.fromCenter(center: rightPedal, width: 5.0 * scale, height: 2.8 * scale),
+        shoePaint,
+      );
+      canvas.drawOval(
+        Rect.fromCenter(center: leftPedal, width: 5.0 * scale, height: 2.8 * scale),
+        shoePaint,
+      );
+    }
+
     final head = Offset(chest.dx + (5.0 * scale), chest.dy - (9.0 * scale));
     final helmetRect = Rect.fromCenter(center: head, width: 12.0 * scale, height: 8.5 * scale);
-    canvas.drawOval(helmetRect, jerseyPaint);
+    final Paint helmetPaint = gear != null && gear.hasCustomGear
+        ? _getJerseyPaint(gear.helmetPrimaryHex)
+        : jerseyPaint;
+    canvas.drawOval(helmetRect, helmetPaint);
+    if (gear != null && gear.hasHelmetRainbowBand) {
+      const bands = ChampionGear3dVisualSpec.uciRainbowBandHexes;
+      final segW = helmetRect.width / bands.length;
+      for (int i = 0; i < bands.length; i++) {
+        canvas.drawRect(
+          Rect.fromLTWH(
+            helmetRect.left + i * segW,
+            helmetRect.bottom - 2.2 * scale,
+            segW,
+            1.8 * scale,
+          ),
+          _getJerseyPaint(bands[i]),
+        );
+      }
+    }
 
     // Okulary kolarskie (Aero Shield Glasses)
     final glassesRect = Rect.fromCenter(
@@ -627,8 +716,11 @@ class PelotonInstancedRenderer {
     final seat = Offset(pos.dx - wheelBase * 0.15, pos.dy - wheelR - (18.0 * scale));
     final head = Offset(pos.dx + wheelBase * 0.22, pos.dy - wheelR - (16.0 * scale));
 
+    final gear = item.championGearSpec;
     final framePaint = Paint()
-      ..color = const Color(0xFF1E293B)
+      ..color = gear != null && gear.hasCustomGear
+          ? _resolveJerseyColor(gear.framePrimaryHex)
+          : const Color(0xFF1E293B)
       ..strokeWidth = 2.4 * scale;
 
     canvas.drawLine(bb, seat, framePaint);
@@ -646,9 +738,12 @@ class PelotonInstancedRenderer {
     final chest = Offset(head.dx - (4.0 * scale), head.dy - (9.0 * scale));
     canvas.drawCircle(chest, 5.5 * scale, jerseyPaint);
 
-    // Kask w barwach zespołu
+    // Kask w barwach zespołu lub mistrzowski (Złoty Olimpijski / Biały z tęczą MŚ)
     final helmet = Offset(chest.dx + (3.0 * scale), chest.dy - (6.0 * scale));
-    canvas.drawOval(Rect.fromCenter(center: helmet, width: 8.0 * scale, height: 6.0 * scale), jerseyPaint);
+    final Paint helmetPaint = gear != null && gear.hasCustomGear
+        ? _getJerseyPaint(gear.helmetPrimaryHex)
+        : jerseyPaint;
+    canvas.drawOval(Rect.fromCenter(center: helmet, width: 8.0 * scale, height: 6.0 * scale), helmetPaint);
   }
 
   // ===========================================================================
