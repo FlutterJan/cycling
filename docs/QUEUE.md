@@ -677,7 +677,7 @@ Zasady działania pętli:
 - [x] **Zadanie #644** (`lib/core/services/adaptive_dynamic_music_score_engine.dart`): Proceduralny, adaptacyjny silnik muzyki elektroniczno-orkiestrowej reagującej na akcję na szosie.
 - [x] **Zadanie #645** (`lib/ui/widgets/audio_mixer_advanced_settings_panel.dart`): Rozbudowany mikser dźwięku z 6 niezależnymi suwakami głośności.
 - [x] **Zadanie #646** (`lib/services/database/career_statistics_deep_analytics_exporter.dart`): Eksporter danych analitycznych CSV/JSON z wieloletniej kariery.
-- [ ] **Zadanie #647** (`lib/ui/screens/deep_career_analytics_bi_screen.dart`): Ekran analityki biznesowo-sportowej BI (zwrot z inwestycji ROI dla transferów i R&D).
+- [x] **Zadanie #647** (`lib/ui/screens/deep_career_analytics_bi_screen.dart`): Ekran analityki biznesowo-sportowej BI (zwrot z inwestycji ROI dla transferów i R&D).
 - [ ] **Zadanie #648** (`lib/engine/peloton/late_race_mechanical_neutral_zone_3km.dart`): Precyzyjna obsługa strefy ochronnej na ostatnich $3\text{ km}$ / $5\text{ km}$ etapów sprinterskich.
 - [ ] **Zadanie #649** (`lib/ui/widgets/neutral_zone_3km_active_banner_hud.dart`): Telewizyjny znacznik `3 KM ZONE — GC TIMES NEUTRALIZED` w widoku 3D.
 - [ ] **Zadanie #650** (`test/global_expansion_and_humidity_physics_test.dart`): Testy wyścigów w Rwandzie, Malezji i Omanie oraz wpływu wilgotności $95\%$.
