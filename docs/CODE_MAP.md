@@ -94,6 +94,7 @@
 
 ### `lib/models/`
 - `lib/models/model_serialization_audit.dart` — Walidator serializacji JSON wszystkich modeli świata gry (`ModelSerializationAudit`, `ModelAuditReport`, `ModelAuditIssue`).
+- `lib/models/broadcast/tv_director_live_production_model.dart` — Model trybu Reżysera Transmisji Telewizyjnej na Żywo (`TvDirectorLiveProductionModel`, `BroadcastCameraFeed`, `BroadcastCameraType`, `CameraSignalStatus`, `BroadcastTransitionType`, `TvGraphicOverlayType`, `TvGraphicQueueStatus`, `ViewershipDramaTier`, `ViewershipTelemetrySample`, `LiveTvViewershipAndDramaMetrics`, `BroadcastProductionBudget`, `BroadcastGraphicOverlayItem`): 12 kamer na trasie, oglądalność i emocje 0–100, budżet produkcyjny oraz kolejka grafik TV.
 - `lib/models/career/career_save.dart` — Model pełnego zapisu kariery.
 - `lib/models/career/pro_cyclist_career_state.dart` — Model stanu kariery pojedynczego kolarza "Zostań Legendą" (`ProCyclistCareerState`, `ProCyclistCareerTier`, `DsTrustTier`, `ProCyclistRealEstate`, `ProCyclistPrivateEquipment`, `ProCyclistRaceAssignment`, `ProCyclistJournalEntry`, `ProCyclistPalmares`, `ProCyclistPersonalSponsor`).
 - `lib/models/career/recovery_protocol_system.dart` — Protokoły regeneracji i zabiegi medyczne.
