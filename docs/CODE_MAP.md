@@ -481,6 +481,7 @@
 
 ### `lib/ui/widgets/`
 - `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
+- `lib/ui/widgets/aero_vs_road_power_efficiency_gauge.dart` — Wskaźnik efektywności mocy na lemondce względem szosowego FTP (`AeroVsRoadPowerEfficiencyGauge`, `AeroVsRoadEfficiencyGaugePainter`, `AeroVsRoadEfficiencyCalculator`, `AeroVsRoadComparisonData`, `AeroPowerEfficiencyTier`, `AeroGaugeDisplayMode`) z analizą W/CdA, okluzji biodra, przełącznikiem pozycji aero i responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/widgets/all_time_goat_pyramid_widget.dart` — Wizualna 5-piętrowa Piramida Legend Wszech Czasów w Hall of Fame (`AllTimeGoatPyramidWidget`, `GoatPyramidOriginFilter`) z filtrami epok/pochodzenia, panelem rozkładu GOAT i responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/widgets/animated_screen_transition_router.dart` — Zestaw płynnych przejść `GoRouter` (`AnimatedScreenTransitionRouter`, `ScreenTransitionPreset`, `SharedAxisDirection`, `ScreenTransitionPreviewPanel`): najazd kamery z lotu ptaka na szosę 3D oraz `SharedAxisTransition` (300 ms, `Curves.easeOutExpo`).
 - `lib/ui/widgets/animated_watt_bomb_effect.dart` — Efekt pulsującego impulsu ataku powyżej 12 W/kg / 1400W.
@@ -770,6 +771,7 @@
 - `test/ui/widgets/rider_poker_face_bluff_action_button_test.dart` — Testy widgetowe i responsywne `RiderPokerFaceBluffActionButton` oraz `RiderPokerFaceBluffCommandButton` (przełączanie trybów `PokerFaceTacticMode`, kontratak, stany `hover`/`disabled`, integracja Riverpod oraz `390x844` / `1024x768` / `1600x900`).
 - `test/services/ai_director_sportif_tactical_styles_engine_test.dart` — Testy jednostkowe i responsywne widgetowe `AiDirectorSportifTacticalStylesEngine` oraz `AiDirectorSportifTacticalStylesPanel` (unikalność 52+1 profili DS, prognozy etapowe, raport peletonu, JSON, Riverpod, `isReadOnly` i `390x844` / `1024x768` / `1600x900`).
 - `test/services/career/tour_de_pologne_and_central_europe_pack_test.dart` — Testy jednostkowe i responsywne widgetowe `TourDePologneAndCentralEuropePack` oraz `TourDePologneAndCentralEuropePackPanel` (7-etapowy Tour de Pologne: Karpacz Orlinek, Gliczarów, Kraków, 5 wyścigów Europy Środkowej, filtrowanie, JSON, Riverpod i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/aero_vs_road_power_efficiency_gauge_test.dart` — Testy jednostkowe i responsywne widgetowe `AeroVsRoadEfficiencyCalculator` oraz `AeroVsRoadPowerEfficiencyGauge` (retencja FTP, W/CdA, przełączanie trybów i pozycji aero, stan pusty/disabled oraz `390x844` / `1024x768` / `1600x900`).
 - `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#612, Paczki #1–#8 + Platinum Apex v3.0 QA) oraz dalsze rozszerzenia projektu.
 - `docs/COMPLETE_GAME_MANUAL_612.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 12 trybach gry, systemach fizycznych, bioenergetycznych, taktycznych oraz sterowaniu (`#001–#612`).
 
