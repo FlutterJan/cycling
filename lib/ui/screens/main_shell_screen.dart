@@ -349,6 +349,73 @@ enum MainShellPackage8Route {
   });
 }
 
+/// Dodatkowe trasy trybów specjalnych, rozwoju i analityki BI Paczki #9 dostępne z powłoki MainShellScreen.
+enum MainShellPackage9Route {
+  paracyclingWorldCup(
+    routePath: AppRoutes.paracyclingWorldCup,
+    title: 'UCI Para-Cycling',
+    shortLabel: 'Para',
+    description: 'Tandemy B, Handbike H1–H5 & Igrzyska',
+    icon: Icons.accessible_forward_outlined,
+    selectedIcon: Icons.accessible_forward_rounded,
+    accentColor: AppColors.cyanAccent,
+  ),
+  clubMuseum(
+    routePath: AppRoutes.clubMuseum,
+    title: 'Muzeum & Rowery 3D',
+    shortLabel: 'Muzeum',
+    description: 'Historyczne ramy i pamiątki klubu',
+    icon: Icons.museum_outlined,
+    selectedIcon: Icons.museum_rounded,
+    accentColor: AppColors.goldAccent,
+  ),
+  weeklyMicrocycle(
+    routePath: AppRoutes.weeklyMicrocycle,
+    title: 'Mikrocykle Treningowe',
+    shortLabel: 'Mikrocykl',
+    description: 'Kalendarz TSS/TSB i adaptacja aero',
+    icon: Icons.view_week_outlined,
+    selectedIcon: Icons.view_week_rounded,
+    accentColor: AppColors.statusSuccess,
+  ),
+  talentCombine(
+    routePath: AppRoutes.talentCombine,
+    title: 'Global Talent Combine',
+    shortLabel: 'Combine',
+    description: 'Testy lab i wyścig selekcyjny U19',
+    icon: Icons.star_outline_rounded,
+    selectedIcon: Icons.star_rounded,
+    accentColor: AppColors.accentBlue,
+  ),
+  careerAnalyticsBi(
+    routePath: AppRoutes.careerAnalyticsBi,
+    title: 'Analityka BI & ROI',
+    shortLabel: 'BI & ROI',
+    description: 'Zwrot z transferów, R&D i eksport',
+    icon: Icons.analytics_outlined,
+    selectedIcon: Icons.analytics_rounded,
+    accentColor: AppColors.primaryAccent,
+  );
+
+  final String routePath;
+  final String title;
+  final String shortLabel;
+  final String description;
+  final IconData icon;
+  final IconData selectedIcon;
+  final Color accentColor;
+
+  const MainShellPackage9Route({
+    required this.routePath,
+    required this.title,
+    required this.shortLabel,
+    required this.description,
+    required this.icon,
+    required this.selectedIcon,
+    required this.accentColor,
+  });
+}
+
 /// Responsywny szkielet nawigacyjny gry (MainShellScreen):
 /// - Mobile (<768px, np. 390x844): Compact AppBar + Drawer z 4 kategoriami + BottomBar + pasek akcji.
 /// - Tablet/Desktop (>=768px, np. 1024x768 / 1600x900): Kategoryzowany Sidebar + TopBar
@@ -427,20 +494,24 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     }
   }
 
-  void _onPackage8RouteSelected(
+  void _onSpecialRouteSelected(
     BuildContext context,
-    MainShellPackage8Route route, {
+    String routePath, {
     bool closeDrawer = false,
   }) {
     if (closeDrawer) {
       Navigator.of(context).pop();
     }
     final router = GoRouter.maybeOf(context);
-    router?.go(route.routePath);
+    router?.go(routePath);
   }
 
-  List<Widget> _buildPackage8NavSection(
+  List<Widget> _buildSpecialRouteSection(
     BuildContext context, {
+    required String headerTitle,
+    required IconData headerIcon,
+    required Color headerIconColor,
+    required List<_SpecialRouteNavEntry> entries,
     required bool isCollapsed,
     required bool isDrawer,
   }) {
@@ -452,16 +523,16 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           child: Row(
             children: [
               Icon(
-                Icons.auto_awesome_rounded,
+                headerIcon,
                 size: 12,
-                color: AppColors.goldAccent.withValues(alpha: 0.9),
+                color: headerIconColor,
               ),
               const SizedBox(width: 6),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'EKSPANSJE & TRYBY SPECJALNE',
+                  headerTitle,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Inter',
                     color: AppColors.textSecondary,
                     fontSize: 10,
@@ -478,21 +549,73 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
           child: Divider(height: 1, color: AppTheme.borderColor),
         ),
-      for (final route in MainShellPackage8Route.values)
+      for (final entry in entries)
         Padding(
           padding: const EdgeInsets.only(bottom: 2),
-          child: _SidebarPackage8RouteItem(
-            route: route,
-            isSelected: location.startsWith(route.routePath),
+          child: _SidebarSpecialRouteItem(
+            entry: entry,
+            isSelected: location.startsWith(entry.routePath),
             isCollapsed: isCollapsed,
-            onTap: () => _onPackage8RouteSelected(
+            onTap: () => _onSpecialRouteSelected(
               context,
-              route,
+              entry.routePath,
               closeDrawer: isDrawer,
             ),
           ),
         ),
     ];
+  }
+
+  List<Widget> _buildPackage8NavSection(
+    BuildContext context, {
+    required bool isCollapsed,
+    required bool isDrawer,
+  }) {
+    return _buildSpecialRouteSection(
+      context,
+      headerTitle: 'EKSPANSJE & TRYBY SPECJALNE',
+      headerIcon: Icons.auto_awesome_rounded,
+      headerIconColor: AppColors.goldAccent.withValues(alpha: 0.9),
+      entries: [
+        for (final r in MainShellPackage8Route.values)
+          _SpecialRouteNavEntry(
+            routePath: r.routePath,
+            title: r.title,
+            description: r.description,
+            icon: r.icon,
+            selectedIcon: r.selectedIcon,
+            accentColor: r.accentColor,
+          ),
+      ],
+      isCollapsed: isCollapsed,
+      isDrawer: isDrawer,
+    );
+  }
+
+  List<Widget> _buildPackage9NavSection(
+    BuildContext context, {
+    required bool isCollapsed,
+    required bool isDrawer,
+  }) {
+    return _buildSpecialRouteSection(
+      context,
+      headerTitle: 'EKSPANSJA GLOBALNA & BI',
+      headerIcon: Icons.public_rounded,
+      headerIconColor: AppColors.cyanAccent.withValues(alpha: 0.9),
+      entries: [
+        for (final r in MainShellPackage9Route.values)
+          _SpecialRouteNavEntry(
+            routePath: r.routePath,
+            title: r.title,
+            description: r.description,
+            icon: r.icon,
+            selectedIcon: r.selectedIcon,
+            accentColor: r.accentColor,
+          ),
+      ],
+      isCollapsed: isCollapsed,
+      isDrawer: isDrawer,
+    );
   }
 
   int _badgeForTab(MainNavigationTab tab, CareerSave save, CareerState careerState) {
@@ -1015,6 +1138,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     );
                   }),
                 ],
+                ..._buildPackage9NavSection(
+                  context,
+                  isCollapsed: isCollapsed,
+                  isDrawer: false,
+                ),
                 ..._buildPackage8NavSection(
                   context,
                   isCollapsed: isCollapsed,
@@ -1621,6 +1749,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                       );
                     }),
                   ],
+                  ..._buildPackage9NavSection(
+                    context,
+                    isCollapsed: false,
+                    isDrawer: true,
+                  ),
                   ..._buildPackage8NavSection(
                     context,
                     isCollapsed: false,
@@ -3316,25 +3449,43 @@ class ManagerProfileAndAchievementsView extends ConsumerWidget {
   }
 }
 
-class _SidebarPackage8RouteItem extends StatefulWidget {
-  final MainShellPackage8Route route;
+class _SpecialRouteNavEntry {
+  final String routePath;
+  final String title;
+  final String description;
+  final IconData icon;
+  final IconData selectedIcon;
+  final Color accentColor;
+
+  const _SpecialRouteNavEntry({
+    required this.routePath,
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.selectedIcon,
+    required this.accentColor,
+  });
+}
+
+class _SidebarSpecialRouteItem extends StatefulWidget {
+  final _SpecialRouteNavEntry entry;
   final bool isSelected;
   final bool isCollapsed;
   final VoidCallback? onTap;
 
-  const _SidebarPackage8RouteItem({
-    required this.route,
+  const _SidebarSpecialRouteItem({
+    required this.entry,
     required this.isSelected,
     required this.isCollapsed,
     required this.onTap,
   });
 
   @override
-  State<_SidebarPackage8RouteItem> createState() =>
-      _SidebarPackage8RouteItemState();
+  State<_SidebarSpecialRouteItem> createState() =>
+      _SidebarSpecialRouteItemState();
 }
 
-class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
+class _SidebarSpecialRouteItemState extends State<_SidebarSpecialRouteItem> {
   bool _isHovered = false;
   bool _isFocused = false;
   bool _isPressed = false;
@@ -3343,7 +3494,7 @@ class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
   Widget build(BuildContext context) {
     final bool isEnabled = widget.onTap != null;
     final bool isSelected = widget.isSelected;
-    final Color accent = widget.route.accentColor;
+    final Color accent = widget.entry.accentColor;
 
     final Color bgColor = !isEnabled
         ? AppColors.surface.withValues(alpha: 0.35)
@@ -3374,14 +3525,14 @@ class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
                 : accent.withValues(alpha: 0.85);
 
     final Widget iconWidget = Icon(
-      isSelected ? widget.route.selectedIcon : widget.route.icon,
+      isSelected ? widget.entry.selectedIcon : widget.entry.icon,
       size: 19,
       color: iconColor,
     );
 
     if (widget.isCollapsed) {
       return Tooltip(
-        message: '${widget.route.title}\n${widget.route.description}',
+        message: '${widget.entry.title}\n${widget.entry.description}',
         preferBelow: false,
         child: FocusableActionDetector(
           enabled: isEnabled,
@@ -3433,7 +3584,7 @@ class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.route.title,
+                      widget.entry.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -3448,7 +3599,7 @@ class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
                       ),
                     ),
                     Text(
-                      widget.route.description,
+                      widget.entry.description,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

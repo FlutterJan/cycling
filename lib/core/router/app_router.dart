@@ -13,6 +13,7 @@ import '../../models/equipment/complete_bike.dart';
 import '../../models/esports/uci_cycling_esports_world_model.dart';
 import '../../models/multiplayer/online_league_and_ghost_challenge_model.dart';
 import '../../models/organizer/race_organizer_empire_model.dart';
+import '../../models/paracycling/uci_paracycling_tandem_handbike_model.dart';
 import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
 import '../../models/race/ultra_endurance_bikepacking_race_model.dart';
@@ -26,10 +27,12 @@ import '../../ui/screens/be_a_pro_character_creator_screen.dart';
 import '../../ui/screens/be_a_pro_dashboard_and_apartment_screen.dart';
 import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
+import '../../ui/screens/club_museum_and_legendary_bikes_screen.dart';
 import '../../ui/screens/companion_car_dashboard_screen.dart';
 import '../../ui/screens/cyclocross_winter_series_screen.dart';
 import '../../ui/screens/cycling_esports_and_virtual_academy_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
+import '../../ui/screens/deep_career_analytics_bi_screen.dart';
 import '../../ui/screens/development_academy_screen.dart';
 import '../../ui/screens/esg_sustainability_and_fleet_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
@@ -68,12 +71,15 @@ import '../../ui/screens/sponsors_and_finance_screen.dart';
 import '../../ui/screens/squad_roster_screen.dart';
 import '../../ui/screens/staff_management_screen.dart';
 import '../../ui/screens/stage_editor_creator_screen.dart';
+import '../../ui/screens/talent_combine_tryouts_screen.dart';
 import '../../ui/screens/team_builder_hierarchy_screen.dart';
 import '../../ui/screens/track_omnium_madison_championship_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
 import '../../ui/screens/uci_hour_record_attempt_screen.dart';
+import '../../ui/screens/uci_paracycling_world_cup_screen.dart';
 import '../../ui/screens/ultra_bikepacking_transcontinental_screen.dart';
+import '../../ui/screens/weekly_training_microcycle_planner_screen.dart';
 import '../../ui/screens/wind_tunnel_and_bike_fit_screen.dart';
 import '../../ui/widgets/animated_screen_transition_router.dart';
 import '../theme/app_colors.dart';
@@ -137,6 +143,13 @@ abstract class AppRoutes {
   static const String nationalTeamHq = '/career/national-team';
   static const String grandTourRouteReveal = '/career/grand-tour-reveal';
   static const String managerLegacyBook = '/career/legacy-book';
+
+  /// Trasy Paczki #9 (UCI Para-Cycling, Muzeum Klubowe 3D, Mikrocykle Treningowe, Talent Combine, Analityka BI)
+  static const String paracyclingWorldCup = '/career/paracycling';
+  static const String clubMuseum = '/career/club-museum';
+  static const String weeklyMicrocycle = '/career/weekly-microcycle';
+  static const String talentCombine = '/career/talent-combine';
+  static const String careerAnalyticsBi = '/career/analytics-bi';
 
   /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
@@ -206,6 +219,12 @@ abstract class AppRouteNames {
   static const String nationalTeamHq = 'nationalTeamHq';
   static const String grandTourRouteReveal = 'grandTourRouteReveal';
   static const String managerLegacyBook = 'managerLegacyBook';
+
+  static const String paracyclingWorldCup = 'paracyclingWorldCup';
+  static const String clubMuseum = 'clubMuseum';
+  static const String weeklyMicrocycle = 'weeklyMicrocycle';
+  static const String talentCombine = 'talentCombine';
+  static const String careerAnalyticsBi = 'careerAnalyticsBi';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
@@ -1353,6 +1372,105 @@ GoRouter createAppRouter({
           );
         },
       ),
+
+      // 8. Trasy Paczki #9 (UCI Para-Cycling, Muzeum Klubowe 3D, Mikrocykle Treningowe, Talent Combine, Analityka BI)
+      GoRoute(
+        path: AppRoutes.paracyclingWorldCup,
+        name: AppRouteNames.paracyclingWorldCup,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialModel = extra is UciParacyclingTandemHandbikeModel
+              ? extra
+              : extraMap?['initialModel'] as UciParacyclingTandemHandbikeModel?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: UciParacyclingWorldCupScreen(
+              initialModel: initialModel,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.clubMuseum,
+        name: AppRouteNames.clubMuseum,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialExhibitId = state.uri.queryParameters['exhibitId'] ??
+              extraMap?['initialExhibitId'] as String?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: ClubMuseumAndLegendaryBikesScreen(
+              initialExhibitId: initialExhibitId,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.weeklyMicrocycle,
+        name: AppRouteNames.weeklyMicrocycle,
+        pageBuilder: (context, state) {
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: WeeklyTrainingMicrocyclePlannerScreen(
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.training);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.talentCombine,
+        name: AppRouteNames.talentCombine,
+        pageBuilder: (context, state) {
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: TalentCombineTryoutsScreen(
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.academy);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.careerAnalyticsBi,
+        name: AppRouteNames.careerAnalyticsBi,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final overrideSave = extra is CareerSave
+              ? extra
+              : extraMap?['overrideSave'] as CareerSave?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: DeepCareerAnalyticsBiScreen(
+              overrideSave: overrideSave,
+            ),
+          );
+        },
+      ),
     ],
     errorBuilder: (context, state) => _buildErrorScreen(context, state),
   );
@@ -1809,6 +1927,35 @@ extension AppRouterNavigationExtensions on BuildContext {
             ? '${AppRoutes.managerLegacyBook}?entryId=$initialEntryId'
             : AppRoutes.managerLegacyBook,
         extra: {'initialEntryId': initialEntryId},
+      );
+
+  /// Nawigacja do Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich
+  void goToParacyclingWorldCup({
+    UciParacyclingTandemHandbikeModel? initialModel,
+  }) =>
+      go(
+        AppRoutes.paracyclingWorldCup,
+        extra: {'initialModel': initialModel},
+      );
+
+  /// Nawigacja do Muzeum Klubowego i Historycznych Rowerów 3D
+  void goToClubMuseum({String? initialExhibitId}) => go(
+        initialExhibitId != null
+            ? '${AppRoutes.clubMuseum}?exhibitId=$initialExhibitId'
+            : AppRoutes.clubMuseum,
+        extra: {'initialExhibitId': initialExhibitId},
+      );
+
+  /// Nawigacja do Kalendarza Tygodniowych Mikrocykli Treningowych (TSS/TSB)
+  void goToWeeklyMicrocycle() => go(AppRoutes.weeklyMicrocycle);
+
+  /// Nawigacja do Obozu Selekcyjnego Juniorów (Global Young Talent Combine)
+  void goToTalentCombine() => go(AppRoutes.talentCombine);
+
+  /// Nawigacja do Analityki Biznesowo-Sportowej BI (ROI Transferów i R&D)
+  void goToCareerAnalyticsBi({CareerSave? overrideSave}) => go(
+        AppRoutes.careerAnalyticsBi,
+        extra: {'overrideSave': overrideSave},
       );
 }
 

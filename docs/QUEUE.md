@@ -686,7 +686,7 @@ Zasady działania pętli:
 - [x] **Zadanie #653** (`test/poker_face_bluff_and_3km_rule_test.dart`): Testy blefowania na podjeździe i reguły neutralizacji $3\text{ km}$.
 - [x] **Zadanie #654** (`test/weekly_microcycle_and_talent_combine_test.dart`): Testy mikrocykli TSS/TSB i obozu selekcyjnego juniorów.
 - [x] **Zadanie #655** (`lib/core/diagnostics/save_compatibility_v9_migrator.dart`): Migrator zapisów gry dla struktur Paczki #9.
-- [ ] **Zadanie #656** (`lib/core/router/app_router.dart`): Integracja tras Paczki #9 w `AppRouter` i `MainShellScreen`.
+- [x] **Zadanie #656** (`lib/core/router/app_router.dart`): Integracja tras Paczki #9 w `AppRouter` i `MainShellScreen`.
 - [ ] **Zadanie #657** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN o terminy z Paczki #9.
 - [ ] **Zadanie #658** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 662 zadań.
 - [ ] **Zadanie #659** (`docs/COMPLETE_GAME_MANUAL_662.md`): Kompletny przewodnik po wszystkich trybach gry i systemach fizycznych.
