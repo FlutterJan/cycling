@@ -670,7 +670,7 @@ Zasady działania pętli:
 - [x] **Zadanie #637** (`lib/ui/widgets/tv_highlight_reel_player_overlay.dart`): Odtwarzacz skrótu telewizyjnego z grafikami przejść TV.
 - [x] **Zadanie #638** (`lib/services/career/custom_training_microcycle_builder_service.dart`): Kreator tygodniowych mikrocykli treningowych (Interwały VO2max, Motor-Pacing, Sweet Spot).
 - [x] **Zadanie #639** (`lib/ui/screens/weekly_training_microcycle_planner_screen.dart`): Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS i prognozą TSB.
-- [ ] **Zadanie #640** (`lib/engine/physics/motor_pacing_and_aero_tuck_adaptation.dart`): Fizjologiczna adaptacja generowania mocy w niskiej pozycji TT po treningach za skuterem.
+- [x] **Zadanie #640** (`lib/engine/physics/motor_pacing_and_aero_tuck_adaptation.dart`): Fizjologiczna adaptacja generowania mocy w niskiej pozycji TT po treningach za skuterem.
 - [ ] **Zadanie #641** (`lib/ui/widgets/aero_vs_road_power_efficiency_gauge.dart`): Wskaźnik efektywności mocy na lemondce względem szosowego FTP.
 - [ ] **Zadanie #642** (`lib/services/career/youth_talent_summer_combine_camp.dart`): Coroczny obóz selekcyjny 17-letnich talentów z całego świata (`Global Young Talent Combine`).
 - [ ] **Zadanie #643** (`lib/ui/screens/talent_combine_tryouts_screen.dart`): Ekran testów laboratoryjnych i wyścigu selekcyjnego juniorów.
