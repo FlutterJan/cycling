@@ -595,7 +595,7 @@ Zasady działania pętli:
 - [x] **Zadanie #567** (`lib/models/esports/uci_cycling_esports_world_model.dart`): Model **UCI Cycling Esports** (trenażery Smart, Power-Upy `Aero Helmet`, `Featherweight`, `Burrito` i wyścig eliminacyjny co 60 s).
 - [x] **Zadanie #568** (`lib/engine/physics/esports_smart_trainer_erg_and_powerups_solver.dart`): Solver fizyki wyścigów e-Sports i strategii Power-Upów.
 - [x] **Zadanie #569** (`lib/engine/rendering3d/esports_cyber_velodrome_and_hologram_3d.dart`): Neonowo-szklany renderer 3D światów e-Sports z hologramami Power-Upów i słupkami $\text{W/kg}$.
-- [ ] **Zadanie #570** (`lib/ui/screens/cycling_esports_and_virtual_academy_screen.dart`): Ekran Centrum e-Sports i naboru talentów *Virtual Talent ID Academy*.
+- [x] **Zadanie #570** (`lib/ui/screens/cycling_esports_and_virtual_academy_screen.dart`): Ekran Centrum e-Sports i naboru talentów *Virtual Talent ID Academy*.
 - [ ] **Zadanie #571** (`lib/models/career/team_esg_sustainability_and_green_fleet_model.dart`): Model **Ekonomii ESG i Zielonej Floty Zespołu** (elektryczne wozy techniczne, bilans $\text{CO}_2$ i zieloni sponsorzy).
 - [ ] **Zadanie #572** (`lib/ui/screens/esg_sustainability_and_fleet_screen.dart`): Ekran zarządzania flotą EV/wodorową i bilansem ekologicznym drużyny.
 - [ ] **Zadanie #573** (`lib/services/analysis/post_race_ai_tactical_coach_analyzer.dart`): **Analityk Taktyczny AI po Wyścigu** analizujący stracone waty na wietrze i timing ataków z $W'$.
