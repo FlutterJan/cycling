@@ -416,6 +416,65 @@ enum MainShellPackage9Route {
   });
 }
 
+/// Dodatkowe trasy Paczki #10 (Reżyserka TV na Żywo, Poranny Raport Medyczny GT,
+/// Grudniowy Obóz Aero oraz Centrum Przedłużeń Kontraktów; Muzeum Klubowe znajduje się w Paczce #9).
+enum MainShellPackage10Route {
+  tvBroadcastDirector(
+    routePath: AppRoutes.tvBroadcastDirector,
+    title: 'Reżyserka TV Live',
+    shortLabel: 'TV Live',
+    description: 'Produkcja transmisji i kamery 3D',
+    icon: Icons.live_tv_outlined,
+    selectedIcon: Icons.live_tv_rounded,
+    accentColor: AppColors.crimsonAlert,
+  ),
+  grandTourMorningMedical(
+    routePath: AppRoutes.grandTourMorningMedical,
+    title: 'Raport Medyczny GT',
+    shortLabel: 'HRV / Fizjo',
+    description: 'Poranne HRV i triaż fizjoterapeutów',
+    icon: Icons.monitor_heart_outlined,
+    selectedIcon: Icons.monitor_heart_rounded,
+    accentColor: AppColors.statusSuccess,
+  ),
+  winterWindTunnelCamp(
+    routePath: AppRoutes.winterWindTunnelCamp,
+    title: 'Obóz Aero (Grudzień)',
+    shortLabel: 'Obóz Aero',
+    description: 'Pomiary oporu w Newtonach i CdA',
+    icon: Icons.air_outlined,
+    selectedIcon: Icons.air_rounded,
+    accentColor: AppColors.cyanAccent,
+  ),
+  contractRenewalsWarRoom(
+    routePath: AppRoutes.contractRenewalsWarRoom,
+    title: 'Przedłużenia Kontraktów',
+    shortLabel: 'Kontrakty',
+    description: 'Priorytety kadrowe i budżet płacowy',
+    icon: Icons.handshake_outlined,
+    selectedIcon: Icons.handshake_rounded,
+    accentColor: AppColors.goldAccent,
+  );
+
+  final String routePath;
+  final String title;
+  final String shortLabel;
+  final String description;
+  final IconData icon;
+  final IconData selectedIcon;
+  final Color accentColor;
+
+  const MainShellPackage10Route({
+    required this.routePath,
+    required this.title,
+    required this.shortLabel,
+    required this.description,
+    required this.icon,
+    required this.selectedIcon,
+    required this.accentColor,
+  });
+}
+
 /// Responsywny szkielet nawigacyjny gry (MainShellScreen):
 /// - Mobile (<768px, np. 390x844): Compact AppBar + Drawer z 4 kategoriami + BottomBar + pasek akcji.
 /// - Tablet/Desktop (>=768px, np. 1024x768 / 1600x900): Kategoryzowany Sidebar + TopBar
@@ -604,6 +663,32 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       headerIconColor: AppColors.cyanAccent.withValues(alpha: 0.9),
       entries: [
         for (final r in MainShellPackage9Route.values)
+          _SpecialRouteNavEntry(
+            routePath: r.routePath,
+            title: r.title,
+            description: r.description,
+            icon: r.icon,
+            selectedIcon: r.selectedIcon,
+            accentColor: r.accentColor,
+          ),
+      ],
+      isCollapsed: isCollapsed,
+      isDrawer: isDrawer,
+    );
+  }
+
+  List<Widget> _buildPackage10NavSection(
+    BuildContext context, {
+    required bool isCollapsed,
+    required bool isDrawer,
+  }) {
+    return _buildSpecialRouteSection(
+      context,
+      headerTitle: 'PRODUKCJA TV, MEDYCYNA & KONTRAKTY',
+      headerIcon: Icons.broadcast_on_personal_rounded,
+      headerIconColor: AppColors.goldAccent.withValues(alpha: 0.9),
+      entries: [
+        for (final r in MainShellPackage10Route.values)
           _SpecialRouteNavEntry(
             routePath: r.routePath,
             title: r.title,
@@ -1138,6 +1223,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     );
                   }),
                 ],
+                ..._buildPackage10NavSection(
+                  context,
+                  isCollapsed: isCollapsed,
+                  isDrawer: false,
+                ),
                 ..._buildPackage9NavSection(
                   context,
                   isCollapsed: isCollapsed,
@@ -1749,6 +1839,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                       );
                     }),
                   ],
+                  ..._buildPackage10NavSection(
+                    context,
+                    isCollapsed: false,
+                    isDrawer: true,
+                  ),
                   ..._buildPackage9NavSection(
                     context,
                     isCollapsed: false,

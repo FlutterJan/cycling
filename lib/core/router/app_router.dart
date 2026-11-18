@@ -11,6 +11,7 @@ import '../../models/career/pro_cyclist_career_state.dart';
 import '../../models/career/team_esg_sustainability_and_green_fleet_model.dart';
 import '../../models/equipment/complete_bike.dart';
 import '../../models/esports/uci_cycling_esports_world_model.dart';
+import '../../models/medical/grand_tour_nightly_hrv_and_physio_model.dart';
 import '../../models/multiplayer/online_league_and_ghost_challenge_model.dart';
 import '../../models/organizer/race_organizer_empire_model.dart';
 import '../../models/paracycling/uci_paracycling_tandem_handbike_model.dart';
@@ -21,6 +22,8 @@ import '../../models/rider/rider.dart';
 import '../../models/team/cycling_team.dart';
 import '../../models/team/team_bus_and_warmup_protocol_model.dart';
 import '../../services/career/olympic_games_quadrennial_cycle_service.dart';
+import '../../services/career/pre_season_wind_tunnel_camp_event.dart';
+import '../../services/medical/grand_tour_physiotherapy_triage_service.dart';
 import '../../services/network/dual_screen_telemetry_wall_server.dart';
 import '../../ui/screens/achievements_and_platinum_trophy_screen.dart';
 import '../../ui/screens/be_a_pro_character_creator_screen.dart';
@@ -29,6 +32,7 @@ import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
 import '../../ui/screens/club_museum_and_legendary_bikes_screen.dart';
 import '../../ui/screens/companion_car_dashboard_screen.dart';
+import '../../ui/screens/contract_renewals_war_room_screen.dart';
 import '../../ui/screens/cyclocross_winter_series_screen.dart';
 import '../../ui/screens/cycling_esports_and_virtual_academy_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
@@ -38,6 +42,7 @@ import '../../ui/screens/esg_sustainability_and_fleet_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
 import '../../ui/screens/global_academy_network_map_screen.dart';
 import '../../ui/screens/golden_era_retro_campaigns_screen.dart';
+import '../../ui/screens/grand_tour_morning_medical_briefing_screen.dart';
 import '../../ui/screens/grand_tour_route_reveal_ceremony_screen.dart';
 import '../../ui/screens/gravel_world_series_hub_screen.dart';
 import '../../ui/screens/hall_of_fame_and_records_screen.dart';
@@ -76,11 +81,13 @@ import '../../ui/screens/team_builder_hierarchy_screen.dart';
 import '../../ui/screens/track_omnium_madison_championship_screen.dart';
 import '../../ui/screens/training_and_camps_screen.dart';
 import '../../ui/screens/transfer_market_scouting_screen.dart';
+import '../../ui/screens/tv_broadcast_director_control_room_screen.dart';
 import '../../ui/screens/uci_hour_record_attempt_screen.dart';
 import '../../ui/screens/uci_paracycling_world_cup_screen.dart';
 import '../../ui/screens/ultra_bikepacking_transcontinental_screen.dart';
 import '../../ui/screens/weekly_training_microcycle_planner_screen.dart';
 import '../../ui/screens/wind_tunnel_and_bike_fit_screen.dart';
+import '../../ui/screens/winter_wind_tunnel_camp_screen.dart';
 import '../../ui/widgets/animated_screen_transition_router.dart';
 import '../theme/app_colors.dart';
 
@@ -150,6 +157,12 @@ abstract class AppRoutes {
   static const String weeklyMicrocycle = '/career/weekly-microcycle';
   static const String talentCombine = '/career/talent-combine';
   static const String careerAnalyticsBi = '/career/analytics-bi';
+
+  /// Trasy Paczki #10 (Reżyserka TV na Żywo, Poranny Raport Medyczny GT, Grudniowy Obóz Aero, Centrum Przedłużeń Kontraktów; Muzeum Klubowe: AppRoutes.clubMuseum)
+  static const String tvBroadcastDirector = '/race/tv-director';
+  static const String grandTourMorningMedical = '/career/grand-tour-medical';
+  static const String winterWindTunnelCamp = '/career/winter-wind-tunnel-camp';
+  static const String contractRenewalsWarRoom = '/career/contract-renewals';
 
   /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
@@ -225,6 +238,11 @@ abstract class AppRouteNames {
   static const String weeklyMicrocycle = 'weeklyMicrocycle';
   static const String talentCombine = 'talentCombine';
   static const String careerAnalyticsBi = 'careerAnalyticsBi';
+
+  static const String tvBroadcastDirector = 'tvBroadcastDirector';
+  static const String grandTourMorningMedical = 'grandTourMorningMedical';
+  static const String winterWindTunnelCamp = 'winterWindTunnelCamp';
+  static const String contractRenewalsWarRoom = 'contractRenewalsWarRoom';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
@@ -1471,6 +1489,130 @@ GoRouter createAppRouter({
           );
         },
       ),
+
+      // 9. Trasy Paczki #10 (Reżyserka TV na Żywo, Poranny Raport Medyczny GT, Grudniowy Obóz Aero, Centrum Przedłużeń Kontraktów)
+      GoRoute(
+        path: AppRoutes.tvBroadcastDirector,
+        name: AppRouteNames.tvBroadcastDirector,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final liveTickerParam = state.uri.queryParameters['liveTicker'];
+          final enableLiveTicker = liveTickerParam != null
+              ? liveTickerParam != 'false'
+              : (extraMap?['enableLiveTicker'] as bool? ?? true);
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: TvBroadcastDirectorControlRoomScreen(
+              isReadOnly: isReadOnly,
+              enableLiveTicker: enableLiveTicker,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.grandTourMorningMedical,
+        name: AppRouteNames.grandTourMorningMedical,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialReport = extra is GrandTourTeamMorningReport
+              ? extra
+              : extraMap?['initialReport'] as GrandTourTeamMorningReport?;
+          final initialHrvHistoryByRider =
+              extraMap?['initialHrvHistoryByRider'] as Map<String, List<double>>?;
+          final riderRolesById =
+              extraMap?['riderRolesById'] as Map<String, GrandTourTriageRole>?;
+          final totalPhysioPoolMinutes =
+              extraMap?['totalPhysioPoolMinutes'] as int? ?? 360;
+          final specialistCount = extraMap?['specialistCount'] as int? ?? 3;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final onCommitBriefing = extraMap?['onCommitBriefing']
+              as ValueChanged<GrandTourMorningBriefingAllocationResult>?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: GrandTourMorningMedicalBriefingScreen(
+              initialReport: initialReport,
+              initialHrvHistoryByRider: initialHrvHistoryByRider,
+              riderRolesById: riderRolesById,
+              totalPhysioPoolMinutes: totalPhysioPoolMinutes,
+              specialistCount: specialistCount,
+              isReadOnly: isReadOnly,
+              onCommitBriefing: onCommitBriefing,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.winterWindTunnelCamp,
+        name: AppRouteNames.winterWindTunnelCamp,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final yearParam =
+              int.tryParse(state.uri.queryParameters['seasonYear'] ?? '');
+          final seasonYear =
+              yearParam ?? extraMap?['seasonYear'] as int? ?? 2027;
+          final teamBudgetEur =
+              extraMap?['teamBudgetEur'] as int? ?? 250000;
+          final initialRoster = extra is List<Rider>
+              ? extra
+              : extraMap?['initialRoster'] as List<Rider>?;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final onCampCompleted = extraMap?['onCampCompleted']
+              as ValueChanged<PreSeasonWindTunnelCampOutcome>?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: WinterWindTunnelCampScreen(
+              seasonYear: seasonYear,
+              teamBudgetEur: teamBudgetEur,
+              initialRoster: initialRoster,
+              isReadOnly: isReadOnly,
+              onCampCompleted: onCampCompleted,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.contractRenewalsWarRoom,
+        name: AppRouteNames.contractRenewalsWarRoom,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final riders = extra is List<Rider>
+              ? extra
+              : extraMap?['riders'] as List<Rider>?;
+          final yearParam =
+              int.tryParse(state.uri.queryParameters['seasonYear'] ?? '');
+          final seasonYear =
+              yearParam ?? extraMap?['seasonYear'] as int? ?? 2027;
+          final annualWageBudgetEur =
+              extraMap?['annualWageBudgetEur'] as int? ?? 6800000;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final onContractsUpdated = extraMap?['onContractsUpdated']
+              as ValueChanged<ContractRenewalsOutcome>?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: ContractRenewalsWarRoomScreen(
+              riders: riders,
+              seasonYear: seasonYear,
+              annualWageBudgetEur: annualWageBudgetEur,
+              isReadOnly: isReadOnly,
+              onContractsUpdated: onContractsUpdated,
+            ),
+          );
+        },
+      ),
     ],
     errorBuilder: (context, state) => _buildErrorScreen(context, state),
   );
@@ -1956,6 +2098,80 @@ extension AppRouterNavigationExtensions on BuildContext {
   void goToCareerAnalyticsBi({CareerSave? overrideSave}) => go(
         AppRoutes.careerAnalyticsBi,
         extra: {'overrideSave': overrideSave},
+      );
+
+  /// Nawigacja do Reżyserki Transmisji Telewizyjnej na Żywo
+  void goToTvBroadcastDirector({
+    bool isReadOnly = false,
+    bool enableLiveTicker = true,
+  }) =>
+      go(
+        '${AppRoutes.tvBroadcastDirector}?liveTicker=$enableLiveTicker',
+        extra: {
+          'isReadOnly': isReadOnly,
+          'enableLiveTicker': enableLiveTicker,
+        },
+      );
+
+  /// Nawigacja do Porannego Raportu Medycznego i Fizjoterapii Wielkiego Touru
+  void goToGrandTourMorningMedical({
+    GrandTourTeamMorningReport? initialReport,
+    Map<String, List<double>>? initialHrvHistoryByRider,
+    Map<String, GrandTourTriageRole>? riderRolesById,
+    int totalPhysioPoolMinutes = 360,
+    int specialistCount = 3,
+    bool isReadOnly = false,
+    ValueChanged<GrandTourMorningBriefingAllocationResult>? onCommitBriefing,
+  }) =>
+      go(
+        AppRoutes.grandTourMorningMedical,
+        extra: {
+          'initialReport': initialReport,
+          'initialHrvHistoryByRider': initialHrvHistoryByRider,
+          'riderRolesById': riderRolesById,
+          'totalPhysioPoolMinutes': totalPhysioPoolMinutes,
+          'specialistCount': specialistCount,
+          'isReadOnly': isReadOnly,
+          'onCommitBriefing': onCommitBriefing,
+        },
+      );
+
+  /// Nawigacja do Grudniowego Obozu Aerodynamicznego (Tunel w Newtonach)
+  void goToWinterWindTunnelCamp({
+    int seasonYear = 2027,
+    int teamBudgetEur = 250000,
+    List<Rider>? initialRoster,
+    bool isReadOnly = false,
+    ValueChanged<PreSeasonWindTunnelCampOutcome>? onCampCompleted,
+  }) =>
+      go(
+        '${AppRoutes.winterWindTunnelCamp}?seasonYear=$seasonYear',
+        extra: {
+          'seasonYear': seasonYear,
+          'teamBudgetEur': teamBudgetEur,
+          'initialRoster': initialRoster,
+          'isReadOnly': isReadOnly,
+          'onCampCompleted': onCampCompleted,
+        },
+      );
+
+  /// Nawigacja do Centrum Przedłużeń Kontraktów (War Room)
+  void goToContractRenewalsWarRoom({
+    List<Rider>? riders,
+    int seasonYear = 2027,
+    int annualWageBudgetEur = 6800000,
+    bool isReadOnly = false,
+    ValueChanged<ContractRenewalsOutcome>? onContractsUpdated,
+  }) =>
+      go(
+        '${AppRoutes.contractRenewalsWarRoom}?seasonYear=$seasonYear',
+        extra: {
+          'riders': riders,
+          'seasonYear': seasonYear,
+          'annualWageBudgetEur': annualWageBudgetEur,
+          'isReadOnly': isReadOnly,
+          'onContractsUpdated': onContractsUpdated,
+        },
       );
 }
 
