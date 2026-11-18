@@ -600,7 +600,7 @@ Zasady działania pętli:
 - [x] **Zadanie #572** (`lib/ui/screens/esg_sustainability_and_fleet_screen.dart`): Ekran zarządzania flotą EV/wodorową i bilansem ekologicznym drużyny.
 - [x] **Zadanie #573** (`lib/services/analysis/post_race_ai_tactical_coach_analyzer.dart`): **Analityk Taktyczny AI po Wyścigu** analizujący stracone waty na wietrze i timing ataków z $W'$.
 - [x] **Zadanie #574** (`lib/ui/widgets/post_race_ai_coach_insights_card.dart`): Karta raportu Asystenta Taktycznego AI na ekranie podsumowania etapu.
-- [ ] **Zadanie #575** (`lib/engine/peloton/team_sprint_train_echelon_diagonal_formation.dart`): Diagonalna formacja wachlarza na wietrze bocznym spychająca rywali pod krawężnik (*In the Gutter*).
+- [x] **Zadanie #575** (`lib/engine/peloton/team_sprint_train_echelon_diagonal_formation.dart`): Diagonalna formacja wachlarza na wietrze bocznym spychająca rywali pod krawężnik (*In the Gutter*).
 - [ ] **Zadanie #576** (`lib/ui/widgets/gutter_wind_protection_diagram_hud.dart`): Mini-diagram schodkowy ochrony przed wiatrem bocznym w HUD 3D.
 - [ ] **Zadanie #577** (`lib/services/career/rider_personal_life_and_family_events.dart`): Wydarzenia z życia osobistego kolarzy (narodziny dziecka, urlop ojcowski, domowe wyścigi).
 - [ ] **Zadanie #578** (`lib/engine/physics/braking_zone_kinetic_energy_loss_solver.dart`): Model strat energii kinetycznej na dohamowaniach w kryteriach miejskich i krętych czasówkach.
