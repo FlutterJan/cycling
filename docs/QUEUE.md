@@ -653,7 +653,7 @@ Zasady działania pętli:
 - [x] **Zadanie #620** (`lib/engine/simulation/what_if_tactical_sandbox_simulator.dart`): Symulator Monte Carlo scenariuszy taktycznych „Co Jeśli?” (20 wariantów w tle w $<1.5\text{ s}$).
 - [x] **Zadanie #621** (`lib/ui/widgets/what_if_scenario_comparator_modal.dart`): Szklany modal porównania wykresów pudełkowych i prawdopodobieństwa wygranej.
 - [x] **Zadanie #622** (`lib/models/paracycling/uci_paracycling_tandem_handbike_model.dart`): Model **UCI Para-Cycling** (Tandemy Klasa B, Handbike H1–H5, Rowery C1–C5).
-- [ ] **Zadanie #623** (`lib/engine/physics/tandem_and_handbike_physics_solver.dart`): Solver fizyki tandemów (podwójna moc $>800\text{ W}$, zjazdy $>95\text{ km/h}$) i handbike'ów.
+- [x] **Zadanie #623** (`lib/engine/physics/tandem_and_handbike_physics_solver.dart`): Solver fizyki tandemów (podwójna moc $>800\text{ W}$, zjazdy $>95\text{ km/h}$) i handbike'ów.
 - [ ] **Zadanie #624** (`lib/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer.dart`): Renderer 3D tandemów dwuosobowych i trójkołowych handbike'ów.
 - [ ] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
 - [ ] **Zadanie #626** (`lib/ui/widgets/live_split_screen_telemetry_comparator_hud.dart`): Porównywacz telemetrii Split-Screen lidera i głównego rywala GC na żywo.
