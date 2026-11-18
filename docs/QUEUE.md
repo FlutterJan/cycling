@@ -647,7 +647,7 @@ Zasady działania pętli:
 - [x] **Zadanie #614** (`lib/engine/physics/tropical_humidity_and_desert_sandstorm_solver.dart`): Solver wilgotności tropikalnej $95\%$ i pustynnego piasku zwiększającego $Crr$.
 - [x] **Zadanie #615** (`lib/engine/rendering3d/exotic_biomes_savanna_desert_jungle_3d.dart`): Renderer 3D czerwonej ziemi Rwandy (*Mur de Kigali*), pustynnych kanionów AlUla i tropikalnej dżungli Malezji.
 - [x] **Zadanie #616** (`lib/services/career/global_sponsor_market_expansion_service.dart`): System sponsorów z rynków wschodzących (Azja, Afryka, Bliski Wschód).
-- [ ] **Zadanie #617** (`lib/models/career/rider_relationship_chemistry_web_model.dart`): Model Psychologii Szatni 2.0, macierzy relacji `-100` do `+100` oraz paktu lojalności *Blood Brothers*.
+- [x] **Zadanie #617** (`lib/models/career/rider_relationship_chemistry_web_model.dart`): Model Psychologii Szatni 2.0, macierzy relacji `-100` do `+100` oraz paktu lojalności *Blood Brothers*.
 - [ ] **Zadanie #618** (`lib/ui/widgets/team_chemistry_relationship_web_painter.dart`): Interaktywny okrągły graf sieci relacji w drużynie ze złotymi, zielonymi i czerwonymi połączeniami.
 - [ ] **Zadanie #619** (`lib/services/career/team_bonding_retreat_and_conflict_mediation.dart`): Serwis integracji drużynowych i mediacji między liderami.
 - [ ] **Zadanie #620** (`lib/engine/simulation/what_if_tactical_sandbox_simulator.dart`): Symulator Monte Carlo scenariuszy taktycznych „Co Jeśli?” (20 wariantów w tle w $<1.5\text{ s}$).
