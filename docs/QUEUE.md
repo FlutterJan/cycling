@@ -631,7 +631,7 @@ Zasady działania pętli:
 - [x] **Zadanie #603** (`test/esg_sustainability_and_ai_coach_test.dart`): Testy bilansu $\text{CO}_2$ ESG oraz raportów Asystenta Taktycznego AI.
 - [x] **Zadanie #604** (`test/diagonal_echelon_and_braking_kinetic_test.dart`): Testy diagonalnych wachlarzy i strat energii na zakrętach.
 - [x] **Zadanie #605** (`test/national_team_manager_and_cross_save_test.dart`): Testy reprezentacji narodowej, Transfer Deadline Day i kompresji GZIP.
-- [ ] **Zadanie #606** (`lib/core/diagnostics/save_compatibility_v8_migrator.dart`): Migrator zapisów gry dla struktur Paczki #8.
+- [x] **Zadanie #606** (`lib/core/diagnostics/save_compatibility_v8_migrator.dart`): Migrator zapisów gry dla struktur Paczki #8.
 - [ ] **Zadanie #607** (`lib/core/router/app_router.dart`): Integracja tras Paczki #8 w `AppRouter` i `MainShellScreen`.
 - [ ] **Zadanie #608** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN o terminy z Paczki #8.
 - [ ] **Zadanie #609** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 612 zadań.
