@@ -643,7 +643,7 @@ Zasady działania pętli:
 
 ## CZĘŚĆ XI: PACZKA #9 (#613 – #662) — GLOBAL CYCLING EXPANSION (AFRYKA/AZJA/BLISKI WSCHÓD), PSYCHOLOGIA SZATNI 2.0, SYMULATOR „WHAT-IF”, UCI PARA-CYCLING & OBSIDIAN SOVEREIGN v4.0 QA
 
-- [ ] **Zadanie #613** (`lib/models/race/global_exotic_tours_expansion_model.dart`): Model dla globalnej ekspansji kalendarza UCI na rynki pozaeuropejskie (*Tour du Rwanda*, *Tour de Langkawi*, *Tour of Oman*, *AlUla Tour*).
+- [x] **Zadanie #613** (`lib/models/race/global_exotic_tours_expansion_model.dart`): Model dla globalnej ekspansji kalendarza UCI na rynki pozaeuropejskie (*Tour du Rwanda*, *Tour de Langkawi*, *Tour of Oman*, *AlUla Tour*).
 - [ ] **Zadanie #614** (`lib/engine/physics/tropical_humidity_and_desert_sandstorm_solver.dart`): Solver wilgotności tropikalnej $95\%$ i pustynnego piasku zwiększającego $Crr$.
 - [ ] **Zadanie #615** (`lib/engine/rendering3d/exotic_biomes_savanna_desert_jungle_3d.dart`): Renderer 3D czerwonej ziemi Rwandy (*Mur de Kigali*), pustynnych kanionów AlUla i tropikalnej dżungli Malezji.
 - [ ] **Zadanie #616** (`lib/services/career/global_sponsor_market_expansion_service.dart`): System sponsorów z rynków wschodzących (Azja, Afryka, Bliski Wschód).
