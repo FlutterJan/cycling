@@ -284,6 +284,7 @@
 - `lib/engine/simulation/stage_simulation_loop.dart` — Główna pętla symulacji etapu.
 - `lib/engine/simulation/tactical_ai_personality_profiles.dart` — System osobowości taktycznych AI (`TacticalAiPersonalityProfiles`, `CannibalAttacker`, `DieselCalculator`, `WheelsuckerOpportunist`, `KamikazeDescender`, `BreakawayHunter`, `LoyalRoadCaptain`).
 - `lib/engine/simulation/time_trial_simulation_engine.dart` — Silnik jazdy indywidualnej i drużynowej na czas (ITT/TTT).
+- `lib/engine/simulation/what_if_tactical_sandbox_simulator.dart` — Symulator Monte Carlo scenariuszy taktycznych „Co Jeśli?” dla 20 wariantów w tle w < 1.5 s (`WhatIfTacticalSandboxSimulator`, `WhatIfTacticalStrategyType`, `WhatIfStageTerrainProfile`, `WhatIfWeatherCondition`, `WhatIfRiskLevel`, `WhatIfRiderProfile`, `WhatIfStageContext`, `WhatIfTacticalVariant`, `WhatIfMonteCarloRunSample`, `WhatIfVariantOutcome`, `WhatIfSandboxSimulationReport`, `WhatIfSandboxState`, `WhatIfSandboxNotifier`, `whatIfSandboxProvider`, `WhatIfTimeGapDistributionPainter`, `WhatIfTacticalSandboxPanel`).
 - `lib/engine/weather/dynamic_mountain_weather_engine.dart` — Pogoda zależna od wysokości n.p.m. i godziny.
 
 ### `lib/services/`
