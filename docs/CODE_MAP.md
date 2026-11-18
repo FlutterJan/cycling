@@ -735,6 +735,7 @@
 - `test/national_team_manager_and_cross_save_test.dart` — Testy jednostkowe i responsywne widgetowe Selekcjonera Reprezentacji Narodowej (`NationalFederationTeamManagerService`, `NationalFederationTeamManagerNotifier`, `NationalFederationTeamManagerPanel`), Transfer Deadline Day (`TransferDeadlineDayLiveEventService`, `TransferDeadlineDayNotifier`, `TransferDeadlineDayPanel`) oraz kompresji GZIP i Cross-Save (`CloudCrossSaveJsonSyncAdapter`, `InMemoryCrossSaveCloudTransport`, `CloudCrossSaveJsonSyncPanel`, tokeny `PPMCS1:`, pliki `.ppmsave.gz` i `390x844` / `1024x768` / `1600x900`).
 - `test/core/app_router_package_8_routes_test.dart` — Testy nawigacji `AppRouter` oraz integracji `MainShellScreen` (`MainShellPackage8Route`) dla wszystkich 6 tras Paczki #8 (`GoldenEraRetroCampaignsScreen`, `CyclingEsportsAndVirtualAcademyScreen`, `EsgSustainabilityAndFleetScreen`, `NationalTeamSelectionHqScreen`, `GrandTourRouteRevealCeremonyScreen`, `ManagerLegacyHallOfFameBookScreen`) na rozdzielczościach `390x844` / `1024x768` / `1600x900`.
 - `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#612, Paczki #1–#8 + Platinum Apex v3.0 QA) oraz dalsze rozszerzenia projektu.
+- `docs/COMPLETE_GAME_MANUAL_612.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 12 trybach gry, systemach fizycznych, bioenergetycznych, taktycznych oraz sterowaniu (`#001–#612`).
 
 ---
 
