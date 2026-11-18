@@ -589,7 +589,7 @@ Zasady działania pętli:
 ## CZĘŚĆ X: PACZKA #8 (#563 – #612) — GOLDEN ERA RETRO CLASSICS 1970–2015, UCI CYCLING ESPORTS, EKONOMIA ESG, AI TACTICAL COACH & PLATINUM APEX v3.0 QA
 
 - [x] **Zadanie #563** (`lib/models/retro/golden_era_retro_season_model.dart`): Model trybu historycznego **„Złota Era Kolarstwa: 1970–2015”** (stalowe ramy Columbus SL $9.2\text{ kg}$, manetki cierne, wełniane koszulki nasiąkające deszczem, brak mierników mocy i radia wyścigowego).
-- [ ] **Zadanie #564** (`lib/engine/physics/retro_steel_frame_and_no_powermeter_solver.dart`): Silnik percepcji RPE (Borg 6–20) zamiast miernika mocy oraz fizyka opóźnienia zmiany biegów na dolnej rurze ramy.
+- [x] **Zadanie #564** (`lib/engine/physics/retro_steel_frame_and_no_powermeter_solver.dart`): Silnik percepcji RPE (Borg 6–20) zamiast miernika mocy oraz fizyka opóźnienia zmiany biegów na dolnej rurze ramy.
 - [ ] **Zadanie #565** (`lib/engine/rendering3d/retro_sepia_film_grain_and_steel_bikes_3d.dart`): Renderer 3D chromowanych muf stalowych, czapeczek kolarskich, bidonów na kierownicy i filtra TV 16mm/VHS.
 - [ ] **Zadanie #566** (`lib/ui/screens/golden_era_retro_campaigns_screen.dart`): Ekran kampanii historycznych 1970–2015.
 - [ ] **Zadanie #567** (`lib/models/esports/uci_cycling_esports_world_model.dart`): Model **UCI Cycling Esports** (trenażery Smart, Power-Upy `Aero Helmet`, `Featherweight`, `Burrito` i wyścig eliminacyjny co 60 s).
