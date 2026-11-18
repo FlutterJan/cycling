@@ -657,7 +657,7 @@ Zasady działania pętli:
 - [x] **Zadanie #624** (`lib/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer.dart`): Renderer 3D tandemów dwuosobowych i trójkołowych handbike'ów.
 - [x] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
 - [x] **Zadanie #626** (`lib/ui/widgets/live_split_screen_telemetry_comparator_hud.dart`): Porównywacz telemetrii Split-Screen lidera i głównego rywala GC na żywo.
-- [ ] **Zadanie #627** (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`): Mechanika mowy ciała i blefowania kryzysu na podjeździe (`Poker Face`).
+- [x] **Zadanie #627** (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`): Mechanika mowy ciała i blefowania kryzysu na podjeździe (`Poker Face`).
 - [ ] **Zadanie #628** (`lib/ui/widgets/rider_poker_face_bluff_action_button.dart`): Przycisk taktyczny `Blefuj Kryzys / Poker Face` w menu rozkazów 3D.
 - [ ] **Zadanie #629** (`lib/services/career/equipment_wind_tunnel_custom_decals_and_serials.dart`): Indywidualne numery seryjne ram i złote edycje mistrzowskie rowerów.
 - [ ] **Zadanie #630** (`lib/ui/screens/club_museum_and_legendary_bikes_screen.dart`): Ekran Muzeum Klubowego i Historycznych Rowerów 3D.
