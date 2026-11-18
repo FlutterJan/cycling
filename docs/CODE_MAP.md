@@ -475,6 +475,7 @@
 - `lib/ui/screens/uci_paracycling_world_cup_screen.dart` — Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich (`UciParacyclingWorldCupScreen`, `ParacyclingRaceSimulator`, `ParacyclingSimulatedEventSummary`, `ParacyclingScreenTab`) z kalendarzem PŚ/Igrzysk, filtracją klas B/H1–H5/C1–C5, laboratorium Tandemu B, kreatorem sztafety Handbike (limit 11 pkt) i klasyfikacją generalną UCI.
 - `lib/ui/screens/ultra_bikepacking_transcontinental_screen.dart` — Ekran wyścigów Ultra-Endurance Bikepacking z mapą GPS `Dotwatching Live Tracker` i panelem decyzji nocnych (`UltraBikepackingTranscontinentalScreen`, `DotwatchingLiveTrackerPainter`, `DotwatchingRiderPin`, `DotwatchingMapFilter`, `UltraScreenMobileTab`, `UltraNightDecisionLogEntry`, `UltraSleepStrategyUiX`).
 - `lib/ui/screens/velo_dor_gala_ceremony_screen.dart` — Uroczysty ekran gali kończącej sezon Vélo d'Or w czerni `#0F1115` i złocie `#D4AF37` (`VeloDorGalaCeremonyScreen`, `VeloDorPlayerSeasonSummary`, `VeloDorTeamRiderSummary`) ze zwycięzcami, statystykami roku i osiągnięciami drużyny gracza.
+- `lib/ui/screens/weekly_training_microcycle_planner_screen.dart` — Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS, zamianą dni (drag-and-drop / swap) i prognozą Banistera CTL/ATL/TSB (`WeeklyTrainingMicrocyclePlannerScreen`, `WeeklyTsbForecastChartPainter`) z responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
 
 ### `lib/ui/widgets/`
