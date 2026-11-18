@@ -602,7 +602,7 @@ Zasady działania pętli:
 - [x] **Zadanie #574** (`lib/ui/widgets/post_race_ai_coach_insights_card.dart`): Karta raportu Asystenta Taktycznego AI na ekranie podsumowania etapu.
 - [x] **Zadanie #575** (`lib/engine/peloton/team_sprint_train_echelon_diagonal_formation.dart`): Diagonalna formacja wachlarza na wietrze bocznym spychająca rywali pod krawężnik (*In the Gutter*).
 - [x] **Zadanie #576** (`lib/ui/widgets/gutter_wind_protection_diagram_hud.dart`): Mini-diagram schodkowy ochrony przed wiatrem bocznym w HUD 3D.
-- [ ] **Zadanie #577** (`lib/services/career/rider_personal_life_and_family_events.dart`): Wydarzenia z życia osobistego kolarzy (narodziny dziecka, urlop ojcowski, domowe wyścigi).
+- [x] **Zadanie #577** (`lib/services/career/rider_personal_life_and_family_events.dart`): Wydarzenia z życia osobistego kolarzy (narodziny dziecka, urlop ojcowski, domowe wyścigi).
 - [ ] **Zadanie #578** (`lib/engine/physics/braking_zone_kinetic_energy_loss_solver.dart`): Model strat energii kinetycznej na dohamowaniach w kryteriach miejskich i krętych czasówkach.
 - [ ] **Zadanie #579** (`lib/ui/widgets/criterium_cornering_efficiency_chart.dart`): Wykres zysku czasowego lekkich kół na trasach z licznymi zakrętami.
 - [ ] **Zadanie #580** (`lib/services/career/national_federation_team_manager_mode.dart`): System **Selekcjonera Reprezentacji Narodowej** na Mistrzostwa Świata i Igrzyska Olimpijskie.
