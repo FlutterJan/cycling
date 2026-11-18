@@ -559,6 +559,127 @@ class BilingualCyclingDictionary {
       pl: 'Migrator Zapisów Paczki #8 (v8)',
       en: 'Package #8 Save Migrator (v8)',
     ),
+    // --- Paczka #9: Ekspansja Globalna, Szatnia 2.0, What-If, Para-Cycling, Mikrocykle i BI ---
+    'exotic_tours_expansion_title': (
+      pl: 'Ekspansja Globalna UCI (Afryka, Azja i Bliski Wschód)',
+      en: 'UCI Global Expansion (Africa, Asia & Middle East)',
+    ),
+    'exotic_tour_rwanda_kigali': (
+      pl: 'Tour du Rwanda — Mur de Kigali (Czerwona Ziemia)',
+      en: 'Tour du Rwanda — Mur de Kigali (Red Earth)',
+    ),
+    'exotic_tour_langkawi_humidity': (
+      pl: 'Tour de Langkawi — Wilgotność Tropikalna 95%',
+      en: 'Tour de Langkawi — 95% Tropical Humidity',
+    ),
+    'exotic_tour_alula_oman': (
+      pl: 'AlUla Tour i Tour of Oman — Piasek Pustynny (Crr)',
+      en: 'AlUla Tour & Tour of Oman — Desert Sand (Crr)',
+    ),
+    'exotic_tour_poland_central_eu': (
+      pl: 'Tour de Pologne — Karpacz Orlinek i Gliczarów',
+      en: 'Tour de Pologne — Karpacz Orlinek & Gliczarów',
+    ),
+    'emerging_market_sponsors': (
+      pl: 'Sponsorzy z Rynków Wschodzących (Azja / Afryka / MENA)',
+      en: 'Emerging Market Sponsors (Asia / Africa / MENA)',
+    ),
+    'chemistry_locker_room_web': (
+      pl: 'Psychologia Szatni 2.0 — Graf Relacji (-100..+100)',
+      en: 'Locker Room 2.0 — Relationship Chemistry Web (-100..+100)',
+    ),
+    'chemistry_blood_brothers_pact': (
+      pl: 'Pakt Lojalności „Blood Brothers”',
+      en: 'Blood Brothers Loyalty Pact',
+    ),
+    'chemistry_bonding_mediation': (
+      pl: 'Wyjazd Integracyjny i Mediacja Konfliktów',
+      en: 'Team Bonding Retreat & Conflict Mediation',
+    ),
+    'what_if_monte_carlo_title': (
+      pl: 'Symulator Taktyczny „Co Jeśli?” (Monte Carlo)',
+      en: 'What-If Tactical Sandbox (Monte Carlo)',
+    ),
+    'what_if_boxplot_win_prob': (
+      pl: 'Porównanie Wykresów Pudełkowych i Szans Wygranej',
+      en: 'Box-Plot & Win Probability Comparator',
+    ),
+    'paracycling_world_cup_title': (
+      pl: 'Puchar Świata UCI Para-Cycling i Igrzyska Paralimpijskie',
+      en: 'UCI Para-Cycling World Cup & Paralympic Games',
+    ),
+    'paracycling_tandem_class_b': (
+      pl: 'Tandem Klasa B (>800 W / >95 km/h)',
+      en: 'Class B Tandem (>800 W / >95 km/h)',
+    ),
+    'paracycling_handbike_h1_h5': (
+      pl: 'Handbike H1–H5 i Sztafeta Drużynowa',
+      en: 'Handbike H1–H5 & Team Relay',
+    ),
+    'paracycling_cycling_c1_c5': (
+      pl: 'Rowery Szosowe Klasy C1–C5',
+      en: 'Para-Cycling Road Classes C1–C5',
+    ),
+    'hud_split_screen_telemetry': (
+      pl: 'Porównywacz Telemetrii Split-Screen (Lider vs Rywal GC)',
+      en: 'Live Split-Screen Telemetry Comparator (Leader vs GC Rival)',
+    ),
+    'tactic_poker_face_bluff': (
+      pl: 'Blefuj Kryzys / Poker Face',
+      en: 'Bluff Crisis / Poker Face',
+    ),
+    'tactic_gutter_collision_risk': (
+      pl: 'Ryzyko Rynsztoka na Wietrze Bocznym',
+      en: 'Crosswind Gutter Collision Risk',
+    ),
+    'neutral_zone_3km_banner': (
+      pl: 'STREFA 3 KM — CZASY GC ZNEUTRALIZOWANE',
+      en: '3 KM ZONE — GC TIMES NEUTRALIZED',
+    ),
+    'club_museum_legendary_bikes': (
+      pl: 'Muzeum Klubowe i Historyczne Rowery 3D',
+      en: 'Club Museum & Legendary 3D Bikes',
+    ),
+    'equipment_serial_gold_edition': (
+      pl: 'Numer Seryjny Ramy i Złota Edycja Mistrzowska',
+      en: 'Frame Serial Number & Champion Gold Edition',
+    ),
+    'scouting_rival_ds_styles': (
+      pl: 'Wywiad Taktyczny — Style DS AI (52 Drużyny)',
+      en: 'Tactical Scouting — AI DS Styles (52 Teams)',
+    ),
+    'tv_highlight_reel_45s': (
+      pl: 'Skrót Telewizyjny Etapu (45 s Highlight Reel)',
+      en: 'Stage TV Highlight Reel (45s Auto-Clip)',
+    ),
+    'training_weekly_microcycle': (
+      pl: 'Kreator Mikrocykli Treningowych (TSS / TSB)',
+      en: 'Weekly Training Microcycle Planner (TSS / TSB)',
+    ),
+    'training_motor_pacing_aero': (
+      pl: 'Motor-Pacing i Adaptacja Pozycji Aero TT',
+      en: 'Motor-Pacing & Aero Tuck TT Adaptation',
+    ),
+    'training_aero_vs_road_ftp': (
+      pl: 'Efektywność Mocy na Lemondce vs Szosowe FTP',
+      en: 'Aero Bars vs Road FTP Power Efficiency',
+    ),
+    'scouting_global_talent_combine': (
+      pl: 'Global Young Talent Combine (Obóz Selekcyjny U17)',
+      en: 'Global Young Talent Combine (U17 Tryouts)',
+    ),
+    'audio_adaptive_music_6ch': (
+      pl: 'Adaptacyjna Muzyka Wyścigowa i Mikser 6-Kanałowy',
+      en: 'Adaptive Race Music Score & 6-Channel Mixer',
+    ),
+    'analytics_deep_bi_roi': (
+      pl: 'Analityka BI — ROI Transferów, R&D i Eksport CSV/JSON',
+      en: 'Deep Career BI Analytics — Transfer/R&D ROI & CSV/JSON',
+    ),
+    'ui_save_v9_migrator': (
+      pl: 'Migrator Zapisów Paczki #9 (v9)',
+      en: 'Package #9 Save Migrator (v9)',
+    ),
   };
 
   /// Autentyczny dwujęzyczny słownik żargonu kolarskiego (PL <-> EN).
@@ -1382,6 +1503,138 @@ class BilingualCyclingDictionary {
           'Permanent career chronicle unlocked upon retirement, allowing you to launch a New Game+ dynasty carrying forward prestige and legacy records.',
       examplePl: 'Księga Legendy zapisana — rozpocznij nową dynastię jako mentor akademii!',
       exampleEn: 'Legacy Book archived — start a New Game+ dynasty as academy mentor!',
+    ),
+
+    // --- Paczka #9: Ekspansja Globalna, Szatnia 2.0, Para-Cycling, Poker Face, Motor-Pacing & 3 km Zone ---
+    BilingualTermEntry(
+      key: 'mur_de_kigali_cobbles',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Mur de Kigali (Bruk Rwandy)',
+      en: 'Mur de Kigali (Rwanda Cobbles)',
+      slangOrOrigin: 'Tour du Rwanda',
+      definitionPl:
+          'Ikoniczny, stromy brukowy podjazd w sercu Kigali na wysokości ponad 1500 m n.p.m., będący wizytówką afrykańskiego kolarstwa szosowego.',
+      definitionEn:
+          'Iconic steep cobbled climb in the heart of Kigali above 1,500 m altitude, a signature centerpiece of African road racing.',
+      examplePl: 'Na Mur de Kigali ruszamy z przodu — bruk i wysokość szybko rozrywają peleton!',
+      exampleEn: 'Hit Mur de Kigali near the front — the cobbles and altitude shred the bunch!',
+    ),
+    BilingualTermEntry(
+      key: 'desert_sandstorm_crr',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Piasek Pustynny i Wzrost Crr',
+      en: 'Desert Sand Drift & Crr Penalty',
+      slangOrOrigin: 'AlUla / Oman',
+      definitionPl:
+          'Naniesiony przez wiatr piasek na asfaltowych odcinkach wyścigów na Bliskim Wschodzie, który podnosi opory toczenia (Crr) i ryzyko uślizgu przedniego koła.',
+      definitionEn:
+          'Wind-blown sand across desert tarmac in Middle Eastern races, increasing rolling resistance (Crr) and front-wheel washout risk.',
+      examplePl: 'Przed kanionem AlUla leży nawiany piasek — obniż ciśnienie o 0.3 bara!',
+      exampleEn: 'Sand drifted across the AlUla canyon road — drop tire pressure by 0.3 bar!',
+    ),
+    BilingualTermEntry(
+      key: 'blood_brothers_pact',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Pakt „Blood Brothers” (Szatnia 2.0)',
+      en: 'Blood Brothers Pact (Locker Room 2.0)',
+      slangOrOrigin: 'Team Chemistry',
+      definitionPl:
+          'Najwyższy poziom więzi między dwoma kolarzami o wysokiej chemii w szatni, zapewniający dodatkowy bonus poświęcenia i ochrony lidera na kluczowych etapach.',
+      definitionEn:
+          'Highest bond tier between two high-chemistry teammates in the locker room, granting extra domestique sacrifice and leader-protection bonuses.',
+      examplePl: 'Pakt Blood Brothers aktywny — pomocnik odda własne koło bez wahania!',
+      exampleEn: 'Blood Brothers pact active — the domestique will surrender his wheel instantly!',
+    ),
+    BilingualTermEntry(
+      key: 'what_if_monte_carlo',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Symulator „Co Jeśli?” (Monte Carlo)',
+      en: 'What-If Tactical Sandbox (Monte Carlo)',
+      slangOrOrigin: 'DS Decision Lab',
+      definitionPl:
+          'Narzędzie analityczne Dyrektora Sportowego wykonujące 20 szybkich symulacji wariantów taktycznych w tle, prezentując rozkład szans wygranej na wykresie pudełkowym.',
+      definitionEn:
+          'Sports Director decision tool running 20 rapid background tactical simulations to compare win-probability box plots before committing an order.',
+      examplePl: 'Symulacja What-If daje 68% szans na wygraną przy ataku na 4 km przed szczytem.',
+      exampleEn: 'What-If sandbox shows a 68% win probability if we attack 4 km below the summit.',
+    ),
+    BilingualTermEntry(
+      key: 'paracycling_tandem_b',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Tandem Para-Cycling (Klasa B)',
+      en: 'Para-Cycling Tandem (Class B)',
+      slangOrOrigin: 'UCI Para-Cycling',
+      definitionPl:
+          'Dwuosobowy rower szosowy lub torowy prowadzony przez widzącego pilota z przodu i niewidomego lub słabowidzącego zawodnika (stoker) z tyłu, generujący ponad 800 W mocy.',
+      definitionEn:
+          'Two-rider racing bicycle piloted by a sighted front rider and a visually impaired stoker behind, capable of sustained outputs above 800 W.',
+      examplePl: 'Nasz tandem klasy B przekroczył 95 km/h na zjeździe z przełęczy!',
+      exampleEn: 'Our Class B tandem just topped 95 km/h on the mountain descent!',
+    ),
+    BilingualTermEntry(
+      key: 'poker_face_sandbagging',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Blef „Poker Face” / Sandbagging',
+      en: 'Poker Face Bluff / Sandbagging',
+      slangOrOrigin: 'Climb Mind Games',
+      definitionPl:
+          'Świadome ukrywanie kryzysu lub udawanie zmęczenia mową ciała na podjeździe, aby uśpić czujność rywali GC przed nagłym kontratakiem.',
+      definitionEn:
+          'Deliberately masking fatigue or faking struggle via body language on a climb to lull GC rivals before launching a counter-attack.',
+      examplePl: 'Włącz Poker Face na kole lidera i skontruj na ostatnich 800 metrach!',
+      exampleEn: 'Hold your Poker Face on the leader\'s wheel and counter inside 800 m!',
+    ),
+    BilingualTermEntry(
+      key: 'neutral_zone_3km_rule',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Strefa Ochronna 3 km (Neutralizacja GC)',
+      en: '3 km Protective Neutral Zone',
+      slangOrOrigin: 'UCI Art. 2.6.027',
+      definitionPl:
+          'Przepis UCI gwarantujący kolarzom poszkodowanym w kraksie lub defekcie w ostatnich 3 km (lub 5 km) płaskiego etapu przyznanie czasu grupy, w której się znajdowali.',
+      definitionEn:
+          'UCI rule awarding riders caught in a crash or mechanical inside the final 3 km (or 5 km) of a sprint stage the same time as the group they were riding in.',
+      examplePl: 'Defekt nastąpił na 2.4 km przed metą — lider otrzymuje czas peletonu!',
+      exampleEn: 'Mechanical happened at 2.4 km to go — the leader keeps the bunch time!',
+    ),
+    BilingualTermEntry(
+      key: 'motor_pacing_derny',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Trening Motor-Pacing (Za skuterem / Derny)',
+      en: 'Motor-Pacing / Derny Training',
+      slangOrOrigin: 'Aero Adaptation',
+      definitionPl:
+          'Jazda w tunelu aerodynamicznym za skuterem lub motocyklem Derny przy wysokiej kadencji i prędkości 55–65 km/h w celu adaptacji mocy w niskiej pozycji czasowej.',
+      definitionEn:
+          'High-cadence drafting behind a scooter or Derny motorbike at 55–65 km/h to adapt neuromuscular power output in a low TT aero tuck.',
+      examplePl: 'Dwie sesje motor-pacingu w mikrocyklu podniosły efektywność na lemondce o 3%.',
+      exampleEn: 'Two motor-pacing sessions in the microcycle boosted aero-bar efficiency by 3%.',
+    ),
+    BilingualTermEntry(
+      key: 'training_tss_tsb_microcycle',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Mikrocykl Treningowy (TSS / CTL / TSB)',
+      en: 'Training Microcycle (TSS / CTL / TSB)',
+      slangOrOrigin: 'Performance Lab',
+      definitionPl:
+          'Tygodniowy plan jednostek interwałowych (VO2max, Sweet Spot, regeneracja) bilansujący obciążenie TSS z prognozą świeżości TSB przed dniem startu.',
+      definitionEn:
+          'Weekly structured training plan (VO2max, Sweet Spot, recovery) balancing TSS load against projected TSB freshness ahead of race day.',
+      examplePl: 'Po mikrocyklu Sweet Spot forma CTL wzrosła, a TSB przed etapem wynosi +8.',
+      exampleEn: 'After the Sweet Spot microcycle, CTL rose while pre-stage TSB sits at +8.',
+    ),
+    BilingualTermEntry(
+      key: 'global_talent_combine_u17',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Global Young Talent Combine (Obóz U17)',
+      en: 'Global Young Talent Combine (U17)',
+      slangOrOrigin: 'World Scouting',
+      definitionPl:
+          'Coroczny światowy obóz selekcyjny dla 17-letnich talentów z badaniami VO2max, krzywą mocy i wyścigiem eliminacyjnym przed podpisaniem kontraktu z akademią.',
+      definitionEn:
+          'Annual worldwide scouting camp for 17-year-old prospects featuring lab VO2max testing, power profiling, and a selection race for academy contracts.',
+      examplePl: 'Na obozie Talent Combine wypatrzyliśmy 17-latka z VO2max 86 ml/kg/min!',
+      exampleEn: 'At the Talent Combine we spotted a 17-year-old clocking 86 ml/kg/min VO2max!',
     ),
   ];
 

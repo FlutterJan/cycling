@@ -129,6 +129,76 @@ void main() {
         isTrue,
       );
     });
+
+    test('covers Package 9 UI keys and jargon entries', () {
+      const package9Keys = [
+        'exotic_tours_expansion_title',
+        'exotic_tour_rwanda_kigali',
+        'exotic_tour_langkawi_humidity',
+        'exotic_tour_alula_oman',
+        'exotic_tour_poland_central_eu',
+        'emerging_market_sponsors',
+        'chemistry_locker_room_web',
+        'chemistry_blood_brothers_pact',
+        'chemistry_bonding_mediation',
+        'what_if_monte_carlo_title',
+        'paracycling_world_cup_title',
+        'paracycling_tandem_class_b',
+        'paracycling_handbike_h1_h5',
+        'hud_split_screen_telemetry',
+        'tactic_poker_face_bluff',
+        'tactic_gutter_collision_risk',
+        'neutral_zone_3km_banner',
+        'club_museum_legendary_bikes',
+        'equipment_serial_gold_edition',
+        'scouting_rival_ds_styles',
+        'tv_highlight_reel_45s',
+        'training_weekly_microcycle',
+        'training_motor_pacing_aero',
+        'scouting_global_talent_combine',
+        'audio_adaptive_music_6ch',
+        'analytics_deep_bi_roi',
+        'ui_save_v9_migrator',
+      ];
+      for (final key in package9Keys) {
+        expect(BilingualCyclingDictionary.hasKey(key), isTrue, reason: key);
+      }
+
+      expect(
+        BilingualCyclingDictionary.translate(
+          'neutral_zone_3km_banner',
+          AppLanguage.pl,
+        ),
+        'STREFA 3 KM — CZASY GC ZNEUTRALIZOWANE',
+      );
+      expect(
+        BilingualCyclingDictionary.translate(
+          'neutral_zone_3km_banner',
+          AppLanguage.en,
+        ),
+        '3 KM ZONE — GC TIMES NEUTRALIZED',
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('kigali')
+            .any((e) => e.key == 'mur_de_kigali_cobbles'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('blood brothers')
+            .any((e) => e.key == 'blood_brothers_pact'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('poker face')
+            .any((e) => e.key == 'poker_face_sandbagging'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('motor-pacing')
+            .any((e) => e.key == 'motor_pacing_derny'),
+        isTrue,
+      );
+    });
   });
 
   group('CyclingJargonDictionaryPanel responsive UI', () {
