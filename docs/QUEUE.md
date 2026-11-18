@@ -661,7 +661,7 @@ Zasady działania pętli:
 - [x] **Zadanie #628** (`lib/ui/widgets/rider_poker_face_bluff_action_button.dart`): Przycisk taktyczny `Blefuj Kryzys / Poker Face` w menu rozkazów 3D.
 - [x] **Zadanie #629** (`lib/services/career/equipment_wind_tunnel_custom_decals_and_serials.dart`): Indywidualne numery seryjne ram i złote edycje mistrzowskie rowerów.
 - [x] **Zadanie #630** (`lib/ui/screens/club_museum_and_legendary_bikes_screen.dart`): Ekran Muzeum Klubowego i Historycznych Rowerów 3D.
-- [ ] **Zadanie #631** (`lib/engine/physics/crosswind_peloton_gutter_collision_risk.dart`): Fizyka ryzyka zjechania na pobocze podczas wyprzedzania w rynsztoku na wietrze bocznym.
+- [x] **Zadanie #631** (`lib/engine/physics/crosswind_peloton_gutter_collision_risk.dart`): Fizyka ryzyka zjechania na pobocze podczas wyprzedzania w rynsztoku na wietrze bocznym.
 - [ ] **Zadanie #632** (`lib/services/career/ai_director_sportif_tactical_styles_engine.dart`): Unikalne style taktyczne dyrektorów sportowych wszystkich 52 drużyn AI.
 - [ ] **Zadanie #633** (`lib/ui/widgets/rival_team_tactical_scouting_report_card.dart`): Karta wywiadu taktycznego o planie rywali na odprawie przed etapem.
 - [ ] **Zadanie #634** (`lib/engine/rendering3d/dynamic_spectator_banners_and_flags_3d.dart`): Proceduralne banery kibiców z nazwiskiem lidera gracza i flagami regionów.
