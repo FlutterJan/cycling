@@ -273,6 +273,82 @@ enum MainNavigationTab {
   });
 }
 
+/// Dodatkowe trasy trybów specjalnych i ekspansji Paczki #8 dostępne z powłoki MainShellScreen.
+enum MainShellPackage8Route {
+  goldenEraRetro(
+    routePath: AppRoutes.goldenEraRetro,
+    title: 'Złota Era 1970–2015',
+    shortLabel: 'Retro',
+    description: 'Kampanie historyczne bez mierników mocy',
+    icon: Icons.history_edu_outlined,
+    selectedIcon: Icons.history_edu_rounded,
+    accentColor: AppColors.goldAccent,
+  ),
+  cyclingEsports(
+    routePath: AppRoutes.cyclingEsports,
+    title: 'UCI Cycling Esports',
+    shortLabel: 'e-Sports',
+    description: 'Cyber-Welodrom & Virtual Talent ID',
+    icon: Icons.sensors_outlined,
+    selectedIcon: Icons.sensors_rounded,
+    accentColor: AppColors.cyanAccent,
+  ),
+  esgGreenFleet(
+    routePath: AppRoutes.esgGreenFleet,
+    title: 'Flota EV & Ekonomia ESG',
+    shortLabel: 'ESG',
+    description: 'Bilans CO₂, pojazdy EV/FCEV i sponsorzy',
+    icon: Icons.eco_outlined,
+    selectedIcon: Icons.eco_rounded,
+    accentColor: AppColors.statusSuccess,
+  ),
+  nationalTeamHq(
+    routePath: AppRoutes.nationalTeamHq,
+    title: 'Reprezentacja Narodowa',
+    shortLabel: 'Kadra PL',
+    description: 'Biuro Selekcjonera na MŚ i Igrzyska',
+    icon: Icons.flag_outlined,
+    selectedIcon: Icons.flag_rounded,
+    accentColor: AppColors.primaryAccent,
+  ),
+  grandTourRouteReveal(
+    routePath: AppRoutes.grandTourRouteReveal,
+    title: 'Prezentacja Tras GT',
+    shortLabel: 'Trasy GT',
+    description: 'Ceremonia tras Tour / Giro / Vuelta',
+    icon: Icons.map_outlined,
+    selectedIcon: Icons.map_rounded,
+    accentColor: AppColors.goldAccent,
+  ),
+  managerLegacyBook(
+    routePath: AppRoutes.managerLegacyBook,
+    title: 'Księga Legendy (NG+)',
+    shortLabel: 'Dynastia',
+    description: 'Panteon menedżera i dziedzictwo NG+',
+    icon: Icons.auto_stories_outlined,
+    selectedIcon: Icons.auto_stories_rounded,
+    accentColor: AppColors.goldAccent,
+  );
+
+  final String routePath;
+  final String title;
+  final String shortLabel;
+  final String description;
+  final IconData icon;
+  final IconData selectedIcon;
+  final Color accentColor;
+
+  const MainShellPackage8Route({
+    required this.routePath,
+    required this.title,
+    required this.shortLabel,
+    required this.description,
+    required this.icon,
+    required this.selectedIcon,
+    required this.accentColor,
+  });
+}
+
 /// Responsywny szkielet nawigacyjny gry (MainShellScreen):
 /// - Mobile (<768px, np. 390x844): Compact AppBar + Drawer z 4 kategoriami + BottomBar + pasek akcji.
 /// - Tablet/Desktop (>=768px, np. 1024x768 / 1600x900): Kategoryzowany Sidebar + TopBar
@@ -349,6 +425,74 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     if (widget.child != null) {
       context.go(tab.routePath);
     }
+  }
+
+  void _onPackage8RouteSelected(
+    BuildContext context,
+    MainShellPackage8Route route, {
+    bool closeDrawer = false,
+  }) {
+    if (closeDrawer) {
+      Navigator.of(context).pop();
+    }
+    final router = GoRouter.maybeOf(context);
+    router?.go(route.routePath);
+  }
+
+  List<Widget> _buildPackage8NavSection(
+    BuildContext context, {
+    required bool isCollapsed,
+    required bool isDrawer,
+  }) {
+    final location = widget.currentLocation ?? '';
+    return [
+      if (!isCollapsed)
+        Padding(
+          padding: EdgeInsets.fromLTRB(isDrawer ? 10 : 8, 12, isDrawer ? 10 : 8, 6),
+          child: Row(
+            children: [
+              Icon(
+                Icons.auto_awesome_rounded,
+                size: 12,
+                color: AppColors.goldAccent.withValues(alpha: 0.9),
+              ),
+              const SizedBox(width: 6),
+              const Expanded(
+                child: Text(
+                  'EKSPANSJE & TRYBY SPECJALNE',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: AppColors.textSecondary,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      else
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          child: Divider(height: 1, color: AppTheme.borderColor),
+        ),
+      for (final route in MainShellPackage8Route.values)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 2),
+          child: _SidebarPackage8RouteItem(
+            route: route,
+            isSelected: location.startsWith(route.routePath),
+            isCollapsed: isCollapsed,
+            onTap: () => _onPackage8RouteSelected(
+              context,
+              route,
+              closeDrawer: isDrawer,
+            ),
+          ),
+        ),
+    ];
   }
 
   int _badgeForTab(MainNavigationTab tab, CareerSave save, CareerState careerState) {
@@ -871,6 +1015,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                     );
                   }),
                 ],
+                ..._buildPackage8NavSection(
+                  context,
+                  isCollapsed: isCollapsed,
+                  isDrawer: false,
+                ),
               ],
             ),
           ),
@@ -1399,22 +1548,31 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        _formatPolishFullDate(save.currentDate),
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          color: AppColors.goldAccent,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
+                      Expanded(
+                        child: Text(
+                          _formatPolishFullDate(save.currentDate),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            color: AppColors.goldAccent,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                      Text(
-                        '${weather.condition} ${weather.tempC}°C',
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          color: AppColors.textSecondary,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          '${weather.condition} ${weather.tempC}°C',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            color: AppColors.textSecondary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -1463,6 +1621,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
                       );
                     }),
                   ],
+                  ..._buildPackage8NavSection(
+                    context,
+                    isCollapsed: false,
+                    isDrawer: true,
+                  ),
                 ],
               ),
             ),
@@ -3148,6 +3311,165 @@ class ManagerProfileAndAchievementsView extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SidebarPackage8RouteItem extends StatefulWidget {
+  final MainShellPackage8Route route;
+  final bool isSelected;
+  final bool isCollapsed;
+  final VoidCallback? onTap;
+
+  const _SidebarPackage8RouteItem({
+    required this.route,
+    required this.isSelected,
+    required this.isCollapsed,
+    required this.onTap,
+  });
+
+  @override
+  State<_SidebarPackage8RouteItem> createState() =>
+      _SidebarPackage8RouteItemState();
+}
+
+class _SidebarPackage8RouteItemState extends State<_SidebarPackage8RouteItem> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isEnabled = widget.onTap != null;
+    final bool isSelected = widget.isSelected;
+    final Color accent = widget.route.accentColor;
+
+    final Color bgColor = !isEnabled
+        ? AppColors.surface.withValues(alpha: 0.35)
+        : isSelected
+            ? AppColors.surfaceLight
+            : _isPressed
+                ? AppColors.surfaceLight.withValues(alpha: 0.75)
+                : _isHovered
+                    ? AppColors.surfaceLight.withValues(alpha: 0.55)
+                    : Colors.transparent;
+
+    final Color borderColor = !isEnabled
+        ? Colors.transparent
+        : isSelected
+            ? accent.withValues(alpha: 0.65)
+            : _isFocused
+                ? AppColors.cyanAccent.withValues(alpha: 0.7)
+                : _isHovered
+                    ? AppTheme.borderColor
+                    : Colors.transparent;
+
+    final Color iconColor = !isEnabled
+        ? AppColors.textSecondary.withValues(alpha: 0.4)
+        : isSelected
+            ? accent
+            : _isHovered
+                ? AppColors.textPrimary
+                : accent.withValues(alpha: 0.85);
+
+    final Widget iconWidget = Icon(
+      isSelected ? widget.route.selectedIcon : widget.route.icon,
+      size: 19,
+      color: iconColor,
+    );
+
+    if (widget.isCollapsed) {
+      return Tooltip(
+        message: '${widget.route.title}\n${widget.route.description}',
+        preferBelow: false,
+        child: FocusableActionDetector(
+          enabled: isEnabled,
+          onShowHoverHighlight: (v) => setState(() => _isHovered = v),
+          onShowFocusHighlight: (v) => setState(() => _isFocused = v),
+          child: InkWell(
+            onTap: widget.onTap,
+            onHighlightChanged: (v) => setState(() => _isPressed = v),
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              height: 42,
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: borderColor, width: 1.0),
+              ),
+              child: Center(child: iconWidget),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return FocusableActionDetector(
+      enabled: isEnabled,
+      onShowHoverHighlight: (v) => setState(() => _isHovered = v),
+      onShowFocusHighlight: (v) => setState(() => _isFocused = v),
+      child: InkWell(
+        onTap: widget.onTap,
+        onHighlightChanged: (v) => setState(() => _isPressed = v),
+        borderRadius: BorderRadius.circular(10),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: borderColor, width: 1.0),
+          ),
+          child: Row(
+            children: [
+              iconWidget,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.route.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: !isEnabled
+                            ? AppColors.textSecondary.withValues(alpha: 0.45)
+                            : isSelected
+                                ? AppColors.textPrimary
+                                : AppColors.textSecondary,
+                        fontSize: 12,
+                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      widget.route.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: AppColors.textSecondary.withValues(alpha: 0.72),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 11,
+                color: isSelected
+                    ? accent
+                    : AppColors.textSecondary.withValues(alpha: 0.55),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

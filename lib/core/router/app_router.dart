@@ -8,7 +8,9 @@ import '../../engine/simulation/stage_results_calculator.dart';
 import '../../engine/simulation/stage_simulation_loop.dart';
 import '../../models/career/career_save.dart';
 import '../../models/career/pro_cyclist_career_state.dart';
+import '../../models/career/team_esg_sustainability_and_green_fleet_model.dart';
 import '../../models/equipment/complete_bike.dart';
+import '../../models/esports/uci_cycling_esports_world_model.dart';
 import '../../models/multiplayer/online_league_and_ghost_challenge_model.dart';
 import '../../models/organizer/race_organizer_empire_model.dart';
 import '../../models/race/race_stage.dart';
@@ -26,10 +28,14 @@ import '../../ui/screens/bike_garage_rnd_screen.dart';
 import '../../ui/screens/calendar_and_race_planner_screen.dart';
 import '../../ui/screens/companion_car_dashboard_screen.dart';
 import '../../ui/screens/cyclocross_winter_series_screen.dart';
+import '../../ui/screens/cycling_esports_and_virtual_academy_screen.dart';
 import '../../ui/screens/dashboard_hq_screen.dart';
 import '../../ui/screens/development_academy_screen.dart';
+import '../../ui/screens/esg_sustainability_and_fleet_screen.dart';
 import '../../ui/screens/game_start_screen.dart';
 import '../../ui/screens/global_academy_network_map_screen.dart';
+import '../../ui/screens/golden_era_retro_campaigns_screen.dart';
+import '../../ui/screens/grand_tour_route_reveal_ceremony_screen.dart';
 import '../../ui/screens/gravel_world_series_hub_screen.dart';
 import '../../ui/screens/hall_of_fame_and_records_screen.dart';
 import '../../ui/screens/in_game_database_roster_editor_screen.dart';
@@ -38,11 +44,13 @@ import '../../ui/screens/jersey_and_bike_livery_studio_screen.dart';
 import '../../ui/screens/legends_card_album_and_packs_screen.dart';
 import '../../ui/screens/main_shell_screen.dart';
 import '../../ui/screens/main_title_menu_screen.dart';
+import '../../ui/screens/manager_legacy_hall_of_fame_book_screen.dart';
 import '../../ui/screens/manager_profile_and_achievements_screen.dart';
 import '../../ui/screens/manager_profile_and_reputation_screen.dart';
 import '../../ui/screens/medical_and_recovery_center_screen.dart';
 import '../../ui/screens/mtb_xco_world_cup_screen.dart';
 import '../../ui/screens/multiplayer_leagues_and_challenges_screen.dart';
+import '../../ui/screens/national_team_selection_hq_screen.dart';
 import '../../ui/screens/new_career_setup_screen.dart';
 import '../../ui/screens/olympic_games_hub_and_medal_table_screen.dart';
 import '../../ui/screens/physiology_lab_screen.dart';
@@ -122,6 +130,14 @@ abstract class AppRoutes {
   static const String multiplayerLeagues = '/multiplayer/leagues';
   static const String raceOrganizerHq = '/organizer/hq';
 
+  /// Trasy Paczki #8 (Złota Era, UCI e-Sports, ESG, Reprezentacja, Prezentacja GT, Księga Legendy)
+  static const String goldenEraRetro = '/career/golden-era';
+  static const String cyclingEsports = '/career/esports';
+  static const String esgGreenFleet = '/career/esg-fleet';
+  static const String nationalTeamHq = '/career/national-team';
+  static const String grandTourRouteReveal = '/career/grand-tour-reveal';
+  static const String managerLegacyBook = '/career/legacy-book';
+
   /// Ścieżki wyścigowe, Welodrom i Kino Powtórek (Race & Special Routes)
   static const String quickRaceSandbox = '/quick-race-sandbox';
   static const String raceBriefing = '/race/briefing';
@@ -183,6 +199,13 @@ abstract class AppRouteNames {
 
   static const String multiplayerLeagues = 'multiplayerLeagues';
   static const String raceOrganizerHq = 'raceOrganizerHq';
+
+  static const String goldenEraRetro = 'goldenEraRetro';
+  static const String cyclingEsports = 'cyclingEsports';
+  static const String esgGreenFleet = 'esgGreenFleet';
+  static const String nationalTeamHq = 'nationalTeamHq';
+  static const String grandTourRouteReveal = 'grandTourRouteReveal';
+  static const String managerLegacyBook = 'managerLegacyBook';
 
   static const String quickRaceSandbox = 'quickRaceSandbox';
   static const String raceBriefing = 'raceBriefing';
@@ -1172,6 +1195,164 @@ GoRouter createAppRouter({
           );
         },
       ),
+
+      // 7. Trasy Paczki #8 (Złota Era 1970–2015, UCI e-Sports, ESG, Reprezentacja, Prezentacja GT, Księga Legendy)
+      GoRoute(
+        path: AppRoutes.goldenEraRetro,
+        name: AppRouteNames.goldenEraRetro,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final yearParam =
+              int.tryParse(state.uri.queryParameters['year'] ?? '');
+          final initialYear =
+              (yearParam ?? extraMap?['initialYear'] as int? ?? 1976)
+                  .clamp(1970, 2015);
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: GoldenEraRetroCampaignsScreen(
+              initialYear: initialYear,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.cyclingEsports,
+        name: AppRouteNames.cyclingEsports,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialWorldModel = extra is UciCyclingEsportsWorldModel
+              ? extra
+              : extraMap?['initialWorldModel'] as UciCyclingEsportsWorldModel?;
+          final autoAnimateParam = state.uri.queryParameters['autoAnimate'];
+          final autoAnimate3d = autoAnimateParam != null
+              ? autoAnimateParam != 'false'
+              : (extraMap?['autoAnimate3d'] as bool? ?? true);
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: CyclingEsportsAndVirtualAcademyScreen(
+              initialWorldModel: initialWorldModel,
+              autoAnimate3d: autoAnimate3d,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.esgGreenFleet,
+        name: AppRouteNames.esgGreenFleet,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialModel =
+              extra is TeamEsgSustainabilityAndGreenFleetModel
+                  ? extra
+                  : extraMap?['initialModel']
+                      as TeamEsgSustainabilityAndGreenFleetModel?;
+          final showAppBar = extraMap?['showAppBar'] as bool? ?? true;
+          final tabParam = state.uri.queryParameters['tab'];
+          final initialTab =
+              extraMap?['initialTab'] as EsgSustainabilityFleetTab? ??
+                  switch (tabParam) {
+                    'carbon' => EsgSustainabilityFleetTab.carbonLedger,
+                    'convoy' => EsgSustainabilityFleetTab.convoyAndInfra,
+                    'sponsors' => EsgSustainabilityFleetTab.greenSponsors,
+                    _ => EsgSustainabilityFleetTab.fleet,
+                  };
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            child: EsgSustainabilityAndFleetScreen(
+              initialModel: initialModel,
+              showAppBar: showAppBar,
+              initialTab: initialTab,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.nationalTeamHq,
+        name: AppRouteNames.nationalTeamHq,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final isReadOnly = extraMap?['isReadOnly'] as bool? ?? false;
+          final tabParam = state.uri.queryParameters['tab'];
+          final initialTab = extraMap?['initialTab'] as NationalTeamHqTab? ??
+              switch (tabParam) {
+                'tactics' => NationalTeamHqTab.tacticsAndChemistry,
+                'federation' => NationalTeamHqTab.federationAndHistory,
+                _ => NationalTeamHqTab.callUpsAndPool,
+              };
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: NationalTeamSelectionHqScreen(
+              isReadOnly: isReadOnly,
+              initialTab: initialTab,
+              onBackPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.dashboard);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.grandTourRouteReveal,
+        name: AppRouteNames.grandTourRouteReveal,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final editions =
+              extraMap?['editions'] as List<GrandTourRouteRevealEdition>?;
+          final teamNameOverride = extraMap?['teamNameOverride'] as String?;
+          final leaderCandidatesOverride =
+              extraMap?['leaderCandidatesOverride'] as List<String>?;
+          final revealAllInitially =
+              extraMap?['revealAllInitially'] as bool? ??
+                  (state.uri.queryParameters['revealAll'] == 'true');
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: GrandTourRouteRevealCeremonyScreen(
+              editions: editions,
+              teamNameOverride: teamNameOverride,
+              leaderCandidatesOverride: leaderCandidatesOverride,
+              revealAllInitially: revealAllInitially,
+              onCeremonyCompleted: (_) {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.calendar);
+                }
+              },
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.managerLegacyBook,
+        name: AppRouteNames.managerLegacyBook,
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          final extraMap = extra is Map<String, dynamic> ? extra : null;
+          final initialEntryId = state.uri.queryParameters['entryId'] ??
+              extraMap?['initialEntryId'] as String?;
+          return AnimatedScreenTransitionRouter.buildManagerPage(
+            state: state,
+            axis: SharedAxisDirection.scaled,
+            child: ManagerLegacyHallOfFameBookScreen(
+              initialEntryId: initialEntryId,
+              onStartNewGamePlus: (_) => context.go(AppRoutes.newCareer),
+            ),
+          );
+        },
+      ),
     ],
     errorBuilder: (context, state) => _buildErrorScreen(context, state),
   );
@@ -1543,6 +1724,91 @@ extension AppRouterNavigationExtensions on BuildContext {
           'initialSnapshot': initialSnapshot,
           'isReadOnly': isReadOnly,
         },
+      );
+
+  /// Nawigacja do kampanii historycznych „Złota Era Kolarstwa: 1970–2015”
+  void goToGoldenEraRetro({int initialYear = 1976}) => go(
+        '${AppRoutes.goldenEraRetro}?year=${initialYear.clamp(1970, 2015)}',
+        extra: {'initialYear': initialYear.clamp(1970, 2015)},
+      );
+
+  /// Nawigacja do Centrum UCI Cycling Esports i Virtual Talent ID Academy
+  void goToCyclingEsports({
+    UciCyclingEsportsWorldModel? initialWorldModel,
+    bool autoAnimate3d = true,
+  }) =>
+      go(
+        '${AppRoutes.cyclingEsports}?autoAnimate=$autoAnimate3d',
+        extra: {
+          'initialWorldModel': initialWorldModel,
+          'autoAnimate3d': autoAnimate3d,
+        },
+      );
+
+  /// Nawigacja do ekranu Ekologii ESG i Zielonej Floty EV/FCEV
+  void goToEsgGreenFleet({
+    TeamEsgSustainabilityAndGreenFleetModel? initialModel,
+    EsgSustainabilityFleetTab initialTab = EsgSustainabilityFleetTab.fleet,
+    bool showAppBar = true,
+  }) {
+    final tabSlug = switch (initialTab) {
+      EsgSustainabilityFleetTab.fleet => 'fleet',
+      EsgSustainabilityFleetTab.carbonLedger => 'carbon',
+      EsgSustainabilityFleetTab.convoyAndInfra => 'convoy',
+      EsgSustainabilityFleetTab.greenSponsors => 'sponsors',
+    };
+    go(
+      '${AppRoutes.esgGreenFleet}?tab=$tabSlug',
+      extra: {
+        'initialModel': initialModel,
+        'initialTab': initialTab,
+        'showAppBar': showAppBar,
+      },
+    );
+  }
+
+  /// Nawigacja do Biura Selekcjonera Reprezentacji Narodowej (MŚ / IO)
+  void goToNationalTeamHq({
+    NationalTeamHqTab initialTab = NationalTeamHqTab.callUpsAndPool,
+    bool isReadOnly = false,
+  }) {
+    final tabSlug = switch (initialTab) {
+      NationalTeamHqTab.callUpsAndPool => 'callups',
+      NationalTeamHqTab.tacticsAndChemistry => 'tactics',
+      NationalTeamHqTab.federationAndHistory => 'federation',
+    };
+    go(
+      '${AppRoutes.nationalTeamHq}?tab=$tabSlug',
+      extra: {
+        'initialTab': initialTab,
+        'isReadOnly': isReadOnly,
+      },
+    );
+  }
+
+  /// Nawigacja do Ceremonii Prezentacji Oficjalnej Trasy Wielkich Tourów
+  void goToGrandTourRouteReveal({
+    List<GrandTourRouteRevealEdition>? editions,
+    String? teamNameOverride,
+    List<String>? leaderCandidatesOverride,
+    bool revealAllInitially = false,
+  }) =>
+      go(
+        '${AppRoutes.grandTourRouteReveal}?revealAll=$revealAllInitially',
+        extra: {
+          'editions': editions,
+          'teamNameOverride': teamNameOverride,
+          'leaderCandidatesOverride': leaderCandidatesOverride,
+          'revealAllInitially': revealAllInitially,
+        },
+      );
+
+  /// Nawigacja do Księgi Legendy Menedżera i trybu Dynastia NG+
+  void goToManagerLegacyBook({String? initialEntryId}) => go(
+        initialEntryId != null
+            ? '${AppRoutes.managerLegacyBook}?entryId=$initialEntryId'
+            : AppRoutes.managerLegacyBook,
+        extra: {'initialEntryId': initialEntryId},
       );
 }
 
