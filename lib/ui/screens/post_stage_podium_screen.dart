@@ -13,6 +13,7 @@ import '../../models/race/race_stage.dart';
 import '../../models/race/tour_race.dart';
 import '../../state/career_controller.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../widgets/post_race_ai_coach_insights_card.dart';
 import '../widgets/post_race_watts_per_kg_leaderboard_card.dart';
 import '../widgets/post_stage_highlight_reel_carousel.dart';
 import '../widgets/rider_avatar_painter.dart';
@@ -1292,6 +1293,16 @@ class _PostStagePodiumScreenState extends ConsumerState<PostStagePodiumScreen>
         // 2b. Najlepsze rekordy mocy dnia (5s / 1m / 5m / 20m) vs rekordy historyczne
         PostRaceWattsPerKgLeaderboardCard(
           data: PostRaceWattsPerKgLeaderboardData.fromStageReport(
+            report: report,
+            playerTeamId: playerTeamId,
+            save: save,
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // 2c. Raport Asystenta Taktycznego AI po etapie
+        PostRaceAiCoachInsightsCard(
+          data: PostRaceAiCoachInsightsData.fromStageReport(
             report: report,
             playerTeamId: playerTeamId,
             save: save,
