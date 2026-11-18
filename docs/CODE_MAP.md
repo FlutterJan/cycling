@@ -1,6 +1,6 @@
 # Pro Peloton Manager — Mapa Projektu (`CODE_MAP.md`)
 
-> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#558`, Paczki #1–#8 + Gold Master QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
+> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#612`, Paczki #1–#8 + Platinum Apex v3.0 QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
 
 ---
 
@@ -734,3 +734,12 @@
 - `test/diagonal_echelon_and_braking_kinetic_test.dart` — Testy jednostkowe i responsywne widgetowe diagonalnych wachlarzy (`TeamSprintTrainEchelonDiagonalFormation`, `TeamSprintTrainEchelonDiagonalPanel` dla `390x844` / `1024x768` / `1600x900`, `In the Gutter`, JSON) oraz strat energii kinetycznej na zakrętach (`BrakingZoneKineticEnergyLossSolver`, porównanie kół, efekt akordeonu i nawierzchnia mokra/zjazd).
 - `test/national_team_manager_and_cross_save_test.dart` — Testy jednostkowe i responsywne widgetowe Selekcjonera Reprezentacji Narodowej (`NationalFederationTeamManagerService`, `NationalFederationTeamManagerNotifier`, `NationalFederationTeamManagerPanel`), Transfer Deadline Day (`TransferDeadlineDayLiveEventService`, `TransferDeadlineDayNotifier`, `TransferDeadlineDayPanel`) oraz kompresji GZIP i Cross-Save (`CloudCrossSaveJsonSyncAdapter`, `InMemoryCrossSaveCloudTransport`, `CloudCrossSaveJsonSyncPanel`, tokeny `PPMCS1:`, pliki `.ppmsave.gz` i `390x844` / `1024x768` / `1600x900`).
 - `test/core/app_router_package_8_routes_test.dart` — Testy nawigacji `AppRouter` oraz integracji `MainShellScreen` (`MainShellPackage8Route`) dla wszystkich 6 tras Paczki #8 (`GoldenEraRetroCampaignsScreen`, `CyclingEsportsAndVirtualAcademyScreen`, `EsgSustainabilityAndFleetScreen`, `NationalTeamSelectionHqScreen`, `GrandTourRouteRevealCeremonyScreen`, `ManagerLegacyHallOfFameBookScreen`) na rozdzielczościach `390x844` / `1024x768` / `1600x900`.
+- `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#612, Paczki #1–#8 + Platinum Apex v3.0 QA) oraz dalsze rozszerzenia projektu.
+
+---
+
+## 5. Podsumowanie Indeksacji (#001–#612)
+
+- **Zakres indeksacji**: Pełna mapa projektu dla **612 zadań** (Baza `#001–#162`, Paczka #1 `#163–#212`, Paczka #2 `#213–#262`, Paczka #3 `#263–#312`, Paczka #4 `#313–#362`, Paczka #5 `#363–#412`, Paczka #6 `#413–#462`, Paczka #7A `#463–#512`, Paczka #7B `#513–#562`, Paczka #8 `#563–#612`).
+- **Pokrycie `lib/`**: **502 / 502** plików `.dart` zarejestrowanych w `docs/CODE_MAP.md` (100% pokrycia przez `CodeMapAutoSynchronizer`).
+- **Pokrycie `test/`, `scripts/`, `docs/`**: **458** plików testowych w `test/`, **4** skrypty wydaniowe w `scripts/` oraz **4** dokumenty w `docs/`.

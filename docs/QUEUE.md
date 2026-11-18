@@ -634,7 +634,7 @@ Zasady działania pętli:
 - [x] **Zadanie #606** (`lib/core/diagnostics/save_compatibility_v8_migrator.dart`): Migrator zapisów gry dla struktur Paczki #8.
 - [x] **Zadanie #607** (`lib/core/router/app_router.dart`): Integracja tras Paczki #8 w `AppRouter` i `MainShellScreen`.
 - [x] **Zadanie #608** (`lib/core/l10n/app_localizations_pl_en.dart`): Uzupełnienie słownika lokalizacyjnego PL/EN o terminy z Paczki #8.
-- [ ] **Zadanie #609** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 612 zadań.
+- [x] **Zadanie #609** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 612 zadań.
 - [ ] **Zadanie #610** (`docs/COMPLETE_GAME_MANUAL_612.md`): Kompletny przewodnik po wszystkich 12 trybach gry i systemach fizycznych.
 - [ ] **Zadanie #611** (`lib/core/diagnostics/zero_warnings_612_lint_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
 - [ ] **Zadanie #612** (`lib/core/diagnostics/platinum_apex_612_certification_suite.dart`): Pakiet certyfikacji **PLATINUM APEX v3.0** (#001–#612).
