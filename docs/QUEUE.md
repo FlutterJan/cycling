@@ -655,7 +655,7 @@ Zasady działania pętli:
 - [x] **Zadanie #622** (`lib/models/paracycling/uci_paracycling_tandem_handbike_model.dart`): Model **UCI Para-Cycling** (Tandemy Klasa B, Handbike H1–H5, Rowery C1–C5).
 - [x] **Zadanie #623** (`lib/engine/physics/tandem_and_handbike_physics_solver.dart`): Solver fizyki tandemów (podwójna moc $>800\text{ W}$, zjazdy $>95\text{ km/h}$) i handbike'ów.
 - [x] **Zadanie #624** (`lib/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer.dart`): Renderer 3D tandemów dwuosobowych i trójkołowych handbike'ów.
-- [ ] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
+- [x] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
 - [ ] **Zadanie #626** (`lib/ui/widgets/live_split_screen_telemetry_comparator_hud.dart`): Porównywacz telemetrii Split-Screen lidera i głównego rywala GC na żywo.
 - [ ] **Zadanie #627** (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`): Mechanika mowy ciała i blefowania kryzysu na podjeździe (`Poker Face`).
 - [ ] **Zadanie #628** (`lib/ui/widgets/rider_poker_face_bluff_action_button.dart`): Przycisk taktyczny `Blefuj Kryzys / Poker Face` w menu rozkazów 3D.
