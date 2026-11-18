@@ -666,7 +666,7 @@ Zasady działania pętli:
 - [x] **Zadanie #633** (`lib/ui/widgets/rival_team_tactical_scouting_report_card.dart`): Karta wywiadu taktycznego o planie rywali na odprawie przed etapem.
 - [x] **Zadanie #634** (`lib/engine/rendering3d/dynamic_spectator_banners_and_flags_3d.dart`): Proceduralne banery kibiców z nazwiskiem lidera gracza i flagami regionów.
 - [x] **Zadanie #635** (`lib/services/career/tour_de_pologne_and_central_europe_pack.dart`): Pakiet wyścigów Europy Środkowej z 7-etapowym **Tour de Pologne** (Karpacz Orlinek, Gliczarów, Kraków).
-- [ ] **Zadanie #636** (`lib/engine/simulation/instant_highlight_clip_generator.dart`): Generator automatycznych 45-sekundowych skrótów telewizyjnych po etapie.
+- [x] **Zadanie #636** (`lib/engine/simulation/instant_highlight_clip_generator.dart`): Generator automatycznych 45-sekundowych skrótów telewizyjnych po etapie.
 - [ ] **Zadanie #637** (`lib/ui/widgets/tv_highlight_reel_player_overlay.dart`): Odtwarzacz skrótu telewizyjnego z grafikami przejść TV.
 - [ ] **Zadanie #638** (`lib/services/career/custom_training_microcycle_builder_service.dart`): Kreator tygodniowych mikrocykli treningowych (Interwały VO2max, Motor-Pacing, Sweet Spot).
 - [ ] **Zadanie #639** (`lib/ui/screens/weekly_training_microcycle_planner_screen.dart`): Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS i prognozą TSB.
