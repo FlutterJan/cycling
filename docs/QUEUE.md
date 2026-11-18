@@ -683,7 +683,7 @@ Zasady działania pętli:
 - [x] **Zadanie #650** (`test/global_expansion_and_humidity_physics_test.dart`): Testy wyścigów w Rwandzie, Malezji i Omanie oraz wpływu wilgotności $95\%$.
 - [x] **Zadanie #651** (`test/relationship_chemistry_and_what_if_test.dart`): Testy grafu relacji w szatni i symulatora scenariuszy „What-If”.
 - [x] **Zadanie #652** (`test/paracycling_tandem_and_handbike_physics_test.dart`): Testy fizyki tandemów i handbike'ów Para-Cycling.
-- [ ] **Zadanie #653** (`test/poker_face_bluff_and_3km_rule_test.dart`): Testy blefowania na podjeździe i reguły neutralizacji $3\text{ km}$.
+- [x] **Zadanie #653** (`test/poker_face_bluff_and_3km_rule_test.dart`): Testy blefowania na podjeździe i reguły neutralizacji $3\text{ km}$.
 - [ ] **Zadanie #654** (`test/weekly_microcycle_and_talent_combine_test.dart`): Testy mikrocykli TSS/TSB i obozu selekcyjnego juniorów.
 - [ ] **Zadanie #655** (`lib/core/diagnostics/save_compatibility_v9_migrator.dart`): Migrator zapisów gry dla struktur Paczki #9.
 - [ ] **Zadanie #656** (`lib/core/router/app_router.dart`): Integracja tras Paczki #9 w `AppRouter` i `MainShellScreen`.
