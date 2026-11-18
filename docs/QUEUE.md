@@ -652,7 +652,7 @@ Zasady działania pętli:
 - [x] **Zadanie #619** (`lib/services/career/team_bonding_retreat_and_conflict_mediation.dart`): Serwis integracji drużynowych i mediacji między liderami.
 - [x] **Zadanie #620** (`lib/engine/simulation/what_if_tactical_sandbox_simulator.dart`): Symulator Monte Carlo scenariuszy taktycznych „Co Jeśli?” (20 wariantów w tle w $<1.5\text{ s}$).
 - [x] **Zadanie #621** (`lib/ui/widgets/what_if_scenario_comparator_modal.dart`): Szklany modal porównania wykresów pudełkowych i prawdopodobieństwa wygranej.
-- [ ] **Zadanie #622** (`lib/models/paracycling/uci_paracycling_tandem_handbike_model.dart`): Model **UCI Para-Cycling** (Tandemy Klasa B, Handbike H1–H5, Rowery C1–C5).
+- [x] **Zadanie #622** (`lib/models/paracycling/uci_paracycling_tandem_handbike_model.dart`): Model **UCI Para-Cycling** (Tandemy Klasa B, Handbike H1–H5, Rowery C1–C5).
 - [ ] **Zadanie #623** (`lib/engine/physics/tandem_and_handbike_physics_solver.dart`): Solver fizyki tandemów (podwójna moc $>800\text{ W}$, zjazdy $>95\text{ km/h}$) i handbike'ów.
 - [ ] **Zadanie #624** (`lib/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer.dart`): Renderer 3D tandemów dwuosobowych i trójkołowych handbike'ów.
 - [ ] **Zadanie #625** (`lib/ui/screens/uci_paracycling_world_cup_screen.dart`): Ekran Pucharu Świata UCI Para-Cycling i Igrzysk Paralimpijskich.
