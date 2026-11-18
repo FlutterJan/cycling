@@ -672,7 +672,7 @@ Zasady działania pętli:
 - [x] **Zadanie #639** (`lib/ui/screens/weekly_training_microcycle_planner_screen.dart`): Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS i prognozą TSB.
 - [x] **Zadanie #640** (`lib/engine/physics/motor_pacing_and_aero_tuck_adaptation.dart`): Fizjologiczna adaptacja generowania mocy w niskiej pozycji TT po treningach za skuterem.
 - [x] **Zadanie #641** (`lib/ui/widgets/aero_vs_road_power_efficiency_gauge.dart`): Wskaźnik efektywności mocy na lemondce względem szosowego FTP.
-- [ ] **Zadanie #642** (`lib/services/career/youth_talent_summer_combine_camp.dart`): Coroczny obóz selekcyjny 17-letnich talentów z całego świata (`Global Young Talent Combine`).
+- [x] **Zadanie #642** (`lib/services/career/youth_talent_summer_combine_camp.dart`): Coroczny obóz selekcyjny 17-letnich talentów z całego świata (`Global Young Talent Combine`).
 - [ ] **Zadanie #643** (`lib/ui/screens/talent_combine_tryouts_screen.dart`): Ekran testów laboratoryjnych i wyścigu selekcyjnego juniorów.
 - [ ] **Zadanie #644** (`lib/core/services/adaptive_dynamic_music_score_engine.dart`): Proceduralny, adaptacyjny silnik muzyki elektroniczno-orkiestrowej reagującej na akcję na szosie.
 - [ ] **Zadanie #645** (`lib/ui/widgets/audio_mixer_advanced_settings_panel.dart`): Rozbudowany mikser dźwięku z 6 niezależnymi suwakami głośności.
