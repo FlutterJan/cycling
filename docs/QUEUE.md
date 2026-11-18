@@ -598,7 +598,7 @@ Zasady działania pętli:
 - [x] **Zadanie #570** (`lib/ui/screens/cycling_esports_and_virtual_academy_screen.dart`): Ekran Centrum e-Sports i naboru talentów *Virtual Talent ID Academy*.
 - [x] **Zadanie #571** (`lib/models/career/team_esg_sustainability_and_green_fleet_model.dart`): Model **Ekonomii ESG i Zielonej Floty Zespołu** (elektryczne wozy techniczne, bilans $\text{CO}_2$ i zieloni sponsorzy).
 - [x] **Zadanie #572** (`lib/ui/screens/esg_sustainability_and_fleet_screen.dart`): Ekran zarządzania flotą EV/wodorową i bilansem ekologicznym drużyny.
-- [ ] **Zadanie #573** (`lib/services/analysis/post_race_ai_tactical_coach_analyzer.dart`): **Analityk Taktyczny AI po Wyścigu** analizujący stracone waty na wietrze i timing ataków z $W'$.
+- [x] **Zadanie #573** (`lib/services/analysis/post_race_ai_tactical_coach_analyzer.dart`): **Analityk Taktyczny AI po Wyścigu** analizujący stracone waty na wietrze i timing ataków z $W'$.
 - [ ] **Zadanie #574** (`lib/ui/widgets/post_race_ai_coach_insights_card.dart`): Karta raportu Asystenta Taktycznego AI na ekranie podsumowania etapu.
 - [ ] **Zadanie #575** (`lib/engine/peloton/team_sprint_train_echelon_diagonal_formation.dart`): Diagonalna formacja wachlarza na wietrze bocznym spychająca rywali pod krawężnik (*In the Gutter*).
 - [ ] **Zadanie #576** (`lib/ui/widgets/gutter_wind_protection_diagram_hud.dart`): Mini-diagram schodkowy ochrony przed wiatrem bocznym w HUD 3D.
