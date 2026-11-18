@@ -1,6 +1,6 @@
 # Pro Peloton Manager — Mapa Projektu (`CODE_MAP.md`)
 
-> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#612`, Paczki #1–#8 + Platinum Apex v3.0 QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
+> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#662`, Paczki #1–#9 + Obsidian Sovereign v4.0 QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
 
 ---
 
@@ -788,13 +788,43 @@
 - `test/paracycling_tandem_and_handbike_physics_test.dart` — Testy jednostkowe i responsywne widgetowe fizyki tandemów Klasy B (>800 W, zjazdy >95 km/h, synchronizacja, termika tarcz) oraz trójkołowych handbike'ów H1–H5 (`TandemAndHandbikePhysicsSolver`, `TandemAndHandbikePhysicsPanel` dla `390x844` / `1024x768` / `1600x900`).
 - `test/poker_face_bluff_and_3km_rule_test.dart` — Testy jednostkowe, Riverpod i responsywne widgetowe blefowania na podjeździe (`BluffingAndPokerFaceEngine`, `BluffingAndPokerFaceNotifier`, `BluffingAndPokerFacePanel`) oraz reguły neutralizacji 3 km / 5 km UCI Art. 2.6.027 (`LateRaceMechanicalNeutralZoneEngine`, `LateRaceNeutralZoneNotifier`, `LateRaceMechanicalNeutralZonePanel` dla `390x844` / `1024x768` / `1600x900`).
 - `test/weekly_microcycle_and_talent_combine_test.dart` — Testy jednostkowe, Riverpod i responsywne widgetowe tygodniowych mikrocykli TSS/TSB (`CustomTrainingMicrocycleBuilderService`, `CustomTrainingMicrocycleNotifier`, `WeeklyTrainingMicrocyclePlannerScreen`) oraz obozu selekcyjnego juniorów `Global Young Talent Combine` (`YouthTalentSummerCombineCampService`, `YouthTalentSummerCombineNotifier`, `YouthTalentSummerCombineCampPanel` dla `390x844` / `1024x768` / `1600x900`).
-- `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#612, Paczki #1–#8 + Platinum Apex v3.0 QA) oraz dalsze rozszerzenia projektu.
+- `test/models/race/global_exotic_tours_expansion_model_test.dart` — Testy jednostkowe i responsywne widgetowe `GlobalExoticToursExpansionModel` oraz panelu ekspansji UCI (Rwanda, Malezja, Oman, AlUla, aklimatyzacja i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/physics/tropical_humidity_and_desert_sandstorm_solver_test.dart` — Testy jednostkowe i responsywne widgetowe `TropicalHumidityAndDesertSandstormSolver` (wilgotność 95%, piasek pustynny zwiększający $Crr$, JSON i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/rendering3d/exotic_biomes_savanna_desert_jungle_3d_test.dart` — Testy jednostkowe i responsywne widgetowe `ExoticBiomesSavannaDesertJungle3d` (Mur de Kigali, kaniony AlUla, dżungla Malezji i `390x844` / `1024x768` / `1600x900`).
+- `test/services/career/global_sponsor_market_expansion_service_test.dart` — Testy jednostkowe i responsywne widgetowe `GlobalSponsorMarketExpansionService` (sponsorzy z rynków wschodzących Azji, Afryki i Bliskiego Wschodu oraz `390x844` / `1024x768` / `1600x900`).
+- `test/models/career/rider_relationship_chemistry_web_model_test.dart` — Testy jednostkowe i responsywne widgetowe `RiderRelationshipChemistryWebModel` (macierz relacji `-100..+100`, pakt *Blood Brothers* i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/team_chemistry_relationship_web_painter_test.dart` — Testy jednostkowe i responsywne widgetowe `TeamChemistryRelationshipWebWidget` oraz `TeamChemistryWebLayoutCalculator` (graf sieci relacji w drużynie i `390x844` / `1024x768` / `1600x900`).
+- `test/services/career/team_bonding_retreat_and_conflict_mediation_test.dart` — Testy jednostkowe i responsywne widgetowe `TeamBondingRetreatAndConflictMediationService` (integracje drużynowe, mediacje liderów i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/simulation/what_if_tactical_sandbox_simulator_test.dart` — Testy jednostkowe i responsywne widgetowe `WhatIfTacticalSandboxSimulator` (20 wariantów Monte Carlo, JSON, Riverpod i `390x844` / `1024x768` / `1600x900`).
+- `test/models/paracycling/uci_paracycling_tandem_handbike_model_test.dart` — Testy jednostkowe i responsywne widgetowe `UciParacyclingTandemHandbikeModel` (klasy B/H1–H5/C1–C5, załogi tandemowe, JSON i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/physics/tandem_and_handbike_physics_solver_test.dart` — Testy jednostkowe i responsywne widgetowe `TandemAndHandbikePhysicsSolver` (podwójna moc >800 W, zjazdy >95 km/h, handbike H1–H5 i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/rendering3d/tandem_and_handbike_3d_mesh_renderer_test.dart` — Testy jednostkowe i responsywne widgetowe `TandemAndHandbike3dMeshRenderer` (siatki 3D tandemów i trójkołowych handbike'ów oraz `390x844` / `1024x768` / `1600x900`).
+- `test/uci_paracycling_world_cup_screen_test.dart` — Testy widgetowe i responsywne `UciParacyclingWorldCupScreen` (kalendarz PŚ/Igrzysk, filtry B/H1–H5/C1–C5, laboratorium tandemu/sztafety oraz `390x844` / `1024x768` / `1600x900`).
+- `test/ui/widgets/live_split_screen_telemetry_comparator_hud_test.dart` — Testy jednostkowe i responsywne widgetowe `LiveSplitScreenTelemetryComparatorHud` (porównanie lidera i rywala GC na żywo oraz `390x844` / `1024x768` / `1600x900`).
+- `test/engine/peloton/bluffing_and_poker_face_body_language_test.dart` — Testy jednostkowe i responsywne widgetowe `BluffingAndPokerFaceEngine` (blefowanie kryzysu na podjeździe `Poker Face`, Sandbagging i `390x844` / `1024x768` / `1600x900`).
+- `test/services/career/equipment_wind_tunnel_custom_decals_and_serials_test.dart` — Testy jednostkowe i responsywne widgetowe `EquipmentWindTunnelCustomDecalsAndSerialsService` (numery seryjne ram, złote edycje mistrzowskie i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/physics/crosswind_peloton_gutter_collision_risk_test.dart` — Testy jednostkowe i responsywne widgetowe `CrosswindPelotonGutterCollisionRiskSolver` (ryzyko pobocza w rynsztoku na wietrze bocznym i `390x844` / `1024x768` / `1600x900`).
+- `test/rival_team_tactical_scouting_report_card_test.dart` — Testy jednostkowe i responsywne widgetowe `RivalTeamTacticalScoutingReportCard` (wywiad taktyczny przed etapem i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/rendering3d/dynamic_spectator_banners_and_flags_3d_test.dart` — Testy jednostkowe i responsywne widgetowe `DynamicSpectatorBannersAndFlags3d` (banery kibiców i flagi regionów w 3D oraz `390x844` / `1024x768` / `1600x900`).
+- `test/engine/simulation/instant_highlight_clip_generator_test.dart` — Testy jednostkowe i responsywne widgetowe `InstantHighlightClipGenerator` (45-sekundowe skróty TV po etapie i `390x844` / `1024x768` / `1600x900`).
+- `test/services/career/custom_training_microcycle_builder_service_test.dart` — Testy jednostkowe i responsywne widgetowe `CustomTrainingMicrocycleBuilderService` (mikrocykle treningowe, TSS/TSB i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/screens/weekly_training_microcycle_planner_screen_test.dart` — Testy widgetowe i responsywne `WeeklyTrainingMicrocyclePlannerScreen` (kalendarz tygodniowy, zamiana dni, wykres TSB i `390x844` / `1024x768` / `1600x900`).
+- `test/engine/physics/motor_pacing_and_aero_tuck_adaptation_test.dart` — Testy jednostkowe i responsywne widgetowe `MotorPacingAndAeroTuckAdaptationSolver` (adaptacja pozycji TT za skuterem i `390x844` / `1024x768` / `1600x900`).
+- `test/services/career/youth_talent_summer_combine_camp_test.dart` — Testy jednostkowe i responsywne widgetowe `YouthTalentSummerCombineCampService` (obóz selekcyjny 17-letnich talentów i `390x844` / `1024x768` / `1600x900`).
+- `test/core/services/adaptive_dynamic_music_score_engine_test.dart` — Testy jednostkowe i responsywne widgetowe `AdaptiveDynamicMusicScoreEngine` (adaptacyjny silnik muzyki elektroniczno-orkiestrowej i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/audio_mixer_advanced_settings_panel_test.dart` — Testy jednostkowe i responsywne widgetowe `AudioMixerAdvancedSettingsPanel` (6-kanałowy mikser dźwięku, Mute/Solo, presety i `390x844` / `1024x768` / `1600x900`).
+- `test/services/database/career_statistics_deep_analytics_exporter_test.dart` — Testy jednostkowe i responsywne widgetowe `CareerStatisticsDeepAnalyticsExporter` (eksport CSV/JSON statystyk wieloletniej kariery i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/deep_career_analytics_bi_screen_test.dart` — Testy jednostkowe i responsywne widgetowe `DeepCareerAnalyticsBiScreen` (analityka BI, ROI transferów/R&D, symulator What-If i `390x844` / `1024x768` / `1600x900`).
+- `test/late_race_mechanical_neutral_zone_3km_test.dart` — Testy jednostkowe i responsywne widgetowe `LateRaceMechanicalNeutralZoneEngine` (strefa ochronna 3 km / 5 km UCI i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/widgets/neutral_zone_3km_active_banner_hud_test.dart` — Testy jednostkowe i responsywne widgetowe `NeutralZone3kmActiveBannerHud` (znacznik `3 KM ZONE` w HUD 3D i `390x844` / `1024x768` / `1600x900`).
+- `test/save_compatibility_v9_migrator_test.dart` — Testy jednostkowe i responsywne widgetowe `SaveCompatibilityV9Migrator` (migracja struktur Paczki #9, idempotentność, JSON i `390x844` / `1024x768` / `1600x900`).
+- `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#662, Paczki #1–#9 + Obsidian Sovereign v4.0 QA) oraz dalsze rozszerzenia projektu.
 - `docs/COMPLETE_GAME_MANUAL_612.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 12 trybach gry, systemach fizycznych, bioenergetycznych, taktycznych oraz sterowaniu (`#001–#612`).
 
 ---
 
-## 5. Podsumowanie Indeksacji (#001–#612)
+## 5. Podsumowanie Indeksacji (#001–#662)
 
-- **Zakres indeksacji**: Pełna mapa projektu dla **612 zadań** (Baza `#001–#162`, Paczka #1 `#163–#212`, Paczka #2 `#213–#262`, Paczka #3 `#263–#312`, Paczka #4 `#313–#362`, Paczka #5 `#363–#412`, Paczka #6 `#413–#462`, Paczka #7A `#463–#512`, Paczka #7B `#513–#562`, Paczka #8 `#563–#612`).
-- **Pokrycie `lib/`**: **502 / 502** plików `.dart` zarejestrowanych w `docs/CODE_MAP.md` (100% pokrycia przez `CodeMapAutoSynchronizer`).
-- **Pokrycie `test/`, `scripts/`, `docs/`**: **458** plików testowych w `test/`, **4** skrypty wydaniowe w `scripts/` oraz **4** dokumenty w `docs/`.
+- **Zakres indeksacji**: Pełna mapa projektu dla **662 zadań** (Baza `#001–#162`, Paczka #1 `#163–#212`, Paczka #2 `#213–#262`, Paczka #3 `#263–#312`, Paczka #4 `#313–#362`, Paczka #5 `#363–#412`, Paczka #6 `#413–#462`, Paczka #7A `#463–#512`, Paczka #7B `#513–#562`, Paczka #8 `#563–#612`, Paczka #9 `#613–#662`).
+- **Pokrycie `lib/`**: **542 / 542** plików `.dart` zarejestrowanych w `docs/CODE_MAP.md` (100% pokrycia przez `CodeMapAutoSynchronizer`).
+- **Pokrycie `test/`, `scripts/`, `docs/`**: **504** plików testowych w `test/`, **4** skrypty wydaniowe w `scripts/` oraz **5** dokumentów w `docs/`.
