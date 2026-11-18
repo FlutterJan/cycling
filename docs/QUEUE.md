@@ -659,7 +659,7 @@ Zasady działania pętli:
 - [x] **Zadanie #626** (`lib/ui/widgets/live_split_screen_telemetry_comparator_hud.dart`): Porównywacz telemetrii Split-Screen lidera i głównego rywala GC na żywo.
 - [x] **Zadanie #627** (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`): Mechanika mowy ciała i blefowania kryzysu na podjeździe (`Poker Face`).
 - [x] **Zadanie #628** (`lib/ui/widgets/rider_poker_face_bluff_action_button.dart`): Przycisk taktyczny `Blefuj Kryzys / Poker Face` w menu rozkazów 3D.
-- [ ] **Zadanie #629** (`lib/services/career/equipment_wind_tunnel_custom_decals_and_serials.dart`): Indywidualne numery seryjne ram i złote edycje mistrzowskie rowerów.
+- [x] **Zadanie #629** (`lib/services/career/equipment_wind_tunnel_custom_decals_and_serials.dart`): Indywidualne numery seryjne ram i złote edycje mistrzowskie rowerów.
 - [ ] **Zadanie #630** (`lib/ui/screens/club_museum_and_legendary_bikes_screen.dart`): Ekran Muzeum Klubowego i Historycznych Rowerów 3D.
 - [ ] **Zadanie #631** (`lib/engine/physics/crosswind_peloton_gutter_collision_risk.dart`): Fizyka ryzyka zjechania na pobocze podczas wyprzedzania w rynsztoku na wietrze bocznym.
 - [ ] **Zadanie #632** (`lib/services/career/ai_director_sportif_tactical_styles_engine.dart`): Unikalne style taktyczne dyrektorów sportowych wszystkich 52 drużyn AI.
