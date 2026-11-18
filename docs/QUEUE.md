@@ -680,7 +680,7 @@ Zasady działania pętli:
 - [x] **Zadanie #647** (`lib/ui/screens/deep_career_analytics_bi_screen.dart`): Ekran analityki biznesowo-sportowej BI (zwrot z inwestycji ROI dla transferów i R&D).
 - [x] **Zadanie #648** (`lib/engine/peloton/late_race_mechanical_neutral_zone_3km.dart`): Precyzyjna obsługa strefy ochronnej na ostatnich $3\text{ km}$ / $5\text{ km}$ etapów sprinterskich.
 - [x] **Zadanie #649** (`lib/ui/widgets/neutral_zone_3km_active_banner_hud.dart`): Telewizyjny znacznik `3 KM ZONE — GC TIMES NEUTRALIZED` w widoku 3D.
-- [ ] **Zadanie #650** (`test/global_expansion_and_humidity_physics_test.dart`): Testy wyścigów w Rwandzie, Malezji i Omanie oraz wpływu wilgotności $95\%$.
+- [x] **Zadanie #650** (`test/global_expansion_and_humidity_physics_test.dart`): Testy wyścigów w Rwandzie, Malezji i Omanie oraz wpływu wilgotności $95\%$.
 - [ ] **Zadanie #651** (`test/relationship_chemistry_and_what_if_test.dart`): Testy grafu relacji w szatni i symulatora scenariuszy „What-If”.
 - [ ] **Zadanie #652** (`test/paracycling_tandem_and_handbike_physics_test.dart`): Testy fizyki tandemów i handbike'ów Para-Cycling.
 - [ ] **Zadanie #653** (`test/poker_face_bluff_and_3km_rule_test.dart`): Testy blefowania na podjeździe i reguły neutralizacji $3\text{ km}$.
