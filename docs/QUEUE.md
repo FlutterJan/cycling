@@ -618,7 +618,7 @@ Zasady działania pętli:
 - [x] **Zadanie #590** (`lib/ui/widgets/caravan_drafting_risk_meter_hud.dart`): Wskaźnik ryzyka kary sędziowskiej podczas powrotu za wozami technicznymi.
 - [x] **Zadanie #591** (`lib/services/career/dynamic_rider_nickname_generator.dart`): Generator przydomków kolarskich nadawanych przez media i kibiców.
 - [x] **Zadanie #592** (`lib/ui/screens/grand_tour_route_reveal_ceremony_screen.dart`): Ceremonia prezentacji oficjalnej trasy przyszłorocznych Wielkich Tourów.
-- [ ] **Zadanie #593** (`lib/engine/rendering3d/sunrise_sunset_dynamic_sky_dome_3d.dart`): Dynamiczny cykl nieba i słońca od porannego startu po złotą godzinę na mecie.
+- [x] **Zadanie #593** (`lib/engine/rendering3d/sunrise_sunset_dynamic_sky_dome_3d.dart`): Dynamiczny cykl nieba i słońca od porannego startu po złotą godzinę na mecie.
 - [ ] **Zadanie #594** (`lib/ui/widgets/voice_command_quick_actions_stub.dart`): Paleta szybkich komend głosowych/tekstowych radia wyścigowego (`Alt+Space`).
 - [ ] **Zadanie #595** (`lib/services/database/cloud_cross_save_json_sync_adapter.dart`): Kompresja GZIP i transfer zapisów między urządzeniami (PC <-> Mac <-> Mobile).
 - [ ] **Zadanie #596** (`lib/ui/widgets/cross_device_save_transfer_modal.dart`): Okno eksportu/importu skompresowanych archiwów zapisu `.ppmsave.gz`.
