@@ -610,7 +610,7 @@ Zasady działania pętli:
 - [x] **Zadanie #582** (`lib/engine/rendering3d/national_team_custom_kits_3d_renderer.dart`): Renderer 3D oficjalnych koszulek reprezentacji narodowych.
 - [x] **Zadanie #583** (`lib/services/career/transfer_deadline_day_live_event.dart`): Wydarzenie **Transfer Deadline Day** z odliczaniem godzinowym i last-minute ofertami agentów.
 - [x] **Zadanie #584** (`lib/ui/widgets/transfer_deadline_day_ticker_modal.dart`): Studio telewizyjne Transfer Deadline Day z paskiem Breaking News.
-- [ ] **Zadanie #585** (`lib/engine/events/race_protest_and_course_reroute_engine.dart`): Protokół ekstremalnej pogody UCI i dynamiczna zmiana trasy etapu.
+- [x] **Zadanie #585** (`lib/engine/events/race_protest_and_course_reroute_engine.dart`): Protokół ekstremalnej pogody UCI i dynamiczna zmiana trasy etapu.
 - [ ] **Zadanie #586** (`lib/ui/widgets/uci_extreme_weather_protocol_modal.dart`): Modal oficjalnego komunikatu o skróceniu etapu z powodu śnieżycy lub osuwiska.
 - [ ] **Zadanie #587** (`lib/services/career/team_merchandise_and_fan_club_revenue.dart`): System przychodów ze sklepu klubowego, replik koszulek i stref kibica (`Fan Zones`).
 - [ ] **Zadanie #588** (`lib/ui/widgets/fan_base_and_merchandise_card.dart`): Karta bazy kibiców i sprzedaży gadżetów klubowych.
