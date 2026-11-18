@@ -691,7 +691,7 @@ Zasady działania pętli:
 - [x] **Zadanie #658** (`docs/CODE_MAP.md`): Pełna indeksacja pliku `docs/CODE_MAP.md` dla 662 zadań.
 - [x] **Zadanie #659** (`docs/COMPLETE_GAME_MANUAL_662.md`): Kompletny przewodnik po wszystkich trybach gry i systemach fizycznych.
 - [x] **Zadanie #660** (`lib/core/diagnostics/performance_and_memory_662_profiler.dart`): Audyt wydajności 120 FPS i pamięci RAM we wszystkich trybach.
-- [ ] **Zadanie #661** (`lib/core/diagnostics/zero_warnings_662_lint_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
+- [x] **Zadanie #661** (`lib/core/diagnostics/zero_warnings_662_lint_gate.dart`): Bramka jakości `flutter analyze --fatal-infos`.
 - [ ] **Zadanie #662** (`lib/core/diagnostics/obsidian_sovereign_662_certification_suite.dart`): Pakiet certyfikacji **OBSIDIAN SOVEREIGN v4.0** (#001–#662).
 
 ---
