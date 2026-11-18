@@ -506,6 +506,7 @@
 - `lib/ui/screens/velo_dor_gala_ceremony_screen.dart` — Uroczysty ekran gali kończącej sezon Vélo d'Or w czerni `#0F1115` i złocie `#D4AF37` (`VeloDorGalaCeremonyScreen`, `VeloDorPlayerSeasonSummary`, `VeloDorTeamRiderSummary`) ze zwycięzcami, statystykami roku i osiągnięciami drużyny gracza.
 - `lib/ui/screens/weekly_training_microcycle_planner_screen.dart` — Interaktywny kalendarz tygodniowy treningów z wyliczaniem TSS, zamianą dni (drag-and-drop / swap) i prognozą Banistera CTL/ATL/TSB (`WeeklyTrainingMicrocyclePlannerScreen`, `WeeklyTsbForecastChartPainter`) z responsywnością `390x844` / `1024x768` / `1600x900`.
 - `lib/ui/screens/wind_tunnel_and_bike_fit_screen.dart` — Tunel aerodynamiczny i bike fitting.
+- `lib/ui/screens/winter_wind_tunnel_camp_screen.dart` — Ekran Grudniowego Obozu Aerodynamicznego (`WinterWindTunnelCampScreen`, `WinterWindTunnelCampTelemetry`, `WindTunnelYawDragSample`, `WindTunnelDragNewtonsChartPainter`) z interaktywnym doborem zawodników, pomiarami oporu w Newtonach przy 50 km/h i raportem zaoszczędzonych watów.
 
 ### `lib/ui/widgets/`
 - `lib/ui/widgets/achievement_unlock_toast_overlay.dart` — Animowany baner odblokowania osiągnięcia (`AchievementUnlockToastOverlay`, `AchievementTrophyToastBanner`) ze złotym blaskiem `#D4AF37`.
@@ -850,6 +851,7 @@
 - `test/engine/peloton/sprinter_elbow_rubbing_and_wheel_fighting_test.dart` — Testy jednostkowe, Riverpod i responsywne widgetowe `SprinterElbowRubbingAndWheelFighting` oraz `SprinterElbowRubbingAndWheelFightingPanel` (opór barkiem w bark przy 62 km/h, przepisy UCI i `390x844` / `1024x768` / `1600x900`).
 - `test/ui/widgets/echelon_vortex_cone_visualizer_3d_test.dart` — Testy jednostkowe (`EchelonVortexCone3dCalculator`, `EchelonVortexConeVisualizerData`) i responsywne widgetowe `EchelonVortexConeVisualizer3d` (`390x844` / `1024x768` / `1600x900`, presety kamer, warstwy i stan `disabled`).
 - `test/engine/rendering3d/rider_running_uphill_incident_3d_test.dart` — Testy jednostkowe (`RiderRunningUphillIncident3d`) i responsywne widgetowe `RiderRunningUphillIncident3dPanel` (fazy biegu pod górę w blokach kolarskich, poślizgi, wóz TV/drużynowy i `390x844` / `1024x768` / `1600x900`).
+- `test/ui/screens/winter_wind_tunnel_camp_screen_test.dart` — Testy jednostkowe (`WinterWindTunnelCampTelemetry`) i responsywne widgetowe `WinterWindTunnelCampScreen` (dobór zawodników, pomiary oporu w N przy 50 km/h, raport zaoszczędzonych watów, `isReadOnly` i `390x844` / `1024x768` / `1600x900`).
 - `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#662, Paczki #1–#9 + Obsidian Sovereign v4.0 QA) oraz dalsze rozszerzenia projektu.
 - `docs/COMPLETE_GAME_MANUAL_612.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 12 trybach gry, systemach fizycznych, bioenergetycznych, taktycznych oraz sterowaniu (`#001–#612`).
 - `docs/COMPLETE_GAME_MANUAL_662.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 13 trybach gry (w tym UCI Para-Cycling), systemach fizycznych, Psychologii Szatni 2.0, What-If, BI i sterowaniu (`#001–#662`).
