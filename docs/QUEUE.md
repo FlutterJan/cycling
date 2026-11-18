@@ -626,7 +626,7 @@ Zasady działania pętli:
 - [x] **Zadanie #598** (`lib/ui/screens/manager_legacy_hall_of_fame_book_screen.dart`): Ekran Księgi Legendy Menedżera ze złotymi tłoczeniami `#D4AF37`.
 - [x] **Zadanie #599** (`lib/core/config/app_feature_flags_and_presets.dart`): Centralny rejestr konfiguracji realizmu rozgrywki.
 - [x] **Zadanie #600** (`lib/ui/widgets/career_realism_customizer_panel.dart`): Panel wyboru presetu realizmu przy starcie nowej kariery.
-- [ ] **Zadanie #601** (`test/golden_era_retro_and_no_powermeter_test.dart`): Testy trybu Golden Era 1970–2015 i skali RPE.
+- [x] **Zadanie #601** (`test/golden_era_retro_and_no_powermeter_test.dart`): Testy trybu Golden Era 1970–2015 i skali RPE.
 - [ ] **Zadanie #602** (`test/cycling_esports_powerups_and_elimination_test.dart`): Testy Power-Upów e-Sports i wyścigu eliminacyjnego.
 - [ ] **Zadanie #603** (`test/esg_sustainability_and_ai_coach_test.dart`): Testy bilansu $\text{CO}_2$ ESG oraz raportów Asystenta Taktycznego AI.
 - [ ] **Zadanie #604** (`test/diagonal_echelon_and_braking_kinetic_test.dart`): Testy diagonalnych wachlarzy i strat energii na zakrętach.
