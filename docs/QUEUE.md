@@ -606,7 +606,7 @@ Zasady działania pętli:
 - [x] **Zadanie #578** (`lib/engine/physics/braking_zone_kinetic_energy_loss_solver.dart`): Model strat energii kinetycznej na dohamowaniach w kryteriach miejskich i krętych czasówkach.
 - [x] **Zadanie #579** (`lib/ui/widgets/criterium_cornering_efficiency_chart.dart`): Wykres zysku czasowego lekkich kół na trasach z licznymi zakrętami.
 - [x] **Zadanie #580** (`lib/services/career/national_federation_team_manager_mode.dart`): System **Selekcjonera Reprezentacji Narodowej** na Mistrzostwa Świata i Igrzyska Olimpijskie.
-- [ ] **Zadanie #581** (`lib/ui/screens/national_team_selection_hq_screen.dart`): Ekran Biura Selekcjonera Reprezentacji Narodowej i powołań kadry.
+- [x] **Zadanie #581** (`lib/ui/screens/national_team_selection_hq_screen.dart`): Ekran Biura Selekcjonera Reprezentacji Narodowej i powołań kadry.
 - [ ] **Zadanie #582** (`lib/engine/rendering3d/national_team_custom_kits_3d_renderer.dart`): Renderer 3D oficjalnych koszulek reprezentacji narodowych.
 - [ ] **Zadanie #583** (`lib/services/career/transfer_deadline_day_live_event.dart`): Wydarzenie **Transfer Deadline Day** z odliczaniem godzinowym i last-minute ofertami agentów.
 - [ ] **Zadanie #584** (`lib/ui/widgets/transfer_deadline_day_ticker_modal.dart`): Studio telewizyjne Transfer Deadline Day z paskiem Breaking News.
