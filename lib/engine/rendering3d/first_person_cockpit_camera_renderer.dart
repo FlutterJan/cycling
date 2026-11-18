@@ -11,6 +11,7 @@ import 'package:vector_math/vector_math_64.dart' hide Colors;
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../../state/race_simulation_notifier.dart';
+import '../../ui/widgets/corner_g_force_and_lean_angle_telemetry_hud.dart';
 import 'on_bike_computer_hud_widget.dart';
 import 'peloton_3d_canvas_engine.dart';
 import 'scene_3d_math_projection.dart';
@@ -1937,6 +1938,7 @@ class FirstPersonCockpitViewportWidget extends StatefulWidget {
   final double initialGradientPercent;
   final double initialSpeedKmh;
   final bool showInteractiveControls;
+  final bool initialShowCornerGForceHud;
 
   const FirstPersonCockpitViewportWidget({
     super.key,
@@ -1949,6 +1951,7 @@ class FirstPersonCockpitViewportWidget extends StatefulWidget {
     this.initialGradientPercent = 6.2,
     this.initialSpeedKmh = 38.4,
     this.showInteractiveControls = true,
+    this.initialShowCornerGForceHud = false,
   });
 
   @override
@@ -1966,12 +1969,18 @@ class _FirstPersonCockpitViewportWidgetState
   late CockpitGripPosture _gripPosture;
   FirstPersonCockpitFrameResult? _currentFrame;
   double _pelotonPackDensityMeters = 0.30; // Domyślnie gęsty peleton: 30 cm!
+  late bool _showCornerGForceHud;
+  double _peakCornerLateralG = 0.0;
+  double _peakCornerLeanDegrees = 0.0;
+  CornerSurfaceGripCondition _cornerSurfaceGrip =
+      CornerSurfaceGripCondition.dryTarmac;
 
   @override
   void initState() {
     super.initState();
     _computerModel = widget.initialComputerModel;
     _gripPosture = widget.initialGripPosture;
+    _showCornerGForceHud = widget.initialShowCornerGForceHud;
     _renderer = FirstPersonCockpitCameraRenderer(
       config: FirstPersonCockpitConfig(
         computerModel: _computerModel,
@@ -2153,6 +2162,38 @@ class _FirstPersonCockpitViewportWidgetState
                   right: 12,
                   child: _buildTopTelemetryBanner(frame, isCompact),
                 ),
+              if (frame != null && _showCornerGForceHud)
+                Positioned(
+                  top: isCompact ? 96 : 62,
+                  right: 12,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: isCompact ? 248 : 300,
+                    ),
+                    child: CornerGForceAndLeanAngleTelemetryHud(
+                      data: _buildCornerTelemetryData(frame),
+                      isVisible: _showCornerGForceHud,
+                      compactOverlay: true,
+                      isExpanded: !isCompact,
+                      onResetPeaks: () {
+                        setState(() {
+                          _peakCornerLateralG = 0.0;
+                          _peakCornerLeanDegrees = 0.0;
+                        });
+                      },
+                      onSurfaceChanged: (CornerSurfaceGripCondition next) {
+                        setState(() {
+                          _cornerSurfaceGrip = next;
+                        });
+                      },
+                      onToggleVisibility: () {
+                        setState(() {
+                          _showCornerGForceHud = false;
+                        });
+                      },
+                    ),
+                  ),
+                ),
               if (widget.showInteractiveControls)
                 Positioned(
                   bottom: 12,
@@ -2315,9 +2356,40 @@ class _FirstPersonCockpitViewportWidgetState
               },
             ),
           ],
+          const SizedBox(width: 6),
+          _CockpitActionChip(
+            label: _showCornerGForceHud ? 'G-Force: ON' : 'G-Force: OFF',
+            icon: Icons.tire_repair_rounded,
+            isActive: _showCornerGForceHud,
+            onTap: () {
+              setState(() {
+                _showCornerGForceHud = !_showCornerGForceHud;
+              });
+            },
+          ),
         ],
       ),
     );
+  }
+
+  CornerGForceAndLeanTelemetryData _buildCornerTelemetryData(
+    FirstPersonCockpitFrameResult frame,
+  ) {
+    final double leanRad = _renderer.state.smoothedLeanRadians != 0.0
+        ? _renderer.state.smoothedLeanRadians
+        : -frame.horizonTiltRadians;
+    final CornerGForceAndLeanTelemetryData telemetry =
+        CornerGForcePhysicsCalculator.fromCameraMotion(
+      speedKmh: frame.liveSpeedKmh,
+      leanAngleRadians: leanRad,
+      source: CornerTelemetryCameraSource.firstPersonCockpit,
+      surface: _cornerSurfaceGrip,
+      previousPeakG: _peakCornerLateralG,
+      previousPeakLeanDeg: _peakCornerLeanDegrees,
+    );
+    _peakCornerLateralG = telemetry.peakLateralG;
+    _peakCornerLeanDegrees = telemetry.peakLeanDegrees;
+    return telemetry;
   }
 }
 

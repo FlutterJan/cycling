@@ -9,6 +9,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../ui/widgets/corner_g_force_and_lean_angle_telemetry_hud.dart';
 
 /// Pozycja montażu kamery akcji na rowerze wyścigowym.
 enum ActionCamMountPosition {
@@ -89,6 +90,9 @@ class ActionCam140Config {
   /// Czy wyświetlać nakładkę OSD kamery (REC, 4K 120FPS, telemetria sprintu).
   final bool showCameraOsd;
 
+  /// Czy wyświetlać opcjonalny wskaźnik przeciążenia bocznego i kąta przechyłu w zakręcie.
+  final bool showCornerGForceHud;
+
   /// Aktualna nawierzchnia trasy.
   final ActionCamRoadSurface roadSurface;
 
@@ -100,6 +104,7 @@ class ActionCam140Config {
     this.fisheyeDistortionStrength = 0.78,
     this.stabilizationEnabled = true,
     this.showCameraOsd = true,
+    this.showCornerGForceHud = false,
     this.roadSurface = ActionCamRoadSurface.coarseAsphalt,
     this.mountPosition = ActionCamMountPosition.handlebarForward,
   });
@@ -109,6 +114,7 @@ class ActionCam140Config {
     double? fisheyeDistortionStrength,
     bool? stabilizationEnabled,
     bool? showCameraOsd,
+    bool? showCornerGForceHud,
     ActionCamRoadSurface? roadSurface,
     ActionCamMountPosition? mountPosition,
   }) {
@@ -119,6 +125,7 @@ class ActionCam140Config {
               .clamp(0.0, 1.0),
       stabilizationEnabled: stabilizationEnabled ?? this.stabilizationEnabled,
       showCameraOsd: showCameraOsd ?? this.showCameraOsd,
+      showCornerGForceHud: showCornerGForceHud ?? this.showCornerGForceHud,
       roadSurface: roadSurface ?? this.roadSurface,
       mountPosition: mountPosition ?? this.mountPosition,
     );
@@ -1304,6 +1311,9 @@ class _OnBoardBikeMountedActionCam3dState
   late Ticker _ticker;
   Duration _lastTick = Duration.zero;
   double _elapsedSeconds = 0.0;
+  double _peakCornerLateralG = 0.0;
+  double _peakCornerLeanDegrees = 0.0;
+  CornerSurfaceGripCondition? _overrideCornerSurface;
 
   @override
   void initState() {
@@ -1524,10 +1534,62 @@ class _OnBoardBikeMountedActionCam3dState
               ),
             if (_config.showCameraOsd)
               _buildCameraOsdOverlay(frame: frame, isCompact: isCompact),
+            if (_config.showCornerGForceHud)
+              Positioned(
+                left: 12,
+                bottom: _config.showCameraOsd ? (isCompact ? 46 : 54) : 12,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: isCompact ? 248 : 300,
+                  ),
+                  child: CornerGForceAndLeanAngleTelemetryHud(
+                    data: _buildCornerTelemetryData(frame),
+                    isVisible: _config.showCornerGForceHud,
+                    compactOverlay: true,
+                    isExpanded: !isCompact,
+                    onResetPeaks: () {
+                      setState(() {
+                        _peakCornerLateralG = 0.0;
+                        _peakCornerLeanDegrees = 0.0;
+                      });
+                    },
+                    onSurfaceChanged: (CornerSurfaceGripCondition next) {
+                      setState(() {
+                        _overrideCornerSurface = next;
+                      });
+                    },
+                    onToggleVisibility: () => _updateConfig(
+                      _config.copyWith(showCornerGForceHud: false),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
+  }
+
+  CornerGForceAndLeanTelemetryData _buildCornerTelemetryData(
+    OnBoardActionCamFrameState frame,
+  ) {
+    final CornerSurfaceGripCondition surface = _overrideCornerSurface ??
+        (_config.roadSurface == ActionCamRoadSurface.urbanCobbles
+            ? CornerSurfaceGripCondition.wetCobbles
+            : CornerSurfaceGripCondition.dryTarmac);
+    final double leanRad = math.sin(_elapsedSeconds * 1.15) * 0.36;
+    final CornerGForceAndLeanTelemetryData telemetry =
+        CornerGForcePhysicsCalculator.fromCameraMotion(
+      speedKmh: frame.speedKmh,
+      leanAngleRadians: leanRad,
+      source: CornerTelemetryCameraSource.onBoardActionCam,
+      surface: surface,
+      previousPeakG: _peakCornerLateralG,
+      previousPeakLeanDeg: _peakCornerLeanDegrees,
+    );
+    _peakCornerLateralG = telemetry.peakLateralG;
+    _peakCornerLeanDegrees = telemetry.peakLeanDegrees;
+    return telemetry;
   }
 
   Widget _buildCameraOsdOverlay({
@@ -1783,6 +1845,18 @@ class _OnBoardBikeMountedActionCam3dState
                 accentColor: AppColors.primaryAccent,
                 onTap: () => _updateConfig(
                   _config.copyWith(showCameraOsd: !_config.showCameraOsd),
+                ),
+              ),
+              _ActionCamInteractiveChip(
+                label: _config.showCornerGForceHud
+                    ? 'G-Force: ON'
+                    : 'G-Force: OFF',
+                isSelected: _config.showCornerGForceHud,
+                accentColor: AppColors.goldAccent,
+                onTap: () => _updateConfig(
+                  _config.copyWith(
+                    showCornerGForceHud: !_config.showCornerGForceHud,
+                  ),
                 ),
               ),
               _ActionCamInteractiveChip(
