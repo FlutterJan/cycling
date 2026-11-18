@@ -622,7 +622,7 @@ Zasady działania pętli:
 - [x] **Zadanie #594** (`lib/ui/widgets/voice_command_quick_actions_stub.dart`): Paleta szybkich komend głosowych/tekstowych radia wyścigowego (`Alt+Space`).
 - [x] **Zadanie #595** (`lib/services/database/cloud_cross_save_json_sync_adapter.dart`): Kompresja GZIP i transfer zapisów między urządzeniami (PC <-> Mac <-> Mobile).
 - [x] **Zadanie #596** (`lib/ui/widgets/cross_device_save_transfer_modal.dart`): Okno eksportu/importu skompresowanych archiwów zapisu `.ppmsave.gz`.
-- [ ] **Zadanie #597** (`lib/services/career/end_of_career_hall_of_fame_retirement_mode.dart`): Emerytura menedżerska i tryb **New Game+ / Dynastia**.
+- [x] **Zadanie #597** (`lib/services/career/end_of_career_hall_of_fame_retirement_mode.dart`): Emerytura menedżerska i tryb **New Game+ / Dynastia**.
 - [ ] **Zadanie #598** (`lib/ui/screens/manager_legacy_hall_of_fame_book_screen.dart`): Ekran Księgi Legendy Menedżera ze złotymi tłoczeniami `#D4AF37`.
 - [ ] **Zadanie #599** (`lib/core/config/app_feature_flags_and_presets.dart`): Centralny rejestr konfiguracji realizmu rozgrywki.
 - [ ] **Zadanie #600** (`lib/ui/widgets/career_realism_customizer_panel.dart`): Panel wyboru presetu realizmu przy starcie nowej kariery.
