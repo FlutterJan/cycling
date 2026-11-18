@@ -613,7 +613,7 @@ Zasady działania pętli:
 - [x] **Zadanie #585** (`lib/engine/events/race_protest_and_course_reroute_engine.dart`): Protokół ekstremalnej pogody UCI i dynamiczna zmiana trasy etapu.
 - [x] **Zadanie #586** (`lib/ui/widgets/uci_extreme_weather_protocol_modal.dart`): Modal oficjalnego komunikatu o skróceniu etapu z powodu śnieżycy lub osuwiska.
 - [x] **Zadanie #587** (`lib/services/career/team_merchandise_and_fan_club_revenue.dart`): System przychodów ze sklepu klubowego, replik koszulek i stref kibica (`Fan Zones`).
-- [ ] **Zadanie #588** (`lib/ui/widgets/fan_base_and_merchandise_card.dart`): Karta bazy kibiców i sprzedaży gadżetów klubowych.
+- [x] **Zadanie #588** (`lib/ui/widgets/fan_base_and_merchandise_card.dart`): Karta bazy kibiców i sprzedaży gadżetów klubowych.
 - [ ] **Zadanie #589** (`lib/engine/physics/drafting_behind_team_car_and_motos_solver.dart`): Fizyka cienia aerodynamicznego za motocyklami TV i w kolumnie wozów technicznych (`Caravan Drafting`).
 - [ ] **Zadanie #590** (`lib/ui/widgets/caravan_drafting_risk_meter_hud.dart`): Wskaźnik ryzyka kary sędziowskiej podczas powrotu za wozami technicznymi.
 - [ ] **Zadanie #591** (`lib/services/career/dynamic_rider_nickname_generator.dart`): Generator przydomków kolarskich nadawanych przez media i kibiców.
