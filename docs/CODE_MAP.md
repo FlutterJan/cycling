@@ -882,6 +882,7 @@
 - `docs/QUEUE.md` — Główna kolejka zadań produkcyjnych (#001–#662, Paczki #1–#9 + Obsidian Sovereign v4.0 QA) oraz dalsze rozszerzenia projektu.
 - `docs/COMPLETE_GAME_MANUAL_612.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 12 trybach gry, systemach fizycznych, bioenergetycznych, taktycznych oraz sterowaniu (`#001–#612`).
 - `docs/COMPLETE_GAME_MANUAL_662.md` — Kompletny przewodnik użytkownika i dokumentacja techniczna po wszystkich 13 trybach gry (w tym UCI Para-Cycling), systemach fizycznych, Psychologii Szatni 2.0, What-If, BI i sterowaniu (`#001–#662`).
+- `docs/COMPLETE_GAME_MANUAL_712.md` — Kompletna encyklopedia i instrukcja rozgrywki po wszystkich 14 trybach gry (w tym Reżyserze TV), systemach fizycznych, biologii/HRV, kontrolach UCI X-Ray/CAS i sterowaniu (`#001–#712`).
 
 ---
 
