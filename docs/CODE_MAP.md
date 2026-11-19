@@ -1,6 +1,6 @@
 # Pro Peloton Manager — Mapa Projektu (`CODE_MAP.md`)
 
-> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#662`, Paczki #1–#9 + Obsidian Sovereign v4.0 QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
+> Szybka ściąga architektoniczna dla agentów (zakres aktualizacji: zadania `#001–#712`, Paczki #1–#10 + Titanium Imperial v5.0 QA). Zawsze czytaj ten plik przed rozpoczęciem zadania zamiast skanować dysk.
 
 ---
 
@@ -885,8 +885,56 @@
 
 ---
 
-## 5. Podsumowanie Indeksacji (#001–#662)
+## 5. Główne Providery Riverpod
 
-- **Zakres indeksacji**: Pełna mapa projektu dla **662 zadań** (Baza `#001–#162`, Paczka #1 `#163–#212`, Paczka #2 `#213–#262`, Paczka #3 `#263–#312`, Paczka #4 `#313–#362`, Paczka #5 `#363–#412`, Paczka #6 `#413–#462`, Paczka #7A `#463–#512`, Paczka #7B `#513–#562`, Paczka #8 `#563–#612`, Paczka #9 `#613–#662`).
-- **Pokrycie `lib/`**: **542 / 542** plików `.dart` zarejestrowanych w `docs/CODE_MAP.md` (100% pokrycia przez `CodeMapAutoSynchronizer`).
-- **Pokrycie `test/`, `scripts/`, `docs/`**: **504** plików testowych w `test/`, **4** skrypty wydaniowe w `scripts/` oraz **5** dokumentów w `docs/`.
+W projekcie zdefiniowano **160 providerów Riverpod** (`StateNotifierProvider`, `Provider`, `StreamProvider`). Najważniejsze z nich według domen:
+
+- **Stan główny i symulacja (`lib/state/`)**:
+  - `careerProvider` / `careerControllerProvider` (`lib/state/career_controller.dart`) — główny kontroler UI kariery (`CareerUiState`).
+  - `careerStateNotifierProvider` (`lib/state/career_state_notifier.dart`) — centralny stan świata kariery, drużyny, budżetu, kalendarza i skrzynki (`CareerState`).
+  - `raceSimulationNotifierProvider` / `raceSimulationProvider` (`lib/state/race_simulation_notifier.dart`) — aktywna symulacja etapu na żywo (`ActiveRaceSimulationState`), plus selektory `riderPositionStreamProvider`, `playerRiderPositionsProvider`, `activeDefectsProvider`, `activeKeyMomentProvider`.
+  - `gameSettingsProvider`, `appLanguageProvider`, `appLocalizationsProvider` (`lib/state/game_settings_notifier.dart`) — globalne ustawienia gry oraz natychmiastowe przełączanie słownika PL/EN.
+- **Konfiguracja, Routing, Dostępność i Audio/Haptyka (`lib/core/`)**:
+  - `appRouterProvider` (`lib/core/router/app_router.dart`) — instancja `GoRouter` dla całej aplikacji.
+  - `appFeatureFlagsProvider`, `activeRealismFlagsProvider`, `activeRealismScoreProvider` (`lib/core/config/app_feature_flags_and_presets.dart`) — presety realizmu i flagi rozgrywki.
+  - `controllerGamepadMapperProvider` (`lib/core/config/controller_gamepad_input_mapper.dart`), `platformAdaptiveGraphicsProfilerProvider` (`lib/core/config/platform_adaptive_graphics_profiler.dart`), `desktopWindowProvider` (`lib/core/utils/windows_desktop_window_config.dart`).
+  - `colorblindAccessibilityProvider`, `activeColorblindPaletteProvider` (`lib/core/theme/colorblind_accessibility_palettes.dart`).
+  - `adaptiveDynamicMusicScoreProvider` (`lib/core/services/adaptive_dynamic_music_score_engine.dart`), `hapticFeedbackVibrationProvider` (`lib/core/services/haptic_feedback_vibration_controller.dart`), `soundEffectsManagerProvider` (`lib/engine/audio/sound_effects_manager_provider.dart`), `soundscapeMixerProvider` (`lib/engine/audio/soundscape_mixer_controller.dart`), `spatial3dPelotonAudioPannerProvider` (`lib/engine/audio/spatial_3d_peloton_audio_panner.dart`).
+- **Diagnostyka, Migratory i Bramki QA (`lib/core/diagnostics/`)**:
+  - `saveCompatibilityV4Provider`, `saveCompatibilityV7Provider`, `saveCompatibilityV8Provider`, `saveCompatibilityV9Provider`, `saveCompatibilityV10Provider` — bezstratne migratory zapisów gry między wersjami Paczek #4–#10.
+  - `codeMapAutoSynchronizerProvider`, `assetBundlePreloadWarmerProvider`, `preloadWarmupStateProvider`, `memoryAndStreamLeakGuardProvider`, `fullNavigationRoutesVerifierProvider`, `fullStateSerializationFuzzProvider`, `performance120FpsAuditorProvider`, `performanceAndMemory662Provider`, `uiGoldenContrastAuditorProvider`, `unusedCodePrunerProvider`, `finalLintGateProvider`, `zeroWarnings612GateProvider`, `zeroWarnings662GateProvider`.
+  - `sniperPackage1AuditProvider`, `sniperPackage2AuditProvider`, `sniperPackage4AuditProvider`, `sniperMasterCertificationProvider`, `goldMaster412CertificationProvider`, `diamondMaster562CertificationProvider`, `platinumApex612CertificationProvider`, `obsidianSovereign662CertificationProvider`.
+- **Silnik Wyścigu, Peloton i Taktyka (`lib/engine/`)**:
+  - `directPlayerRiderSteeringProvider` (`lib/engine/peloton/direct_player_rider_steering_controller.dart`), `bluffingAndPokerFaceProvider` (`lib/engine/peloton/bluffing_and_poker_face_body_language.dart`), `breakawayAlliancePactProvider` (`lib/engine/peloton/breakaway_alliance_pact_betrayal_ai.dart`), `lateRaceNeutralZoneProvider` (`lib/engine/peloton/late_race_mechanical_neutral_zone_3km.dart`), `sprinterWheelFightProvider` (`lib/engine/peloton/sprinter_elbow_rubbing_and_wheel_fighting.dart`), `teamRadioChatterProvider` (`lib/engine/peloton/team_radio_voice_synthesis_and_chatter.dart`), `raceProtestAndRerouteProvider` (`lib/engine/events/race_protest_and_course_reroute_engine.dart`), `spectatorObstructionProvider` (`lib/engine/events/spectator_dog_and_vehicle_obstruction_events.dart`), `weatherRadarLiveProvider` (`lib/engine/events/weather_radar_live_forecast_shift.dart`).
+- **Serwisy Kariery, Medycyny, UCI, Bazy i UI (`lib/services/`, `lib/ui/`)**:
+  - `grandTourPhysiotherapyTriageProvider` (`lib/services/medical/grand_tour_physiotherapy_triage_service.dart`), `technicalScrutinyDefenseProvider` (`lib/services/uci/technical_scrutiny_and_reputation_defense_service.dart`), `tvBroadcastDirectorProvider` (`lib/ui/screens/tv_broadcast_director_control_room_screen.dart`), `tripleCrownCelebrationProvider` (`lib/ui/widgets/triple_crown_legend_trophy_banner.dart`).
+  - `asyncMultiplayerLeagueSyncProvider` (`lib/services/network/async_multiplayer_league_sync_service.dart`), `dualScreenTelemetryWallProvider` (`lib/services/network/dual_screen_telemetry_wall_server.dart`), `careerAnalyticsExporterProvider` (`lib/services/database/career_statistics_deep_analytics_exporter.dart`), `cloudCrossSaveSyncProvider` (`lib/services/database/cloud_cross_save_json_sync_adapter.dart`).
+  - `clubMuseumProvider`, `esgSustainabilityFleetProvider`, `inHouseBikeBrandFactoryProvider`, `legendsCardAlbumProvider`, `raceOrganizerHqProvider`, `transferDeadlineDayProvider`, `transferRumorMillProvider`, `youthTalentSummerCombineProvider`.
+
+---
+
+## 6. Trasy Nawigacji `GoRouter` (`AppRoutes`)
+
+Wszystkie **64 trasy** zdefiniowane w `lib/core/router/app_router.dart` (`AppRoutes` / `AppRouteNames`):
+
+- **Start i Kreator Kariery**:
+  - `/` (`start`) -> `GameStartScreen`, `/welcome` (`welcome`) -> `MainTitleMenuScreen`, `/new-career` (`newCareer`) -> `NewCareerSetupScreen`.
+- **Główna Powłoka Menedżera (`MainShellScreen`, `/career/...`)**:
+  - `/career` (`career`), `/career/dashboard` (`dashboard`), `/career/inbox` (`inbox`), `/career/calendar` (`calendar`), `/career/roster` (`roster`), `/career/rider/:riderId` (`riderDetail`), `/career/team-builder` (`teamBuilder`), `/career/training` (`training`), `/career/lab` (`physiologyLab`), `/career/medical` (`medical`), `/career/academy` (`academy`), `/career/staff` (`staff`), `/career/garage` (`garage`), `/career/wind-tunnel` (`windTunnel`), `/career/sponsors` (`sponsors`), `/career/transfers` (`transfers`), `/career/livery-studio` (`liveryStudio`), `/career/uci-rankings` (`uciRankings`), `/career/hall-of-fame` (`hallOfFame`), `/career/manager-profile` (`managerProfile`), `/career/stage-editor` (`stageEditor`), `/career/pre-season-gala` (`preSeasonPresentation`), `/career/settings` (`settings`).
+  - **Dyscypliny i Rozszerzenia**: `/career/cyclocross` (`cyclocross`), `/career/gravel` (`gravelWorldSeries`), `/career/olympics` (`olympicGames`), `/career/database-editor` (`databaseEditor`), `/career/achievements` (`achievements`), `/career/legends-album` (`legendsAlbum`), `/career/bike-brand-factory` (`bikeBrandFactory`), `/career/global-academies` (`globalAcademies`), `/career/manager-reputation` (`managerReputation`), `/career/mtb-xco` (`mtbXcoWorldCup`).
+  - **Paczka #8**: `/career/golden-era` (`goldenEraRetro`), `/career/esports` (`cyclingEsports`), `/career/esg-fleet` (`esgGreenFleet`), `/career/national-team` (`nationalTeamHq`), `/career/grand-tour-reveal` (`grandTourRouteReveal`), `/career/legacy-book` (`managerLegacyBook`).
+  - **Paczka #9**: `/career/paracycling` (`paracyclingWorldCup`), `/career/club-museum` (`clubMuseum`), `/career/weekly-microcycle` (`weeklyMicrocycle`), `/career/talent-combine` (`talentCombine`), `/career/analytics-bi` (`careerAnalyticsBi`).
+  - **Paczka #10**: `/career/grand-tour-medical` (`grandTourMorningMedical`), `/career/winter-wind-tunnel-camp` (`winterWindTunnelCamp`), `/career/contract-renewals` (`contractRenewalsWarRoom`) oraz `/race/tv-director` (`tvBroadcastDirector`).
+- **Tryb Be a Pro, Multiplayer i Organizator**:
+  - `/be-a-pro/creator` (`beAProCreator`), `/be-a-pro/dashboard` (`beAProDashboard`), `/multiplayer/leagues` (`multiplayerLeagues`), `/organizer/hq` (`raceOrganizerHq`).
+- **Wyścig, Welodrom, Ultra-Bikepacking i Kino Powtórek**:
+  - `/quick-race-sandbox` (`quickRaceSandbox`), `/race/briefing` (`raceBriefing`), `/race/paddock` (`preStagePaddock`), `/race/companion-car` (`companionCar`), `/race/live` (`raceLive`), `/race/podium` (`racePodium`), `/race/replay-theater` (`replayTheater`), `/race/ultra-bikepacking` (`ultraBikepacking`), `/velodrome/hour-record` (`velodromeHourRecord`), `/velodrome/track-championship` (`velodromeTrackChampionship`).
+
+---
+
+## 7. Podsumowanie Indeksacji (#001–#712)
+
+- **Zakres indeksacji**: Pełna mapa projektu dla **712 zadań** (Baza `#001–#162`, Paczka #1 `#163–#212`, Paczka #2 `#213–#262`, Paczka #3 `#263–#312`, Paczka #4 `#313–#362`, Paczka #5 `#363–#412`, Paczka #6 `#413–#462`, Paczka #7A `#463–#512`, Paczka #7B `#513–#562`, Paczka #8 `#563–#612`, Paczka #9 `#613–#662`, Paczka #10 `#663–#712` — w tym ukończona indeksacja `#708` oraz końcowe zadania `#709–#712`).
+- **Pokrycie `lib/`**: **583 / 583** plików `.dart` zarejestrowanych w `docs/CODE_MAP.md` (100% pokrycia przez `CodeMapAutoSynchronizer`).
+- **Pokrycie `test/`, `scripts/`, `docs/`**: **551** plików testowych w `test/`, **4** skrypty wydaniowe w `scripts/` oraz **6** dokumentów w `docs/`.
+- **Providery i Nawigacja**: **160** providerów Riverpod w `lib/` oraz **64** trasy `GoRouter` (`AppRoutes` / `AppRouteNames`) w `lib/core/router/app_router.dart`.
