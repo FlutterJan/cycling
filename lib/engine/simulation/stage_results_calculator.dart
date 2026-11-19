@@ -319,7 +319,6 @@ class StageResultsCalculator {
       ..sort((a, b) => a.finishTimeSeconds.compareTo(b.finishTimeSeconds));
 
     final double winnerTime = sortedRaw.first.finishTimeSeconds;
-    final double stageLengthKm = stage.totalDistanceKm;
 
     // 2. Obliczenie limitu czasu (Time Cut / OTL)
     final double timeCutPercent = _calculateTimeCutPercent(

@@ -888,7 +888,6 @@ class RaceCalendarSelectionService {
     }
 
     final team = save.playerTeam;
-    final organizer = getOrganizerForRace(race);
 
     // Sprawdzamy czy zespół już ma wniosek
     final hasAlreadyApplied = save.wildcardApplications.any(
@@ -1032,7 +1031,6 @@ class RaceCalendarSelectionService {
         continue;
       }
 
-      final organizer = getOrganizerForRace(race);
       final wildcardSlots = race.isGrandTour ? 4 : (race.uciCategory == RaceCategory.monument ? 7 : 5);
 
       // Start listę rozpoczynamy od 18 ekip WorldTour

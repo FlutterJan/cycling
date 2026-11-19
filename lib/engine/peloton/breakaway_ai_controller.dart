@@ -382,7 +382,6 @@ class BreakawayAiController {
   }) {
     final List<BreakawayRiderStatus> updatedRiders = [];
     int cooperativeCount = 0;
-    int wheelsuckerCount = 0;
 
     for (final riderStatus in currentStatus.riderStatuses) {
       final String rId = riderStatus.riderId;
@@ -418,8 +417,6 @@ class BreakawayAiController {
 
       if (role == BreakawayRiderRole.cooperativeRelay) {
         cooperativeCount++;
-      } else {
-        wheelsuckerCount++;
       }
 
       // Aktualizacja statystyk czasu na czele

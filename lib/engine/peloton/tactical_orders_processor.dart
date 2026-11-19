@@ -184,8 +184,6 @@ class TacticalOrdersProcessor {
     BidonFetchProgress fetchProgress = const BidonFetchProgress(),
     double timeStepSeconds = 1.0,
   }) {
-    final double ftp = physiology.ftpWatts.toDouble();
-
     switch (riderState.activeTacticalOrder) {
       case TacticalOrder.protectLeader:
         return _processProtectLeader(

@@ -560,7 +560,6 @@ class ScoutingAndYouthAcademyService {
       );
     }
 
-    final rng = math.Random();
     final List<ScoutedProspect> currentPool = save.scoutingProspects.isNotEmpty
         ? List.from(save.scoutingProspects)
         : generateInitialScoutingPool(seasonYear: save.currentSeasonYear);

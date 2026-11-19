@@ -569,7 +569,6 @@ class BikePreviewPainter extends CustomPainter {
     // Grubość rur w zależności od kategorii ramy
     final double downTubeWidth = isTT ? 9.5 : (isAero ? 7.6 : (isClimbing ? 3.6 : 5.4));
     final double topTubeWidth = isTT ? 5.2 : (isAero ? 4.8 : (isClimbing ? 3.2 : 4.0));
-    final double seatStayWidth = isClimbing ? 2.0 : (isAero ? 3.2 : 2.6);
     final double chainStayWidth = isAero ? 4.8 : 3.4;
 
     // Paleta cieniowania lakieru ramy

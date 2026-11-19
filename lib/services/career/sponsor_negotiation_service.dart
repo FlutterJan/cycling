@@ -637,7 +637,6 @@ class SponsorNegotiationService {
     // FILAR 3: AMBICJA I WIARYGODNOŚĆ OBIETNIC SPORTOWYCH (Waga 20%)
     // =========================================================================
     double promisesScore = 10.0;
-    int highRiskPromises = 0;
 
     for (final obj in pitchDeck.promisedObjectives) {
       switch (obj) {
@@ -652,12 +651,10 @@ class SponsorNegotiationService {
           } else {
             promisesScore -= 6.0; // Puste obietnice obniżają zaufanie
           }
-          highRiskPromises++;
           break;
         case PromisedObjectiveType.winCyclingMonument:
           final hasClassicsLeader = currentSave.playerRoster.any((r) => r.skills.cobbles >= 80 || r.skills.punch >= 82);
           promisesScore += hasClassicsLeader ? 6.0 : -3.0;
-          highRiskPromises++;
           break;
         case PromisedObjectiveType.targetStageWinsCount:
           promisesScore += 4.0;

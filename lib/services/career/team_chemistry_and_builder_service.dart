@@ -659,7 +659,7 @@ class TeamChemistryAndBuilderService {
     }
 
     final double newCohesion = math.min(100.0, squad.cohesionScore + cohesionGain);
-    final updatedSquad = squad.copyWith(
+    squad.copyWith(
       trainingCampsCount: squad.trainingCampsCount + 1,
       cohesionScore: double.parse(newCohesion.toStringAsFixed(1)),
     );

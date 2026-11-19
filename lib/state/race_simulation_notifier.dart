@@ -679,12 +679,6 @@ class RaceSimulationNotifier extends StateNotifier<ActiveRaceSimulationState> {
     });
   }
 
-  /// Zatrzymuje pętlę zegara symulacji
-  void _stopTicker() {
-    _tickerTimer?.cancel();
-    _tickerTimer = null;
-  }
-
   /// Wykonuje pojedynczy krok symulacji fizyki i aktualizuje stan
   void stepSimulation(double realDeltaSeconds) {
     if (_loop == null || state.isPaused) return;
@@ -1050,7 +1044,6 @@ class RaceSimulationNotifier extends StateNotifier<ActiveRaceSimulationState> {
   /// Rozkazuje wybranym pomocnikom cofnąć się i holować poszkodowanego kolarza
   void orderTeammatesToPaceBack(String victimId, List<String> helperIds) {
     if (_loop == null) return;
-    final victim = _allRidersMap[victimId];
     for (final hId in helperIds) {
       if (hId == victimId) continue;
       // Pomocnik przechodzi na nadawanie ostrego tempa
@@ -1121,7 +1114,6 @@ class RaceSimulationNotifier extends StateNotifier<ActiveRaceSimulationState> {
       finishRanksMap[fin.riderId] = fin.finishRank;
     }
 
-    int riderGlobalIndex = 0;
     for (final entry in simState.riderStates.entries) {
       final riderId = entry.key;
       final rState = entry.value;
@@ -1220,7 +1212,6 @@ class RaceSimulationNotifier extends StateNotifier<ActiveRaceSimulationState> {
       );
 
       results.add(snapshot);
-      riderGlobalIndex++;
     }
 
     // Sortowanie kolarzy wg pokonanego dystansu malejąco (lider wyścigu na początku)

@@ -472,7 +472,6 @@ class BikeManufacturerNegotiationService {
   static List<ManufacturerOfferOption> getAvailableManufacturerOffers(
       CareerSave save) {
     final playerTeam = save.playerTeam;
-    final int uciPoints = playerTeam.uciPointsSeason;
     final List<ManufacturerOfferOption> offers = [];
 
     for (final brand in FictionalBrandsCatalog.allBrands) {
