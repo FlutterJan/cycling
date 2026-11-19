@@ -199,6 +199,82 @@ void main() {
         isTrue,
       );
     });
+
+    test('covers Package 10 UI keys and jargon entries', () {
+      const package10Keys = [
+        'americas_oceania_expansion_title',
+        'race_santos_tour_down_under',
+        'race_cadel_evans_ocean',
+        'race_alto_del_colorado',
+        'race_tour_colombia_quebec',
+        'uci_technical_scrutiny_xray',
+        'uci_cockpit_compliance_check',
+        'uci_cas_tribunal_lausanne',
+        'medical_nightly_hrv_ck_title',
+        'medical_physio_triage_charter',
+        'tv_broadcast_director_title',
+        'tv_viewership_drama_rating',
+        'cam_onboard_action_140',
+        'peloton_elbow_wheel_fighting',
+        'gear_olympic_world_champion',
+        'aero_echelon_vortex_cone',
+        'career_junior_dev_loan',
+        'incident_dog_tv_uphill_run',
+        'camp_winter_wind_tunnel',
+        'physics_brake_rotor_fade',
+        'sponsor_vip_hospitality',
+        'breakaway_alliance_trust_hud',
+        'save_cloud_qr_transfer',
+        'physics_puddle_spray_lean',
+        'career_contract_renewals_war_room',
+        'history_triple_crown_banner',
+        'ui_save_v10_migrator',
+      ];
+      for (final key in package10Keys) {
+        expect(BilingualCyclingDictionary.hasKey(key), isTrue, reason: key);
+      }
+
+      expect(
+        BilingualCyclingDictionary.searchJargon('tour down under')
+            .any((e) => e.key == 'santos_tour_down_under'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('alto del colorado')
+            .any((e) => e.key == 'alto_del_colorado_3265m'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('x-ray')
+            .any((e) => e.key == 'technical_scrutiny_xray'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('nightly hrv')
+            .any((e) => e.key == 'nightly_hrv_ck_biomarkers'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('tv broadcast director')
+            .any((e) => e.key == 'tv_broadcast_director_mode'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('onboard action cam')
+            .any((e) => e.key == 'onboard_action_cam_140'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('brake fade')
+            .any((e) => e.key == 'brake_fade_rotor_overheat'),
+        isTrue,
+      );
+      expect(
+        BilingualCyclingDictionary.searchJargon('triple crown')
+            .any((e) => e.key == 'triple_crown_cycling'),
+        isTrue,
+      );
+    });
   });
 
   group('CyclingJargonDictionaryPanel responsive UI', () {

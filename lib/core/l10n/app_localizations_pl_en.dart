@@ -680,6 +680,115 @@ class BilingualCyclingDictionary {
       pl: 'Migrator Zapisów Paczki #9 (v9)',
       en: 'Package #9 Save Migrator (v9)',
     ),
+    // --- Paczka #10: Americas & Oceania, Skanery X-Ray & CAS, Nocne HRV/CK, Reżyser TV, OnBoard Cam, Brake Fade & Triple Crown ---
+    'americas_oceania_expansion_title': (
+      pl: 'Ekspansja Ameryki i Oceanii (Tour Down Under / Andy / Québec)',
+      en: 'Americas & Oceania Expansion (Tour Down Under / Andes / Québec)',
+    ),
+    'race_santos_tour_down_under': (
+      pl: 'Santos Tour Down Under — Willunga Hill (Upał 38–43°C)',
+      en: 'Santos Tour Down Under — Willunga Hill (38–43°C Heatwave)',
+    ),
+    'race_cadel_evans_ocean': (
+      pl: 'Cadel Evans Great Ocean Road Race — Wiatr Oceanu Południowego',
+      en: 'Cadel Evans Great Ocean Road Race — Southern Ocean Crosswinds',
+    ),
+    'race_alto_del_colorado': (
+      pl: 'Vuelta a San Juan — Alto del Colorado (3265 m n.p.m.)',
+      en: 'Vuelta a San Juan — Alto del Colorado (3,265 m Altitude)',
+    ),
+    'race_tour_colombia_quebec': (
+      pl: 'Tour Colombia 2.1 i GP Québec & Montréal',
+      en: 'Tour Colombia 2.1 & GP Québec / Montréal',
+    ),
+    'uci_technical_scrutiny_xray': (
+      pl: 'Kontrola Techniczna UCI — Skaner X-Ray i Tablety Magnetyczne',
+      en: 'UCI Technical Scrutiny — X-Ray Scanner & Magnetic Tablets',
+    ),
+    'uci_cockpit_compliance_check': (
+      pl: 'Zgodność Sprzętu UCI (Klamki ≤10°, Skarpetki ≤50%, Lemondka)',
+      en: 'UCI Equipment Compliance (Levers ≤10°, Socks ≤50%, TT Extensions)',
+    ),
+    'uci_cas_tribunal_lausanne': (
+      pl: 'Trybunał Arbitrażowy CAS w Lozannie (Odwołanie DSQ)',
+      en: 'CAS Court of Arbitration in Lausanne (DSQ Appeal)',
+    ),
+    'medical_nightly_hrv_ck_title': (
+      pl: 'Poranny Raport Medyczny GT — Nocne HRV (rMSSD) i CK (U/L)',
+      en: 'GT Morning Medical Briefing — Nightly HRV (rMSSD) & CK (U/L)',
+    ),
+    'medical_physio_triage_charter': (
+      pl: 'Triaż Fizjoterapii (Masaż, Tecar, Krio) i Lot Czarterowy (+2h Snu)',
+      en: 'Physiotherapy Triage (Massage, Tecar, Cryo) & Charter Flight (+2h Sleep)',
+    ),
+    'tv_broadcast_director_title': (
+      pl: 'Reżyser Transmisji TV na Żywo (12 Kamer / Program Out)',
+      en: 'Live TV Broadcast Director (12 Cameras / Program Out)',
+    ),
+    'tv_viewership_drama_rating': (
+      pl: 'Oglądalność i Wskaźnik Emocji TV (0–100) — Cut / Dissolve',
+      en: 'Live TV Viewership & Drama Rating (0–100) — Cut / Dissolve',
+    ),
+    'cam_onboard_action_140': (
+      pl: 'Kamera Akcji OnBoard (140° FOV Kierownica / Siodełko)',
+      en: 'OnBoard Action Cam (140° FOV Handlebars / Saddle)',
+    ),
+    'peloton_elbow_wheel_fighting': (
+      pl: 'Walka Łokciami o Koło w Pociągu Sprinterskim (62 km/h)',
+      en: 'Sprinter Elbow Rubbing & Wheel Fighting (62 km/h)',
+    ),
+    'gear_olympic_world_champion': (
+      pl: 'Sprzęt Mistrzowski — Złoty Kask Olimpijski i Tęczowa Rama',
+      en: 'Champion Custom Gear — Gold Olympic Helmet & Rainbow Frame',
+    ),
+    'aero_echelon_vortex_cone': (
+      pl: 'Asymetryczny Stożek Cienia w Wachlarzu (35° / -38% Oporu)',
+      en: 'Crosswind Echelon Vortex Cone (35° / -38% Drag)',
+    ),
+    'career_junior_dev_loan': (
+      pl: 'Wypożyczenia Talentów U23 do Ekip ProTeam i Continental',
+      en: 'Junior Development Loans to ProTeam & Continental Squads',
+    ),
+    'incident_dog_tv_uphill_run': (
+      pl: 'Incydent na Trasie — Pies Kibica / Blokada Wozu TV i Bieg Pod Górę',
+      en: 'Course Obstruction — Spectator Dog / TV Car Block & Uphill Run',
+    ),
+    'camp_winter_wind_tunnel': (
+      pl: 'Grudniowy Obóz Aerodynamiczny w Tunelu (Silverstone / A2)',
+      en: 'December Pre-Season Wind Tunnel Camp (Silverstone / A2)',
+    ),
+    'physics_brake_rotor_fade': (
+      pl: 'Przegrzanie Tarcz Hamulcowych (>450°C) i Brake Fade na Zjeździe',
+      en: 'Brake Rotor Overheat (>450°C) & Descent Brake Fade',
+    ),
+    'sponsor_vip_hospitality': (
+      pl: 'Strefa Gości VIP Sponsora i Przejazd w Wozie Technicznym',
+      en: 'Sponsor VIP Hospitality Zone & Team Car Ride-Along',
+    ),
+    'breakaway_alliance_trust_hud': (
+      pl: 'Mikro-Pakt Ucieczki i Miernik Zaufania Współpracy',
+      en: 'Breakaway Alliance Micro-Pact & Cooperation Trust Meter',
+    ),
+    'save_cloud_qr_transfer': (
+      pl: 'Transfer Składu i Kariery przez Kod QR / Token Chmurowy',
+      en: 'Career & Roster Cloud QR Code / Token Transfer',
+    ),
+    'physics_puddle_spray_lean': (
+      pl: 'Rozbryzg Kałuż (Wet Spray) i Kąt Przechyłu w Zakręcie (do 42°)',
+      en: 'Dynamic Puddle Spray & Corner Lean Angle Telemetry (up to 42°)',
+    ),
+    'career_contract_renewals_war_room': (
+      pl: 'Centrum Przedłużeń Kontraktów (Wrzesień — Budżet i Oferty)',
+      en: 'Contract Renewals War Room (September — Payroll & Rival Offers)',
+    ),
+    'history_triple_crown_banner': (
+      pl: 'Potrójna Korona Kolarstwa (Giro + Tour + MŚ w Jednym Roku!)',
+      en: 'Cycling Triple Crown (Giro + Tour + World Championships!)',
+    ),
+    'ui_save_v10_migrator': (
+      pl: 'Migrator Zapisów Paczki #10 (v10)',
+      en: 'Package #10 Save Migrator (v10)',
+    ),
   };
 
   /// Autentyczny dwujęzyczny słownik żargonu kolarskiego (PL <-> EN).
@@ -1635,6 +1744,138 @@ class BilingualCyclingDictionary {
           'Annual worldwide scouting camp for 17-year-old prospects featuring lab VO2max testing, power profiling, and a selection race for academy contracts.',
       examplePl: 'Na obozie Talent Combine wypatrzyliśmy 17-latka z VO2max 86 ml/kg/min!',
       exampleEn: 'At the Talent Combine we spotted a 17-year-old clocking 86 ml/kg/min VO2max!',
+    ),
+
+    // --- Paczka #10: Americas & Oceania, X-Ray & CAS, Nightly HRV/CK, TV Director, OnBoard Cam, Brake Fade & Triple Crown ---
+    BilingualTermEntry(
+      key: 'santos_tour_down_under',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Santos Tour Down Under (Willunga Hill)',
+      en: 'Santos Tour Down Under (Willunga Hill)',
+      slangOrOrigin: 'Adelaide, Australia',
+      definitionPl:
+          'Otwierający sezon wyścig WorldTour w Australii Południowej w ekstremalnych upałach 38–43°C, gdzie asfalt nagrzewa się do 58°C (wzrost Crr o +8%), a o zwycięstwie decyduje eksplozywny podjazd Willunga Hill.',
+      definitionEn:
+          'Season-opening WorldTour stage race in South Australia under 38–43°C heatwaves where 58°C tarmac raises rolling resistance (Crr +8%), decided on the explosive Willunga Hill climb.',
+      examplePl: 'Na Willunga Hill w 42°C upale podwajamy dostawy lodu i bidonów!',
+      exampleEn: 'On Willunga Hill in 42°C heat, double the ice socks and bottle feeds!',
+    ),
+    BilingualTermEntry(
+      key: 'alto_del_colorado_3265m',
+      domain: AppL10nDomain.disciplines,
+      pl: 'Alto del Colorado (Andy 3265 m n.p.m.)',
+      en: 'Alto del Colorado (Andes 3,265 m)',
+      slangOrOrigin: 'Vuelta a San Juan',
+      definitionPl:
+          'Ekstremalnie wysokogórski finisz w argentyńskich Andach powyżej 3200 m n.p.m., gdzie spadek ciśnienia parcjalnego tlenu (PaO2) wydłuża czas regeneracji W\' (τ_W\') o +45%.',
+      definitionEn:
+          'Extreme high-altitude summit finish in the Argentine Andes above 3,200 m, where reduced oxygen partial pressure (PaO2) slows W\' recovery (τ_W\') by +45%.',
+      examplePl: 'Powyżej 2800 m na Alto del Colorado każdy atak spala dwa razy więcej rezerwy W\'!',
+      exampleEn: 'Above 2,800 m on Alto del Colorado, every surge takes twice as long to recover W\'!',
+    ),
+    BilingualTermEntry(
+      key: 'technical_scrutiny_xray',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Kontrola Techniczna UCI i Skaner X-Ray',
+      en: 'UCI Technical Scrutiny & X-Ray Scanner',
+      slangOrOrigin: 'UCI Commissaire / CAS',
+      definitionPl:
+          'Przedstartowa i pomeczowa inspekcja sprzętu za pomocą mobilnego skanera rentgenowskiego X-Ray i tabletów magnetycznych (doping technologiczny), sprawdzająca też kąt klamek (≤10°), skarpetki (≤50%) i przedłużki TT.',
+      definitionEn:
+          'Pre- and post-race bike inspection using mobile X-Ray scanners and magnetic tablets against hidden motors, plus compliance checks for lever tilt (≤10°), sock height (≤50%), and TT extensions.',
+      examplePl: 'Skaner X-Ray czysty, ale komisarz każe poprawić klamki przed rampą ITT!',
+      exampleEn: 'X-Ray scan is clean, but the commissaire orders a lever tilt fix before the ITT ramp!',
+    ),
+    BilingualTermEntry(
+      key: 'cas_tribunal_lausanne',
+      domain: AppL10nDomain.juryEtiquette,
+      pl: 'Trybunał Arbitrażowy CAS w Lozannie',
+      en: 'CAS Tribunal in Lausanne',
+      slangOrOrigin: 'Court of Arbitration for Sport',
+      definitionPl:
+          'Najwyższy sportowy organ odwoławczy w Lozannie, przed którym drużyna z udziałem prawników sportowych może zaskarżyć dyskwalifikację DSQ lub karę techniczną UCI.',
+      definitionEn:
+          'Highest sports arbitration court in Lausanne where teams hire sports counsel to appeal UCI technical disqualifications (DSQ) and protect club reputation.',
+      examplePl: 'Składamy pilne odwołanie do Trybunału CAS w sprawie spornej dyskwalifikacji!',
+      exampleEn: 'We are filing an urgent appeal with the CAS Tribunal over the contested DSQ!',
+    ),
+    BilingualTermEntry(
+      key: 'nightly_hrv_ck_biomarkers',
+      domain: AppL10nDomain.physiologyNutrition,
+      pl: 'Nocne HRV (rMSSD) i Kinaza Kreatynowa (CK)',
+      en: 'Nightly HRV (rMSSD) & Creatine Kinase (CK)',
+      slangOrOrigin: 'Grand Tour Medical Lab',
+      definitionPl:
+          'Poranny panel biomarkerów w Grand Tourze: zmienność rytmu zatokowego HRV (ms), tętno spoczynkowe RHR, poziom uszkodzeń mięśniowych CK (U/L) oraz stosunek Kortyzolu do Testosteronu.',
+      definitionEn:
+          'Morning Grand Tour recovery biomarker panel tracking overnight HRV (rMSSD in ms), resting heart rate (RHR), muscle-damage Creatine Kinase (CK in U/L), and Cortisol/Testosterone ratio.',
+      examplePl: 'CK skoczyło do 620 U/L — przydzielamy masaże powięziowe i czarter zamiast autokaru!',
+      exampleEn: 'CK spiked to 620 U/L — assign myofascial massage and book the charter flight!',
+    ),
+    BilingualTermEntry(
+      key: 'tv_broadcast_director_mode',
+      domain: AppL10nDomain.uiSystem,
+      pl: 'Reżyser Transmisji TV na Żywo (Program Out)',
+      en: 'Live TV Broadcast Director (Program Out)',
+      slangOrOrigin: 'International Feed',
+      definitionPl:
+          'Tryb realizacji sygnału międzynarodowego z 12 kamer (HeliCam, MotoCam, OnBoard, Team Car), przełączaniem CUT/DISSOLVE, grafikami W/kg i miernikiem emocji widzów (0–100).',
+      definitionEn:
+          'Live world-feed production mode managing 12 race cameras (HeliCam, MotoCam, OnBoard, Team Car), CUT/DISSOLVE switching, W/kg graphic overlays, and a 0–100 Viewership Drama Rating.',
+      examplePl: 'Przełącz na MotoCam Front — lider atakuje na 12% nachyleniu, oglądalność rośnie!',
+      exampleEn: 'Cut to MotoCam Front — the leader is attacking on 12%, viewership drama is surging!',
+    ),
+    BilingualTermEntry(
+      key: 'onboard_action_cam_140',
+      domain: AppL10nDomain.uiSystem,
+      pl: 'Kamera Akcji OnBoard (140° FOV)',
+      en: 'OnBoard Action Cam (140° FOV)',
+      slangOrOrigin: 'Handlebars / Saddle Cam',
+      definitionPl:
+          'Szerokokątna kamera 3D z obiektywem rybiego oka 140° zamontowana na kierownicy lub pod siodełkiem, oddająca mikrowibracje asfaltu i walkę łokciami na ostatnich 1500 m przed sprintem.',
+      definitionEn:
+          'Wide-angle 140° fisheye 3D camera mounted on the handlebars or beneath the saddle, capturing tarmac micro-vibrations and shoulder-to-shoulder fighting inside the final 1,500 m.',
+      examplePl: 'Włącz OnBoard Action Cam w pociągu sprinterskim przy 62 km/h!',
+      exampleEn: 'Switch to the OnBoard Action Cam inside the 62 km/h lead-out train!',
+    ),
+    BilingualTermEntry(
+      key: 'brake_fade_rotor_overheat',
+      domain: AppL10nDomain.equipmentMechanics,
+      pl: 'Przegrzanie Tarcz i „Brake Fade”',
+      en: 'Brake Rotor Overheat & Brake Fade',
+      slangOrOrigin: 'Alpine Descents',
+      definitionPl:
+          'Chwilowy spadek siły hamowania na długich alpejskich zjazdach, gdy tarcze 140/160 mm przekroczą 450°C przed ciasnymi serpentynami, powodując czerwoną poświatę i wydłużenie drogi hamowania.',
+      definitionEn:
+          'Temporary loss of braking power on steep Alpine descents when 140/160 mm rotors exceed 450°C before hairpins, causing glowing discs and longer braking distances.',
+      examplePl: 'Tarcze 140 mm weszły w Brake Fade przed nawrotem — odpuść na 2 sekundy przed łukiem!',
+      exampleEn: 'The 140 mm rotors hit Brake Fade before the hairpin — feather off before turn-in!',
+    ),
+    BilingualTermEntry(
+      key: 'echelon_vortex_cone_35',
+      domain: AppL10nDomain.pelotonTactics,
+      pl: 'Stożek Cienia w Wachlarzu (35° Vortex)',
+      en: 'Crosswind Echelon Vortex Cone (35°)',
+      slangOrOrigin: 'Aero Vision 3D',
+      definitionPl:
+          'Asymetrycznie przesunięta na zawietrzną stronę strefa cienia aerodynamicznego pod kątem 35°, dająca 38% redukcji oporu w porównaniu do zaledwie 12% przy jeździe centralnie za kołem.',
+      definitionEn:
+          'Asymmetrical leeward slipstream cone shifted at 35° in crosswinds, delivering 38% drag reduction compared to only 12% when riding directly inline behind the rear wheel.',
+      examplePl: 'Wejdź w zielony stożek wiatrów bocznych — zyskujesz 38% draftu w wachlarzu!',
+      exampleEn: 'Slide into the green vortex cone — you gain 38% crosswind drafting!',
+    ),
+    BilingualTermEntry(
+      key: 'triple_crown_cycling',
+      domain: AppL10nDomain.careerManagement,
+      pl: 'Potrójna Korona Kolarstwa (Triple Crown)',
+      en: 'Cycling Triple Crown',
+      slangOrOrigin: 'Giro + Tour + Worlds',
+      definitionPl:
+          'Najbardziej prestiżowe osiągnięcie w historii kolarstwa szosowego: zdobycie w jednym roku kalendarzowym Giro d\'Italia, Tour de France oraz tytułu Mistrza Świata UCI.',
+      definitionEn:
+          'The rarest feat in road cycling history: winning the Giro d\'Italia, Tour de France, and the UCI World Road Championships in the same calendar year.',
+      examplePl: 'Złoto-tęczowy baner Potrójnej Korony — historyczny sezon naszego lidera!',
+      exampleEn: 'Gold-and-rainbow Triple Crown banner — a historic season for our leader!',
     ),
   ];
 
